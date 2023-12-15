@@ -1,0 +1,150 @@
+import 'package:common_control/common_control.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:zkeep/components/layout.dart';
+import 'package:zkeep/config/config.dart';
+
+class MainScreen extends CWidget {
+  MainScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Layout(child: CColumn(children: [search(), status(), list()]));
+  }
+
+  search() {
+    return CTextField(
+      text: '고객명, 점검일자, 점검지역',
+      svg: 'assets/imgs/search.svg',
+      margin: const EdgeInsets.only(top: 10),
+    );
+    //return CTextField(con: const Icon(Icons.search));
+  }
+
+  status() {
+    return CRow(
+        margin: const EdgeInsets.only(top: 30, bottom: 30),
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        gap: 10,
+        children: [
+          box('고객현황'),
+          box('점검진행률'),
+        ]);
+  }
+
+  box(title) {
+    return Expanded(
+        child: roundBorder(
+            CColumn(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      CText(title, margin: const EdgeInsets.only(left: 10)),
+      CRow(
+          margin: const EdgeInsets.only(top: 10, bottom: 10),
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CText('52',
+                textStyle:
+                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            CText('/', textStyle: const TextStyle(fontSize: 18)),
+            CText('60', textStyle: const TextStyle(fontSize: 18)),
+          ]),
+      CText('86%',
+          margin: const EdgeInsets.only(left: 10, right: 10, bottom: 5),
+          textAlign: TextAlign.right,
+          textStyle: const TextStyle(fontSize: 12, color: Colors.black38)),
+      LinearPercentIndicator(
+        lineHeight: 7.0,
+        percent: 0.5,
+        backgroundColor: Colors.grey,
+        progressColor: Config.primaryColor,
+      )
+    ])));
+  }
+
+  roundBorder(child) {
+    return CContainer(
+        decoration: BoxDecoration(
+            border: Border.all(
+              color: const Color(0xffE0E0E0),
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(8)),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        child: child);
+  }
+
+  list() {
+    List<dynamic> datas = [
+      {
+        'title': '창천초등학교 7월 2차 점검',
+        'name': '재단법인 창천학원',
+        'wat': '750kW',
+      },
+      {
+        'title': '힐스테이트 포웰시티 6월 안전점검',
+        'name': '힐스테이트 관리사무소',
+        'wat': '250kW',
+      },
+      {
+        'title': '두일 빌딩 6월 안전점검',
+        'name': '두일기업',
+        'wat': '300kW',
+      }
+    ];
+
+    List<Widget> items = [];
+
+    items.add(CText('오늘의 점검일정',
+        textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)));
+
+    for (var i = 0; i < datas.length; i++) {
+      final item = datas[i];
+      final widget = CContainer(
+        decoration: BoxDecoration(
+            color: const Color(0xffE0E0E0),
+            border: Border.all(
+              color: const Color(0xffE0E0E0),
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(8)),
+        margin: const EdgeInsets.only(top: 10),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        child: CRow(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          CContainer(
+              margin: const EdgeInsets.only(top: 4),
+              backgroundColor: const Color.fromRGBO(237, 92, 66, 1.000),
+              width: 5,
+              height: 14,
+              child: Container()),
+          const SizedBox(width: 10),
+          Expanded(
+              child: CColumn(gap: 10, children: [
+            CText(item['title']),
+            CRow(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              CText(item['name'],
+                  textStyle:
+                      const TextStyle(color: Colors.black54, fontSize: 12)),
+              CText('|',
+                  textStyle:
+                      const TextStyle(color: Colors.black54, fontSize: 12)),
+              CText(item['wat'],
+                  textStyle:
+                      const TextStyle(color: Colors.black54, fontSize: 12))
+            ]),
+          ])),
+          const SizedBox(width: 20),
+          CRow(
+            margin: const EdgeInsets.all(10),
+            gap: 10,
+            children: [
+              CSvg('assets/imgs/corner-up-right.svg'),
+              CSvg('assets/imgs/call.svg'),
+              CSvg('assets/imgs/message.svg'),
+            ],
+          )
+        ]),
+      );
+
+      items.add(widget);
+    }
+    return CColumn(children: items);
+  }
+}
