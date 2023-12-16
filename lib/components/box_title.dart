@@ -16,7 +16,7 @@ class BoxTitle extends CWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(child: CTextField(text: text, controller: controller, filledColor: Colors.white),),
-                  CContainer(onTap: () => click(), child: expand == false ? const Icon(CupertinoIcons.plus, size: 20) : const Icon(CupertinoIcons.minus, size: 20)),
+                  CContainer(onTap: () => click(), child: expand == true ? const Icon(CupertinoIcons.plus, size: 20) : const Icon(CupertinoIcons.minus, size: 20)),
               ]);
   }
 

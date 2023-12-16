@@ -64,7 +64,7 @@ class CFormtext extends CWidget {
               ),
               borderRadius: BorderRadius.circular(8)),
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          child: CText(text, textStyle: const TextStyle(fontSize: 16)),
+          child: CText(text, textStyle: const TextStyle(fontSize: 14)),
         ),
       ),
     ]);

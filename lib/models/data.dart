@@ -11,6 +11,8 @@ class Data {
   DataType type;
   int category;
   int order;
+  int report;
+  int company;
   String date;
   bool checked;
   Map<String, dynamic> extra;  
@@ -21,6 +23,8 @@ class Data {
           this.type = DataType.none,       
           this.category = 0,       
           this.order = 0,       
+          this.report = 0,       
+          this.company = 0,       
           this.date = '',
           this.extra = const{},
           this.checked = false}) ;
@@ -33,12 +37,18 @@ class Data {
         type: DataType.values[json['type'] as int],
         category: json['category'] as int,
         order: json['order'] as int,
+        report: json['report'] as int,
+        company: json['company'] as int,
         date: json['date'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
     );
   }
 
   Map<String, dynamic> toJson() =>
-      { 'id': id,'title': title,'type': type.index,'category': category,'order': order,'date': date };
+      { 'id': id,'title': title,'type': type.index,'category': category,'order': order,'report': report,'company': company,'date': date };
+
+  Data clone() {
+    return Data.fromJson(toJson());
+  }
 }
 
 class DataManager {

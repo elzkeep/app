@@ -1,4 +1,5 @@
 import 'package:common_control/common_control.dart';
+import 'package:zkeep/models/company.dart';
 
 class WriteController extends GetxController {
   final _period = 0.obs;
@@ -24,29 +25,25 @@ class WriteController extends GetxController {
   String get customer => _customer.value;
   set customer(String value) => _customer.value = value;
 
+  final _customerid = 0.obs;
+  int get customerid => _customerid.value;
+  set customerid(int value) => _customerid.value = value;
+
   final _items = [].obs;
   get items => _items;
   set items(value) => _items.value = value;
 
   @override
-  onInit() {
+  onInit() async {
     super.onInit();
 
-    items.add('감일초등학교');
-    items.add('고덕평생교육원');
-    items.add('광암아리수정수장');
-    items.add('강일 리버파크 10단지');
-    items.add('강일하수처리장');
-    items.add('단샘초등학교');
-    items.add('동산중학교');
-    items.add('도봉초등학교');
-    items.add('목감푸르지오아파트');
-    items.add('덕천초등학교');
-    items.add('나이키빌');
-    items.add('학익신동아8차아파트');
-    items.add('영종스카이스타');
-    items.add('잠실엘타워');
-    items.add('연수1차현대');
-    items.add('잠실포레디움');
+    print('read');
+    items = await CompanyManager.find();
+    print(items);
+  }
+
+  insert() async {
+
+    await ReportManager.insert(item);
   }
 }

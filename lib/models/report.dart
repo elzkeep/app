@@ -5,7 +5,12 @@ import 'package:common_control/common_control.dart';
 class Report { 
   int id;
   String title;
+  int period;
+  int number;
+  String checkdate;
+  String checktime;
   int status;
+  int company;
   String date;
   bool checked;
   Map<String, dynamic> extra;  
@@ -13,7 +18,12 @@ class Report {
   Report({        
           this.id = 0,       
           this.title = '',       
+          this.period = 0,       
+          this.number = 0,       
+          this.checkdate = '',       
+          this.checktime = '',       
           this.status = 0,       
+          this.company = 0,       
           this.date = '',
           this.extra = const{},
           this.checked = false}) ;
@@ -23,13 +33,22 @@ class Report {
     return Report(
         id: json['id'] as int,
         title: json['title'] as String,
+        period: json['period'] as int,
+        number: json['number'] as int,
+        checkdate: json['checkdate'] as String,
+        checktime: json['checktime'] as String,
         status: json['status'] as int,
+        company: json['company'] as int,
         date: json['date'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
     );
   }
 
   Map<String, dynamic> toJson() =>
-      { 'id': id,'title': title,'status': status,'date': date };
+      { 'id': id,'title': title,'period': period,'number': number,'checkdate': checkdate,'checktime': checktime,'status': status,'company': company,'date': date };
+
+  Report clone() {
+    return Report.fromJson(toJson());
+  }
 }
 
 class ReportManager {

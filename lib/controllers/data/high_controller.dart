@@ -1,11 +1,10 @@
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/components/cselectbox.dart';
-import 'package:zkeep/components/status.dart';
 import 'package:zkeep/models/data.dart';
 import 'package:zkeep/models/dataitem.dart';
 import 'package:zkeep/models/item.dart';
 
-class LowController extends GetxController {
+class HighController extends GetxController {
   final _id = 0.obs;
   int get id => _id.value;
   set id(int value) => _id.value = value;
@@ -23,77 +22,57 @@ class LowController extends GetxController {
       return Dataitem(
           order: order,
           data: Data(
-              type: DataType.multi,
-              title: '배선용 차단기 적정성',
+              type: DataType.single,
+              title: '개폐기',
               category: index,
               order: suborder),
           items: [
-            Item(type: ItemType.status),
+            Item(type: ItemType.select, title: '개폐기 종류', extra: {
+              'select': [
+                CItem(id: 0, value: '없음'),
+                CItem(id: 1, value: 'LBS'),
+                CItem(id: 2, value: 'ASS'),
+                CItem(id: 3, value: 'DS'),
+                CItem(id: 4, value: 'ALTS'),
+                CItem(id: 5, value: 'LS'),
+                CItem(id: 6, value: 'PF'),
+                CItem(id: 7, value: 'COS'),
+              ]
+            }),
+            Item(type: ItemType.status, title: '외관 관리상태'),
+            Item(type: ItemType.status, title: '간선(한전 책임분계점 이후) 상태'),
+            Item(type: ItemType.status, title: '자동/수동 조작시 작동여부'),
           ]);
     } else if (index == 3) {
       return Dataitem(
           order: order,
           data: Data(
-              type: DataType.multi,
-              title: '저압차단기',
+              type: DataType.single,
+              title: '변성기(MOF, PT, C) 관리상태',
               category: index,
               order: suborder),
           items: [
-            Item(type: ItemType.select, title: '차단기 종류', extra: {
-              'select': [
-                CItem(id: 0, value: '없음'),
-                CItem(id: 1, value: 'ABC'),
-                CItem(id: 2, value: 'MCCB'),
-                CItem(id: 3, value: 'ELB'),
-              ]
-            }),
-            Item(type: ItemType.status, title: '외관 및 간선 연결상태'),
-            Item(type: ItemType.status, title: '자동/수동 조작시 작동여부'),
-            Item(type: ItemType.status, title: '장비내 발열여부'),
+            Item(type: ItemType.status),
           ]);
     } else if (index == 4) {
       return Dataitem(
           order: order,
           data: Data(
               type: DataType.multi,
-              title: '계전기',
+              title: '고압차단기',
               category: index,
               order: suborder),
           items: [
-            Item(type: ItemType.status, title: '외관 및 파손 상태'),
-            Item(type: ItemType.status, title: '통신 연결상태'),
+            Item(type: ItemType.status, title: '외관 및 간선 연결상태'),
+            Item(type: ItemType.status, title: '자동/수동 조작시 작동여부'),
+            Item(type: ItemType.status, title: '장비 내 발열여부'),
           ]);
     } else if (index == 5) {
       return Dataitem(
           order: order,
           data: Data(
               type: DataType.multi,
-              title: '콘덴서 관리상태',
-              category: index,
-              order: suborder),
-          items: [
-            Item(type: ItemType.status),
-          ]);
-    } else if (index == 6) {
-      return Dataitem(
-          order: order,
-          data: Data(
-              type: DataType.multi,
-              title: '분배전반',
-              category: index,
-              order: suborder),
-          items: [
-            Item(type: ItemType.status, title: '외관 및 간선 연결상태'),
-            Item(type: ItemType.status, title: '규격에 맞는 기기(차단기, 전선 등) 사용 여부'),
-            Item(type: ItemType.status, title: '누전차단기 작동여부'),
-            Item(type: ItemType.status, title: '부하장비명 표기 상태'),
-          ]);
-    } else if (index == 7) {
-      return Dataitem(
-          order: order,
-          data: Data(
-              type: DataType.multi,
-              title: 'MCC반 운용상태',
+              title: '피뢰기 관리상태',
               category: index,
               order: suborder),
           items: [
@@ -110,7 +89,7 @@ class LowController extends GetxController {
 
     List<Dataitem> datas = [];
 
-    for (var i = 2; i <= 7; i++) {
+    for (var i = 2; i <= 5; i++) {
       datas.add(category(i, 0, 0));
     }
 

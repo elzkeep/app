@@ -38,7 +38,7 @@ class ViewScreen extends CWidget {
             Expanded(
                 child: CContainer(
                     onTap: () => Get.toNamed('/data/${c.id}/change'),
-                    child: roundBorder(CText('변압설비')))),
+                    child: roundBorder(CText('변전설비')))),
             Expanded(
                 child: CContainer(
                     onTap: () => Get.toNamed('/data/${c.id}/load'),

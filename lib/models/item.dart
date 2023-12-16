@@ -21,6 +21,7 @@ class Item {
   int value7;
   int value8;
   int value;
+  String unit;
   ItemStatus status;
   int reason;
   String reasontext;
@@ -29,6 +30,7 @@ class Item {
   String image;
   int order;
   int data;
+  int report;
   String date;
   bool checked;
   Map<String, dynamic> extra;  
@@ -46,6 +48,7 @@ class Item {
           this.value7 = 0,       
           this.value8 = 0,       
           this.value = 0,       
+          this.unit = '',       
           this.status = ItemStatus.none,       
           this.reason = 0,       
           this.reasontext = '',       
@@ -54,6 +57,7 @@ class Item {
           this.image = '',       
           this.order = 0,       
           this.data = 0,       
+          this.report = 0,       
           this.date = '',
           this.extra = const{},
           this.checked = false}) ;
@@ -73,6 +77,7 @@ class Item {
         value7: json['value7'] as int,
         value8: json['value8'] as int,
         value: json['value'] as int,
+        unit: json['unit'] as String,
         status: ItemStatus.values[json['status'] as int],
         reason: json['reason'] as int,
         reasontext: json['reasontext'] as String,
@@ -81,12 +86,17 @@ class Item {
         image: json['image'] as String,
         order: json['order'] as int,
         data: json['data'] as int,
+        report: json['report'] as int,
         date: json['date'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
     );
   }
 
   Map<String, dynamic> toJson() =>
-      { 'id': id,'title': title,'type': type.index,'value1': value1,'value2': value2,'value3': value3,'value4': value4,'value5': value5,'value6': value6,'value7': value7,'value8': value8,'value': value,'status': status.index,'reason': reason,'reasontext': reasontext,'action': action,'actiontext': actiontext,'image': image,'order': order,'data': data,'date': date };
+      { 'id': id,'title': title,'type': type.index,'value1': value1,'value2': value2,'value3': value3,'value4': value4,'value5': value5,'value6': value6,'value7': value7,'value8': value8,'value': value,'unit': unit,'status': status.index,'reason': reason,'reasontext': reasontext,'action': action,'actiontext': actiontext,'image': image,'order': order,'data': data,'report': report,'date': date };
+
+  Item clone() {
+    return Item.fromJson(toJson());
+  }
 }
 
 class ItemManager {

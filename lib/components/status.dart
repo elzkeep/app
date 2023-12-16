@@ -89,7 +89,7 @@ class Status extends CWidget {
           onSelected(item);
         }));
 
-    if (item.status == 2 || item.status == 3) {
+    if (item.status == ItemStatus.warning || item.status == ItemStatus.danger) {
       final widget = CRow(children: [
         Expanded(
           child: CContainer(

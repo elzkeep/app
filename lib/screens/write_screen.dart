@@ -4,6 +4,7 @@ import 'package:zkeep/components/cformtext.dart';
 import 'package:zkeep/components/cselectbox.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/controllers/write_controller.dart';
+import 'package:zkeep/models/company.dart';
 
 class WriteScreen extends CWidget {
   WriteScreen({super.key});
@@ -86,18 +87,18 @@ class WriteScreen extends CWidget {
   }
 
   bottom() {
-    return CRow(padding: const EdgeInsets.all(10), gap: 10, children: [
+    return CRow(padding: const EdgeInsets.only(bottom: 10), gap: 10, children: [
       CButton(
         text: '취소',
         flex: 1,
-        size: CButtonSize.large,
+        size: CButtonSize.normal,
         type: CButtonStyle.outlined,
         onPressed: () => clickCancel(),
       ),
       CButton(
         text: '신규생성',
         flex: 1,
-        size: CButtonSize.large,
+        size: CButtonSize.normal,
         onPressed: () => clickSave(),
       ),
     ]);
@@ -107,7 +108,8 @@ class WriteScreen extends CWidget {
     Get.back();
   }
 
-  clickSave() {
+  clickSave() async {
+    await c.insert();
     Get.back();
   }
 
@@ -224,19 +226,22 @@ class WriteScreen extends CWidget {
   userlist() {
     List<Widget> items = [];
 
+    print('${c.items.length}');
     for (var i = 0; i < c.items.length; i++) {
-      String item = c.items[i];
+      Company item = c.items[i];
+      final name = item.billingname;
 
       if (c.search != '') {
-        if (!item.contains(c.search)) {
-          if (!containsInitialConsonant(item, c.search)) {
+        if (!name.contains(c.search)) {
+          if (!containsInitialConsonant(name, c.search)) {
             continue;
           }
         }
       }
 
+
       items.add(CText(
-        item,
+        name,
         margin: const EdgeInsets.only(bottom: 10),
         onTap: () => clickSelectCustomer(item),
       ));
@@ -253,9 +258,9 @@ class WriteScreen extends CWidget {
         ])));
   }
 
-  clickSelectCustomer(name) {
-    print(name);
-    c.customer = name;
+  clickSelectCustomer(Company item) {
+    c.customer = item.billingname;
+    c.customerid = item.id;
     Get.back();
   }
 

@@ -1,11 +1,10 @@
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/components/cselectbox.dart';
-import 'package:zkeep/components/status.dart';
 import 'package:zkeep/models/data.dart';
 import 'package:zkeep/models/dataitem.dart';
 import 'package:zkeep/models/item.dart';
 
-class LowController extends GetxController {
+class LoadController extends GetxController {
   final _id = 0.obs;
   int get id => _id.value;
   set id(int value) => _id.value = value;
@@ -19,86 +18,75 @@ class LowController extends GetxController {
   set items( value) => _items.value = value;
 
   Dataitem category(index, order, suborder) {
-    if (index == 2) {
+    if (index == 1) {
       return Dataitem(
           order: order,
           data: Data(
               type: DataType.multi,
-              title: '배선용 차단기 적정성',
+              title: '전열기구 운용상태',
               category: index,
               order: suborder),
           items: [
-            Item(type: ItemType.status),
+            Item(type: ItemType.status)
+          ]);
+    } else if (index == 2) {
+      return Dataitem(
+          order: order,
+          data: Data(
+              type: DataType.multi,
+              title: '조명설비 및 관리상태',
+              category: index,
+              order: suborder),
+          items: [
+            Item(type: ItemType.status)
           ]);
     } else if (index == 3) {
       return Dataitem(
           order: order,
           data: Data(
               type: DataType.multi,
-              title: '저압차단기',
+              title: '용도에 맞는 조도상태',
               category: index,
               order: suborder),
           items: [
-            Item(type: ItemType.select, title: '차단기 종류', extra: {
-              'select': [
-                CItem(id: 0, value: '없음'),
-                CItem(id: 1, value: 'ABC'),
-                CItem(id: 2, value: 'MCCB'),
-                CItem(id: 3, value: 'ELB'),
-              ]
-            }),
-            Item(type: ItemType.status, title: '외관 및 간선 연결상태'),
-            Item(type: ItemType.status, title: '자동/수동 조작시 작동여부'),
-            Item(type: ItemType.status, title: '장비내 발열여부'),
+            Item(type: ItemType.status)
           ]);
     } else if (index == 4) {
       return Dataitem(
           order: order,
           data: Data(
               type: DataType.multi,
-              title: '계전기',
+              title: '구내전선 외관 및 관리상태',
               category: index,
               order: suborder),
           items: [
-            Item(type: ItemType.status, title: '외관 및 파손 상태'),
-            Item(type: ItemType.status, title: '통신 연결상태'),
+            Item(type: ItemType.status)
           ]);
+
     } else if (index == 5) {
       return Dataitem(
           order: order,
           data: Data(
               type: DataType.multi,
-              title: '콘덴서 관리상태',
+              title: '시공방법의 적합성',
               category: index,
               order: suborder),
           items: [
-            Item(type: ItemType.status),
+            Item(type: ItemType.status)
           ]);
+
     } else if (index == 6) {
       return Dataitem(
           order: order,
           data: Data(
               type: DataType.multi,
-              title: '분배전반',
+              title: '기타 부하설비',
               category: index,
               order: suborder),
           items: [
-            Item(type: ItemType.status, title: '외관 및 간선 연결상태'),
-            Item(type: ItemType.status, title: '규격에 맞는 기기(차단기, 전선 등) 사용 여부'),
-            Item(type: ItemType.status, title: '누전차단기 작동여부'),
-            Item(type: ItemType.status, title: '부하장비명 표기 상태'),
+            Item(type: ItemType.status)
           ]);
-    } else if (index == 7) {
-      return Dataitem(
-          order: order,
-          data: Data(
-              type: DataType.multi,
-              title: 'MCC반 운용상태',
-              category: index,
-              order: suborder),
-          items: [
-            Item(type: ItemType.status),
-          ]);
+
     }
 
     return Dataitem.empty();
@@ -110,7 +98,7 @@ class LowController extends GetxController {
 
     List<Dataitem> datas = [];
 
-    for (var i = 2; i <= 7; i++) {
+    for (var i = 1; i <= 6; i++) {
       datas.add(category(i, 0, 0));
     }
 
