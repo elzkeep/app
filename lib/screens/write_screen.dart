@@ -49,7 +49,8 @@ class WriteScreen extends CWidget {
             ),
           ]),
           CFormtitle(title: '점검대상'),
-          CFormtext(c.customer, onTap: () => clickCustomer()),
+          CFormtext(c.customer,
+              onTap: () => clickCustomer(), errText: c.errorCompany),
           CFormtitle(title: '점검주기'),
           CRow(gap: 10, children: [
             Expanded(
@@ -82,7 +83,11 @@ class WriteScreen extends CWidget {
               ),
             ),
           ]),
-          CFormfield(title: '점검지명'),
+          CFormfield(
+            title: '점검지명',
+            controller: c.name,
+            errText: c.errorTitle,
+          ),
         ]));
   }
 
@@ -109,8 +114,12 @@ class WriteScreen extends CWidget {
   }
 
   clickSave() async {
-    await c.insert();
-    Get.back();
+    final ret = await c.insert();
+    if (ret == false) {
+      return;
+    }
+
+    Get.offAllNamed('/');
   }
 
   clickCustomer() {
@@ -238,7 +247,6 @@ class WriteScreen extends CWidget {
           }
         }
       }
-
 
       items.add(CText(
         name,

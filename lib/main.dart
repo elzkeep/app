@@ -1,6 +1,6 @@
 import 'package:common_control/common_control.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:zkeep/components/circle_navigation.dart';
 import 'package:zkeep/config/config.dart';
 import 'package:zkeep/controllers/auth_controller.dart';
@@ -9,7 +9,9 @@ import 'package:zkeep/routers/router.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  Intl.defaultLocale = 'ko_KR';
+  //Intl.defaultLocale = 'ko_KR';
+
+  initializeDateFormatting();
 
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]);

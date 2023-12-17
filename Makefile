@@ -1,17 +1,7 @@
-all: export
+all:
 
-build: dummy
-	cd ios && xcodebuild build -scheme Runner -workspace Runner.xcworkspace  -sdk iphoneos -destination generic/platform=iOS
+release:
+	flutter build apk --release --target-platform=android-arm64 --dart-define=API_BASE_URL=http://crud.netb.co.kr:9303  --dart-define=VERSION=$(version)
 
-archive: build
-	cd ios && xcodebuild archive -scheme Runner -workspace Runner.xcworkspace  -sdk iphoneos -destination generic/platform=iOS -archivePath ./build/Runner.xcarchive
-
-export: archive
-	cd ios && xcodebuild -exportArchive -archivePath ./build/Runner.xcarchive -exportOptionsPlist ExportOptions.plist -exportPath ./build
-
-deploy: export
-
-clean:
-	cd ios && xcodebuild clean
-
-dummy:
+release-web:
+	flutter build web --dart-define=API_BASE_URL=  --dart-define=VERSION=$(version)

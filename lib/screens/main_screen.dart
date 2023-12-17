@@ -2,13 +2,27 @@ import 'package:common_control/common_control.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/config/config.dart';
+import 'package:zkeep/controllers/main_controller.dart';
+import 'package:zkeep/models/report.dart';
 
 class MainScreen extends CWidget {
   MainScreen({super.key});
 
+  final c = Get.find<MainController>();
+
   @override
   Widget build(BuildContext context) {
-    return Layout(child: CColumn(children: [search(), status(), list()]));
+    return Layout(
+        child: CColumn(children: [
+      search(),
+      status(),
+      CText('오늘의 점검일정',
+          textStyle:
+              const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+      const SizedBox(height: 10),
+      Expanded(child: lists()),
+      const SizedBox(height: 10),
+    ]));
   }
 
   search() {
@@ -71,80 +85,59 @@ class MainScreen extends CWidget {
         child: child);
   }
 
-  list() {
-    List<dynamic> datas = [
-      {
-        'title': '창천초등학교 7월 2차 점검',
-        'name': '재단법인 창천학원',
-        'wat': '750kW',
-      },
-      {
-        'title': '힐스테이트 포웰시티 6월 안전점검',
-        'name': '힐스테이트 관리사무소',
-        'wat': '250kW',
-      },
-      {
-        'title': '두일 빌딩 6월 안전점검',
-        'name': '두일기업',
-        'wat': '300kW',
-      }
-    ];
+  lists() {
+    return InfiniteScroll<Report>(
+      axis: Axis.vertical,
+      controller: c,
+      builder: list,
+      empty: Container(),
+    );
+  }
 
-    List<Widget> items = [];
-
-    items.add(CText('오늘의 점검일정',
-        textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)));
-
-    for (var i = 0; i < datas.length; i++) {
-      final item = datas[i];
-      final widget = CContainer(
-        decoration: BoxDecoration(
+  Widget list(Report item, int index) {
+    return CContainer(
+      decoration: BoxDecoration(
+          color: const Color(0xffE0E0E0),
+          border: Border.all(
             color: const Color(0xffE0E0E0),
-            border: Border.all(
-              color: const Color(0xffE0E0E0),
-              width: 1,
-            ),
-            borderRadius: BorderRadius.circular(8)),
-        margin: const EdgeInsets.only(top: 10),
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        child: CRow(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          CContainer(
-              margin: const EdgeInsets.only(top: 4),
-              backgroundColor: const Color.fromRGBO(237, 92, 66, 1.000),
-              width: 5,
-              height: 14,
-              child: Container()),
-          const SizedBox(width: 10),
-          Expanded(
-              child: CColumn(gap: 10, children: [
-            CText(item['title']),
-            CRow(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-              CText(item['name'],
-                  textStyle:
-                      const TextStyle(color: Colors.black54, fontSize: 12)),
-              CText('|',
-                  textStyle:
-                      const TextStyle(color: Colors.black54, fontSize: 12)),
-              CText(item['wat'],
-                  textStyle:
-                      const TextStyle(color: Colors.black54, fontSize: 12))
-            ]),
-          ])),
-          const SizedBox(width: 20),
-          CRow(
-            margin: const EdgeInsets.all(10),
-            gap: 10,
-            children: [
-              CSvg('assets/imgs/corner-up-right.svg'),
-              CSvg('assets/imgs/call.svg'),
-              CSvg('assets/imgs/message.svg'),
-            ],
-          )
-        ]),
-      );
-
-      items.add(widget);
-    }
-    return CColumn(children: items);
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(8)),
+      margin: const EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      child: CRow(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        CContainer(
+            margin: const EdgeInsets.only(top: 4),
+            backgroundColor: const Color.fromRGBO(237, 92, 66, 1.000),
+            width: 5,
+            height: 14,
+            child: Container()),
+        const SizedBox(width: 10),
+        Expanded(
+            child: CColumn(gap: 10, children: [
+          CText(item.title),
+          CRow(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            CText(item.company.name,
+                textStyle:
+                    const TextStyle(color: Colors.black54, fontSize: 12)),
+            CText('|',
+                textStyle:
+                    const TextStyle(color: Colors.black54, fontSize: 12)),
+            CText('1',
+                textStyle: const TextStyle(color: Colors.black54, fontSize: 12))
+          ]),
+        ])),
+        const SizedBox(width: 20),
+        CRow(
+          margin: const EdgeInsets.all(10),
+          gap: 10,
+          children: [
+            CSvg('assets/imgs/corner-up-right.svg'),
+            CSvg('assets/imgs/call.svg'),
+            CSvg('assets/imgs/message.svg'),
+          ],
+        )
+      ]),
+    );
   }
 }

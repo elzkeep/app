@@ -1,5 +1,4 @@
 import 'package:common_control/common_control.dart';
-import 'package:zkeep/components/cselectbox.dart';
 import 'package:zkeep/models/data.dart';
 import 'package:zkeep/models/dataitem.dart';
 import 'package:zkeep/models/item.dart';
@@ -15,68 +14,37 @@ class SunlightController extends GetxController {
 
   final _items = [].obs;
   get items => _items;
-  set items( value) => _items.value = value;
+  set items(value) => _items.value = value;
 
   Dataitem category(index, order, suborder) {
-    if (index == 2) {
+    if (index == 1) {
       return Dataitem(
           order: order,
           data: Data(
               type: DataType.single,
-              title: '개폐기',
+              title: '전압 및 전류 계측정보',
               category: index,
               order: suborder),
           items: [
-            Item(type: ItemType.select, title: '개폐기 종류', extra: {
-              'select': [
-                CItem(id: 0, value: '없음'),
-                CItem(id: 1, value: 'LBS'),
-                CItem(id: 2, value: 'ASS'),
-                CItem(id: 3, value: 'DS'),
-                CItem(id: 4, value: 'ALTS'),
-                CItem(id: 5, value: 'LS'),
-                CItem(id: 6, value: 'PF'),
-                CItem(id: 7, value: 'COS'),
-              ]
-            }),
-            Item(type: ItemType.status, title: '외관 관리상태'),
-            Item(type: ItemType.status, title: '간선(한전 책임분계점 이후) 상태'),
-            Item(type: ItemType.status, title: '자동/수동 조작시 작동여부'),
-          ]);
-    } else if (index == 3) {
-      return Dataitem(
-          order: order,
-          data: Data(
-              type: DataType.single,
-              title: '변성기(MOF, PT, C) 관리상태',
-              category: index,
-              order: suborder),
-          items: [
-            Item(type: ItemType.status),
-          ]);
-    } else if (index == 4) {
-      return Dataitem(
-          order: order,
-          data: Data(
-              type: DataType.multi,
-              title: '고압차단기',
-              category: index,
-              order: suborder),
-          items: [
-            Item(type: ItemType.status, title: '외관 및 간선 연결상태'),
-            Item(type: ItemType.status, title: '자동/수동 조작시 작동여부'),
-            Item(type: ItemType.status, title: '장비 내 발열여부'),
-          ]);
-    } else if (index == 5) {
-      return Dataitem(
-          order: order,
-          data: Data(
-              type: DataType.multi,
-              title: '피뢰기 관리상태',
-              category: index,
-              order: suborder),
-          items: [
-            Item(type: ItemType.status),
+            Item(type: ItemType.none, title: '태양광 모듈'),
+            Item(type: ItemType.text, title: '형식', unit: ''),
+            Item(type: ItemType.text, title: '최대전력용량', unit: 'kW'),
+            Item(type: ItemType.text, title: '최대동작전압', unit: 'V'),
+            Item(
+                type: ItemType.text,
+                title: '최대동작전류',
+                unit: 'A',
+                extra: {'end': true}),
+            Item(type: ItemType.none, title: '인버터'),
+            Item(type: ItemType.text, title: '형식', unit: ''),
+            Item(type: ItemType.text, title: '정격용량', unit: 'kW'),
+            Item(type: ItemType.text, title: '최소 입력전압', unit: 'V'),
+            Item(type: ItemType.text, title: '최대 입력전압', unit: 'V'),
+            Item(
+                type: ItemType.text,
+                title: '출력전압',
+                unit: 'V',
+                extra: {'end': true}),
           ]);
     }
 
@@ -89,7 +57,7 @@ class SunlightController extends GetxController {
 
     List<Dataitem> datas = [];
 
-    for (var i = 2; i <= 5; i++) {
+    for (var i = 1; i <= 1; i++) {
       datas.add(category(i, 0, 0));
     }
 

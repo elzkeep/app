@@ -22,6 +22,7 @@ class CFormtext extends CWidget {
       this.overflow,
       this.maxLines,
       this.softWrap,
+      this.errText = '',
       super.iconMargin,
       super.rearIconMargin,
       super.alignment,
@@ -34,25 +35,38 @@ class CFormtext extends CWidget {
   final int? maxLines;
   final bool? softWrap;
   final TextAlign? textAlign;
+  final String errText;
 
   @override
   Widget init(BuildContext context) {
-    /*
-    TextStyle? textStyle = this.textStyle;
-    Style? style = this.style;
+    final errorText = Style(
+        margin: const EdgeInsets.only(top: 5),
+        textStyle: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+            color: Color(0xffff6262)));
 
-    if (style != null) {
-      textStyle = textStyle ?? style.textStyle ?? this.textStyle;
-    } else {
-      if (tag != null) {
-        style = commonController.getStyle(Get.currentRoute, tag);
-      }
+    if (errText != '') {
+      final widget = CColumn(children: [
+        CRow(children: [
+          Expanded(
+            child: CContainer(
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    color: const Color(0xffE0E0E0),
+                    width: 1,
+                  ),
+                  borderRadius: BorderRadius.circular(8)),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              child: CText(text, textStyle: const TextStyle(fontSize: 14)),
+            ),
+          ),
+        ]),
+        CText(errText, style: errorText),
+      ]);
 
-      style ??= commonController.getStyle(Get.currentRoute, runtimeType);
-
-      textStyle = textStyle ?? style?.textStyle;
+      return widget;
     }
-      */
 
     final widget = CRow(children: [
       Expanded(

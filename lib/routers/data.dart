@@ -1,10 +1,10 @@
 import 'package:common_control/common_control.dart';
-import 'package:zkeep/controllers/data/charger_controller.dart';
 import 'package:zkeep/controllers/data/change_controller.dart';
-import 'package:zkeep/controllers/data/data_controller.dart';
+import 'package:zkeep/controllers/data/charger_controller.dart';
 import 'package:zkeep/controllers/data/etc_controller.dart';
 import 'package:zkeep/controllers/data/generator_controller.dart';
 import 'package:zkeep/controllers/data/high_controller.dart';
+import 'package:zkeep/controllers/data/list_controller.dart';
 import 'package:zkeep/controllers/data/load_controller.dart';
 import 'package:zkeep/controllers/data/low_controller.dart';
 import 'package:zkeep/controllers/data/sunlight_controller.dart';
@@ -27,7 +27,7 @@ data() {
       page: () => ListScreen(),
       //middlewares: [AuthService()],
       binding: BindingsBuilder(() {
-        Get.put(DataController());
+        Get.put(ListController());
       }),
       transition: Transition.noTransition,
     ),

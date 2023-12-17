@@ -1,6 +1,10 @@
 import 'package:common_control/common_control.dart';
+import 'package:zkeep/models/company.dart';
 
 
+enum ReportStatus {
+    none, newer, ing, check, complete
+}
   
 class Report { 
   int id;
@@ -9,8 +13,8 @@ class Report {
   int number;
   String checkdate;
   String checktime;
-  int status;
-  int company;
+  ReportStatus status;
+  Company company = Company();
   String date;
   bool checked;
   Map<String, dynamic> extra;  
@@ -22,11 +26,15 @@ class Report {
           this.number = 0,       
           this.checkdate = '',       
           this.checktime = '',       
-          this.status = 0,       
-          this.company = 0,       
+          this.status = ReportStatus.none,       
+          Company? company,       
           this.date = '',
           this.extra = const{},
-          this.checked = false}) ;
+          this.checked = false}) {
+          if (company != null) {
+              this.company = company;
+          }
+    }
   
 
   factory Report.fromJson(Map<String, dynamic> json) {
@@ -37,14 +45,14 @@ class Report {
         number: json['number'] as int,
         checkdate: json['checkdate'] as String,
         checktime: json['checktime'] as String,
-        status: json['status'] as int,
-        company: json['company'] as int,
+        status: ReportStatus.values[json['status'] as int],
+        company: Company.fromJson(json['extra']['company']),
         date: json['date'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
     );
   }
 
   Map<String, dynamic> toJson() =>
-      { 'id': id,'title': title,'period': period,'number': number,'checkdate': checkdate,'checktime': checktime,'status': status,'company': company,'date': date };
+      { 'id': id,'title': title,'period': period,'number': number,'checkdate': checkdate,'checktime': checktime,'status': status.index,'company': company.id,'date': date };
 
   Report clone() {
     return Report.fromJson(toJson());

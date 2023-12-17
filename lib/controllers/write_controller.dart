@@ -1,11 +1,15 @@
 import 'package:common_control/common_control.dart';
+import 'package:intl/intl.dart';
 import 'package:zkeep/models/company.dart';
+import 'package:zkeep/models/report.dart';
 
 class WriteController extends GetxController {
   final _period = 0.obs;
   final _ordinal = 0.obs;
   final _date = DateTime.now().obs;
   final _time = TimeOfDay.now().obs;
+
+  final name = TextEditingController();
 
   int get period => _period.value;
   set period(int value) => _period.value = value;
@@ -33,17 +37,51 @@ class WriteController extends GetxController {
   get items => _items;
   set items(value) => _items.value = value;
 
+  final _errorCompany = ''.obs;
+  String get errorCompany => _errorCompany.value;
+  set errorCompany(String value) => _errorCompany.value = value;
+
+  final _errorTitle = ''.obs;
+  String get errorTitle => _errorTitle.value;
+  set errorTitle(String value) => _errorTitle.value = value;
+
   @override
   onInit() async {
     super.onInit();
 
-    print('read');
+    print('on init');
     items = await CompanyManager.find();
-    print(items);
   }
 
-  insert() async {
+  Future<bool> insert() async {
+    bool flag = true;
+
+    if (customerid == 0) {
+      errorCompany = '점검대상을 선택하세요';
+      flag = false;
+    }
+
+    if (name.text == '') {
+      errorTitle = '점검지명을 입력하세요';
+      flag = false;
+    }
+
+    if (flag == false) {
+      return false;
+    }
+
+    final item = Report()
+      ..title = name.text
+      ..period = period
+      ..number = ordinal
+      ..checkdate = DateFormat('yyyy-MM-dd', 'ko_KR').format(date)
+      ..checktime =
+          '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}'
+      ..company = Company(id: customerid)
+      ..status = ReportStatus.newer;
 
     await ReportManager.insert(item);
+
+    return true;
   }
 }

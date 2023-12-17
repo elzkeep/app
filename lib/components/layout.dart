@@ -36,6 +36,7 @@ class Layout extends CWidget {
             margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
             child: child),
         floatingActionButton: FloatingActionButton(
+            shape: const CircleBorder(),
             onPressed: () =>
                 Get.toNamed('/write', arguments: {'mode': 'write'}),
             foregroundColor: Colors.white,

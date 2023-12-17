@@ -15,8 +15,6 @@ class User {
   String name;
   UserLevel level;
   UserStatus status;
-  double elo;
-  int count;
   String image;
   String profile;
   String date;
@@ -30,8 +28,6 @@ class User {
           this.name = '',       
           this.level = UserLevel.none,       
           this.status = UserStatus.none,       
-          this.elo = 0.0,       
-          this.count = 0,       
           this.image = '',       
           this.profile = '',       
           this.date = '',
@@ -47,8 +43,6 @@ class User {
         name: json['name'] as String,
         level: UserLevel.values[json['level'] as int],
         status: UserStatus.values[json['status'] as int],
-        elo: json['elo'] as double,
-        count: json['count'] as int,
         image: json['image'] as String,
         profile: json['profile'] as String,
         date: json['date'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
@@ -56,7 +50,11 @@ class User {
   }
 
   Map<String, dynamic> toJson() =>
-      { 'id': id,'email': email,'passwd': passwd,'name': name,'level': level.index,'status': status.index,'elo': elo,'count': count,'image': image,'profile': profile,'date': date };
+      { 'id': id,'email': email,'passwd': passwd,'name': name,'level': level.index,'status': status.index,'image': image,'profile': profile,'date': date };
+
+  User clone() {
+    return User.fromJson(toJson());
+  }
 }
 
 class UserManager {
