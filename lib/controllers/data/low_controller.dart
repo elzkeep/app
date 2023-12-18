@@ -1,6 +1,5 @@
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/components/cselectbox.dart';
-import 'package:zkeep/components/status.dart';
 import 'package:zkeep/models/data.dart';
 import 'package:zkeep/models/dataitem.dart';
 import 'package:zkeep/models/item.dart';
@@ -19,7 +18,31 @@ class LowController extends GetxController {
   set items( value) => _items.value = value;
 
   Dataitem category(index, order, suborder) {
-    if (index == 2) {
+    if (index == 1) {
+      return Dataitem(
+          order: order,
+          data: Data(
+              type: DataType.single,
+              title: '전압 및 전류 계측값',
+              category: index,
+              order: suborder),
+          items: [
+            Item(type: ItemType.select, title: 'Main 전압/전류', extra: {
+              'select': [
+                CItem(id: 0, value: '전압'),
+                CItem(id: 1, value: '380v/220v'),
+                CItem(id: 2, value: '220v'),
+              ],
+              'default': 1
+            }),
+            Item(type: ItemType.text, title: 'A상', unit: 'V', extra: {'visible': 1}),
+            Item(type: ItemType.text, title: 'B상', unit: 'V', extra: {'visible': 1}),
+            Item(type: ItemType.text, title: 'C상', unit: 'V', extra: {'visible': 1}),
+            Item(type: ItemType.text, title: 'N상', unit: 'V', extra: {'visible': 1, 'end': true}),
+            Item(type: ItemType.text, title: '', unit: 'V', extra: {'visible': 2}),
+            Item(type: ItemType.text, title: 'N상', unit: 'V', extra: {'visible': 2, 'end': true}),
+          ]);
+    } else if (index == 2) {
       return Dataitem(
           order: order,
           data: Data(
@@ -104,21 +127,48 @@ class LowController extends GetxController {
     return Dataitem.empty();
   }
 
+  getDataitem(index, order, suborder) {
+    Dataitem item = category(index, order, suborder);
+      for (var j = 0; j < item.items.length; j++) {
+        if (item.items[j].type == ItemType.select) {
+          if (item.items[j].extra['default'] != null) {
+            item.items[j].value = item.items[j].extra['default'];
+          }
+
+          continue;
+        }
+        if (item.items[j].type != ItemType.status) {
+          continue;
+        }
+
+        item.items[j].status = ItemStatus.notuse;
+        item.items[j].extra = {
+          'reasontext': TextEditingController(),
+          'actiontext': TextEditingController(),
+        };
+      }
+
+      item.data.extra = { 'text': TextEditingController()};
+      item.data.extra['text'].text = item.data.title;
+
+      return item;
+  }
+
   @override
   onInit() {
     super.onInit();
 
     List<Dataitem> datas = [];
 
-    for (var i = 2; i <= 7; i++) {
-      datas.add(category(i, 0, 0));
+    for (var i = 1; i <= 7; i++) {
+      datas.add(getDataitem(i, 0, 0));
     }
 
     items = datas;
   }
 
   add(index) {
-    final datas = category(index, items.length, 1);
+    final datas = getDataitem(index, items.length, 1);
 
     var pos = 0;
     for (var i = 0; i < items.length; i++) {
@@ -137,6 +187,7 @@ class LowController extends GetxController {
   }
 
   remove(index) {
+    print('delete = $index');
     items.value.removeAt(index);
     redraw();
   }

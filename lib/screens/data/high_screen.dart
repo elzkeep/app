@@ -94,6 +94,7 @@ class HighScreen extends CWidget {
 
     if (entry.data.type == DataType.multi) {
       final widget = BoxTitle(
+        color: index == 0 ? Config.titleColor : Colors.black,
         text: entry.data.title,
         controller: TextEditingController(),
         expand: entry.data.order == 0,

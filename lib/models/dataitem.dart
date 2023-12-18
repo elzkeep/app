@@ -8,7 +8,7 @@ class Dataitem {
   Data data;
   List<Item> items;
 
-  Dataitem({required this.order, required this.data, required this.items});
+  Dataitem({this.order = 0, required this.data, required this.items});
 
   factory Dataitem.empty() {
     return Dataitem(order: 0, data: Data(), items: []);

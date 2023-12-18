@@ -49,7 +49,7 @@ class Item {
           this.value8 = 0,       
           this.value = 0,       
           this.unit = '',       
-          this.status = ItemStatus.none,       
+          this.status = ItemStatus.notuse,
           this.reason = 0,       
           this.reasontext = '',       
           this.action = 0,       

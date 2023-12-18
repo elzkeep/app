@@ -73,8 +73,9 @@ class LoadScreen extends CWidget {
 
     if (entry.data.type == DataType.multi) {
       final widget = BoxTitle(
+        color: index == 0 ? Config.titleColor : Colors.black,
         text: entry.data.title,
-        controller: TextEditingController(),
+        controller: entry.data.extra['text'],
         expand: entry.data.order == 0,
         onExpand: (expand) {
           if (expand) {

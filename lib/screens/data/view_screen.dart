@@ -27,41 +27,41 @@ class ViewScreen extends CWidget {
           CRow(margin: const EdgeInsets.only(top: 10), gap: 10, children: [
             Expanded(
                 child: CContainer(
-                    onTap: () => Get.toNamed('/data/${c.id}/low'),
+                    onTap: () => Get.toNamed('/data/${c.id}/write/1'),
                     child: roundBorder(CText('저압설비')))),
             Expanded(
                 child: CContainer(
-                    onTap: () => Get.toNamed('/data/${c.id}/high'),
+                    onTap: () => Get.toNamed('/data/${c.id}/write/2'),
                     child: roundBorder(CText('고압설비')))),
           ]),
           CRow(margin: const EdgeInsets.only(top: 10), gap: 10, children: [
             Expanded(
                 child: CContainer(
-                    onTap: () => Get.toNamed('/data/${c.id}/change'),
+                    onTap: () => Get.toNamed('/data/${c.id}/write/3'),
                     child: roundBorder(CText('변전설비')))),
             Expanded(
                 child: CContainer(
-                    onTap: () => Get.toNamed('/data/${c.id}/load'),
+                    onTap: () => Get.toNamed('/data/${c.id}/write/4'),
                     child: roundBorder(CText('부하설비')))),
           ]),
           CRow(margin: const EdgeInsets.only(top: 10), gap: 10, children: [
             Expanded(
                 child: CContainer(
-                    onTap: () => Get.toNamed('/data/${c.id}/generator'),
+                    onTap: () => Get.toNamed('/data/${c.id}/write/5'),
                     child: roundBorder(CText('발전설비')))),
             Expanded(
                 child: CContainer(
-                    onTap: () => Get.toNamed('/data/${c.id}/etc'),
+                    onTap: () => Get.toNamed('/data/${c.id}/write/6'),
                     child: roundBorder(CText('기타안전설비')))),
           ]),
           CRow(margin: const EdgeInsets.only(top: 10), gap: 10, children: [
             Expanded(
                 child: CContainer(
-                    onTap: () => Get.toNamed('/data/${c.id}/sunlight'),
+                    onTap: () => Get.toNamed('/data/${c.id}/write/7'),
                     child: roundBorder(CText('태양광 발전설비')))),
             Expanded(
                 child: CContainer(
-                    onTap: () => Get.toNamed('/data/${c.id}/charger'),
+                    onTap: () => Get.toNamed('/data/${c.id}/write/8'),
                     child: roundBorder(CText('전기차충전기')))),
           ]),
           const SizedBox(height: 20),

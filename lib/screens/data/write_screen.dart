@@ -5,27 +5,29 @@ import 'package:zkeep/components/cselectbox.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/components/status.dart';
 import 'package:zkeep/config/config.dart';
-import 'package:zkeep/controllers/data/charger_controller.dart';
+import 'package:zkeep/controllers/data/write_controller.dart';
 import 'package:zkeep/models/data.dart';
+import 'package:zkeep/models/dataitem.dart';
 import 'package:zkeep/models/item.dart';
 
-class ChargerScreen extends CWidget {
-  ChargerScreen({super.key});
+class WriteScreen extends CWidget {
+  WriteScreen({super.key});
 
-  final c = Get.find<ChargerController>();
+  final c = Get.find<WriteController>();
 
   @override
   Widget build(BuildContext context) {
-    return Layout(
-      title: '창천초등학교 - 전기차충전기',
+    return Obx(() => Layout(
+      title: c.title,
       popup: true,
       child: CFixedBottom(children: [
         SingleChildScrollView(
-            child: Obx(() => CColumn(gap: 20, children: [
+            child: CColumn(gap: 20, children: [
                   data(),
                   const SizedBox(height: 20),
-                ]))),
+                ])),
       ], bottom: bottom()),
+    ),
     );
   }
 
@@ -55,6 +57,7 @@ class ChargerScreen extends CWidget {
   }
 
   clickSave() {
+    print(c.items);
     Get.back();
   }
 
@@ -68,16 +71,19 @@ class ChargerScreen extends CWidget {
     return CColumn(gap: 20, children: items);
   }
 
-  category(index, entry) {
+  category(index, Dataitem entry) {
     List<Widget> widgets = [];
 
     if (entry.data.type == DataType.multi) {
       final widget = BoxTitle(
         color: index == 0 ? Config.titleColor : Colors.black,
         text: entry.data.title,
-        controller: TextEditingController(),
+        controller: entry.data.extra['text'],
         expand: entry.data.order == 0,
         onExpand: (expand) {
+          if (entry.data.extra['text'] != null) {
+            entry.data.title = entry.data.extra['text'].text;
+          }
           if (expand) {
             c.add(entry.data.category);
           } else {
@@ -96,10 +102,24 @@ class ChargerScreen extends CWidget {
     for (var i = 0; i < entry.items.length; i++) {
       final item = entry.items[i];
 
+      var visible = false;
+      if (item.extra['visible'] != null) {
+        final pos = item.extra['visible']! as int;
+        if (entry.items[0].value == pos) {
+          visible = true;
+        }
+      } else {
+        visible = true;
+      }
+
+      if (visible == false) {
+        continue;
+      }
+
       if (item.type == ItemType.none) {
         final widget = CColumn(gap: 10, children: [
-          CText(item.title),
-        ]);
+            CText(item.title),
+          ]);
 
         widgets.add(widget);
       } else if (item.type == ItemType.text) {
@@ -112,7 +132,7 @@ class ChargerScreen extends CWidget {
           }
           for (var i = 0; i < length; i += 2) {
             final item1 = values[i];
-            final item2 = values[i + 1];
+            final item2 = values[i+1];
             datas.add(CRow(gap: 10, children: [
               Expanded(
                   child: CTextField(
@@ -122,14 +142,12 @@ class ChargerScreen extends CWidget {
               )),
               Expanded(
                   child: CTextField(
-                      text: item2.title,
-                      suffixText: item2.unit,
-                      filledColor: Colors.white)),
+                      text: item2.title, suffixText: item2.unit, filledColor: Colors.white)),
             ]));
           }
 
-          if (values.length % 2 != 0) {
-            final item1 = values[values.length - 1];
+          if (values.length %2 != 0) {
+            final item1 = values[values.length-1];
             datas.add(CRow(gap: 10, children: [
               Expanded(
                   child: CTextField(
@@ -143,11 +161,19 @@ class ChargerScreen extends CWidget {
           final widget = CColumn(gap: 10, children: datas);
 
           widgets.add(widget);
+
+          values = [];
         }
       } else if (item.type == ItemType.select) {
+        bool empty = true;
+        if (item.extra['default'] != null) {
+          empty = false;
+        }
+
         final widget = CColumn(gap: 10, children: [
           CText(item.title),
           CSelectbox(
+              empty: empty,
               backgroundColor: Colors.white,
               items: item.extra['select'],
               selected: entry.items[i].value,
@@ -159,36 +185,23 @@ class ChargerScreen extends CWidget {
 
         widgets.add(widget);
       } else if (item.type == ItemType.status) {
-        var visible = false;
-        if (item.extra['visible'] != null) {
-          final pos = item.extra['visible']! as int;
-          print('${entry.items[0].value} , $pos');
-          if (entry.items[0].value == pos) {
-            visible = true;
-          }
-        } else {
-          visible = true;
-        }
+        final widget = Status(
+            title: item.title,
+            item: item,
+            onSelected: (value) {
+              entry.items[i] = value;
+              c.redraw();
+            });
 
-        if (visible == true) {
-          final widget = Status(
-              title: item.title,
-              item: item,
-              onSelected: (value) {
-                entry.items[i] = value;
-                c.redraw();
-              });
-
-          widgets.add(widget);
-        }
+        widgets.add(widget);
       }
     }
 
     return CRound(
-        backgroundColor: Config.backgroundColor,
-        child: CColumn(
-            gap: 20,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: widgets));
+      backgroundColor: Config.backgroundColor,
+      child: CColumn(
+        gap: 20,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: widgets));
   }
 }

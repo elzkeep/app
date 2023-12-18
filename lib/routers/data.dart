@@ -9,6 +9,7 @@ import 'package:zkeep/controllers/data/load_controller.dart';
 import 'package:zkeep/controllers/data/low_controller.dart';
 import 'package:zkeep/controllers/data/sunlight_controller.dart';
 import 'package:zkeep/controllers/data/view_controller.dart';
+import 'package:zkeep/controllers/data/write_controller.dart';
 import 'package:zkeep/screens/data/change_screen.dart';
 import 'package:zkeep/screens/data/charger_screen.dart';
 import 'package:zkeep/screens/data/etc_screen.dart';
@@ -19,6 +20,7 @@ import 'package:zkeep/screens/data/load_screen.dart';
 import 'package:zkeep/screens/data/low_screen.dart';
 import 'package:zkeep/screens/data/sunlight_screen.dart';
 import 'package:zkeep/screens/data/view_screen.dart';
+import 'package:zkeep/screens/data/write_screen.dart';
 
 data() {
   return [
@@ -39,6 +41,16 @@ data() {
         final c = Get.put(ViewController());
 
         c.id = int.parse(Get.parameters['id']!);
+      }),
+    ),
+    GetPage(
+      name: '/data/:id/write/:category',
+      page: () => WriteScreen(),
+      //middlewares: [AuthService()],
+      binding: BindingsBuilder(() {
+        final id = int.parse(Get.parameters['id']!);
+        final category = int.parse(Get.parameters['category']!);
+        Get.put(WriteController(id, category));
       }),
     ),
     GetPage(

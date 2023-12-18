@@ -104,6 +104,7 @@ class ListScreen extends CWidget {
 
   lists() {
     return InfiniteScroll<Report>(
+      margin: const EdgeInsets.only(top: 10),
       axis: Axis.vertical,
       controller: c,
       builder: list,

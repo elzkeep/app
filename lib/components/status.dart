@@ -114,6 +114,7 @@ class Status extends CWidget {
                 item.reason == 1 ? CTextField(
                   textStyle: const TextStyle(fontSize: 14),
                   filledColor: Colors.white,
+                  controller: item.extra['reasontext']
                 ) : const SizedBox.shrink(),
                 CText('조치사항'),
                 CSelectbox(
@@ -127,6 +128,7 @@ class Status extends CWidget {
                     item.action == 1 ? CTextField(
                   textStyle: const TextStyle(fontSize: 14),
                   filledColor: Colors.white,
+                  controller: item.extra['actiontext']
                 ) : const SizedBox.shrink(),
                 CText('사진'),
                 const Icon(CupertinoIcons.plus)

@@ -12,6 +12,7 @@ class CSelectbox extends CWidget {
       {super.key,
       this.title = '',
       super.backgroundColor,
+      this.empty = true,
       required this.items,
       required this.selected,
       required this.onSelected});
@@ -20,6 +21,7 @@ class CSelectbox extends CWidget {
   final List<CItem> items;
   final int selected;
   final Function(int) onSelected;
+  final bool empty;
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +47,12 @@ class CSelectbox extends CWidget {
     List<Widget> types = [];
 
     for (var i = 0; i < items.length; i++) {
+      if (empty == false) {
+        if (i == 0) {
+          continue;
+        }
+      }
+
       final pos = i;
 
       Color color = Colors.black;
