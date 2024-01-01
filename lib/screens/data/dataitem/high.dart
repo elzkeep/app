@@ -4,7 +4,7 @@ import 'package:zkeep/models/dataitem.dart';
 import 'package:zkeep/models/item.dart';
 
 Dataitem high(index, order, suborder) {
-  final items = highs(index, order, suborder);
+  var items = highs(index, order, suborder);
   return items[index - 1];
 }
 
@@ -89,6 +89,17 @@ List<Dataitem> highs(index, order, suborder) {
           Item(type: ItemType.status, title: '외관 및 간선 연결상태'),
           Item(type: ItemType.status, title: '자동/수동 조작시 작동여부'),
           Item(type: ItemType.status, title: '장비 내 발열여부'),
+        ]),
+        Dataitem(
+        order: order,
+        data: Data(
+            type: DataType.multi,
+            title: '계전기',
+            category: index,
+            order: suborder),
+        items: [
+          Item(type: ItemType.status, title: '외관 및 파손상태'),
+          Item(type: ItemType.status, title: '통신 연결상태'),
         ]),
     Dataitem(
         order: order,

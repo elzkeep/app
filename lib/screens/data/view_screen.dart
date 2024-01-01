@@ -12,9 +12,9 @@ class ViewScreen extends CWidget {
   @override
   Widget build(BuildContext context) {
     return Layout(
-      title: '창천초등학교',
+      title: c.item.title,
       popup: true,
-      child: CFixedBottom(children: [
+      child: CFixedBottom(bottom: bottom(), children: [
         SingleChildScrollView(
             child: CColumn(children: [
           title('고객 정보'),
@@ -27,50 +27,59 @@ class ViewScreen extends CWidget {
           CRow(margin: const EdgeInsets.only(top: 10), gap: 10, children: [
             Expanded(
                 child: CContainer(
-                    onTap: () => Get.toNamed('/data/${c.id}/write/1'),
+                    onTap: () => Get.toNamed('/data/${c.id}/write/1',
+                        arguments: {'item': c.item}),
                     child: roundBorder(CText('저압설비')))),
             Expanded(
                 child: CContainer(
-                    onTap: () => Get.toNamed('/data/${c.id}/write/2'),
+                    onTap: () => Get.toNamed('/data/${c.id}/write/2',
+                        arguments: {'item': c.item}),
                     child: roundBorder(CText('고압설비')))),
           ]),
           CRow(margin: const EdgeInsets.only(top: 10), gap: 10, children: [
             Expanded(
                 child: CContainer(
-                    onTap: () => Get.toNamed('/data/${c.id}/write/3'),
+                    onTap: () => Get.toNamed('/data/${c.id}/write/3',
+                        arguments: {'item': c.item}),
                     child: roundBorder(CText('변전설비')))),
             Expanded(
                 child: CContainer(
-                    onTap: () => Get.toNamed('/data/${c.id}/write/4'),
+                    onTap: () => Get.toNamed('/data/${c.id}/write/4',
+                        arguments: {'item': c.item}),
                     child: roundBorder(CText('부하설비')))),
           ]),
           CRow(margin: const EdgeInsets.only(top: 10), gap: 10, children: [
             Expanded(
                 child: CContainer(
-                    onTap: () => Get.toNamed('/data/${c.id}/write/5'),
+                    onTap: () => Get.toNamed('/data/${c.id}/write/5',
+                        arguments: {'item': c.item}),
                     child: roundBorder(CText('발전설비')))),
             Expanded(
                 child: CContainer(
-                    onTap: () => Get.toNamed('/data/${c.id}/write/6'),
+                    onTap: () => Get.toNamed('/data/${c.id}/write/6',
+                        arguments: {'item': c.item}),
                     child: roundBorder(CText('기타안전설비')))),
           ]),
           CRow(margin: const EdgeInsets.only(top: 10), gap: 10, children: [
             Expanded(
                 child: CContainer(
-                    onTap: () => Get.toNamed('/data/${c.id}/write/7'),
+                    onTap: () => Get.toNamed('/data/${c.id}/write/7',
+                        arguments: {'item': c.item}),
                     child: roundBorder(CText('태양광 발전설비')))),
             Expanded(
                 child: CContainer(
-                    onTap: () => Get.toNamed('/data/${c.id}/write/8'),
+                    onTap: () => Get.toNamed('/data/${c.id}/write/8',
+                        arguments: {'item': c.item}),
                     child: roundBorder(CText('전기차충전기')))),
           ]),
           const SizedBox(height: 20),
           CTextField(
             text: '종합 검토 의견',
             maxLines: 5,
+            controller: c.content,
           ),
         ])),
-      ], bottom: bottom()),
+      ]),
     );
   }
 
@@ -99,7 +108,8 @@ class ViewScreen extends CWidget {
     Get.back();
   }
 
-  clickSave() {
+  clickSave() async {
+    await c.save();
     Get.back();
   }
 
@@ -114,7 +124,7 @@ class ViewScreen extends CWidget {
 
   title(str) {
     return CText(str,
-        margin: EdgeInsets.only(top: 10),
+        margin: const EdgeInsets.only(top: 10),
         textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold));
   }
 
@@ -159,12 +169,6 @@ class ViewScreen extends CWidget {
   }
 
   customer() {
-    final item = {
-      'title': '창천초등학교 7월 2차 점검',
-      'name': '담당자 : 홍길동',
-      'wat': '',
-    };
-
     return CContainer(
       decoration: BoxDecoration(
           border: Border.all(
@@ -177,9 +181,9 @@ class ViewScreen extends CWidget {
       child: CRow(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Expanded(
             child: CColumn(gap: 10, children: [
-          CText(item['title']!),
+          CText(c.item.company.buildingname),
           CRow(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            CText(item['name']!,
+            CText(c.item.company.managername,
                 textStyle:
                     const TextStyle(color: Colors.black54, fontSize: 12)),
           ]),
@@ -198,12 +202,6 @@ class ViewScreen extends CWidget {
   }
 
   info() {
-    final item = {
-      'title': '창천초등학교 7월 2차 점검',
-      'name': '담당자 : 홍길동',
-      'wat': '',
-    };
-
     return CContainer(
       decoration: BoxDecoration(
           border: Border.all(
@@ -234,6 +232,7 @@ class ViewScreen extends CWidget {
                   '더보기',
                   textStyle:
                       const TextStyle(fontSize: 12, color: Colors.black54),
+                  onTap: () => Get.toNamed('/facility/${c.id}'),
                 ),
               ]),
         ])),
@@ -274,7 +273,7 @@ class ViewScreen extends CWidget {
           const SizedBox(width: 10),
           Expanded(
               child: CColumn(gap: 10, children: [
-            CText(item['title']),
+            CText(c.item.title),
             CRow(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               CText(item['name'],
                   textStyle:

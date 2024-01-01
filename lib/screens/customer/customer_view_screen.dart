@@ -1,12 +1,12 @@
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/components/company.dart';
 import 'package:zkeep/components/layout.dart';
-import 'package:zkeep/controllers/mypage/customer/view_controller.dart';
+import 'package:zkeep/controllers/customer/customer_view_controller.dart';
 
-class ViewScreen extends CWidget {
-  ViewScreen({super.key});
+class CustomerViewScreen extends CWidget {
+  CustomerViewScreen({super.key});
 
-  final c = Get.find<ViewController>();
+  final c = Get.find<CustomerViewController>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +28,6 @@ class ViewScreen extends CWidget {
   }
 
   clickMore() {
-    Get.toNamed('/mypage/customer/${c.id}/detail');
+    Get.toNamed('/customer/${c.id}/detail');
   }
 }

@@ -3,7 +3,7 @@ import 'package:zkeep/models/dataitem.dart';
 import 'package:zkeep/models/item.dart';
 
 Dataitem etc(index, order, suborder) {
-  final items = etcs(index, order, suborder);
+  var items = etcs(index, order, suborder);
   return items[index - 1];
 }
 

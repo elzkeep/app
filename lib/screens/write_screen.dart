@@ -235,7 +235,6 @@ class WriteScreen extends CWidget {
   userlist() {
     List<Widget> items = [];
 
-    print('${c.items.length}');
     for (var i = 0; i < c.items.length; i++) {
       Company item = c.items[i];
       final name = item.billingname;

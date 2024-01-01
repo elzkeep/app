@@ -4,7 +4,7 @@ import 'package:zkeep/models/dataitem.dart';
 import 'package:zkeep/models/item.dart';
 
 Dataitem change(index, order, suborder) {
-  final items = changes(index, order, suborder);
+  var items = changes(index, order, suborder);
   return items[index - 1];
 }
 

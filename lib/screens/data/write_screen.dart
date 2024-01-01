@@ -17,17 +17,18 @@ class WriteScreen extends CWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Layout(
-      title: c.title,
-      popup: true,
-      child: CFixedBottom(children: [
-        SingleChildScrollView(
-            child: CColumn(gap: 20, children: [
-                  data(),
-                  const SizedBox(height: 20),
-                ])),
-      ], bottom: bottom()),
-    ),
+    return Obx(
+      () => Layout(
+        title: c.title,
+        popup: true,
+        child: CFixedBottom(bottom: bottom(), children: [
+          SingleChildScrollView(
+              child: CColumn(gap: 20, children: [
+            data(),
+            const SizedBox(height: 20),
+          ])),
+        ]),
+      ),
     );
   }
 
@@ -54,20 +55,77 @@ class WriteScreen extends CWidget {
 
   clickCancel() {
     Get.back();
+    Get.delete<WriteController>();
   }
 
-  clickSave() {
-    print(c.items);
+  clickSave() async {
+    await c.insert();
     Get.back();
+    Get.delete<WriteController>();
   }
 
   data() {
     List<Widget> items = [];
+    List<Widget> subitems = [];
 
+    const titleStyle = TextStyle(color: Config.titleColor);
+
+    String oldParent = '';
+    bool parentStart = false;
     for (var i = 0; i < c.items.length; i++) {
       final item = c.items[i];
-      items.add(category(i, item));
+      final widget = category(i, item);
+
+      if (parentStart == false) {
+        if (item.parent != oldParent) {
+          parentStart = true;
+
+          subitems.add(CText(item.parent, textStyle: titleStyle));
+          subitems.add(widget);
+        } else {
+          items.add(widget);
+        }
+      } else {
+        if (item.parent != oldParent) {
+          parentStart = false;
+
+          // 이제 넣어줘야 함
+          items.add(CRound(
+              backgroundColor: Config.backgroundColor,
+              child: CColumn(
+                  gap: 20,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: subitems)));
+
+          subitems = [];
+
+          if (item.parent == '') {
+            items.add(widget);
+          } else {
+            parentStart = true;
+
+            subitems.add(CText(item.parent, textStyle: titleStyle));
+            subitems.add(widget);
+          }
+
+        } else {
+          subitems.add(widget);
+        }
+      }
+
+      oldParent = item.parent;
     }
+
+    if (parentStart == true) {
+          items.add(CRound(
+              backgroundColor: Config.backgroundColor,
+              child: CColumn(
+                  gap: 20,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: subitems)));
+
+    }
+
     return CColumn(gap: 20, children: items);
   }
 
@@ -118,8 +176,8 @@ class WriteScreen extends CWidget {
 
       if (item.type == ItemType.none) {
         final widget = CColumn(gap: 10, children: [
-            CText(item.title),
-          ]);
+          CText(item.title),
+        ]);
 
         widgets.add(widget);
       } else if (item.type == ItemType.text) {
@@ -132,27 +190,32 @@ class WriteScreen extends CWidget {
           }
           for (var i = 0; i < length; i += 2) {
             final item1 = values[i];
-            final item2 = values[i+1];
+            final item2 = values[i + 1];
             datas.add(CRow(gap: 10, children: [
               Expanded(
                   child: CTextField(
                 text: item1.title,
                 suffixText: item1.unit,
+                controller: item1.extra['text'],
                 filledColor: Colors.white,
               )),
               Expanded(
                   child: CTextField(
-                      text: item2.title, suffixText: item2.unit, filledColor: Colors.white)),
+                      text: item2.title,
+                      suffixText: item2.unit,
+                      controller: item2.extra['text'],
+                      filledColor: Colors.white)),
             ]));
           }
 
-          if (values.length %2 != 0) {
-            final item1 = values[values.length-1];
+          if (values.length % 2 != 0) {
+            final item1 = values[values.length - 1];
             datas.add(CRow(gap: 10, children: [
               Expanded(
                   child: CTextField(
                 text: item1.title,
                 suffixText: item1.unit,
+                controller: item1.extra['text'],
                 filledColor: Colors.white,
               )),
             ]));
@@ -198,10 +261,10 @@ class WriteScreen extends CWidget {
     }
 
     return CRound(
-      backgroundColor: Config.backgroundColor,
-      child: CColumn(
-        gap: 20,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: widgets));
+        backgroundColor: Config.backgroundColor,
+        child: CColumn(
+            gap: 20,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: widgets));
   }
 }

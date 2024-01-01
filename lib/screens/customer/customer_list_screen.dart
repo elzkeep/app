@@ -1,22 +1,22 @@
+import 'package:common_control/common_control.dart';
+
 import 'package:zkeep/components/company.dart';
 import 'package:zkeep/components/cselectbutton.dart';
 import 'package:zkeep/components/layout.dart';
-import 'package:zkeep/components/mypage/customer_box.dart';
+import 'package:zkeep/components/customer/customer_box.dart';
 import 'package:zkeep/components/sub_title.dart';
-import 'package:zkeep/controllers/mypage/customer/list_controller.dart';
-import 'package:common_control/common_control.dart';
+import 'package:zkeep/controllers/customer/customer_list_controller.dart';
 import 'package:zkeep/models/company.dart';
 
-class ListScreen extends CWidget {
-  ListScreen({super.key});
+class CustomerListScreen extends CWidget {
+  CustomerListScreen({super.key});
 
-  final c = Get.find<ListController>();
+  final c = Get.find<CustomerListController>();
 
   @override
   Widget build(BuildContext context) {
     return Layout(
         title: '고객관리',
-        popup: true,
         child: CColumn(
             gap: 20, children: [search(), customer(), buttons(), Expanded(child: lists())]));
   }
@@ -24,7 +24,7 @@ class ListScreen extends CWidget {
   customer() {
     return CColumn(gap: 10, children: [
       SubTitle('',
-          more: '고객 추가', onMore: () => Get.toNamed('/mypage/customer/insert')),
+          more: '고객 추가', onMore: () => Get.toNamed('/customer/insert')),
       CustomerBox()
     ]);
   }

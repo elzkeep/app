@@ -1,51 +1,60 @@
 import 'package:common_control/common_control.dart';
-import 'package:zkeep/controllers/mypage/customer/list_controller.dart';
-import 'package:zkeep/controllers/mypage/customer/insert_controller.dart';
-import 'package:zkeep/controllers/mypage/customer/view_controller.dart';
-import 'package:zkeep/controllers/mypage/customer/detail_controller.dart';
-import 'package:zkeep/screens/mypage/customer/list_screen.dart';
-import 'package:zkeep/screens/mypage/customer/insert_screen.dart';
-import 'package:zkeep/screens/mypage/customer/view_screen.dart';
-import 'package:zkeep/screens/mypage/customer/detail_screen.dart';
+import 'package:zkeep/controllers/customer/customer_detail_controller.dart';
+import 'package:zkeep/controllers/customer/customer_insert_controller.dart';
+import 'package:zkeep/controllers/customer/customer_list_controller.dart';
+import 'package:zkeep/controllers/customer/customer_update_controller.dart';
+import 'package:zkeep/controllers/customer/customer_view_controller.dart';
+import 'package:zkeep/screens/customer/customer_detail_screen.dart';
+import 'package:zkeep/screens/customer/customer_insert_screen.dart';
+import 'package:zkeep/screens/customer/customer_list_screen.dart';
+import 'package:zkeep/screens/customer/customer_update_screen.dart';
+import 'package:zkeep/screens/customer/customer_view_screen.dart';
 
 customer() {
   return [
     GetPage(
-      name: '/mypage/customer',
-      page: () => ListScreen(),
+      name: '/customer',
+      page: () => CustomerListScreen(),
       //middlewares: [AuthService()],
       binding: BindingsBuilder(() {
-        Get.put(ListController());
+        Get.put(CustomerListController());
+      }),
+      transition: Transition.noTransition,
+    ),
+    GetPage(
+      name: '/customer/insert',
+      page: () => CustomerInsertScreen(),
+      //middlewares: [AuthService()],
+      binding: BindingsBuilder(() {
+        Get.put(CustomerInsertController());
       }),
     ),
     GetPage(
-      name: '/mypage/customer/insert',
-      page: () => InsertScreen(),
+      name: '/customer/:id',
+      page: () => CustomerViewScreen(),
       //middlewares: [AuthService()],
       binding: BindingsBuilder(() {
-        Get.put(InsertController());
+        final id = int.parse(Get.parameters['id']!);
+        Get.put(CustomerViewController(id));
       }),
     ),
     GetPage(
-      name: '/mypage/customer/:id',
-      page: () => ViewScreen(),
+      name: '/customer/:id/detail',
+      page: () => CustomerDetailScreen(),
       //middlewares: [AuthService()],
       binding: BindingsBuilder(() {
-        final c = Get.put(ViewController());
-
-        c.id = int.parse(Get.parameters['id']!);
-        c.read();
+        final id = int.parse(Get.parameters['id']!);
+        Get.put(CustomerDetailController(id));
       }),
     ),
     GetPage(
-      name: '/mypage/customer/:id/detail',
-      page: () => DetailScreen(),
+      name: '/customer/:id/update',
+      page: () => CustomerUpdateScreen(),
       //middlewares: [AuthService()],
       binding: BindingsBuilder(() {
-        final c = Get.put(DetailController());
-
-        c.id = int.parse(Get.parameters['id']!);
-        c.read();
+        final id = int.parse(Get.parameters['id']!);
+        final index = Get.arguments['index'];
+        Get.put(CustomerUpdateController(id, index));
       }),
     ),
   ];

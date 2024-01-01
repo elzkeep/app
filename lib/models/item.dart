@@ -21,6 +21,7 @@ class Item {
   int value7;
   int value8;
   int value;
+  String content;
   String unit;
   ItemStatus status;
   int reason;
@@ -29,6 +30,7 @@ class Item {
   String actiontext;
   String image;
   int order;
+  int topcategory;
   int data;
   int report;
   String date;
@@ -48,14 +50,16 @@ class Item {
           this.value7 = 0,       
           this.value8 = 0,       
           this.value = 0,       
+          this.content = '',       
           this.unit = '',       
-          this.status = ItemStatus.notuse,
+          this.status = ItemStatus.none,       
           this.reason = 0,       
           this.reasontext = '',       
           this.action = 0,       
           this.actiontext = '',       
           this.image = '',       
           this.order = 0,       
+          this.topcategory = 0,       
           this.data = 0,       
           this.report = 0,       
           this.date = '',
@@ -77,6 +81,7 @@ class Item {
         value7: json['value7'] as int,
         value8: json['value8'] as int,
         value: json['value'] as int,
+        content: json['content'] as String,
         unit: json['unit'] as String,
         status: ItemStatus.values[json['status'] as int],
         reason: json['reason'] as int,
@@ -85,6 +90,7 @@ class Item {
         actiontext: json['actiontext'] as String,
         image: json['image'] as String,
         order: json['order'] as int,
+        topcategory: json['topcategory'] as int,
         data: json['data'] as int,
         report: json['report'] as int,
         date: json['date'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
@@ -92,7 +98,7 @@ class Item {
   }
 
   Map<String, dynamic> toJson() =>
-      { 'id': id,'title': title,'type': type.index,'value1': value1,'value2': value2,'value3': value3,'value4': value4,'value5': value5,'value6': value6,'value7': value7,'value8': value8,'value': value,'unit': unit,'status': status.index,'reason': reason,'reasontext': reasontext,'action': action,'actiontext': actiontext,'image': image,'order': order,'data': data,'report': report,'date': date };
+      { 'id': id,'title': title,'type': type.index,'value1': value1,'value2': value2,'value3': value3,'value4': value4,'value5': value5,'value6': value6,'value7': value7,'value8': value8,'value': value,'content': content,'unit': unit,'status': status.index,'reason': reason,'reasontext': reasontext,'action': action,'actiontext': actiontext,'image': image,'order': order,'topcategory': topcategory,'data': data,'report': report,'date': date };
 
   Item clone() {
     return Item.fromJson(toJson());

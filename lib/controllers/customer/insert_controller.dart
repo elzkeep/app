@@ -1,5 +1,5 @@
 import 'package:common_control/common_control.dart';
-import 'package:zkeep/controllers/mypage/customer/list_controller.dart';
+import 'package:zkeep/controllers/customer/customer_list_controller.dart';
 import 'package:zkeep/models/company.dart';
 
 class InsertController extends GetxController {
@@ -56,7 +56,7 @@ class InsertController extends GetxController {
     ..address = address.text;
 
     await CompanyManager.insert(item);
-    final c = Get.find<ListController>();
+    final c = Get.find<CustomerListController>();
     c.reset();
 
     return true;

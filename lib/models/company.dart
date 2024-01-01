@@ -9,6 +9,11 @@ class Company {
   String ceo;
   String address;
   String addressetc;
+  String buildingname;
+  String buildingcompanyno;
+  String buildingceo;
+  String buildingaddress;
+  String buildingaddressetc;
   int type;
   int checkdate;
   String managername;
@@ -33,6 +38,11 @@ class Company {
           this.ceo = '',       
           this.address = '',       
           this.addressetc = '',       
+          this.buildingname = '',       
+          this.buildingcompanyno = '',       
+          this.buildingceo = '',       
+          this.buildingaddress = '',       
+          this.buildingaddressetc = '',       
           this.type = 0,       
           this.checkdate = 0,       
           this.managername = '',       
@@ -59,6 +69,11 @@ class Company {
         ceo: json['ceo'] as String,
         address: json['address'] as String,
         addressetc: json['addressetc'] as String,
+        buildingname: json['buildingname'] as String,
+        buildingcompanyno: json['buildingcompanyno'] as String,
+        buildingceo: json['buildingceo'] as String,
+        buildingaddress: json['buildingaddress'] as String,
+        buildingaddressetc: json['buildingaddressetc'] as String,
         type: json['type'] as int,
         checkdate: json['checkdate'] as int,
         managername: json['managername'] as String,
@@ -77,7 +92,7 @@ class Company {
   }
 
   Map<String, dynamic> toJson() =>
-      { 'id': id,'name': name,'companyno': companyno,'ceo': ceo,'address': address,'addressetc': addressetc,'type': type,'checkdate': checkdate,'managername': managername,'managertel': managertel,'manageremail': manageremail,'contractstartdate': contractstartdate,'contractenddate': contractenddate,'contractprice': contractprice,'billingdate': billingdate,'billingname': billingname,'billingtel': billingtel,'billingemail': billingemail,'status': status,'date': date };
+      { 'id': id,'name': name,'companyno': companyno,'ceo': ceo,'address': address,'addressetc': addressetc,'buildingname': buildingname,'buildingcompanyno': buildingcompanyno,'buildingceo': buildingceo,'buildingaddress': buildingaddress,'buildingaddressetc': buildingaddressetc,'type': type,'checkdate': checkdate,'managername': managername,'managertel': managertel,'manageremail': manageremail,'contractstartdate': contractstartdate,'contractenddate': contractenddate,'contractprice': contractprice,'billingdate': billingdate,'billingname': billingname,'billingtel': billingtel,'billingemail': billingemail,'status': status,'date': date };
 
   Company clone() {
     return Company.fromJson(toJson());

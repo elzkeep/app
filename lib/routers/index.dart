@@ -7,13 +7,14 @@ import 'package:zkeep/screens/join_screen.dart';
 import 'package:zkeep/screens/login_screen.dart';
 import 'package:zkeep/screens/main_screen.dart';
 import 'package:zkeep/screens/write_screen.dart';
+import 'package:zkeep/services/auth_service.dart';
 
 index() {
   return [
     GetPage(
       name: '/',
       page: () => MainScreen(),
-      //middlewares: [AuthService()],
+      middlewares: [AuthService()],
       binding: BindingsBuilder(() {
         Get.put(MainController());
       }),

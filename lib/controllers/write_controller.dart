@@ -49,7 +49,6 @@ class WriteController extends GetxController {
   onInit() async {
     super.onInit();
 
-    print('on init');
     items = await CompanyManager.find();
   }
 

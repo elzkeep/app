@@ -1,5 +1,5 @@
 import 'package:zkeep/components/layout.dart';
-import 'package:zkeep/components/mypage/customer_box.dart';
+import 'package:zkeep/components/customer/customer_box.dart';
 import 'package:zkeep/components/sub_title.dart';
 import 'package:zkeep/controllers/mypage/mypage_controller.dart';
 import 'package:common_control/common_control.dart';

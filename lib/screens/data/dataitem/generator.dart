@@ -3,7 +3,7 @@ import 'package:zkeep/models/dataitem.dart';
 import 'package:zkeep/models/item.dart';
 
 Dataitem generator(index, order, suborder) {
-  final items = generators(index, order, suborder);
+  var items = generators(index, order, suborder);
   return items[index - 1];
 }
 
