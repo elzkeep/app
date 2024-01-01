@@ -1,12 +1,12 @@
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/components/main_title.dart';
-import 'package:zkeep/controllers/mypage/customer/insert_controller.dart';
+import 'package:zkeep/controllers/customer/customer_insert_controller.dart';
 
-class InsertScreen extends CWidget {
-  InsertScreen({super.key});
+class CustomerInsertScreen extends CWidget {
+  CustomerInsertScreen({super.key});
 
-  final c = Get.find<InsertController>();
+  final c = Get.find<CustomerInsertController>();
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,6 @@ class InsertScreen extends CWidget {
   }
 
   clickSave() async {
-    print('click insert');
     if (!await c.insert()) {
       return;
     }

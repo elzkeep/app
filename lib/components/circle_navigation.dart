@@ -18,7 +18,9 @@ class CircleNavigation extends CWidget {
   build(BuildContext context) {
     return Obx(() => AnimatedBottomNavigationBar(
           icons: const [
+            CupertinoIcons.home,
             CupertinoIcons.doc_plaintext,
+            CupertinoIcons.person_2_square_stack,
             CupertinoIcons.person_crop_circle,
           ],
           activeIndex: c.index,

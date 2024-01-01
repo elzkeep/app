@@ -3,12 +3,12 @@ import 'package:zkeep/components/cround.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/components/sub_title.dart';
 import 'package:zkeep/config/config.dart';
-import 'package:zkeep/controllers/mypage/customer/detail_controller.dart';
+import 'package:zkeep/controllers/customer/customer_detail_controller.dart';
 
-class DetailScreen extends CWidget {
-  DetailScreen({super.key});
+class CustomerDetailScreen extends CWidget {
+  CustomerDetailScreen({super.key});
 
-  final c = Get.find<DetailController>();
+  final c = Get.find<CustomerDetailController>();
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,11 @@ class DetailScreen extends CWidget {
 
   company() {
     return CColumn(gap: 10, children: [
-      SubTitle('고객 정보', more: '수정'),
+      SubTitle(
+        '고객 정보',
+        more: '수정',
+        onMore: () => clickUpdate(1),
+      ),
       CRound(
           backgroundColor: Config.backgroundColor,
           child: CColumn(
@@ -44,7 +48,11 @@ class DetailScreen extends CWidget {
 
   building() {
     return CColumn(gap: 10, children: [
-      SubTitle('점검 대상 정보', more: '수정'),
+      SubTitle(
+        '점검 대상 정보',
+        more: '수정',
+        onMore: () => clickUpdate(2),
+      ),
       CRound(
           backgroundColor: Config.backgroundColor,
           child: CColumn(
@@ -61,7 +69,11 @@ class DetailScreen extends CWidget {
 
   check() {
     return CColumn(gap: 10, children: [
-      SubTitle('점검 정보', more: '수정'),
+      SubTitle(
+        '점검 정보',
+        more: '수정',
+        onMore: () => clickUpdate(3),
+      ),
       CRound(
           backgroundColor: Config.backgroundColor,
           child: CColumn(
@@ -122,7 +134,11 @@ class DetailScreen extends CWidget {
 
   contract() {
     return CColumn(gap: 10, children: [
-      SubTitle('계약 정보', more: '수정'),
+      SubTitle(
+        '계약 정보',
+        more: '수정',
+        onMore: () => clickUpdate(4),
+      ),
       CRound(
           backgroundColor: Config.backgroundColor,
           child: CColumn(
@@ -160,5 +176,10 @@ class DetailScreen extends CWidget {
                 ]),
               ]))
     ]);
+  }
+
+  clickUpdate(pos) {
+    print('/customer/${c.id}/update');
+    Get.toNamed('/customer/${c.id}/update', arguments: {'index': pos});
   }
 }

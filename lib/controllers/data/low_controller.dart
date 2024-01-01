@@ -187,7 +187,6 @@ class LowController extends GetxController {
   }
 
   remove(index) {
-    print('delete = $index');
     items.value.removeAt(index);
     redraw();
   }

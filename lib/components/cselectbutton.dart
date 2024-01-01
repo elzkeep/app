@@ -31,7 +31,6 @@ class CSelectButton extends CWidget {
       return;
     }
 
-    print('index = $index');
     onSelected!(index);
   }
 

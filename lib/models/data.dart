@@ -7,6 +7,7 @@ enum DataType {
   
 class Data { 
   int id;
+  int topcategory;
   String title;
   DataType type;
   int category;
@@ -19,6 +20,7 @@ class Data {
 
   Data({        
           this.id = 0,       
+          this.topcategory = 0,       
           this.title = '',       
           this.type = DataType.none,       
           this.category = 0,       
@@ -33,6 +35,7 @@ class Data {
   factory Data.fromJson(Map<String, dynamic> json) {
     return Data(
         id: json['id'] as int,
+        topcategory: json['topcategory'] as int,
         title: json['title'] as String,
         type: DataType.values[json['type'] as int],
         category: json['category'] as int,
@@ -44,7 +47,7 @@ class Data {
   }
 
   Map<String, dynamic> toJson() =>
-      { 'id': id,'title': title,'type': type.index,'category': category,'order': order,'report': report,'company': company,'date': date };
+      { 'id': id,'topcategory': topcategory,'title': title,'type': type.index,'category': category,'order': order,'report': report,'company': company,'date': date };
 
   Data clone() {
     return Data.fromJson(toJson());

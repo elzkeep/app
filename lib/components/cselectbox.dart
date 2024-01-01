@@ -5,6 +5,26 @@ class CItem {
 
   final int id;
   final dynamic value;
+
+  static List<CItem> list(List<String> strs) {
+    List<CItem> items = [];
+
+    for (var i = 0; i < strs.length; i++) {
+      items.add(CItem(id: i, value: strs[i]));
+    }
+
+    return items;
+  }
+
+  static List<CItem> number(int start, int end) {
+    List<CItem> items = [];
+
+    for (var i = start; i <= end; i++) {
+      items.add(CItem(id: i, value: '$i'));
+    }
+
+    return items;
+  }
 }
 
 class CSelectbox extends CWidget {
@@ -93,7 +113,7 @@ class CSelectbox extends CWidget {
               );
             },
             decoration: BoxDecoration(
-              color: backgroundColor,
+                color: backgroundColor,
                 border: Border.all(
                   color: const Color(0xffE0E0E0),
                   width: 1,
@@ -101,12 +121,11 @@ class CSelectbox extends CWidget {
                 borderRadius: BorderRadius.circular(8)),
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
             child: CRow(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CText(items[selected].value, textStyle: style),
-                CSvg('assets/imgs/arrow-down.svg'),
-              ])
-          ),
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CText(items[selected].value, textStyle: style),
+                  CSvg('assets/imgs/arrow-down.svg'),
+                ])),
       ),
     ]);
 

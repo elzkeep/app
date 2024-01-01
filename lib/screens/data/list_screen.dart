@@ -24,6 +24,11 @@ class ListScreen extends CWidget {
       text: '고객명, 점검일자, 점검지역',
       svg: 'assets/imgs/search.svg',
       margin: const EdgeInsets.only(top: 10),
+      controller: c.searchTextController,
+      onChanged: (value) async {
+        c.searchText = c.searchTextController.text;
+        c.search();
+      },
     );
     //return CTextField(con: const Icon(Icons.search));
   }
@@ -58,8 +63,8 @@ class ListScreen extends CWidget {
         margin: const EdgeInsets.only(top: 10),
         child: CSelectButton(
             items: const ['빠른순서', '가까운 순', '신규', '점검완료'],
-            index: c.search,
-            onSelected: (index) => c.search = index)));
+            index: c.searchIndex,
+            onSelected: (index) => clickSearch(index))));
   }
 
   box(title) {
@@ -114,7 +119,7 @@ class ListScreen extends CWidget {
 
   Widget list(Report item, int index) {
     return CContainer(
-      onTap: () => Get.toNamed('/data/1'),
+      onTap: () => Get.toNamed('/data/${item.id}', arguments: {'item': item}),
       decoration: BoxDecoration(
           color: const Color(0xffE0E0E0),
           border: Border.all(
@@ -158,5 +163,10 @@ class ListScreen extends CWidget {
         )
       ]),
     );
+  }
+
+  clickSearch(index) async {
+    c.searchIndex = index;
+    await c.search();
   }
 }

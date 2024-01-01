@@ -9,7 +9,7 @@ class CompanyWidget extends CWidget {
   @override
   Widget build(BuildContext context) {
     return CContainer(
-      onTap: () => Get.toNamed('/mypage/customer/${item.id}'),
+      onTap: () => Get.toNamed('/customer/${item.id}'),
       decoration: BoxDecoration(
           color: const Color(0xffE0E0E0),
           border: Border.all(
