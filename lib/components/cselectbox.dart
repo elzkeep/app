@@ -94,6 +94,10 @@ class CSelectbox extends CWidget {
       types.add(widget);
     }
 
+    double height = items.length * 40 + 80;
+    if (height > Get.height - 100) {
+      height = Get.height - 100;
+    }
     final widget = CRow(children: [
       Expanded(
         child: CContainer(
@@ -103,10 +107,13 @@ class CSelectbox extends CWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return Container(
-                    height: items.length * 40 + 80,
+                    height: height,
                     color: Colors.white,
                     child: Center(
-                      child: CColumn(style: columnStyle, children: types),
+                      child: CScroll(
+                          padding: const EdgeInsets.all(20),
+                          style: columnStyle,
+                          children: types),
                     ),
                   );
                 },

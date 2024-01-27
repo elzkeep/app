@@ -17,7 +17,8 @@ class Head extends CWidget {
                     color: Colors.black,
                     fontSize: 20,
                     fontWeight: FontWeight.bold)),
-            CSvg('assets/imgs/logo.svg', height: 20)
+                Image.asset('assets/imgs/nlogo.png', height: 20)
+            //CSvg('assets/imgs/logo.svg', height: 20)
           ]);
     }
 
