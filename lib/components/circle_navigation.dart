@@ -31,8 +31,12 @@ class CircleNavigation extends CWidget {
           onTap: (index) {
             c.index = index;
             if (index == 0) {
-              Get.offAndToNamed('/data');
+              Get.offAndToNamed('/');
             } else if (index == 1) {
+              Get.offAndToNamed('/data');
+            } else if (index == 2) {
+              Get.offAndToNamed('/customer');
+            } else if (index == 3) {
               Get.offAndToNamed('/mypage');
             }
           },
