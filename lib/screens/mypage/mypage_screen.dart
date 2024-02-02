@@ -70,7 +70,7 @@ class MypageScreen extends CWidget {
         CText(
           '변경',
           style: Config.moreStyle,
-          onTap: () => Get.toNamed('/mypage/customer'),
+          onTap: () => Get.toNamed('/mypage/edit'),
           margin: const EdgeInsets.symmetric(vertical: 10),
         )
       ],
