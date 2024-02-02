@@ -3,6 +3,7 @@ import 'package:zkeep/components/cround.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/components/sub_title.dart';
+import 'package:zkeep/config/config.dart';
 import 'package:zkeep/controllers/mypage/mypage_edit_controller.dart';
 
 class MypageEditRecodScreen extends CWidget {
@@ -56,10 +57,6 @@ class MypageEditRecodScreen extends CWidget {
                           Color.fromRGBO(92, 107, 192, 1.000),
                           Color.fromRGBO(59, 69, 123, 1.000)
                         ]),
-                    border: Border.all(
-                      color: const Color(0xffE0E0E0),
-                      width: 1,
-                    ),
                     borderRadius: BorderRadius.circular(8)),
                 width: 89,
                 height: 64,
@@ -88,10 +85,6 @@ class MypageEditRecodScreen extends CWidget {
                           Color.fromRGBO(92, 107, 192, 1.000),
                           Color.fromRGBO(59, 69, 123, 1.000)
                         ]),
-                    border: Border.all(
-                      color: const Color(0xffE0E0E0),
-                      width: 1,
-                    ),
                     borderRadius: BorderRadius.circular(8)),
                 width: 89,
                 height: 64,
@@ -107,9 +100,17 @@ class MypageEditRecodScreen extends CWidget {
           ),
         ),
         Expanded(
-          child: CRound(
-            backgroundColor: const Color(0x003b457b),
-            child: CText('전기'),
+          child: CContainer(
+            alignment: Alignment.center,
+            width: 58,
+            height: 58,
+            decoration: const BoxDecoration(
+                color: Config.buttonColor, shape: BoxShape.circle),
+            child: CText(
+              alignment: Alignment.center,
+              '+',
+              textStyle: const TextStyle(color: Colors.white),
+            ),
           ),
         )
       ])
