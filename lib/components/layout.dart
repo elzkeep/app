@@ -1,5 +1,4 @@
 import 'package:common_control/common_control.dart';
-import 'package:zkeep/components/bottom_navigation.dart';
 import 'package:zkeep/components/circle_navigation.dart';
 import 'package:zkeep/components/head.dart';
 
@@ -51,14 +50,14 @@ class Layout extends CWidget {
         body: Container(
             margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
             child: child),
-        /*floatingActionButton: FloatingActionButton(
+        floatingActionButton: FloatingActionButton(
             shape: const CircleBorder(),
             onPressed: () =>
                 Get.toNamed('/write', arguments: {'mode': 'write'}),
             foregroundColor: Colors.white,
             backgroundColor: const Color.fromRGBO(237, 92, 66, 1.000),
             child: const Icon(Icons.add)),
-            */
-        bottomNavigationBar: BottomNavigation());
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: CircleNavigation());
   }
 }
