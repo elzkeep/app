@@ -38,31 +38,36 @@ class MypageScreen extends CWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CContainer(
-          width: 76,
-          height: 76,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(100),
-            child: CContainer(
-              backgroundColor: Colors.blue,
-              // CSvg('assets/imgs/corner-up-right.svg'),
-            ),
-          ),
-        ),
-        CColumn(
-          margin: const EdgeInsets.symmetric(vertical: 10),
+        CRow(
+          gap: 15,
           children: [
-            CText(
-              '홍길동' ' 님',
-              textStyle: nameStyle,
+            CContainer(
+              width: 76,
+              height: 76,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: CContainer(
+                  backgroundColor: Colors.blue,
+                  // CSvg('assets/imgs/corner-up-right.svg'),
+                ),
+              ),
             ),
-            CText(
-              '010-9999-1111',
-              textStyle: textStyle,
-            ),
-            CText(
-              'hongpro@myster.co.kr',
-              textStyle: textStyle,
+            CColumn(
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              children: [
+                CText(
+                  '홍길동' ' 님',
+                  textStyle: nameStyle,
+                ),
+                CText(
+                  '010-9999-1111',
+                  textStyle: textStyle,
+                ),
+                CText(
+                  'hongpro@myster.co.kr',
+                  textStyle: textStyle,
+                ),
+              ],
             ),
           ],
         ),
@@ -98,6 +103,7 @@ class MypageScreen extends CWidget {
                 CBothSide(
                     gap: 10,
                     mainAxisAlignment: MainAxisAlignment.start,
+                    margin: const EdgeInsets.symmetric(vertical: 2),
                     children: [
                       const Icon(CupertinoIcons.person_crop_rectangle,
                           color: Colors.black54),
