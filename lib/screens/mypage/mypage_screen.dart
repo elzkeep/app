@@ -24,7 +24,8 @@ class MypageScreen extends CWidget {
           record(),
           customer(),
           calendar(),
-          lists(),
+          Obx(() => lists()),
+          const SizedBox(height: 50),
         ]));
   }
 
@@ -246,7 +247,7 @@ class MypageScreen extends CWidget {
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
     c.focusedDay = selectedDay;
-    print(focusedDay);
+    c.find(selectedDay);
   }
 
   void _onFormatChanged(CalendarFormat format) {
@@ -254,26 +255,22 @@ class MypageScreen extends CWidget {
   }
 
   lists() {
-    return CContainer(
-      height: 100,
-      alignment: Alignment.topCenter,
-      child: CText('아직 등록된 일정이 없어요'),
+    if (c.items.isEmpty) {
+      return CContainer(
+        height: 100,
+        alignment: Alignment.topCenter,
+        child: CText('아직 등록된 일정이 없어요'),
+      );
+    }
+    return Obx(
+      () => ListView.builder(
+        shrinkWrap: true,
+        itemCount: c.items.length,
+        itemBuilder: (context, index) {
+          return list(c.items[index], index);
+        },
+      ),
     );
-    // if (cache.length == 0) {
-    //   return CContainer(
-    //     height: 100,
-    //     alignment: Alignment.topCenter,
-    //     child: CText('아직 등록된 일정이 없어요'),
-    //   );
-    // }
-    // return Obx(
-    //   () => ListView.builder(
-    //     itemCount: cache.length,
-    //     itemBuilder: (context, index) {
-    //       return list(cache[index], index);
-    //     },
-    //   ),
-    // );
   }
 
   Widget list(Report item, int index) {

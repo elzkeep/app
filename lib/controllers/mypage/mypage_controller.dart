@@ -6,6 +6,10 @@ import 'package:zkeep/models/report.dart';
 class MypageController extends GetxController {
   MypageController();
 
+  final _items = [].obs;
+  get items => _items;
+  set items(value) => _items.value = value;
+
   final _search = 1.obs;
   int get search => _search.value;
   set search(int value) => _search.value = value;
@@ -20,8 +24,16 @@ class MypageController extends GetxController {
   CalendarFormat get calendarFormat => _calendarFormat.value;
   set calendarFormat(CalendarFormat value) => _calendarFormat.value = value;
 
-  find(DateTime date) {
-    return ReportManager.find(
-        params: 'checkdate=${DateFormat('yyyy-MM-dd').format(date)}');
+  @override
+  onInit() async {
+    super.onInit();
+    find(focusedDay);
+  }
+
+  find(DateTime date) async {
+    final ret = await ReportManager.find(
+        params: 'checkdate=${DateFormat('yyyy-MM-dd').format(focusedDay)}');
+
+    items = ret;
   }
 }
