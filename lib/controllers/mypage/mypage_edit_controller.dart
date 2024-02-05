@@ -13,8 +13,8 @@ class MypageEditController extends InfiniteController {
   final passwd = TextEditingController();
   final name = TextEditingController();
   final phonenum = TextEditingController();
-  // final adressStreet = TextEditingController();
-  // final adressEtc = TextEditingController();
+  // final addressStreet = TextEditingController();
+  // final addressEtc = TextEditingController();
   final company = TextEditingController();
   final joinDate = TextEditingController();
   final career = TextEditingController();
@@ -31,13 +31,13 @@ class MypageEditController extends InfiniteController {
   int get emailAddress => _emailAddress.value;
   set emailAddress(int value) => _emailAddress.value = value;
 
-  final _adressStreet = ''.obs;
-  String get adressStreet => _adressStreet.value;
-  set adressStreet(String value) => _adressStreet.value = value;
+  final _addressStreet = ''.obs;
+  String get addressStreet => _addressStreet.value;
+  set addressStreet(String value) => _addressStreet.value = value;
 
-  final _adressEtc = ''.obs;
-  String get adressEtc => _adressEtc.value;
-  set adressEtc(String value) => _adressEtc.value = value;
+  final _addressEtc = ''.obs;
+  String get addressEtc => _addressEtc.value;
+  set addressEtc(String value) => _addressEtc.value = value;
 
   final _errorLoginid = ''.obs;
   String get errorLoginid => _errorLoginid.value;

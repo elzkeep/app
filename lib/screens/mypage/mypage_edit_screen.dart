@@ -69,11 +69,11 @@ class MypageEditScreen extends CWidget {
           CFormtitle(title: '주소'),
           CColumn(gap: 10, children: [
             CFormtext(
-              c.adressStreet,
+              c.addressStreet,
               onTap: () => clickAdressStreet(),
             ),
             CFormtext(
-              c.adressEtc,
+              c.addressEtc,
               onTap: () => clickAdressEtc(),
             ),
           ]),
@@ -100,7 +100,45 @@ class MypageEditScreen extends CWidget {
 
   clickEmailId() {}
 
-  clickAdressStreet() {}
+  clickAdressStreet() {
+    Get.dialog(
+      barrierDismissible: true,
+      AlertDialog(
+        insetPadding: const EdgeInsets.all(10),
+        contentPadding: EdgeInsets.zero,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        content: SizedBox(
+          width: Get.width - 40,
+          child: Obx(
+            () => CColumn(
+              gap: 10,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              padding: const EdgeInsets.only(
+                  left: 20, right: 20, top: 10, bottom: 20),
+              children: [
+                const SizedBox(height: 0),
+                CRow(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(),
+                      CText('주소 검색', textStyle: const TextStyle(fontSize: 18)),
+                      CContainer(
+                          onTap: () => Get.back(),
+                          child: const Icon(Icons.close, color: Colors.black))
+                    ]),
+                const SizedBox(height: 5),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   clickAdressEtc() {}
 
@@ -109,12 +147,6 @@ class MypageEditScreen extends CWidget {
   }
 
   clickRecod() async {
-    // final ret = await c.insert();
-    // if (ret == false) {
-    //   return;
-    // }
-
-    // Get.offAllNamed('/');
     Get.toNamed('/mypage/editrecod');
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:zkeep/components/cround.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/components/sub_title.dart';
@@ -21,7 +20,7 @@ class MypageEditRecodScreen extends CWidget {
   }
 
   form() {
-    return CColumn(gap: 10, padding: const EdgeInsets.all(10), children: [
+    return CScroll(gap: 10, padding: const EdgeInsets.all(10), children: [
       SubTitle('소속 정보'),
       Obx(() => CForm(children: [
             CFormfield(

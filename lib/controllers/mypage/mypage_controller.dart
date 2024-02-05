@@ -3,12 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:zkeep/models/report.dart';
 
-class MypageController extends InfiniteController {
-  MypageController()
-      : super(
-            reader: ReportManager.find,
-            params:
-                'checkdate=${DateFormat('yyyy-MM-dd').format(DateTime.now())}');
+class MypageController extends GetxController {
+  MypageController();
 
   final _search = 1.obs;
   int get search => _search.value;
@@ -23,4 +19,9 @@ class MypageController extends InfiniteController {
   final _calendarFormat = CalendarFormat.month.obs;
   CalendarFormat get calendarFormat => _calendarFormat.value;
   set calendarFormat(CalendarFormat value) => _calendarFormat.value = value;
+
+  find(DateTime date) {
+    return ReportManager.find(
+        params: 'checkdate=${DateFormat('yyyy-MM-dd').format(date)}');
+  }
 }

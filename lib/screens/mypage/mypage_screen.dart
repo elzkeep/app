@@ -19,15 +19,13 @@ class MypageScreen extends CWidget {
   Widget build(BuildContext context) {
     return Layout(
         title: '마이페이지',
-        child: SingleChildScrollView(
-          child: CColumn(gap: 25, children: [
-            myprofile(),
-            record(),
-            customer(),
-            calendar(),
-            lists(),
-          ]),
-        ));
+        child: CScroll(gap: 25, children: [
+          myprofile(),
+          record(),
+          customer(),
+          calendar(),
+          lists(),
+        ]));
   }
 
   myprofile() {
@@ -256,21 +254,26 @@ class MypageScreen extends CWidget {
   }
 
   lists() {
-    if (c.getCache().isEmpty) {
-      return CContainer(
-        height: 100,
-        alignment: Alignment.topCenter,
-        child: CText('아직 등록된 일정이 없어요'),
-      );
-    }
-    return Obx(
-      () => ListView.builder(
-        itemCount: c.getCache().length,
-        itemBuilder: (context, index) {
-          return list(c.getCache()[index], index);
-        },
-      ),
+    return CContainer(
+      height: 100,
+      alignment: Alignment.topCenter,
+      child: CText('아직 등록된 일정이 없어요'),
     );
+    // if (cache.length == 0) {
+    //   return CContainer(
+    //     height: 100,
+    //     alignment: Alignment.topCenter,
+    //     child: CText('아직 등록된 일정이 없어요'),
+    //   );
+    // }
+    // return Obx(
+    //   () => ListView.builder(
+    //     itemCount: cache.length,
+    //     itemBuilder: (context, index) {
+    //       return list(cache[index], index);
+    //     },
+    //   ),
+    // );
   }
 
   Widget list(Report item, int index) {
