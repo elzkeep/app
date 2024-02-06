@@ -4,6 +4,7 @@ import 'package:zkeep/components/company.dart';
 import 'package:zkeep/components/cround.dart';
 import 'package:zkeep/components/dround.dart';
 import 'package:zkeep/components/layout.dart';
+import 'package:zkeep/components/line_chart.dart';
 import 'package:zkeep/components/sub_title.dart';
 import 'package:zkeep/config/config.dart';
 import 'package:zkeep/controllers/customer/customer_view_controller.dart';
@@ -20,20 +21,17 @@ class CustomerViewScreen extends CWidget {
   }
 
   body() {
-    return Obx(() => CColumn(children: [
+    return Obx(() => CScroll(gap: 20, children: [
           CompanyWidget(c.item),
-          const SizedBox(height: 10),
           info(),
           CButton(
               text: '더보기',
-              margin: const EdgeInsets.only(top: 10),
-              flex: 1,
               size: CButtonSize.xsmall,
               type: CButtonStyle.outlined,
               onPressed: () => clickMore()),
-          const SizedBox(height: 10),
+          graph(),
           history(),
-          Expanded(child: Container())
+          const SizedBox(height: 50),
         ]));
   }
 
@@ -80,6 +78,7 @@ class CustomerViewScreen extends CWidget {
     return CColumn(children: [
       SubTitle('부적합 개소',
           more: '더보기', onMore: () => Get.toNamed('/mypage/customer')),
+      const CLineChart(),
     ]);
   }
 

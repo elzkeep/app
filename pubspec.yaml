@@ -43,6 +43,7 @@ dependencies:
   common_control:
     path: ../../common_control
   table_calendar: ^3.0.9
+  fl_chart: ^0.66.1
 
 dev_dependencies:
   flutter_test:
