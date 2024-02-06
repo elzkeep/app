@@ -42,9 +42,41 @@ class FacilityInsertController extends GetxController {
   int get distributationface => _distributationface.value;
   set distributationface(int value) => _distributationface.value = value;
 
-  final _years = 0.obs;
-  int get years => _years.value;
-  set years(int value) => _years.value = value;
+  final _manufactureYear = 0.obs;
+  int get manufactureYear => _manufactureYear.value;
+  set manufactureYear(int value) => _manufactureYear.value = value;
+
+  final _highbreaker = 0.obs;
+  int get highbreaker => _highbreaker.value;
+  set highbreaker(int value) => _highbreaker.value = value;
+
+  final _highbreakeryear = 0.obs;
+  int get highbreakeryear => _highbreakeryear.value;
+  set highbreakeryear(int value) => _highbreakeryear.value = value;
+
+  final _highbreakermonth = 0.obs;
+  int get highbreakermonth => _highbreakermonth.value;
+  set highbreakermonth(int value) => _highbreakermonth.value = value;
+
+  final _relay = 0.obs;
+  int get relay => _relay.value;
+  set relay(int value) => _relay.value = value;
+
+  final _relayconnect = 0.obs;
+  int get relayconnect => _relayconnect.value;
+  set relayconnect(int value) => _relayconnect.value = value;
+
+  final _changetype = 0.obs;
+  int get changetype => _changetype.value;
+  set changetype(int value) => _changetype.value = value;
+
+  final _changeyear = 0.obs;
+  int get changeyear => _changeyear.value;
+  set changeyear(int value) => _changeyear.value = value;
+
+  final _changemonth = 0.obs;
+  int get changemonth => _changemonth.value;
+  set changemonth(int value) => _changemonth.value = value;
 
   @override
   onInit() async {

@@ -48,8 +48,8 @@ class FacilityViewScreen extends CWidget {
     return CColumn(gap: 10, children: [
       SubTitle(
         '수배전 설비',
-        more: '수정',
-        onMore: () => clickUpdate(2),
+        // more: '수정',
+        // onMore: () => clickUpdate(2),
       ),
       CRound(
           backgroundColor: Config.backgroundColor,
@@ -68,8 +68,8 @@ class FacilityViewScreen extends CWidget {
     return CColumn(gap: 10, children: [
       SubTitle(
         '고압차단기',
-        more: '수정',
-        onMore: () => clickUpdate(3),
+        // more: '수정',
+        // onMore: () => clickUpdate(3),
       ),
       CRound(
           backgroundColor: Config.backgroundColor,
@@ -90,8 +90,8 @@ class FacilityViewScreen extends CWidget {
     return CColumn(gap: 10, children: [
       SubTitle(
         '변압 설비',
-        more: '수정',
-        onMore: () => clickUpdate(4),
+        // more: '수정',
+        // onMore: () => clickUpdate(4),
       ),
       CRound(
           backgroundColor: Config.backgroundColor,
@@ -113,8 +113,8 @@ class FacilityViewScreen extends CWidget {
     return CColumn(gap: 10, children: [
       SubTitle(
         '발전 설비',
-        more: '수정',
-        onMore: () => clickUpdate(4),
+        // more: '수정',
+        // onMore: () => clickUpdate(4),
       ),
       CRound(
           backgroundColor: Config.backgroundColor,
