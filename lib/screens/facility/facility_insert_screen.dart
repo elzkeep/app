@@ -1,5 +1,6 @@
 import 'package:common_control/common_control.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:zkeep/components/box_title.dart';
 import 'package:zkeep/components/cround.dart';
 import 'package:zkeep/components/cselectbox.dart';
 import 'package:zkeep/components/cselectbutton.dart';
@@ -36,12 +37,7 @@ class FacilityInsertScreen extends CWidget {
           const SizedBox(height: 10),
           distributation(),
           manufacture(),
-          const SizedBox(height: 10),
-          title('변전설비', () => clickAddChange()),
-          change(),
-          const SizedBox(height: 10),
-          title('고압차단기', () => clickAddHighBreaker()),
-          highBreaker(),
+          receivingtype(),
           const SizedBox(height: 10),
           title('기타 전력 설비'),
           other(),
@@ -326,6 +322,110 @@ class FacilityInsertScreen extends CWidget {
     ]);
   }
 
+  receivingtype() {
+    if (c.type == 2) {
+      return Column(children: [
+        const SizedBox(height: 10),
+        title('변전설비', () => clickAddChange()),
+        change(),
+        const SizedBox(height: 10),
+        title('고압차단기', () => clickAddHighBreaker()),
+        highBreaker(),
+      ]);
+    } else {
+      return Container();
+    }
+  }
+
+  change() {
+    final types = CItem.list(['', '유입형', '몰드형']);
+    List<CItem> years = [CItem(id: 0, value: '')];
+
+    for (var i = 1970; i <= 2024; i++) {
+      years.add(CItem(id: i - 1970, value: '$i년'));
+    }
+
+    List<CItem> months = [CItem(id: 0, value: '')];
+
+    for (var i = 1; i <= 12; i++) {
+      months.add(CItem(id: i, value: '$i월'));
+    }
+
+    return round(<Widget>[
+      entry(
+        '설비명',
+        CTextField(
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+      ),
+      entry2(
+        '형식',
+        CSelectbox(
+          backgroundColor: Colors.white,
+          items: types,
+          selected: c.changetype,
+          onSelected: (pos) => c.changetype = pos,
+        ),
+        '정격용량',
+        CTextField(
+          suffixText: 'kVA',
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+      ),
+      entry2(
+        '%Z',
+        CTextField(
+          suffixText: '%',
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+        '정격전압',
+        CTextField(
+          suffixText: 'V',
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+      ),
+      entry2(
+        '제조사',
+        CTextField(
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+        '제조번호',
+        CTextField(
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+      ),
+      entry(
+        '제작년월',
+        CRow(gap: 10, children: [
+          Expanded(
+            child: CSelectbox(
+              backgroundColor: Colors.white,
+              items: years,
+              selected: c.changeyear,
+              onSelected: (pos) => c.changeyear = pos,
+            ),
+          ),
+          Expanded(
+            child: CSelectbox(
+              backgroundColor: Colors.white,
+              items: months,
+              selected: c.changemonth,
+              onSelected: (pos) => c.changemonth = pos,
+            ),
+          ),
+        ]),
+      ),
+    ]);
+  }
+
+  clickAddChange() {}
+
   highBreaker() {
     final breakers = CItem.list(['', 'VCB', 'GCV']);
     final relays = CItem.list(['', 'OCR', 'OCGR', 'UVR', 'OVR', 'POR']);
@@ -469,95 +569,6 @@ class FacilityInsertScreen extends CWidget {
   clickAddHighBreaker() {}
 
   clickAddrelay() {}
-
-  change() {
-    final types = CItem.list(['', '유입형', '몰드형']);
-    List<CItem> years = [CItem(id: 0, value: '')];
-
-    for (var i = 1970; i <= 2024; i++) {
-      years.add(CItem(id: i - 1970, value: '$i년'));
-    }
-
-    List<CItem> months = [CItem(id: 0, value: '')];
-
-    for (var i = 1; i <= 12; i++) {
-      months.add(CItem(id: i, value: '$i월'));
-    }
-
-    return round(<Widget>[
-      entry(
-        '설비명',
-        CTextField(
-          filledColor: Colors.white,
-          textStyle: labelStyle,
-        ),
-      ),
-      entry2(
-        '형식',
-        CSelectbox(
-          backgroundColor: Colors.white,
-          items: types,
-          selected: c.changetype,
-          onSelected: (pos) => c.changetype = pos,
-        ),
-        '정격용량',
-        CTextField(
-          suffixText: 'kVA',
-          filledColor: Colors.white,
-          textStyle: labelStyle,
-        ),
-      ),
-      entry2(
-        '%Z',
-        CTextField(
-          suffixText: '%',
-          filledColor: Colors.white,
-          textStyle: labelStyle,
-        ),
-        '정격전압',
-        CTextField(
-          suffixText: 'V',
-          filledColor: Colors.white,
-          textStyle: labelStyle,
-        ),
-      ),
-      entry2(
-        '제조사',
-        CTextField(
-          filledColor: Colors.white,
-          textStyle: labelStyle,
-        ),
-        '제조번호',
-        CTextField(
-          filledColor: Colors.white,
-          textStyle: labelStyle,
-        ),
-      ),
-      entry(
-        '제작년월',
-        CRow(gap: 10, children: [
-          Expanded(
-            child: CSelectbox(
-              backgroundColor: Colors.white,
-              items: years,
-              selected: c.changeyear,
-              onSelected: (pos) => c.changeyear = pos,
-            ),
-          ),
-          Expanded(
-            child: CSelectbox(
-              backgroundColor: Colors.white,
-              items: months,
-              selected: c.changemonth,
-              onSelected: (pos) => c.changemonth = pos,
-            ),
-          ),
-        ]),
-      ),
-    ]);
-  }
-
-  clickAddChange() {}
 
   other() {
     List<CItem> years = [CItem(id: 0, value: '')];
