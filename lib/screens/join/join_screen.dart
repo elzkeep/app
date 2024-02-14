@@ -37,7 +37,7 @@ class JoinScreen extends CWidget {
                   if (c.form) {
                     Get.toNamed('/join/buisness/user');
                   } else {
-                    Get.toNamed('/join/user/detail');
+                    Get.toNamed('/join/user');
                   }
                 },
                 size: CButtonSize.large,
