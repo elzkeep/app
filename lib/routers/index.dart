@@ -3,7 +3,12 @@ import 'package:zkeep/controllers/join_controller.dart';
 import 'package:zkeep/controllers/login_controller.dart';
 import 'package:zkeep/controllers/main_controller.dart';
 import 'package:zkeep/controllers/write_controller.dart';
+import 'package:zkeep/screens/join_buisness_company_screen.dart';
+import 'package:zkeep/screens/join_buisness_user_screen.dart';
+import 'package:zkeep/screens/join_company_detail_screen.dart';
 import 'package:zkeep/screens/join_screen.dart';
+import 'package:zkeep/screens/join_user_detail_screen.dart';
+import 'package:zkeep/screens/join_user_screen.dart';
 import 'package:zkeep/screens/login_screen.dart';
 import 'package:zkeep/screens/main_screen.dart';
 import 'package:zkeep/screens/write_screen.dart';
@@ -30,6 +35,48 @@ index() {
     GetPage(
       name: '/join',
       page: () => JoinScreen(),
+      binding: BindingsBuilder(() {
+        Get.put(JoinController());
+      }),
+    ),
+    GetPage(
+      name: '/join/user',
+      page: () => JoinUserScreen(),
+      binding: BindingsBuilder(() {
+        Get.put(JoinController());
+      }),
+    ),
+    GetPage(
+      name: '/join/user/detail',
+      page: () => JoinUserDetailScreen(),
+      binding: BindingsBuilder(() {
+        Get.put(JoinController());
+      }),
+    ),
+    GetPage(
+      name: '/join/buisness',
+      page: () => JoinScreen(),
+      binding: BindingsBuilder(() {
+        Get.put(JoinController());
+      }),
+    ),
+    GetPage(
+      name: '/join/buisness/user',
+      page: () => JoinBuisnessUserScreen(),
+      binding: BindingsBuilder(() {
+        Get.put(JoinController());
+      }),
+    ),
+    GetPage(
+      name: '/join/buisness/company',
+      page: () => JoinBuisnessCompanyScreen(),
+      binding: BindingsBuilder(() {
+        Get.put(JoinController());
+      }),
+    ),
+    GetPage(
+      name: '/join/buisness/company/detail',
+      page: () => JoinCompanyDetailScreen(),
       binding: BindingsBuilder(() {
         Get.put(JoinController());
       }),

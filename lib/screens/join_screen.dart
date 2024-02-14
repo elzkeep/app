@@ -18,44 +18,48 @@ class JoinScreen extends CWidget {
         leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
             onPressed: () {
+              c.form = false;
               Get.back();
             }),
       ),
-
-      /*action: "assets/imgs/icon_x_mark.svg",*/
-      body: Obx(
-        () => CFixedBottom(
-            bottom: CButton(
-                padding: const EdgeInsets.all(20),
-                text: '회원 가입',
-                disabled:
-                    c.loginid.isEmpty || c.passwd.isEmpty || c.name.isEmpty,
+      body: CColumn(
+        padding:
+            const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
+        children: [
+          CColumn(
+            mainAxisAlignment: MainAxisAlignment.center,
+            expanded: true,
+            gap: 8,
+            children: [
+              CButton(
+                text: c.form ? '건물사용자' : '개인회원',
                 onPressed: () async {
-                  var res = await c.join();
-                  if (res != true) {
-                    return;
+                  if (c.form) {
+                    Get.toNamed('/join/buisness/user');
+                  } else {
+                    Get.toNamed('/join/user/detail');
                   }
-
-                  Get.offAllNamed('/');
                 },
                 size: CButtonSize.large,
-                margin: const EdgeInsets.only(top: 24, bottom: 0)),
-            children: [
-              CForm(padding: const EdgeInsets.all(20), children: [
-                CFormfield(
-                  title: '아이디',
-                  onChanged: (value) => c.loginid = value,
-                  errText: c.loginidError,
-                ),
-                CFormfield(
-                    title: '비밀번호', onChanged: (value) => c.passwd = value),
-                CFormfield(
-                  title: '닉네임',
-                  onChanged: (value) => c.name = value,
-                  errText: c.nameError,
-                ),
-              ]),
-            ]),
+                type: CButtonStyle.outlined,
+                margin: const EdgeInsets.only(top: 14, bottom: 0),
+              ),
+              CButton(
+                  text: c.form ? '점검회사' : '사업자',
+                  onPressed: () async {
+                    if (c.form) {
+                      Get.toNamed('/join/buisness/company');
+                    } else {
+                      Get.toNamed('/join/buisness');
+                      c.form = true;
+                    }
+                  },
+                  size: CButtonSize.large,
+                  type: CButtonStyle.outlined,
+                  margin: const EdgeInsets.only(top: 0, bottom: 0)),
+            ],
+          ),
+        ],
       ),
     );
   }
