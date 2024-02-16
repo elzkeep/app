@@ -1,6 +1,9 @@
 import 'package:common_control/common_control.dart';
 
 
+enum CompanyType {
+    none, work, building
+}
   
 class Company { 
   int id;
@@ -14,7 +17,7 @@ class Company {
   String buildingceo;
   String buildingaddress;
   String buildingaddressetc;
-  int type;
+  CompanyType type;
   int checkdate;
   String managername;
   String managertel;
@@ -27,6 +30,7 @@ class Company {
   String billingtel;
   String billingemail;
   int status;
+  int companygroup;
   String date;
   bool checked;
   Map<String, dynamic> extra;  
@@ -43,7 +47,7 @@ class Company {
           this.buildingceo = '',       
           this.buildingaddress = '',       
           this.buildingaddressetc = '',       
-          this.type = 0,       
+          this.type = CompanyType.none,       
           this.checkdate = 0,       
           this.managername = '',       
           this.managertel = '',       
@@ -56,6 +60,7 @@ class Company {
           this.billingtel = '',       
           this.billingemail = '',       
           this.status = 0,       
+          this.companygroup = 0,       
           this.date = '',
           this.extra = const{},
           this.checked = false}) ;
@@ -74,7 +79,7 @@ class Company {
         buildingceo: json['buildingceo'] as String,
         buildingaddress: json['buildingaddress'] as String,
         buildingaddressetc: json['buildingaddressetc'] as String,
-        type: json['type'] as int,
+        type: CompanyType.values[json['type'] as int],
         checkdate: json['checkdate'] as int,
         managername: json['managername'] as String,
         managertel: json['managertel'] as String,
@@ -87,12 +92,13 @@ class Company {
         billingtel: json['billingtel'] as String,
         billingemail: json['billingemail'] as String,
         status: json['status'] as int,
+        companygroup: json['companygroup'] as int,
         date: json['date'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
     );
   }
 
   Map<String, dynamic> toJson() =>
-      { 'id': id,'name': name,'companyno': companyno,'ceo': ceo,'address': address,'addressetc': addressetc,'buildingname': buildingname,'buildingcompanyno': buildingcompanyno,'buildingceo': buildingceo,'buildingaddress': buildingaddress,'buildingaddressetc': buildingaddressetc,'type': type,'checkdate': checkdate,'managername': managername,'managertel': managertel,'manageremail': manageremail,'contractstartdate': contractstartdate,'contractenddate': contractenddate,'contractprice': contractprice,'billingdate': billingdate,'billingname': billingname,'billingtel': billingtel,'billingemail': billingemail,'status': status,'date': date };
+      { 'id': id,'name': name,'companyno': companyno,'ceo': ceo,'address': address,'addressetc': addressetc,'buildingname': buildingname,'buildingcompanyno': buildingcompanyno,'buildingceo': buildingceo,'buildingaddress': buildingaddress,'buildingaddressetc': buildingaddressetc,'type': type.index,'checkdate': checkdate,'managername': managername,'managertel': managertel,'manageremail': manageremail,'contractstartdate': contractstartdate,'contractenddate': contractenddate,'contractprice': contractprice,'billingdate': billingdate,'billingname': billingname,'billingtel': billingtel,'billingemail': billingemail,'status': status,'companygroup': companygroup,'date': date };
 
   Company clone() {
     return Company.fromJson(toJson());
