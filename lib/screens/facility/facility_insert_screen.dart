@@ -1,12 +1,12 @@
 import 'package:common_control/common_control.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:zkeep/components/box_title.dart';
 import 'package:zkeep/components/cround.dart';
 import 'package:zkeep/components/cselectbox.dart';
 import 'package:zkeep/components/cselectbutton.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/config/config.dart';
 import 'package:zkeep/controllers/facility/facility_insert_controller.dart';
+import 'package:zkeep/models/facility.dart';
 
 class FacilityInsertScreen extends CWidget {
   FacilityInsertScreen({super.key});
@@ -28,21 +28,16 @@ class FacilityInsertScreen extends CWidget {
   }
 
   form() {
-    return Obx(() => CColumn(children: [
-          title('기본 정보'),
+    return Obx(
+      () => CColumn(
+        children: [
           basic(),
-          const SizedBox(height: 10),
-          title('수배전설비'),
-          arrangement(),
-          const SizedBox(height: 10),
-          distributation(),
-          manufacture(),
           receivingtype(),
-          const SizedBox(height: 10),
           title('기타 전력 설비'),
           other(),
-          const SizedBox(height: 20),
-        ]));
+        ],
+      ),
+    );
   }
 
   bottom() {
@@ -83,6 +78,23 @@ class FacilityInsertScreen extends CWidget {
             ? const SizedBox.shrink()
             : CContainer(
                 onTap: onPlus, child: const Icon(CupertinoIcons.plus, size: 20))
+      ],
+    );
+  }
+
+  titleSwitch(title, value, Function(bool)? onChanged) {
+    return CBothSide(
+      children: [
+        CText(
+          title,
+          textStyle: titleStyle,
+          margin: const EdgeInsets.symmetric(vertical: 10),
+        ),
+        CupertinoSwitch(
+          value: value,
+          activeColor: Config.primaryColor,
+          onChanged: onChanged,
+        ),
       ],
     );
   }
@@ -150,170 +162,176 @@ class FacilityInsertScreen extends CWidget {
     ]);
   }
 
-  basic() {
-    final types = CItem.list(['', '저압', '특고압']);
-    final positions =
-        CItem.list(['', '지하', '단독/옥내', '옥상', '옥외', '복도/계단', '현관', '직접입력']);
+  entryAdd(title, widget, click, expand) {
+    return CRow(children: [
+      CText(
+        title,
+        width: 70,
+        textStyle: labelStyle,
+      ),
+      Expanded(child: widget),
+      const SizedBox(width: 40),
+      CContainer(
+          onTap: () => click(),
+          child: expand == true
+              ? const Icon(CupertinoIcons.plus, size: 20)
+              : const Icon(CupertinoIcons.minus, size: 20)),
+    ]);
+  }
 
-    return round(<Widget>[
-      entry(
+  basic() {
+    return CColumn(children: [
+      titleSwitch('수전설비', c.toBoolean(c.item.value1), (bool val) {
+        c.item.value1 = '$val';
+      }),
+      round(<Widget>[
+        entry(
           '수전용량',
           CTextField(
+            text: c.item.value2,
+            onChanged: (value) => c.item.value2 = value,
+            controller: c.item.extra['value2'],
             filledColor: Colors.white,
             suffixText: 'kW',
             textStyle: const TextStyle(fontSize: 14),
-          )),
-      entry(
+          ),
+        ),
+        entry(
           '수전형태',
           CSelectbox(
             backgroundColor: Colors.white,
-            items: types,
-            selected: c.type,
-            onSelected: (pos) => c.type = pos,
-          )),
-      entry(
+            items: c.types,
+            selected: int.tryParse(c.item.value3) ?? 0,
+            onSelected: (pos) {
+              c.item.value3 = pos.toString();
+              c.itemRedraw();
+            },
+          ),
+        ),
+        entry(
           '수전위치',
           CSelectbox(
             backgroundColor: Colors.white,
-            items: positions,
-            selected: c.position,
+            items: c.positions,
+            selected: int.tryParse(c.item.value4) ?? 0,
             onSelected: (pos) {
-              c.position = pos;
+              c.item.value4 = pos.toString();
+              c.itemRedraw();
             },
-          )),
-      c.position == positions.length - 1
-          ? entry(
-              '',
-              CTextField(
-                filledColor: Colors.white,
-                textStyle: const TextStyle(fontSize: 14),
-              ))
-          : const SizedBox.shrink(),
+          ),
+        ),
+      ]),
+      const SizedBox(height: 10),
+      title('수배전설비'),
+      round(<Widget>[
+        entry(
+            '수전전압',
+            CSelectbox(
+              backgroundColor: Colors.white,
+              items: c.volts,
+              selected: int.tryParse(c.item.value6) ?? 0,
+              onSelected: (pos) {
+                c.item.value6 = pos.toString();
+                c.itemRedraw();
+              },
+            )),
+        entry2(
+            '형식',
+            CSelectbox(
+              backgroundColor: Colors.white,
+              items: c.arrangementtypes,
+              selected: int.tryParse(c.item.value7) ?? 0,
+              onSelected: (pos) {
+                c.item.value7 = pos.toString();
+                c.itemRedraw();
+              },
+            ),
+            '면수',
+            CSelectbox(
+              backgroundColor: Colors.white,
+              items: c.faces,
+              selected: int.tryParse(c.item.value8) ?? 0,
+              onSelected: (pos) {
+                c.item.value8 = pos.toString();
+                c.itemRedraw();
+              },
+            )),
+      ]),
+      const SizedBox(height: 10),
+      for (int i = 0; i < c.items.length; i++) distributation(c.items[i], i),
+      manufacture(),
     ]);
   }
 
-  arrangement() {
-    final volts = CItem.list(['', '[저압]380/220', '[특고압]22,900']);
-    final arrangementtypes = CItem.list(['', '일반형', '일체형']);
-    final faces = CItem.list([
-      '',
-      '1~5',
-      '6~10',
-      '11~20',
-      '21~30',
-      '31~40',
-      '41~50',
-      '51~60',
-      '61~70',
-      '71~80',
-      '81~90',
-      '91~100',
-      '11~20',
-      '101이상',
-      '직접입력'
-    ]);
-
+  distributation(items, index) {
     return round(<Widget>[
-      entry(
-          '수전전압',
-          CSelectbox(
-            backgroundColor: Colors.white,
-            items: volts,
-            selected: c.arrangement,
-            onSelected: (pos) => c.arrangement = pos,
-          )),
+      entryAdd(
+        '분배전 전압',
+        CSelectbox(
+          backgroundColor: Colors.white,
+          items: c.volts,
+          selected: int.tryParse(items.value1) ?? 0,
+          onSelected: (pos) {
+            items.value1 = pos.toString();
+            c.itemsRedraw();
+          },
+        ),
+        () {
+          index == 0
+              ? c.items.add(Facility(value1: '0', value3: '0', value4: '0'))
+              : c.remove(c.items, index);
+        },
+        index == 0 ? true : false,
+      ),
       entry2(
           '형식',
           CSelectbox(
             backgroundColor: Colors.white,
-            items: arrangementtypes,
-            selected: c.arrangementtype,
-            onSelected: (pos) => c.arrangementtype = pos,
+            items: c.distributationtypes,
+            selected: int.tryParse(items.value3) ?? 0,
+            onSelected: (pos) {
+              items.value3 = pos.toString();
+              c.itemsRedraw();
+            },
           ),
           '면수',
           CSelectbox(
             backgroundColor: Colors.white,
-            items: faces,
-            selected: c.arrangementface,
-            onSelected: (pos) => c.arrangementface = pos,
-          )),
-    ]);
-  }
-
-  distributation() {
-    final volts = CItem.list(['', '[저압]380/220', '[특고압]22,900']);
-    final distributationtypes = CItem.list(['', '매입형', '노출형']);
-    final faces = CItem.list([
-      '',
-      '1~5',
-      '6~10',
-      '11~20',
-      '21~30',
-      '31~40',
-      '41~50',
-      '51~60',
-      '61~70',
-      '71~80',
-      '81~90',
-      '91~100',
-      '11~20',
-      '101이상',
-      '직접입력'
-    ]);
-
-    return round(<Widget>[
-      entry(
-          '분배전 전압',
-          CSelectbox(
-            backgroundColor: Colors.white,
-            items: volts,
-            selected: c.distributation,
-            onSelected: (pos) => c.distributation = pos,
-          )),
-      entry2(
-          '형식',
-          CSelectbox(
-            backgroundColor: Colors.white,
-            items: distributationtypes,
-            selected: c.distributationtype,
-            onSelected: (pos) => c.distributationtype = pos,
-          ),
-          '면수',
-          CSelectbox(
-            backgroundColor: Colors.white,
-            items: faces,
-            selected: c.distributationface,
-            onSelected: (pos) => c.distributationface = pos,
+            items: c.faces,
+            selected: int.tryParse(items.value4) ?? 0,
+            onSelected: (pos) {
+              items.value4 = pos.toString();
+              c.itemsRedraw();
+            },
           )),
     ]);
   }
 
   manufacture() {
-    List<CItem> years = [CItem(id: 0, value: '')];
-
-    for (var i = 1970; i <= 2024; i++) {
-      years.add(CItem(id: i - 1970, value: '$i'));
-    }
-
     return CColumn(padding: const EdgeInsets.all(10), gap: 10, children: [
       entry2(
           '제조사',
           CTextField(
             textStyle: labelStyle,
             filledColor: Colors.white,
+            text: c.item.value10,
+            controller: c.item.extra['value10'],
+            onChanged: (value) => c.item.value10 = value,
           ),
           '설치년월',
           CSelectbox(
             backgroundColor: Colors.white,
-            items: years,
-            selected: c.manufactureYear,
-            onSelected: (pos) => c.manufactureYear = pos,
+            items: c.years,
+            selected: int.tryParse(c.item.value11) ?? 0,
+            onSelected: (pos) {
+              c.item.value11 = pos.toString();
+              c.itemRedraw();
+            },
           )),
       entry(
         '단선결선도',
         CButton(
           text: '첨부',
-          flex: 1,
           size: CButtonSize.small,
           type: CButtonStyle.outlined,
           onPressed: () => {},
@@ -323,52 +341,52 @@ class FacilityInsertScreen extends CWidget {
   }
 
   receivingtype() {
-    if (c.type == 2) {
+    if (c.item.value3 == '2') {
       return Column(children: [
         const SizedBox(height: 10),
-        title('변전설비', () => clickAddChange()),
-        change(),
+        title('변전설비'),
+        for (int i = 0; i < c.transs.length; i++) change(c.transs[i], i),
         const SizedBox(height: 10),
-        title('고압차단기', () => clickAddHighBreaker()),
-        highBreaker(),
+        title('고압차단기'),
+        for (int i = 0; i < c.highs.length; i++) highBreaker(c.highs[i], i),
       ]);
     } else {
       return Container();
     }
   }
 
-  change() {
-    final types = CItem.list(['', '유입형', '몰드형']);
-    List<CItem> years = [CItem(id: 0, value: '')];
-
-    for (var i = 1970; i <= 2024; i++) {
-      years.add(CItem(id: i - 1970, value: '$i년'));
-    }
-
-    List<CItem> months = [CItem(id: 0, value: '')];
-
-    for (var i = 1; i <= 12; i++) {
-      months.add(CItem(id: i, value: '$i월'));
-    }
-
+  change(transs, index) {
     return round(<Widget>[
-      entry(
+      entryAdd(
         '설비명',
         CTextField(
+          text: transs.value1,
+          controller: transs.extra['value1'],
+          onChanged: (value) => c.transs.value1 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
+        () {
+          index == 0 ? c.transs.add(Facility()) : c.remove(c.transs, index);
+        },
+        index == 0 ? true : false,
       ),
       entry2(
         '형식',
         CSelectbox(
           backgroundColor: Colors.white,
-          items: types,
-          selected: c.changetype,
-          onSelected: (pos) => c.changetype = pos,
+          items: c.transstypes,
+          selected: int.tryParse(transs.value2) ?? 0,
+          onSelected: (pos) {
+            transs.value2 = pos.toString();
+            c.transsRedraw();
+          },
         ),
         '정격용량',
         CTextField(
+          text: transs.value3,
+          controller: transs.extra['value3'],
+          onChanged: (value) => c.transs.value3 = value,
           suffixText: 'kVA',
           filledColor: Colors.white,
           textStyle: labelStyle,
@@ -377,12 +395,18 @@ class FacilityInsertScreen extends CWidget {
       entry2(
         '%Z',
         CTextField(
+          text: transs.value4,
+          controller: transs.extra['value4'],
+          onChanged: (value) => c.transs.value4 = value,
           suffixText: '%',
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         '정격전압',
         CTextField(
+          text: transs.value5,
+          controller: transs.extra['value5'],
+          onChanged: (value) => c.transs.value5 = value,
           suffixText: 'V',
           filledColor: Colors.white,
           textStyle: labelStyle,
@@ -391,11 +415,17 @@ class FacilityInsertScreen extends CWidget {
       entry2(
         '제조사',
         CTextField(
+          text: transs.value6,
+          controller: transs.extra['value6'],
+          onChanged: (value) => c.transs.value6 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         '제조번호',
         CTextField(
+          text: transs.value7,
+          controller: transs.extra['value7'],
+          onChanged: (value) => c.transs.value7 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
@@ -406,17 +436,23 @@ class FacilityInsertScreen extends CWidget {
           Expanded(
             child: CSelectbox(
               backgroundColor: Colors.white,
-              items: years,
-              selected: c.changeyear,
-              onSelected: (pos) => c.changeyear = pos,
+              items: c.years,
+              selected: int.tryParse(transs.value8) ?? 0,
+              onSelected: (pos) {
+                transs.value8 = pos.toString();
+                c.transsRedraw();
+              },
             ),
           ),
           Expanded(
             child: CSelectbox(
               backgroundColor: Colors.white,
-              items: months,
-              selected: c.changemonth,
-              onSelected: (pos) => c.changemonth = pos,
+              items: c.months,
+              selected: int.tryParse(transs.value9) ?? 0,
+              onSelected: (pos) {
+                transs.value9 = pos.toString();
+                c.transsRedraw();
+              },
             ),
           ),
         ]),
@@ -424,41 +460,38 @@ class FacilityInsertScreen extends CWidget {
     ]);
   }
 
-  clickAddChange() {}
-
-  highBreaker() {
-    final breakers = CItem.list(['', 'VCB', 'GCV']);
-    final relays = CItem.list(['', 'OCR', 'OCGR', 'UVR', 'OVR', 'POR']);
-    List<CItem> years = [CItem(id: 0, value: '')];
-
-    for (var i = 1970; i <= 2024; i++) {
-      years.add(CItem(id: i - 1970, value: '$i년'));
-    }
-
-    List<CItem> months = [CItem(id: 0, value: '')];
-
-    for (var i = 1; i <= 12; i++) {
-      months.add(CItem(id: i, value: '$i월'));
-    }
-
+  highBreaker(highs, index) {
     return round(<Widget>[
-      entry(
+      entryAdd(
         '설치 장소',
         CTextField(
+          text: highs.value1,
+          controller: highs.extra['value1'],
+          onChanged: (value) => c.highs.value1 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
+        () {
+          index == 0 ? c.highs.add(Facility()) : c.remove(c.highs, index);
+        },
+        index == 0 ? true : false,
       ),
       entry2(
         '차단기명',
         CSelectbox(
           backgroundColor: Colors.white,
-          items: breakers,
-          selected: c.highbreaker,
-          onSelected: (pos) => c.highbreaker = pos,
+          items: c.breakers,
+          selected: int.tryParse(highs.value2) ?? 0,
+          onSelected: (pos) {
+            highs.value2 = pos.toString();
+            c.highsRedraw();
+          },
         ),
         '차단용량',
         CTextField(
+          text: highs.value1,
+          controller: highs.extra['value3'],
+          onChanged: (value) => c.highs.value3 = value,
           suffixText: 'kVA',
           filledColor: Colors.white,
           textStyle: labelStyle,
@@ -467,12 +500,18 @@ class FacilityInsertScreen extends CWidget {
       entry2(
         '정격전압',
         CTextField(
+          text: highs.value1,
+          controller: highs.extra['value4'],
+          onChanged: (value) => c.highs.value4 = value,
           suffixText: 'kV',
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         '전류',
         CTextField(
+          text: highs.value1,
+          controller: highs.extra['value5'],
+          onChanged: (value) => c.highs.value5 = value,
           suffixText: 'A',
           filledColor: Colors.white,
           textStyle: labelStyle,
@@ -481,11 +520,17 @@ class FacilityInsertScreen extends CWidget {
       entry2(
         '제조사',
         CTextField(
+          text: highs.value1,
+          controller: highs.extra['value6'],
+          onChanged: (value) => c.highs.value6 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         '제조번호',
         CTextField(
+          text: highs.value1,
+          controller: highs.extra['value7'],
+          onChanged: (value) => c.highs.value7 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
@@ -496,93 +541,85 @@ class FacilityInsertScreen extends CWidget {
           Expanded(
             child: CSelectbox(
               backgroundColor: Colors.white,
-              items: years,
-              selected: c.highbreakeryear,
-              onSelected: (pos) => c.highbreakeryear = pos,
+              items: c.years,
+              selected: int.tryParse(highs.value8) ?? 0,
+              onSelected: (pos) {
+                highs.value8 = pos.toString();
+                c.highsRedraw();
+              },
             ),
           ),
           Expanded(
             child: CSelectbox(
               backgroundColor: Colors.white,
-              items: months,
-              selected: c.highbreakermonth,
-              onSelected: (pos) => c.highbreakermonth = pos,
+              items: c.months,
+              selected: int.tryParse(highs.value9) ?? 0,
+              onSelected: (pos) {
+                highs.value9 = pos.toString();
+                c.highsRedraw();
+              },
             ),
           ),
         ]),
       ),
       const SizedBox(height: 10),
-      title('계전기', () => clickAddrelay()),
-      entry(
-          '계전기1',
-          CSelectbox(
-            backgroundColor: Colors.white,
-            items: relays,
-            selected: c.relay,
-            onSelected: (pos) => c.relay = pos,
-          )),
-      entry2(
-        '제조사',
-        CTextField(
-          suffixText: '',
-          filledColor: Colors.white,
-          textStyle: labelStyle,
-        ),
-        '제작년도',
-        CTextField(
-          suffixText: '',
-          filledColor: Colors.white,
-          textStyle: labelStyle,
-        ),
-      ),
-      entry2(
-        '형식',
-        CTextField(
-          suffixText: '',
-          filledColor: Colors.white,
-          textStyle: labelStyle,
-        ),
-        '계전기번호',
-        CTextField(
-          suffixText: '',
-          filledColor: Colors.white,
-          textStyle: labelStyle,
-        ),
-      ),
-      entry2(
-          '설치장소',
-          CTextField(
-            suffixText: '',
-            filledColor: Colors.white,
-            textStyle: labelStyle,
+      for (int i = 0; i < highs.content; i++)
+        round(<Widget>[
+          entry(
+              '계전기1',
+              CSelectbox(
+                backgroundColor: Colors.white,
+                items: c.relays,
+                selected: c.relay,
+                onSelected: (pos) => c.relay = pos,
+              )),
+          entry2(
+            '제조사',
+            CTextField(
+              suffixText: '',
+              filledColor: Colors.white,
+              textStyle: labelStyle,
+            ),
+            '제작년도',
+            CTextField(
+              suffixText: '',
+              filledColor: Colors.white,
+              textStyle: labelStyle,
+            ),
           ),
-          '연결기기',
-          CSelectbox(
-            backgroundColor: Colors.white,
-            items: breakers,
-            selected: c.relayconnect,
-            onSelected: (pos) => c.relayconnect = pos,
-          )),
+          entry2(
+            '형식',
+            CTextField(
+              suffixText: '',
+              filledColor: Colors.white,
+              textStyle: labelStyle,
+            ),
+            '계전기번호',
+            CTextField(
+              suffixText: '',
+              filledColor: Colors.white,
+              textStyle: labelStyle,
+            ),
+          ),
+          entry2(
+              '설치장소',
+              CTextField(
+                suffixText: '',
+                filledColor: Colors.white,
+                textStyle: labelStyle,
+              ),
+              '연결기기',
+              CSelectbox(
+                backgroundColor: Colors.white,
+                items: c.breakers,
+                selected: c.relayconnect,
+                onSelected: (pos) => c.relayconnect = pos,
+              )),
+        ]),
     ]);
   }
 
-  clickAddHighBreaker() {}
-
-  clickAddrelay() {}
-
   other() {
-    List<CItem> years = [CItem(id: 0, value: '')];
-
-    for (var i = 1970; i <= 2024; i++) {
-      years.add(CItem(id: i - 1970, value: '$i년'));
-    }
-
-    List<CItem> months = [CItem(id: 0, value: '')];
-
-    for (var i = 1; i <= 12; i++) {
-      months.add(CItem(id: i, value: '$i월'));
-    }
-
     return CColumn(gap: 10, children: [
       Wrap(
         children: [
