@@ -107,20 +107,32 @@ class FacilityInsertController extends GetxController {
       months.add(CItem(id: i, value: '$i월'));
     }
 
-    super.onInit();
-    items = await FacilityManager.find(params: 'building=4&category=10');
-    item = items[0];
+    Map<String, TextEditingController> itemextra = {};
+    Map<String, TextEditingController> transsextra = {};
+    Map<String, TextEditingController> highsextra = {};
 
-    if (item.value1 == 'false') {
-      installation = false;
-    } else {
-      installation = true;
+    for (int i = 1; i <= 20; i++) {
+      itemextra['value$i'] = TextEditingController();
+      transsextra['value$i'] = TextEditingController();
+      highsextra['value$i'] = TextEditingController();
     }
 
-    item.extra['value2'] = TextEditingController();
-    item.extra['value2'].text = item.value2;
+    super.onInit();
+    items = await FacilityManager.find(params: 'building=4&category=10');
+    if (items.length == 0) {
+      item = Facility();
+    } else {
+      item = items[0];
+    }
 
-    item.extra['value10'] = TextEditingController();
+    if (item.value1 == 'true') {
+      installation = true;
+    } else {
+      installation = false;
+    }
+
+    item.extra = itemextra;
+    item.extra['value2'].text = item.value2;
     item.extra['value10'].text = item.value10;
 
     items = await FacilityManager.find(params: 'building=4&category=11');
@@ -131,28 +143,20 @@ class FacilityInsertController extends GetxController {
 
     transs = await FacilityManager.find(params: 'building=4&category=12');
 
-    if (items.length == 0) {
+    if (transs.length == 0) {
       transs.add(Facility());
     }
 
     for (int j = 0; j < transs.length; j++) {
-      transs[j].extra['value1'] = TextEditingController();
+      transs[j].extra = transsextra;
       transs[j].extra['value1'].text = transs[j].value1;
-      transs[j].extra['value2'] = TextEditingController();
       transs[j].extra['value2'].text = transs[j].value2;
-      transs[j].extra['value3'] = TextEditingController();
       transs[j].extra['value3'].text = transs[j].value3;
-      transs[j].extra['value4'] = TextEditingController();
       transs[j].extra['value4'].text = transs[j].value4;
-      transs[j].extra['value5'] = TextEditingController();
       transs[j].extra['value5'].text = transs[j].value5;
-      transs[j].extra['value6'] = TextEditingController();
       transs[j].extra['value6'].text = transs[j].value6;
-      transs[j].extra['value7'] = TextEditingController();
       transs[j].extra['value7'].text = transs[j].value7;
-      transs[j].extra['value8'] = TextEditingController();
       transs[j].extra['value8'].text = transs[j].value8;
-      transs[j].extra['value9'] = TextEditingController();
       transs[j].extra['value9'].text = transs[j].value9;
     }
 
@@ -162,23 +166,15 @@ class FacilityInsertController extends GetxController {
     }
 
     for (int j = 0; j < highs.length; j++) {
-      highs[j].extra['value1'] = TextEditingController();
+      highs[j].extra = highsextra;
       highs[j].extra['value1'].text = highs[j].value1;
-      highs[j].extra['value2'] = TextEditingController();
       highs[j].extra['value2'].text = highs[j].value2;
-      highs[j].extra['value3'] = TextEditingController();
       highs[j].extra['value3'].text = highs[j].value3;
-      highs[j].extra['value4'] = TextEditingController();
       highs[j].extra['value4'].text = highs[j].value4;
-      highs[j].extra['value5'] = TextEditingController();
       highs[j].extra['value5'].text = highs[j].value5;
-      highs[j].extra['value6'] = TextEditingController();
       highs[j].extra['value6'].text = highs[j].value6;
-      highs[j].extra['value7'] = TextEditingController();
       highs[j].extra['value7'].text = highs[j].value7;
-      highs[j].extra['value8'] = TextEditingController();
       highs[j].extra['value8'].text = highs[j].value8;
-      highs[j].extra['value9'] = TextEditingController();
       highs[j].extra['value9'].text = highs[j].value9;
     }
   }

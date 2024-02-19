@@ -1,3 +1,4 @@
+import 'package:common_control/ccolumn.dart';
 import 'package:common_control/common_control.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:zkeep/components/cround.dart';
@@ -258,7 +259,13 @@ class FacilityInsertScreen extends CWidget {
             )),
       ]),
       const SizedBox(height: 10),
-      for (int i = 0; i < c.items.length; i++) distributation(c.items[i], i),
+      CColumn(
+        gap: 10,
+        children: [
+          for (int i = 0; i < c.items.length; i++)
+            distributation(c.items[i], i),
+        ],
+      ),
       manufacture(),
     ]);
   }
@@ -345,10 +352,20 @@ class FacilityInsertScreen extends CWidget {
       return Column(children: [
         const SizedBox(height: 10),
         title('변전설비'),
-        for (int i = 0; i < c.transs.length; i++) change(c.transs[i], i),
+        CColumn(
+          gap: 10,
+          children: [
+            for (int i = 0; i < c.transs.length; i++) change(c.transs[i], i),
+          ],
+        ),
         const SizedBox(height: 10),
         title('고압차단기'),
-        for (int i = 0; i < c.highs.length; i++) highBreaker(c.highs[i], i),
+        CColumn(
+          gap: 10,
+          children: [
+            for (int i = 0; i < c.highs.length; i++) highBreaker(c.highs[i], i),
+          ],
+        ),
       ]);
     } else {
       return Container();
@@ -362,7 +379,7 @@ class FacilityInsertScreen extends CWidget {
         CTextField(
           text: transs.value1,
           controller: transs.extra['value1'],
-          onChanged: (value) => c.transs.value1 = value,
+          onChanged: (value) => transs.value1 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
@@ -386,7 +403,7 @@ class FacilityInsertScreen extends CWidget {
         CTextField(
           text: transs.value3,
           controller: transs.extra['value3'],
-          onChanged: (value) => c.transs.value3 = value,
+          onChanged: (value) => transs.value3 = value,
           suffixText: 'kVA',
           filledColor: Colors.white,
           textStyle: labelStyle,
@@ -397,7 +414,7 @@ class FacilityInsertScreen extends CWidget {
         CTextField(
           text: transs.value4,
           controller: transs.extra['value4'],
-          onChanged: (value) => c.transs.value4 = value,
+          onChanged: (value) => transs.value4 = value,
           suffixText: '%',
           filledColor: Colors.white,
           textStyle: labelStyle,
@@ -406,7 +423,7 @@ class FacilityInsertScreen extends CWidget {
         CTextField(
           text: transs.value5,
           controller: transs.extra['value5'],
-          onChanged: (value) => c.transs.value5 = value,
+          onChanged: (value) => transs.value5 = value,
           suffixText: 'V',
           filledColor: Colors.white,
           textStyle: labelStyle,
@@ -417,7 +434,7 @@ class FacilityInsertScreen extends CWidget {
         CTextField(
           text: transs.value6,
           controller: transs.extra['value6'],
-          onChanged: (value) => c.transs.value6 = value,
+          onChanged: (value) => transs.value6 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
@@ -425,7 +442,7 @@ class FacilityInsertScreen extends CWidget {
         CTextField(
           text: transs.value7,
           controller: transs.extra['value7'],
-          onChanged: (value) => c.transs.value7 = value,
+          onChanged: (value) => transs.value7 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
@@ -467,7 +484,7 @@ class FacilityInsertScreen extends CWidget {
         CTextField(
           text: highs.value1,
           controller: highs.extra['value1'],
-          onChanged: (value) => c.highs.value1 = value,
+          onChanged: (value) => highs.value1 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
@@ -491,7 +508,7 @@ class FacilityInsertScreen extends CWidget {
         CTextField(
           text: highs.value1,
           controller: highs.extra['value3'],
-          onChanged: (value) => c.highs.value3 = value,
+          onChanged: (value) => highs.value3 = value,
           suffixText: 'kVA',
           filledColor: Colors.white,
           textStyle: labelStyle,
@@ -502,7 +519,7 @@ class FacilityInsertScreen extends CWidget {
         CTextField(
           text: highs.value1,
           controller: highs.extra['value4'],
-          onChanged: (value) => c.highs.value4 = value,
+          onChanged: (value) => highs.value4 = value,
           suffixText: 'kV',
           filledColor: Colors.white,
           textStyle: labelStyle,
@@ -511,7 +528,7 @@ class FacilityInsertScreen extends CWidget {
         CTextField(
           text: highs.value1,
           controller: highs.extra['value5'],
-          onChanged: (value) => c.highs.value5 = value,
+          onChanged: (value) => highs.value5 = value,
           suffixText: 'A',
           filledColor: Colors.white,
           textStyle: labelStyle,
@@ -522,7 +539,7 @@ class FacilityInsertScreen extends CWidget {
         CTextField(
           text: highs.value1,
           controller: highs.extra['value6'],
-          onChanged: (value) => c.highs.value6 = value,
+          onChanged: (value) => highs.value6 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
@@ -530,7 +547,7 @@ class FacilityInsertScreen extends CWidget {
         CTextField(
           text: highs.value1,
           controller: highs.extra['value7'],
-          onChanged: (value) => c.highs.value7 = value,
+          onChanged: (value) => highs.value7 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
@@ -563,59 +580,71 @@ class FacilityInsertScreen extends CWidget {
         ]),
       ),
       const SizedBox(height: 10),
-      for (int i = 0; i < highs.content; i++)
-        round(<Widget>[
-          entry(
+      CColumn(
+        gap: 10,
+        children: [
+          // for (int i = 0; i < highs.content; i++)
+          round(<Widget>[
+            entryAdd(
               '계전기1',
               CSelectbox(
                 backgroundColor: Colors.white,
                 items: c.relays,
                 selected: c.relay,
                 onSelected: (pos) => c.relay = pos,
-              )),
-          entry2(
-            '제조사',
-            CTextField(
-              suffixText: '',
-              filledColor: Colors.white,
-              textStyle: labelStyle,
+              ),
+              () {
+                index == 0
+                    ? highs.centent.add(Facility())
+                    : c.remove(highs.content, index);
+              },
+              index == 0 ? true : false,
             ),
-            '제작년도',
-            CTextField(
-              suffixText: '',
-              filledColor: Colors.white,
-              textStyle: labelStyle,
-            ),
-          ),
-          entry2(
-            '형식',
-            CTextField(
-              suffixText: '',
-              filledColor: Colors.white,
-              textStyle: labelStyle,
-            ),
-            '계전기번호',
-            CTextField(
-              suffixText: '',
-              filledColor: Colors.white,
-              textStyle: labelStyle,
-            ),
-          ),
-          entry2(
-              '설치장소',
+            entry2(
+              '제조사',
               CTextField(
                 suffixText: '',
                 filledColor: Colors.white,
                 textStyle: labelStyle,
               ),
-              '연결기기',
-              CSelectbox(
-                backgroundColor: Colors.white,
-                items: c.breakers,
-                selected: c.relayconnect,
-                onSelected: (pos) => c.relayconnect = pos,
-              )),
-        ]),
+              '제작년도',
+              CTextField(
+                suffixText: '',
+                filledColor: Colors.white,
+                textStyle: labelStyle,
+              ),
+            ),
+            entry2(
+              '형식',
+              CTextField(
+                suffixText: '',
+                filledColor: Colors.white,
+                textStyle: labelStyle,
+              ),
+              '계전기번호',
+              CTextField(
+                suffixText: '',
+                filledColor: Colors.white,
+                textStyle: labelStyle,
+              ),
+            ),
+            entry2(
+                '설치장소',
+                CTextField(
+                  suffixText: '',
+                  filledColor: Colors.white,
+                  textStyle: labelStyle,
+                ),
+                '연결기기',
+                CSelectbox(
+                  backgroundColor: Colors.white,
+                  items: c.breakers,
+                  selected: c.relayconnect,
+                  onSelected: (pos) => c.relayconnect = pos,
+                )),
+          ]),
+        ],
+      ),
     ]);
   }
 
