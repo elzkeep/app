@@ -23,6 +23,10 @@ class FacilityInsertController extends GetxController {
   get highs => _highs;
   set highs(value) => _highs.value = value;
 
+  final _sunlight = Facility().obs;
+  Facility get sunlight => _sunlight.value;
+  set sunlight(Facility value) => _sunlight.value = value;
+
   final _installation = false.obs;
   bool get installation => _installation.value;
   set installation(bool value) => _installation.value = value;
@@ -93,6 +97,9 @@ class FacilityInsertController extends GetxController {
   final transstypes = CItem.list(['', '유입형', '몰드형']).obs;
   final breakers = CItem.list(['', 'VCB', 'GCV']).obs;
   final relays = CItem.list(['', 'OCR', 'OCGR', 'UVR', 'OVR', 'POR']).obs;
+  final place = CItem.list(['', '옥상', '옥외', '임야', '직접입력']).obs;
+  final evplace = CItem.list(['', '옥상', '옥외', '직접입력']).obs;
+  final evform = CItem.list(['', 'DC차데모', 'DC콤보', 'AC3상']).obs;
 
   List<CItem> years = [CItem(id: 0, value: '')].obs;
   List<CItem> months = [CItem(id: 0, value: '')].obs;
@@ -110,11 +117,13 @@ class FacilityInsertController extends GetxController {
     Map<String, TextEditingController> itemextra = {};
     Map<String, TextEditingController> transsextra = {};
     Map<String, TextEditingController> highsextra = {};
+    Map<String, TextEditingController> sunlightextra = {};
 
     for (int i = 1; i <= 20; i++) {
       itemextra['value$i'] = TextEditingController();
       transsextra['value$i'] = TextEditingController();
       highsextra['value$i'] = TextEditingController();
+      sunlightextra['value$i'] = TextEditingController();
     }
 
     super.onInit();
@@ -177,6 +186,23 @@ class FacilityInsertController extends GetxController {
       highs[j].extra['value8'].text = highs[j].value8;
       highs[j].extra['value9'].text = highs[j].value9;
     }
+
+    final res = await FacilityManager.find(params: 'building=4&category=30');
+
+    if (res.isNotEmpty) {
+      sunlight = res[0];
+    }
+
+    sunlight.extra = sunlightextra;
+    sunlight.extra['value1'].text = sunlight.value1;
+    sunlight.extra['value2'].text = sunlight.value2;
+    sunlight.extra['value3'].text = sunlight.value3;
+    sunlight.extra['value4'].text = sunlight.value4;
+    sunlight.extra['value5'].text = sunlight.value5;
+    sunlight.extra['value6'].text = sunlight.value6;
+    sunlight.extra['value7'].text = sunlight.value7;
+    sunlight.extra['value8'].text = sunlight.value8;
+    sunlight.extra['value9'].text = sunlight.value9;
   }
 
   remove(data, index) {
@@ -198,6 +224,10 @@ class FacilityInsertController extends GetxController {
 
   highsRedraw() {
     _highs.refresh();
+  }
+
+  sunlightRedraw() {
+    _sunlight.refresh();
   }
 
   bool toBoolean(String str) {

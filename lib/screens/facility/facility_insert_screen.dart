@@ -194,7 +194,7 @@ class FacilityInsertScreen extends CWidget {
             controller: c.item.extra['value2'],
             filledColor: Colors.white,
             suffixText: 'kW',
-            textStyle: const TextStyle(fontSize: 14),
+            textStyle: labelStyle,
           ),
         ),
         entry(
@@ -506,7 +506,7 @@ class FacilityInsertScreen extends CWidget {
         ),
         '차단용량',
         CTextField(
-          text: highs.value1,
+          text: highs.value3,
           controller: highs.extra['value3'],
           onChanged: (value) => highs.value3 = value,
           suffixText: 'kVA',
@@ -517,7 +517,7 @@ class FacilityInsertScreen extends CWidget {
       entry2(
         '정격전압',
         CTextField(
-          text: highs.value1,
+          text: highs.value4,
           controller: highs.extra['value4'],
           onChanged: (value) => highs.value4 = value,
           suffixText: 'kV',
@@ -526,7 +526,7 @@ class FacilityInsertScreen extends CWidget {
         ),
         '전류',
         CTextField(
-          text: highs.value1,
+          text: highs.value5,
           controller: highs.extra['value5'],
           onChanged: (value) => highs.value5 = value,
           suffixText: 'A',
@@ -537,7 +537,7 @@ class FacilityInsertScreen extends CWidget {
       entry2(
         '제조사',
         CTextField(
-          text: highs.value1,
+          text: highs.value6,
           controller: highs.extra['value6'],
           onChanged: (value) => highs.value6 = value,
           filledColor: Colors.white,
@@ -545,7 +545,7 @@ class FacilityInsertScreen extends CWidget {
         ),
         '제조번호',
         CTextField(
-          text: highs.value1,
+          text: highs.value7,
           controller: highs.extra['value7'],
           onChanged: (value) => highs.value7 = value,
           filledColor: Colors.white,
@@ -672,7 +672,7 @@ class FacilityInsertScreen extends CWidget {
               })
         ],
       ),
-      sun(),
+      c.sunlight.name == "" ? Container() : sun(),
       ev(),
       ess(),
       ups(),
@@ -683,63 +683,147 @@ class FacilityInsertScreen extends CWidget {
   }
 
   sun() {
-    final place = CItem.list(['', '옥상', '옥외', '임야', '직접입력']);
-
     return round(<Widget>[
       entry(
         '태양광 발전',
         CTextField(
-          filledColor: Colors.white,
+          text: c.sunlight.value1,
+          controller: c.sunlight.extra['value1'],
+          onChanged: (value) => c.sunlight.value1 = value,
           textStyle: labelStyle,
+          filledColor: Colors.white,
         ),
       ),
       entry(
-        '설치장소',
-        CSelectbox(
-          backgroundColor: Colors.white,
-          items: place,
-          selected: c.changetype,
-          onSelected: (pos) => c.changetype = pos,
-        ),
-      ),
+          '설치장소',
+          CSelectbox(
+            backgroundColor: Colors.white,
+            items: c.place,
+            selected: int.tryParse(c.sunlight.value2) ?? 0,
+            onSelected: (pos) {
+              c.sunlight.value2 = pos.toString();
+              c.sunlightRedraw();
+            },
+          )),
       entry2(
         '발전전압',
         CTextField(
+          text: c.sunlight.value3,
+          controller: c.sunlight.extra['value3'],
+          onChanged: (value) => c.sunlight.value3 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         '발전용량',
         CTextField(
+          text: c.sunlight.value4,
+          controller: c.sunlight.extra['value4'],
+          onChanged: (value) => c.sunlight.value4 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+        ),
+      ),
+      CText('태양광 모듈'),
+      entry2(
+        '형식',
+        CTextField(
+          text: c.sunlight.value5,
+          controller: c.sunlight.extra['value5'],
+          onChanged: (value) => c.sunlight.value5 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+        '최대전력용량',
+        CTextField(
+          text: c.sunlight.value6,
+          controller: c.sunlight.extra['value6'],
+          onChanged: (value) => c.sunlight.value6 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+          suffixText: 'kW',
+        ),
+      ),
+      entry2(
+        '최대동작전압',
+        CTextField(
+          text: c.sunlight.value7,
+          controller: c.sunlight.extra['value7'],
+          onChanged: (value) => c.sunlight.value7 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+        '최대동작전류',
+        CTextField(
+          text: c.sunlight.value8,
+          controller: c.sunlight.extra['value8'],
+          onChanged: (value) => c.sunlight.value8 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+          suffixText: 'A',
+        ),
+      ),
+      CText('인버터'),
+      entry2(
+        '형식',
+        CTextField(
+          text: c.sunlight.value9,
+          controller: c.sunlight.extra['value9'],
+          onChanged: (value) => c.sunlight.value9 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+        '정격용량',
+        CTextField(
+          text: c.sunlight.value10,
+          controller: c.sunlight.extra['value10'],
+          onChanged: (value) => c.sunlight.value10 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+          suffixText: 'kW',
+        ),
+      ),
+      entry2(
+        '최소 입력전압',
+        CTextField(
+          text: c.sunlight.value11,
+          controller: c.sunlight.extra['value11'],
+          onChanged: (value) => c.sunlight.value11 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+          suffixText: 'V',
+        ),
+        '최대 입력전압',
+        CTextField(
+          text: c.sunlight.value12,
+          controller: c.sunlight.extra['value12'],
+          onChanged: (value) => c.sunlight.value12 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+          suffixText: 'V',
+        ),
+      ),
+      entry(
+        '출력전압',
+        CTextField(
+          text: c.sunlight.value13,
+          controller: c.sunlight.extra['value13'],
+          onChanged: (value) => c.sunlight.value13 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+          suffixText: 'V',
         ),
       ),
     ]);
   }
 
   ev() {
-    final evplace = CItem.list(['', '옥상', '옥외', '직접입력']);
-    final evform = CItem.list(['', 'DC차데모', 'DC콤보', 'AC3상']);
-
-    List<CItem> years = [CItem(id: 0, value: '')];
-
-    for (var i = 1970; i <= 2024; i++) {
-      years.add(CItem(id: i - 1970, value: '$i년'));
-    }
-
-    List<CItem> months = [CItem(id: 0, value: '')];
-
-    for (var i = 1; i <= 12; i++) {
-      months.add(CItem(id: i, value: '$i월'));
-    }
-
     return round(<Widget>[
       CText('EV 충전기'),
       entry(
         '설치장소',
         CSelectbox(
           backgroundColor: Colors.white,
-          items: evplace,
+          items: c.evplace,
           selected: c.changeyear,
           onSelected: (pos) => c.changeyear = pos,
         ),
@@ -780,14 +864,14 @@ class FacilityInsertScreen extends CWidget {
         '설치장소',
         CSelectbox(
           backgroundColor: Colors.white,
-          items: evplace,
+          items: c.evplace,
           selected: c.changeyear,
           onSelected: (pos) => c.changeyear = pos,
         ),
         '충전형식',
         CSelectbox(
           backgroundColor: Colors.white,
-          items: evform,
+          items: c.evform,
           selected: c.changeyear,
           onSelected: (pos) => c.changeyear = pos,
         ),
@@ -822,7 +906,7 @@ class FacilityInsertScreen extends CWidget {
           Expanded(
             child: CSelectbox(
               backgroundColor: Colors.white,
-              items: years,
+              items: c.years,
               selected: c.changeyear,
               onSelected: (pos) => c.changeyear = pos,
             ),
@@ -830,7 +914,7 @@ class FacilityInsertScreen extends CWidget {
           Expanded(
             child: CSelectbox(
               backgroundColor: Colors.white,
-              items: months,
+              items: c.months,
               selected: c.changemonth,
               onSelected: (pos) => c.changemonth = pos,
             ),
