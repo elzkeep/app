@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:zkeep/components/cround.dart';
 import 'package:zkeep/components/cselectbox.dart';
 import 'package:zkeep/components/cselectbutton.dart';
+import 'package:zkeep/components/dselectbutton.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/config/config.dart';
 import 'package:zkeep/controllers/facility/facility_insert_controller.dart';
@@ -648,36 +649,241 @@ class FacilityInsertScreen extends CWidget {
 
   other() {
     return CColumn(gap: 10, children: [
-      Wrap(
-        children: [
-          CSelectButton(
-              items: const [
-                '발전설비',
-                '태양광 발전',
-                '전기차 충전기',
-                'ESS',
-                'UPS',
-                '연료전지',
-                '풍려발전',
-                '수력발전',
-                '소방펌프 발전기',
-                '공동주택 세대점검',
-              ],
-              index: 0,
-              onSelected: (index) {
-                // item.status = ItemStatus.values[index];
-                // onSelected(item);
-              })
-        ],
-      ),
-      c.sunlight.name == "" ? Container() : sun(),
-      c.charger.name == "" ? Container() : ev(),
-      c.ess.name == "" ? Container() : ess(),
-      c.ups.length > 0 ? Container() : loopups(),
-      c.fuel.length > 0 ? Container() : loopfuel(),
-      c.wind.length > 0 ? Container() : loopwind(),
-      c.ess.name == "" ? Container() : water(),
+      DSelectButton(
+          items: const [
+            '발전설비',
+            '태양광 발전',
+            '전기차 충전기',
+            'ESS',
+            'UPS',
+            '연료전지',
+            '풍려발전',
+            '수력발전',
+            '소방펌프 발전기',
+            '공동주택 세대점검',
+          ],
+          index: 0,
+          data: c.other,
+          onSelected: (index) {
+            c.other[index - 1] = !c.other[index - 1];
+          }),
+      c.other[0] == false ? Container() : loopgenerator(),
+      c.other[1] == false ? Container() : sun(),
+      c.other[2] == false ? Container() : ev(),
+      c.other[3] == false ? Container() : ess(),
+      c.other[4] == false ? Container() : loopups(),
+      c.other[5] == false ? Container() : loopfuel(),
+      c.other[6] == false ? Container() : loopwind(),
+      c.other[7] == false ? Container() : water(),
       const SizedBox(height: 30),
+    ]);
+  }
+
+  loopgenerator() {
+    return CColumn(gap: 10, children: [
+      for (int i = 0; i < c.generator.length; i++) generator(c.generator[i], i)
+    ]);
+  }
+
+  generator(generator, index) {
+    return round(<Widget>[
+      entryAdd(
+        '발전설비',
+        CTextField(
+          text: generator.name,
+          controller: generator.extra['name'],
+          onChanged: (value) => generator.name = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+        () {
+          index == 0
+              ? c.generator.add(Facility())
+              : c.remove(c.generator, index);
+        },
+        index == 0 ? true : false,
+      ),
+      entry2(
+        '원동기',
+        Container(),
+        '발전기',
+        Container(),
+      ),
+      entry2(
+        '형식(모델명)',
+        CTextField(
+          text: generator.value2,
+          controller: generator.extra['value2'],
+          onChanged: (value) => generator.value2 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+        '형식(모델명)',
+        CTextField(
+          text: generator.value11,
+          controller: generator.extra['value11'],
+          onChanged: (value) => generator.value11 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+      ),
+      entry2(
+        '정격용량',
+        CTextField(
+          text: generator.value3,
+          controller: generator.extra['value3'],
+          onChanged: (value) => generator.value3 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+          suffixText: 'kVA',
+        ),
+        '정격용량',
+        CTextField(
+          text: generator.value12,
+          controller: generator.extra['value12'],
+          onChanged: (value) => generator.value12 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+          suffixText: 'kVA',
+        ),
+      ),
+      entry2(
+        '회전수',
+        CTextField(
+          text: generator.value4,
+          controller: generator.extra['value4'],
+          onChanged: (value) => generator.value4 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+          suffixText: 'rpm',
+        ),
+        '회전수',
+        CTextField(
+          text: generator.value13,
+          controller: generator.extra['value13'],
+          onChanged: (value) => generator.value13 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+          suffixText: 'rpm',
+        ),
+      ),
+      entry2(
+        '제조사',
+        CTextField(
+          text: generator.value5,
+          controller: generator.extra['value5'],
+          onChanged: (value) => generator.value5 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+        '제조사',
+        CTextField(
+          text: generator.value14,
+          controller: generator.extra['value14'],
+          onChanged: (value) => generator.value14 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+      ),
+      entry2(
+        '제작번호',
+        CTextField(
+          text: generator.value6,
+          controller: generator.extra['value6'],
+          onChanged: (value) => generator.value6 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+        '제작번호',
+        CTextField(
+          text: generator.value15,
+          controller: generator.extra['value15'],
+          onChanged: (value) => generator.value15 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+      ),
+      entry2(
+        '제작년월',
+        CTextField(
+          text: generator.value7,
+          controller: generator.extra['value7'],
+          onChanged: (value) => generator.value7 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+        '제작년월',
+        CTextField(
+          text: generator.value16,
+          controller: generator.extra['value16'],
+          onChanged: (value) => generator.value16 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+      ),
+      entry2(
+        '냉각방식',
+        CSelectbox(
+          backgroundColor: Colors.white,
+          items: c.coolings,
+          selected: int.tryParse(generator.value8) ?? 0,
+          onSelected: (pos) {
+            generator.value8 = pos.toString();
+            c.generatorRedraw();
+          },
+        ),
+        '정격전압',
+        CTextField(
+          text: generator.value17,
+          controller: generator.extra['value17'],
+          onChanged: (value) => generator.value17 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+          suffixText: 'V',
+        ),
+      ),
+      entry2(
+        '기동방식',
+        CSelectbox(
+          backgroundColor: Colors.white,
+          items: c.activations,
+          selected: int.tryParse(generator.value9) ?? 0,
+          onSelected: (pos) {
+            generator.value9 = pos.toString();
+            c.generatorRedraw();
+          },
+        ),
+        '정격전류',
+        CTextField(
+          text: generator.value18,
+          controller: generator.extra['value18'],
+          onChanged: (value) => generator.value18 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+          suffixText: 'A',
+        ),
+      ),
+      entry2(
+        '차단기종류',
+        CSelectbox(
+          backgroundColor: Colors.white,
+          items: c.generatortype,
+          selected: int.tryParse(generator.value10) ?? 0,
+          onSelected: (pos) {
+            generator.value10 = pos.toString();
+            c.generatorRedraw();
+          },
+        ),
+        '역률',
+        CTextField(
+          text: generator.value19,
+          controller: generator.extra['value19'],
+          onChanged: (value) => generator.value19 = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+          suffixText: '%',
+        ),
+      ),
     ]);
   }
 

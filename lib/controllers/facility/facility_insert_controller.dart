@@ -27,6 +27,10 @@ class FacilityInsertController extends GetxController {
   get highs => _highs;
   set highs(value) => _highs.value = value;
 
+  final _generator = [].obs;
+  get generator => _generator;
+  set generator(value) => _generator.value = value;
+
   final _sunlight = Facility().obs;
   Facility get sunlight => _sunlight.value;
   set sunlight(Facility value) => _sunlight.value = value;
@@ -63,6 +67,21 @@ class FacilityInsertController extends GetxController {
   Facility get water => _water.value;
   set water(Facility value) => _water.value = value;
 
+  final _other = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ].obs;
+  get other => _other;
+  set other(value) => _other.value = value;
+
   final _relay = 0.obs;
   int get relay => _relay.value;
   set relay(int value) => _relay.value = value;
@@ -70,18 +89,6 @@ class FacilityInsertController extends GetxController {
   final _relayconnect = 0.obs;
   int get relayconnect => _relayconnect.value;
   set relayconnect(int value) => _relayconnect.value = value;
-
-  final _changetype = 0.obs;
-  int get changetype => _changetype.value;
-  set changetype(int value) => _changetype.value = value;
-
-  final _changeyear = 0.obs;
-  int get changeyear => _changeyear.value;
-  set changeyear(int value) => _changeyear.value = value;
-
-  final _changemonth = 0.obs;
-  int get changemonth => _changemonth.value;
-  set changemonth(int value) => _changemonth.value = value;
 
   final types = CItem.list(['', '저압', '특고압']).obs;
   final positions =
@@ -111,6 +118,18 @@ class FacilityInsertController extends GetxController {
   final breakers = CItem.list(['', 'VCB', 'GCV']).obs;
   final relays = CItem.list(['', 'OCR', 'OCGR', 'UVR', 'OVR', 'POR']).obs;
   final place = CItem.list(['', '옥상', '옥외', '임야', '직접입력']).obs;
+  final coolings = CItem.list([
+    '',
+    '고정자(수냉각)',
+    '고정자(수소냉각)',
+    '고정자(공기냉각)',
+    '고정자(권선냉각)',
+    '회전자(간접냉각)',
+    '회전자(직접냉각)'
+  ]).obs;
+  final activations = CItem.list(['', '전기식', '공기식']);
+  final generatortype =
+      CItem.list(['', 'ACB(기중차단기)', 'MCCB(배선용차단기)', 'ELB(누전차단기)']);
   final evplace = CItem.list(['', '옥상', '옥외', '직접입력']).obs;
   final evform = CItem.list(['', 'DC차데모', 'DC콤보', 'AC3상']).obs;
   final esstype =
@@ -145,6 +164,9 @@ class FacilityInsertController extends GetxController {
     Map<String, TextEditingController> itemextra = {};
     Map<String, TextEditingController> transsextra = {};
     Map<String, TextEditingController> highsextra = {};
+    Map<String, TextEditingController> generatorextra = {
+      'name': TextEditingController(),
+    };
     Map<String, TextEditingController> sunlightextra = {};
     Map<String, TextEditingController> chargerextra = {};
     Map<String, TextEditingController> chargeritemsextra = {};
@@ -166,6 +188,7 @@ class FacilityInsertController extends GetxController {
       itemextra['value$i'] = TextEditingController();
       transsextra['value$i'] = TextEditingController();
       highsextra['value$i'] = TextEditingController();
+      generatorextra['value$i'] = TextEditingController();
       sunlightextra['value$i'] = TextEditingController();
       chargerextra['value$i'] = TextEditingController();
       chargeritemsextra['value$i'] = TextEditingController();
@@ -237,10 +260,30 @@ class FacilityInsertController extends GetxController {
       highs[j].extra['value9'].text = highs[j].value9;
     }
 
+    generator = await FacilityManager.find(params: 'building=4&category=20');
+    if (generator.length == 0) {
+      generator.add(Facility());
+    }
+
+    for (int j = 0; j < generator.length; j++) {
+      generator[j].extra = generatorextra;
+      generator[j].extra['name'].text = generator[j].name;
+      generator[j].extra['value1'].text = generator[j].value1;
+      generator[j].extra['value2'].text = generator[j].value2;
+      generator[j].extra['value3'].text = generator[j].value3;
+      generator[j].extra['value4'].text = generator[j].value4;
+      generator[j].extra['value5'].text = generator[j].value5;
+      generator[j].extra['value6'].text = generator[j].value6;
+      generator[j].extra['value7'].text = generator[j].value7;
+      generator[j].extra['value8'].text = generator[j].value8;
+      generator[j].extra['value9'].text = generator[j].value9;
+    }
+
     final res = await FacilityManager.find(params: 'building=4&category=30');
 
     if (res.isNotEmpty) {
       sunlight = res[0];
+      other[1] = true;
     }
 
     sunlight.extra = sunlightextra;
@@ -259,6 +302,7 @@ class FacilityInsertController extends GetxController {
 
     if (rescharger.isNotEmpty) {
       charger = rescharger[0];
+      other[2] = true;
     }
 
     charger.extra = chargerextra;
@@ -298,6 +342,7 @@ class FacilityInsertController extends GetxController {
 
     if (resess.isNotEmpty) {
       ess = resess[0];
+      other[3] = true;
     }
 
     ess.extra = essextra;
@@ -317,6 +362,8 @@ class FacilityInsertController extends GetxController {
 
     if (ups.length == 0) {
       ups.add(Facility());
+    } else {
+      other[4] = true;
     }
 
     for (int j = 0; j < ups.length; j++) {
@@ -340,6 +387,8 @@ class FacilityInsertController extends GetxController {
 
     if (fuel.length == 0) {
       fuel.add(Facility());
+    } else {
+      other[5] = true;
     }
 
     for (int j = 0; j < fuel.length; j++) {
@@ -363,6 +412,8 @@ class FacilityInsertController extends GetxController {
 
     if (wind.length == 0) {
       wind.add(Facility());
+    } else {
+      other[6] = true;
     }
 
     for (int j = 0; j < wind.length; j++) {
@@ -384,6 +435,7 @@ class FacilityInsertController extends GetxController {
 
     if (reswater.isNotEmpty) {
       water = reswater[0];
+      other[7] = true;
     }
 
     water.extra = waterextra;
@@ -411,6 +463,10 @@ class FacilityInsertController extends GetxController {
 
   highsRedraw() {
     _highs.refresh();
+  }
+
+  generatorRedraw() {
+    _generator.refresh();
   }
 
   sunlightRedraw() {
