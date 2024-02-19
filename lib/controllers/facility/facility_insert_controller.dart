@@ -51,6 +51,18 @@ class FacilityInsertController extends GetxController {
   get ups => _ups;
   set ups(value) => _ups.value = value;
 
+  final _fuel = [].obs;
+  get fuel => _fuel;
+  set fuel(value) => _fuel.value = value;
+
+  final _wind = [].obs;
+  get wind => _wind;
+  set wind(value) => _wind.value = value;
+
+  final _water = Facility().obs;
+  Facility get water => _water.value;
+  set water(Facility value) => _water.value = value;
+
   final _relay = 0.obs;
   int get relay => _relay.value;
   set relay(int value) => _relay.value = value;
@@ -113,6 +125,9 @@ class FacilityInsertController extends GetxController {
   final upstypes = CItem.list(['', '온라인', '오프라인']).obs;
   final upstimes =
       CItem.list(['', '30분', '1시간', '2시간', '3시간', '4시간', '직력입력']).obs;
+  final gass = CItem.list(['', '도시가스', 'LPG', '바이오가스', '직접입력']).obs;
+  final fueltypes = CItem.list(['', '옥상형', '옥외형']).obs;
+  final fuelpositions = CItem.list(['', '독립형', '계통연계형']).obs;
 
   List<CItem> years = [CItem(id: 0, value: '')].obs;
   List<CItem> months = [CItem(id: 0, value: '')].obs;
@@ -137,6 +152,15 @@ class FacilityInsertController extends GetxController {
     Map<String, TextEditingController> upsextra = {
       'name': TextEditingController(),
     };
+    Map<String, TextEditingController> fuelextra = {
+      'name': TextEditingController(),
+    };
+    Map<String, TextEditingController> windextra = {
+      'name': TextEditingController(),
+    };
+    Map<String, TextEditingController> waterextra = {
+      'name': TextEditingController(),
+    };
 
     for (int i = 1; i <= 20; i++) {
       itemextra['value$i'] = TextEditingController();
@@ -147,6 +171,9 @@ class FacilityInsertController extends GetxController {
       chargeritemsextra['value$i'] = TextEditingController();
       essextra['value$i'] = TextEditingController();
       upsextra['value$i'] = TextEditingController();
+      fuelextra['value$i'] = TextEditingController();
+      windextra['value$i'] = TextEditingController();
+      waterextra['value$i'] = TextEditingController();
     }
 
     super.onInit();
@@ -305,6 +332,64 @@ class FacilityInsertController extends GetxController {
       ups[j].extra['value8'].text = ups[j].value8;
       ups[j].extra['value9'].text = ups[j].value9;
     }
+
+    final resfuel =
+        await FacilityManager.find(params: 'building=4&category=70');
+
+    fuel = resfuel;
+
+    if (fuel.length == 0) {
+      fuel.add(Facility());
+    }
+
+    for (int j = 0; j < fuel.length; j++) {
+      fuel[j].extra = fuelextra;
+      fuel[j].extra['name'].text = fuel[j].name;
+      fuel[j].extra['value1'].text = fuel[j].value1;
+      fuel[j].extra['value2'].text = fuel[j].value2;
+      fuel[j].extra['value3'].text = fuel[j].value3;
+      fuel[j].extra['value4'].text = fuel[j].value4;
+      fuel[j].extra['value5'].text = fuel[j].value5;
+      fuel[j].extra['value6'].text = fuel[j].value6;
+      fuel[j].extra['value7'].text = fuel[j].value7;
+      fuel[j].extra['value8'].text = fuel[j].value8;
+      fuel[j].extra['value9'].text = fuel[j].value9;
+    }
+
+    final reswind =
+        await FacilityManager.find(params: 'building=4&category=80');
+
+    wind = reswind;
+
+    if (wind.length == 0) {
+      wind.add(Facility());
+    }
+
+    for (int j = 0; j < wind.length; j++) {
+      wind[j].extra = windextra;
+      wind[j].extra['name'].text = wind[j].name;
+      wind[j].extra['value1'].text = wind[j].value1;
+      wind[j].extra['value2'].text = wind[j].value2;
+      wind[j].extra['value3'].text = wind[j].value3;
+      wind[j].extra['value4'].text = wind[j].value4;
+      wind[j].extra['value5'].text = wind[j].value5;
+      wind[j].extra['value6'].text = wind[j].value6;
+      wind[j].extra['value7'].text = wind[j].value7;
+      wind[j].extra['value8'].text = wind[j].value8;
+      wind[j].extra['value9'].text = wind[j].value9;
+    }
+
+    final reswater =
+        await FacilityManager.find(params: 'building=4&category=90');
+
+    if (reswater.isNotEmpty) {
+      water = reswater[0];
+    }
+
+    water.extra = waterextra;
+    water.extra['name'].text = water.name;
+    water.extra['value1'].text = water.value2;
+    water.extra['value2'].text = water.value3;
   }
 
   remove(data, index) {
@@ -346,6 +431,18 @@ class FacilityInsertController extends GetxController {
 
   upsRedraw() {
     _ups.refresh();
+  }
+
+  fuelRedraw() {
+    _fuel.refresh();
+  }
+
+  windRedraw() {
+    _wind.refresh();
+  }
+
+  waterRedraw() {
+    _water.refresh();
   }
 
   bool toBoolean(String str) {

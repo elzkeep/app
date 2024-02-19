@@ -674,9 +674,10 @@ class FacilityInsertScreen extends CWidget {
       c.charger.name == "" ? Container() : ev(),
       c.ess.name == "" ? Container() : ess(),
       c.ups.length > 0 ? Container() : loopups(),
-      fuelcell(),
-      wind(),
-      hydro(),
+      c.fuel.length > 0 ? Container() : loopfuel(),
+      c.wind.length > 0 ? Container() : loopwind(),
+      c.ess.name == "" ? Container() : water(),
+      const SizedBox(height: 30),
     ]);
   }
 
@@ -1206,8 +1207,8 @@ class FacilityInsertScreen extends CWidget {
 
   loopups() {
     return CColumn(
-      children: [for (int i = 0; i < c.ups.length; i++) ups(c.ups[i], i)],
-    );
+        gap: 10,
+        children: [for (int i = 0; i < c.ups.length; i++) ups(c.ups[i], i)]);
   }
 
   ups(ups, index) {
@@ -1404,41 +1405,62 @@ class FacilityInsertScreen extends CWidget {
     ]);
   }
 
-  wind() {
-    List<CItem> years = [CItem(id: 0, value: '')];
-    for (var i = 1970; i <= 2024; i++) {
-      years.add(CItem(id: i - 1970, value: '$i년'));
-    }
+  loopwind() {
+    return CColumn(
+        gap: 10,
+        children: [for (int i = 0; i < c.wind.length; i++) wind(c.wind[i], i)]);
+  }
 
-    List<CItem> months = [CItem(id: 0, value: '')];
-
-    for (var i = 1; i <= 12; i++) {
-      months.add(CItem(id: i, value: '$i월'));
-    }
-
+  wind(wind, index) {
     return round(<Widget>[
-      CText('풍력발전소'),
+      entryAdd(
+        '풍력발전소',
+        CTextField(
+          text: wind.name,
+          controller: wind.extra['name'],
+          onChanged: (value) => wind.name = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+        () {
+          index == 0 ? c.wind.add(Facility()) : c.remove(c.wind, index);
+        },
+        index == 0 ? true : false,
+      ),
       CText('풍차설비'),
       entry2(
         '형식',
         CTextField(
+          text: wind.value1,
+          controller: wind.extra['value1'],
+          onChanged: (value) => wind.value1 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         '정격용량',
         CTextField(
+          text: wind.value2,
+          controller: wind.extra['value2'],
+          onChanged: (value) => wind.value2 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: 'kW',
         ),
       ),
       entry2(
         '제조사',
         CTextField(
+          text: wind.value3,
+          controller: wind.extra['value3'],
+          onChanged: (value) => wind.value3 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         '제조번호',
         CTextField(
+          text: wind.value4,
+          controller: wind.extra['value4'],
+          onChanged: (value) => wind.value4 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
@@ -1449,17 +1471,23 @@ class FacilityInsertScreen extends CWidget {
           Expanded(
             child: CSelectbox(
               backgroundColor: Colors.white,
-              items: years,
-              selected: c.changeyear,
-              onSelected: (pos) => c.changeyear = pos,
+              items: c.years,
+              selected: int.tryParse(wind.value5) ?? 0,
+              onSelected: (pos) {
+                wind.value5 = pos.toString();
+                c.windRedraw();
+              },
             ),
           ),
           Expanded(
             child: CSelectbox(
               backgroundColor: Colors.white,
-              items: months,
-              selected: c.changemonth,
-              onSelected: (pos) => c.changemonth = pos,
+              items: c.months,
+              selected: int.tryParse(wind.value6) ?? 0,
+              onSelected: (pos) {
+                wind.value6 = pos.toString();
+                c.windRedraw();
+              },
             ),
           ),
         ]),
@@ -1471,14 +1499,22 @@ class FacilityInsertScreen extends CWidget {
           children: [
             Expanded(
               child: CTextField(
+                text: wind.value7,
+                controller: wind.extra['value7'],
+                onChanged: (value) => wind.value7 = value,
                 filledColor: Colors.white,
                 textStyle: labelStyle,
+                suffixText: '개',
               ),
             ),
             Expanded(
               child: CTextField(
+                text: wind.value8,
+                controller: wind.extra['value8'],
+                onChanged: (value) => wind.value8 = value,
                 filledColor: Colors.white,
                 textStyle: labelStyle,
+                suffixText: 'm',
               ),
             ),
           ],
@@ -1491,20 +1527,32 @@ class FacilityInsertScreen extends CWidget {
           children: [
             Expanded(
               child: CTextField(
+                text: wind.value9,
+                controller: wind.extra['value9'],
+                onChanged: (value) => wind.value9 = value,
                 filledColor: Colors.white,
                 textStyle: labelStyle,
+                suffixText: 'm/s',
               ),
             ),
             Expanded(
               child: CTextField(
+                text: wind.value10,
+                controller: wind.extra['value10'],
+                onChanged: (value) => wind.value10 = value,
                 filledColor: Colors.white,
                 textStyle: labelStyle,
+                suffixText: 'm/s',
               ),
             ),
             Expanded(
               child: CTextField(
+                text: wind.value11,
+                controller: wind.extra['value11'],
+                onChanged: (value) => wind.value11 = value,
                 filledColor: Colors.white,
                 textStyle: labelStyle,
+                suffixText: 'm/s',
               ),
             ),
           ],
@@ -1514,23 +1562,36 @@ class FacilityInsertScreen extends CWidget {
       entry2(
         '형식',
         CTextField(
+          text: wind.value12,
+          controller: wind.extra['value12'],
+          onChanged: (value) => wind.value12 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         '정격용량',
         CTextField(
+          text: wind.value13,
+          controller: wind.extra['value13'],
+          onChanged: (value) => wind.value13 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: 'kW',
         ),
       ),
       entry2(
         '제조사',
         CTextField(
+          text: wind.value14,
+          controller: wind.extra['value14'],
+          onChanged: (value) => wind.value14 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         '제조번호',
         CTextField(
+          text: wind.value15,
+          controller: wind.extra['value15'],
+          onChanged: (value) => wind.value15 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
@@ -1541,17 +1602,23 @@ class FacilityInsertScreen extends CWidget {
           Expanded(
             child: CSelectbox(
               backgroundColor: Colors.white,
-              items: years,
-              selected: c.changeyear,
-              onSelected: (pos) => c.changeyear = pos,
+              items: c.years,
+              selected: int.tryParse(wind.value16) ?? 0,
+              onSelected: (pos) {
+                wind.value16 = pos.toString();
+                c.windRedraw();
+              },
             ),
           ),
           Expanded(
             child: CSelectbox(
               backgroundColor: Colors.white,
-              items: months,
-              selected: c.changemonth,
-              onSelected: (pos) => c.changemonth = pos,
+              items: c.months,
+              selected: int.tryParse(wind.value17) ?? 0,
+              onSelected: (pos) {
+                wind.value17 = pos.toString();
+                c.windRedraw();
+              },
             ),
           ),
         ]),
@@ -1559,99 +1626,157 @@ class FacilityInsertScreen extends CWidget {
       entry2(
         '극수',
         CTextField(
+          text: wind.value18,
+          controller: wind.extra['value18'],
+          onChanged: (value) => wind.value18 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: '극',
         ),
         '역률',
         CTextField(
+          text: wind.value19,
+          controller: wind.extra['value19'],
+          onChanged: (value) => wind.value19 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: '%',
         ),
       ),
       entry2(
         '정격전압',
         CTextField(
+          text: wind.value20,
+          controller: wind.extra['value20'],
+          onChanged: (value) => wind.value20 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: 'V',
         ),
         '정격전류',
         CTextField(
+          text: wind.value21,
+          controller: wind.extra['value21'],
+          onChanged: (value) => wind.value21 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: 'A',
         ),
       ),
       entry2(
         '절연저항',
         CTextField(
+          text: wind.value22,
+          controller: wind.extra['value22'],
+          onChanged: (value) => wind.value22 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: 'MΩ',
         ),
         '접지저항',
         CTextField(
+          text: wind.value23,
+          controller: wind.extra['value23'],
+          onChanged: (value) => wind.value23 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: 'Ω',
         ),
       ),
     ]);
   }
 
-  hydro() {
+  water() {
     return round(<Widget>[
-      CText('수력발전설비'),
+      entry(
+        '수력발전설비',
+        CTextField(
+          text: c.water.name,
+          controller: c.water.extra['name'],
+          onChanged: (value) => c.water.name = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+      ),
       entry2(
         '정격전압',
         CTextField(
+          text: c.water.value1,
+          controller: c.water.extra['value1'],
+          onChanged: (value) => c.water.value1 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: 'V',
         ),
         '정격용량',
         CTextField(
+          text: c.water.value2,
+          controller: c.water.extra['value2'],
+          onChanged: (value) => c.water.value2 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: 'kW',
         ),
       ),
     ]);
   }
 
-  fuelcell() {
-    final gass = CItem.list(['', '도시가스', 'LPG', '바이오가스', '직접입력']);
-    final placemethods = CItem.list(['', '옥상형', '옥외형']);
-    final places = CItem.list(['', '독립형', '계통연계형']);
-    List<CItem> years = [CItem(id: 0, value: '')];
-    for (var i = 1970; i <= 2024; i++) {
-      years.add(CItem(id: i - 1970, value: '$i년'));
-    }
+  loopfuel() {
+    return CColumn(
+        gap: 10,
+        children: [for (int i = 0; i < c.fuel.length; i++) fuel(c.fuel[i], i)]);
+  }
 
-    List<CItem> months = [CItem(id: 0, value: '')];
-
-    for (var i = 1; i <= 12; i++) {
-      months.add(CItem(id: i, value: '$i월'));
-    }
-
+  fuel(fuel, index) {
     return round(<Widget>[
-      CText('연료전지 발전설비'),
+      entryAdd(
+        '연료전지 발전설비',
+        CTextField(
+          text: fuel.name,
+          controller: fuel.extra['name'],
+          onChanged: (value) => fuel.name = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+        () {
+          index == 0 ? c.fuel.add(Facility()) : c.remove(c.fuel, index);
+        },
+        index == 0 ? true : false,
+      ),
       entry2(
         '형식',
         CTextField(
+          text: fuel.value1,
+          controller: fuel.extra['value1'],
+          onChanged: (value) => fuel.value1 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         '사용가스',
         CSelectbox(
           backgroundColor: Colors.white,
-          items: gass,
-          selected: c.changeyear,
-          onSelected: (pos) => c.changeyear = pos,
+          items: c.gass,
+          selected: int.tryParse(fuel.value2) ?? 0,
+          onSelected: (pos) {
+            fuel.value2 = pos.toString();
+            c.fuelRedraw();
+          },
         ),
       ),
       entry2(
         '정격출력',
         CTextField(
+          text: fuel.value4,
+          controller: fuel.extra['value4'],
+          onChanged: (value) => fuel.value4 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         '가스소비량',
         CTextField(
+          text: fuel.value5,
+          controller: fuel.extra['value5'],
+          onChanged: (value) => fuel.value5 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
@@ -1661,6 +1786,9 @@ class FacilityInsertScreen extends CWidget {
         CRow(gap: 10, children: [
           Expanded(
             child: CTextField(
+              text: fuel.value6,
+              controller: fuel.extra['value6'],
+              onChanged: (value) => fuel.value6 = value,
               filledColor: Colors.white,
               textStyle: labelStyle,
             ),
@@ -1668,6 +1796,9 @@ class FacilityInsertScreen extends CWidget {
           CText('~'),
           Expanded(
             child: CTextField(
+              text: fuel.value7,
+              controller: fuel.extra['value7'],
+              onChanged: (value) => fuel.value7 = value,
               filledColor: Colors.white,
               textStyle: labelStyle,
             ),
@@ -1677,11 +1808,17 @@ class FacilityInsertScreen extends CWidget {
       entry2(
         '정격전압',
         CTextField(
+          text: fuel.value8,
+          controller: fuel.extra['value8'],
+          onChanged: (value) => fuel.value8 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         '주파수',
         CTextField(
+          text: fuel.value9,
+          controller: fuel.extra['value9'],
+          onChanged: (value) => fuel.value9 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
@@ -1689,11 +1826,17 @@ class FacilityInsertScreen extends CWidget {
       entry2(
         '발전효율',
         CTextField(
+          text: fuel.value10,
+          controller: fuel.extra['value10'],
+          onChanged: (value) => fuel.value10 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         '열효율',
         CTextField(
+          text: fuel.value11,
+          controller: fuel.extra['value11'],
+          onChanged: (value) => fuel.value11 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
@@ -1702,26 +1845,38 @@ class FacilityInsertScreen extends CWidget {
         '계통연계',
         CSelectbox(
           backgroundColor: Colors.white,
-          items: placemethods,
-          selected: c.changeyear,
-          onSelected: (pos) => c.changeyear = pos,
+          items: c.fuelpositions,
+          selected: int.tryParse(fuel.value12) ?? 0,
+          onSelected: (pos) {
+            fuel.value12 = pos.toString();
+            c.fuelRedraw();
+          },
         ),
         '설치위치',
         CSelectbox(
           backgroundColor: Colors.white,
-          items: places,
-          selected: c.changeyear,
-          onSelected: (pos) => c.changeyear = pos,
+          items: c.fueltypes,
+          selected: int.tryParse(fuel.value13) ?? 0,
+          onSelected: (pos) {
+            fuel.value13 = pos.toString();
+            c.fuelRedraw();
+          },
         ),
       ),
       entry2(
         '급배기방식',
         CTextField(
+          text: fuel.value14,
+          controller: fuel.extra['value14'],
+          onChanged: (value) => fuel.value14 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         '배기통길이',
         CTextField(
+          text: fuel.value15,
+          controller: fuel.extra['value15'],
+          onChanged: (value) => fuel.value15 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
@@ -1729,11 +1884,17 @@ class FacilityInsertScreen extends CWidget {
       entry2(
         '제조사',
         CTextField(
+          text: fuel.value16,
+          controller: fuel.extra['value16'],
+          onChanged: (value) => fuel.value16 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         '제조번호',
         CTextField(
+          text: fuel.value17,
+          controller: fuel.extra['value17'],
+          onChanged: (value) => fuel.value17 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
@@ -1744,17 +1905,23 @@ class FacilityInsertScreen extends CWidget {
           Expanded(
             child: CSelectbox(
               backgroundColor: Colors.white,
-              items: years,
-              selected: c.changeyear,
-              onSelected: (pos) => c.changeyear = pos,
+              items: c.years,
+              selected: int.tryParse(fuel.value18) ?? 0,
+              onSelected: (pos) {
+                fuel.value18 = pos.toString();
+                c.fuelRedraw();
+              },
             ),
           ),
           Expanded(
             child: CSelectbox(
               backgroundColor: Colors.white,
-              items: months,
-              selected: c.changemonth,
-              onSelected: (pos) => c.changemonth = pos,
+              items: c.months,
+              selected: int.tryParse(fuel.value19) ?? 0,
+              onSelected: (pos) {
+                fuel.value19 = pos.toString();
+                c.fuelRedraw();
+              },
             ),
           ),
         ]),
