@@ -11,6 +11,10 @@ class FacilityInsertController extends GetxController {
   Facility get item => _item.value;
   set item(Facility value) => _item.value = value;
 
+  final _installation = false.obs;
+  bool get installation => _installation.value;
+  set installation(bool value) => _installation.value = value;
+
   final _items = [].obs;
   get items => _items;
   set items(value) => _items.value = value;
@@ -39,29 +43,9 @@ class FacilityInsertController extends GetxController {
   get chargertotal => _chargertotal.value;
   set chargertotal(value) => _chargertotal.value = value;
 
-  final _installation = false.obs;
-  bool get installation => _installation.value;
-  set installation(bool value) => _installation.value = value;
-
-  final _typeaaa = 0.obs;
-  int get typeaaa => _typeaaa.value;
-  set typeaaa(int value) => _typeaaa.value = value;
-
-  final _manufactureYear = 0.obs;
-  int get manufactureYear => _manufactureYear.value;
-  set manufactureYear(int value) => _manufactureYear.value = value;
-
-  final _highbreaker = 0.obs;
-  int get highbreaker => _highbreaker.value;
-  set highbreaker(int value) => _highbreaker.value = value;
-
-  final _highbreakeryear = 0.obs;
-  int get highbreakeryear => _highbreakeryear.value;
-  set highbreakeryear(int value) => _highbreakeryear.value = value;
-
-  final _highbreakermonth = 0.obs;
-  int get highbreakermonth => _highbreakermonth.value;
-  set highbreakermonth(int value) => _highbreakermonth.value = value;
+  final _ess = Facility().obs;
+  Facility get ess => _ess.value;
+  set ess(Facility value) => _ess.value = value;
 
   final _relay = 0.obs;
   int get relay => _relay.value;
@@ -113,6 +97,9 @@ class FacilityInsertController extends GetxController {
   final place = CItem.list(['', '옥상', '옥외', '임야', '직접입력']).obs;
   final evplace = CItem.list(['', '옥상', '옥외', '직접입력']).obs;
   final evform = CItem.list(['', 'DC차데모', 'DC콤보', 'AC3상']).obs;
+  final esstype =
+      CItem.list(['', '리튬이온', '니켈카드뮴', '니켈염화', '나트륨 황', '금속공기', '니켈수소', '직접입력'])
+          .obs;
 
   List<CItem> years = [CItem(id: 0, value: '')].obs;
   List<CItem> months = [CItem(id: 0, value: '')].obs;
@@ -120,7 +107,7 @@ class FacilityInsertController extends GetxController {
   @override
   onInit() async {
     for (var i = 1970; i <= 2024; i++) {
-      years.add(CItem(id: i - 1970, value: '$i'));
+      years.add(CItem(id: i - 1969, value: '$i'));
     }
 
     for (var i = 1; i <= 12; i++) {
@@ -133,6 +120,7 @@ class FacilityInsertController extends GetxController {
     Map<String, TextEditingController> sunlightextra = {};
     Map<String, TextEditingController> chargerextra = {};
     Map<String, TextEditingController> chargeritemsextra = {};
+    Map<String, TextEditingController> essextra = {};
 
     for (int i = 1; i <= 20; i++) {
       itemextra['value$i'] = TextEditingController();
@@ -141,6 +129,7 @@ class FacilityInsertController extends GetxController {
       sunlightextra['value$i'] = TextEditingController();
       chargerextra['value$i'] = TextEditingController();
       chargeritemsextra['value$i'] = TextEditingController();
+      essextra['value$i'] = TextEditingController();
     }
 
     super.onInit();
@@ -260,6 +249,23 @@ class FacilityInsertController extends GetxController {
       chargeritems[j].extra['value8'].text = chargeritems[j].value8;
       chargeritems[j].extra['value9'].text = chargeritems[j].value9;
     }
+
+    final resess = await FacilityManager.find(params: 'building=4&category=50');
+
+    if (resess.isNotEmpty) {
+      ess = resess[0];
+    }
+
+    ess.extra = essextra;
+    ess.extra['value1'].text = ess.value1;
+    ess.extra['value2'].text = ess.value2;
+    ess.extra['value3'].text = ess.value3;
+    ess.extra['value4'].text = ess.value4;
+    ess.extra['value5'].text = ess.value5;
+    ess.extra['value6'].text = ess.value6;
+    ess.extra['value7'].text = ess.value7;
+    ess.extra['value8'].text = ess.value8;
+    ess.extra['value9'].text = ess.value9;
   }
 
   remove(data, index) {
@@ -293,6 +299,10 @@ class FacilityInsertController extends GetxController {
 
   chargeritemsRedraw() {
     _chargeritems.refresh();
+  }
+
+  essRedraw() {
+    _ess.refresh();
   }
 
   bool toBoolean(String str) {

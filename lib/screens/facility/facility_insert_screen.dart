@@ -159,7 +159,7 @@ class FacilityInsertScreen extends CWidget {
         width: 20,
         textStyle: labelStyle,
       ),
-      Expanded(child: widget2)
+      Expanded(child: widget3)
     ]);
   }
 
@@ -990,52 +990,73 @@ class FacilityInsertScreen extends CWidget {
   }
 
   ess() {
-    List<CItem> years = [CItem(id: 0, value: '')];
-    for (var i = 1970; i <= 2024; i++) {
-      years.add(CItem(id: i - 1970, value: '$i년'));
-    }
-
-    List<CItem> months = [CItem(id: 0, value: '')];
-
-    for (var i = 1; i <= 12; i++) {
-      months.add(CItem(id: i, value: '$i월'));
-    }
-
     return round(<Widget>[
-      CText('전기저장장치'),
-      CText('전력변환장치(PCS)'),
-      entry2(
-        '출력전압',
+      entry(
+        '전기저장장치',
         CTextField(
+          text: c.ess.value1,
+          controller: c.ess.extra['value1'],
+          onChanged: (value) => c.ess.value1 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
+      ),
+      CText('전력변환장치(PCS)'),
+      entry2(
+        '출력전압',
+        CSelectbox(
+          backgroundColor: Colors.white,
+          items: c.voltage,
+          selected: int.tryParse(c.ess.value2) ?? 0,
+          onSelected: (pos) {
+            c.ess.value2 = pos.toString();
+            c.essRedraw();
+          },
+        ),
         '정격용량',
         CTextField(
+          text: c.ess.value4,
+          controller: c.ess.extra['value4'],
+          onChanged: (value) => c.ess.value4 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: 'kW',
         ),
       ),
       entry2(
         '입력전압',
         CTextField(
+          text: c.ess.value5,
+          controller: c.ess.extra['value5'],
+          onChanged: (value) => c.ess.value5 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: 'V',
         ),
         '~',
         CTextField(
+          text: c.ess.value6,
+          controller: c.ess.extra['value6'],
+          onChanged: (value) => c.ess.value6 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: 'V',
         ),
       ),
       entry2(
         '제조사',
         CTextField(
+          text: c.ess.value7,
+          controller: c.ess.extra['value7'],
+          onChanged: (value) => c.ess.value7 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         '제조번호',
         CTextField(
+          text: c.ess.value8,
+          controller: c.ess.extra['value8'],
+          onChanged: (value) => c.ess.value8 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
@@ -1046,17 +1067,23 @@ class FacilityInsertScreen extends CWidget {
           Expanded(
             child: CSelectbox(
               backgroundColor: Colors.white,
-              items: years,
-              selected: c.changeyear,
-              onSelected: (pos) => c.changeyear = pos,
+              items: c.years,
+              selected: int.tryParse(c.ess.value9) ?? 0,
+              onSelected: (pos) {
+                c.ess.value9 = pos.toString();
+                c.essRedraw();
+              },
             ),
           ),
           Expanded(
             child: CSelectbox(
               backgroundColor: Colors.white,
-              items: months,
-              selected: c.changemonth,
-              onSelected: (pos) => c.changemonth = pos,
+              items: c.months,
+              selected: int.tryParse(c.ess.value10) ?? 0,
+              onSelected: (pos) {
+                c.ess.value10 = pos.toString();
+                c.essRedraw();
+              },
             ),
           ),
         ]),
@@ -1065,28 +1092,46 @@ class FacilityInsertScreen extends CWidget {
       entry2(
         '최대저장용량',
         CTextField(
+          text: c.ess.value11,
+          controller: c.ess.extra['value11'],
+          onChanged: (value) => c.ess.value11 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: 'kWh',
         ),
         '종류',
-        CTextField(
-          filledColor: Colors.white,
-          textStyle: labelStyle,
+        CSelectbox(
+          backgroundColor: Colors.white,
+          items: c.esstype,
+          selected: int.tryParse(c.ess.value12) ?? 0,
+          onSelected: (pos) {
+            c.ess.value12 = pos.toString();
+            c.essRedraw();
+          },
         ),
       ),
       entry3(
         '구성',
         CTextField(
+          text: '셀',
+          controller: c.ess.extra['value14'],
+          onChanged: (value) => c.ess.value14 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         'X',
         CTextField(
+          text: '팩',
+          controller: c.ess.extra['value15'],
+          onChanged: (value) => c.ess.value15 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         'X',
         CTextField(
+          text: '렉',
+          controller: c.ess.extra['value16'],
+          onChanged: (value) => c.ess.value16 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
@@ -1094,23 +1139,37 @@ class FacilityInsertScreen extends CWidget {
       entry2(
         '최대동작전압',
         CTextField(
+          text: c.ess.value17,
+          controller: c.ess.extra['value17'],
+          onChanged: (value) => c.ess.value17 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: 'V',
         ),
         '최대동작전류',
         CTextField(
+          text: c.ess.value18,
+          controller: c.ess.extra['value18'],
+          onChanged: (value) => c.ess.value18 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: 'A',
         ),
       ),
       entry2(
         '제조사',
         CTextField(
+          text: c.ess.value19,
+          controller: c.ess.extra['value19'],
+          onChanged: (value) => c.ess.value19 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         '형식',
         CTextField(
+          text: c.ess.value20,
+          controller: c.ess.extra['value20'],
+          onChanged: (value) => c.ess.value20 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
@@ -1121,17 +1180,23 @@ class FacilityInsertScreen extends CWidget {
           Expanded(
             child: CSelectbox(
               backgroundColor: Colors.white,
-              items: years,
-              selected: c.changeyear,
-              onSelected: (pos) => c.changeyear = pos,
+              items: c.years,
+              selected: int.tryParse(c.ess.value21) ?? 0,
+              onSelected: (pos) {
+                c.ess.value21 = pos.toString();
+                c.essRedraw();
+              },
             ),
           ),
           Expanded(
             child: CSelectbox(
               backgroundColor: Colors.white,
-              items: months,
-              selected: c.changemonth,
-              onSelected: (pos) => c.changemonth = pos,
+              items: c.months,
+              selected: int.tryParse(c.ess.value22) ?? 0,
+              onSelected: (pos) {
+                c.ess.value22 = pos.toString();
+                c.essRedraw();
+              },
             ),
           ),
         ]),
