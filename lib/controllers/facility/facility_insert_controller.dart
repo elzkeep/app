@@ -27,6 +27,18 @@ class FacilityInsertController extends GetxController {
   Facility get sunlight => _sunlight.value;
   set sunlight(Facility value) => _sunlight.value = value;
 
+  final _charger = Facility().obs;
+  Facility get charger => _charger.value;
+  set charger(Facility value) => _charger.value = value;
+
+  final _chargeritems = [].obs;
+  get chargeritems => _chargeritems;
+  set chargeritems(value) => _chargeritems.value = value;
+
+  final _chargertotal = 0.obs;
+  get chargertotal => _chargertotal.value;
+  set chargertotal(value) => _chargertotal.value = value;
+
   final _installation = false.obs;
   bool get installation => _installation.value;
   set installation(bool value) => _installation.value = value;
@@ -75,6 +87,7 @@ class FacilityInsertController extends GetxController {
   final positions =
       CItem.list(['', '지하', '단독/옥내', '옥상', '옥외', '복도/계단', '현관', '직접입력']).obs;
   final volts = CItem.list(['', '[저압]380/220', '[특고압]22,900']).obs;
+  final voltage = CItem.list(['', '380/220V', '220V', '직접입력']).obs;
   final arrangementtypes = CItem.list(['', '일반형', '일체형']).obs;
   final faces = CItem.list([
     '',
@@ -118,12 +131,16 @@ class FacilityInsertController extends GetxController {
     Map<String, TextEditingController> transsextra = {};
     Map<String, TextEditingController> highsextra = {};
     Map<String, TextEditingController> sunlightextra = {};
+    Map<String, TextEditingController> chargerextra = {};
+    Map<String, TextEditingController> chargeritemsextra = {};
 
     for (int i = 1; i <= 20; i++) {
       itemextra['value$i'] = TextEditingController();
       transsextra['value$i'] = TextEditingController();
       highsextra['value$i'] = TextEditingController();
       sunlightextra['value$i'] = TextEditingController();
+      chargerextra['value$i'] = TextEditingController();
+      chargeritemsextra['value$i'] = TextEditingController();
     }
 
     super.onInit();
@@ -203,6 +220,46 @@ class FacilityInsertController extends GetxController {
     sunlight.extra['value7'].text = sunlight.value7;
     sunlight.extra['value8'].text = sunlight.value8;
     sunlight.extra['value9'].text = sunlight.value9;
+
+    final rescharger =
+        await FacilityManager.find(params: 'building=4&category=40');
+
+    if (rescharger.isNotEmpty) {
+      charger = rescharger[0];
+    }
+
+    charger.extra = chargerextra;
+    charger.extra['value1'].text = charger.value1;
+    charger.extra['value2'].text = charger.value2;
+    charger.extra['value3'].text = charger.value3;
+    charger.extra['value4'].text = charger.value4;
+    charger.extra['value5'].text = charger.value5;
+    charger.extra['value6'].text = charger.value6;
+    charger.extra['value7'].text = charger.value7;
+    charger.extra['value8'].text = charger.value8;
+    charger.extra['value9'].text = charger.value9;
+
+    final reschargeritems =
+        await FacilityManager.find(params: 'building=4&category=41');
+
+    chargeritems = reschargeritems;
+
+    if (chargeritems.length == 0) {
+      chargeritems.add(Facility());
+    }
+
+    for (int j = 0; j < chargeritems.length; j++) {
+      chargeritems[j].extra = chargeritemsextra;
+      chargeritems[j].extra['value1'].text = chargeritems[j].value1;
+      chargeritems[j].extra['value2'].text = chargeritems[j].value2;
+      chargeritems[j].extra['value3'].text = chargeritems[j].value3;
+      chargeritems[j].extra['value4'].text = chargeritems[j].value4;
+      chargeritems[j].extra['value5'].text = chargeritems[j].value5;
+      chargeritems[j].extra['value6'].text = chargeritems[j].value6;
+      chargeritems[j].extra['value7'].text = chargeritems[j].value7;
+      chargeritems[j].extra['value8'].text = chargeritems[j].value8;
+      chargeritems[j].extra['value9'].text = chargeritems[j].value9;
+    }
   }
 
   remove(data, index) {
@@ -228,6 +285,14 @@ class FacilityInsertController extends GetxController {
 
   sunlightRedraw() {
     _sunlight.refresh();
+  }
+
+  chargerRedraw() {
+    _charger.refresh();
+  }
+
+  chargeritemsRedraw() {
+    _chargeritems.refresh();
   }
 
   bool toBoolean(String str) {

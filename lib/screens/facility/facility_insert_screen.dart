@@ -284,9 +284,7 @@ class FacilityInsertScreen extends CWidget {
           },
         ),
         () {
-          index == 0
-              ? c.items.add(Facility(value1: '0', value3: '0', value4: '0'))
-              : c.remove(c.items, index);
+          index == 0 ? c.items.add(Facility()) : c.remove(c.items, index);
         },
         index == 0 ? true : false,
       ),
@@ -673,7 +671,7 @@ class FacilityInsertScreen extends CWidget {
         ],
       ),
       c.sunlight.name == "" ? Container() : sun(),
-      ev(),
+      c.charger.name == "" ? Container() : ev(),
       ess(),
       ups(),
       fuelcell(),
@@ -820,107 +818,174 @@ class FacilityInsertScreen extends CWidget {
     return round(<Widget>[
       CText('EV 충전기'),
       entry(
-        '설치장소',
-        CSelectbox(
-          backgroundColor: Colors.white,
-          items: c.evplace,
-          selected: c.changeyear,
-          onSelected: (pos) => c.changeyear = pos,
+        '설비명',
+        CTextField(
+          text: c.charger.value1,
+          controller: c.charger.extra['value1'],
+          onChanged: (value) => c.charger.value1 = value,
+          textStyle: labelStyle,
+          filledColor: Colors.white,
         ),
       ),
+      entry(
+        '전력공급설비',
+        CButton(
+          text: '수배전설비와 동일',
+          onPressed: () {},
+        ),
+      ),
+      entry(
+          '설치장소',
+          CSelectbox(
+            backgroundColor: Colors.white,
+            items: c.evplace,
+            selected: int.tryParse(c.charger.value2) ?? 0,
+            onSelected: (pos) {
+              c.charger.value2 = pos.toString();
+              c.chargerRedraw();
+            },
+          )),
       entry2(
         '전압',
-        CTextField(
-          filledColor: Colors.white,
-          textStyle: labelStyle,
+        CSelectbox(
+          backgroundColor: Colors.white,
+          items: c.voltage,
+          selected: int.tryParse(c.charger.value3) ?? 0,
+          onSelected: (pos) {
+            c.charger.value3 = pos.toString();
+            c.chargerRedraw();
+          },
         ),
         '용량',
         CTextField(
+          text: c.charger.value5,
+          controller: c.charger.extra['value5'],
+          onChanged: (value) => c.charger.value5 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: 'kW',
         ),
       ),
       entry(
         '충전설비',
-        CTextField(
-          filledColor: Colors.white,
-          textStyle: labelStyle,
-        ),
+        CText('총${c.chargertotal} kW'),
       ),
-      CText('충전기'),
-      entry2(
-        '설치현황',
-        CTextField(
-          filledColor: Colors.white,
-          textStyle: labelStyle,
-        ),
-        'X',
-        CTextField(
-          filledColor: Colors.white,
-          textStyle: labelStyle,
-        ),
-      ),
-      entry2(
-        '설치장소',
-        CSelectbox(
-          backgroundColor: Colors.white,
-          items: c.evplace,
-          selected: c.changeyear,
-          onSelected: (pos) => c.changeyear = pos,
-        ),
-        '충전형식',
-        CSelectbox(
-          backgroundColor: Colors.white,
-          items: c.evform,
-          selected: c.changeyear,
-          onSelected: (pos) => c.changeyear = pos,
-        ),
-      ),
-      entry2(
-        '출력전압',
-        CTextField(
-          filledColor: Colors.white,
-          textStyle: labelStyle,
-        ),
-        '충전용량',
-        CTextField(
-          filledColor: Colors.white,
-          textStyle: labelStyle,
-        ),
-      ),
-      entry2(
-        '제조사',
-        CTextField(
-          filledColor: Colors.white,
-          textStyle: labelStyle,
-        ),
-        '모델명',
-        CTextField(
-          filledColor: Colors.white,
-          textStyle: labelStyle,
-        ),
-      ),
-      entry(
-        '제작년월',
-        CRow(gap: 10, children: [
-          Expanded(
-            child: CSelectbox(
-              backgroundColor: Colors.white,
-              items: c.years,
-              selected: c.changeyear,
-              onSelected: (pos) => c.changeyear = pos,
+      for (int i = 0; i < c.chargeritems.length; i++)
+        round(<Widget>[
+          entryAdd(
+            '충전기',
+            CContainer(),
+            () {
+              i == 0
+                  ? c.chargeritems.add(Facility())
+                  : c.remove(c.chargeritems, i);
+            },
+            i == 0 ? true : false,
+          ),
+          entry2(
+            '설치현황',
+            CTextField(
+              text: c.chargeritems[i].value1,
+              controller: c.chargeritems[i].extra['value1'],
+              onChanged: (value) => c.chargeritems[i].value1 = value,
+              filledColor: Colors.white,
+              textStyle: labelStyle,
+            ),
+            'X',
+            CTextField(
+              text: c.chargeritems[i].value2,
+              controller: c.chargeritems[i].extra['value2'],
+              onChanged: (value) => c.chargeritems[i].value2 = value,
+              filledColor: Colors.white,
+              textStyle: labelStyle,
             ),
           ),
-          Expanded(
-            child: CSelectbox(
+          entry2(
+            '설치장소',
+            CSelectbox(
               backgroundColor: Colors.white,
-              items: c.months,
-              selected: c.changemonth,
-              onSelected: (pos) => c.changemonth = pos,
+              items: c.evplace,
+              selected: int.tryParse(c.chargeritems[i].value3) ?? 0,
+              onSelected: (pos) {
+                c.chargeritems[i].value3 = pos.toString();
+                c.chargeritemsRedraw();
+              },
             ),
+            '충전형식',
+            CSelectbox(
+              backgroundColor: Colors.white,
+              items: c.evform,
+              selected: int.tryParse(c.chargeritems[i].value4) ?? 0,
+              onSelected: (pos) {
+                c.chargeritems[i].value4 = pos.toString();
+                c.chargeritemsRedraw();
+              },
+            ),
+          ),
+          entry2(
+            '출력전압',
+            CTextField(
+              text: c.chargeritems[i].value5,
+              controller: c.chargeritems[i].extra['value5'],
+              onChanged: (value) => c.chargeritems[i].value5 = value,
+              filledColor: Colors.white,
+              textStyle: labelStyle,
+            ),
+            '충전용량',
+            CTextField(
+              text: c.chargeritems[i].value6,
+              controller: c.chargeritems[i].extra['value6'],
+              onChanged: (value) => c.chargeritems[i].value6 = value,
+              filledColor: Colors.white,
+              textStyle: labelStyle,
+            ),
+          ),
+          entry2(
+            '제조사',
+            CTextField(
+              text: c.chargeritems[i].value7,
+              controller: c.chargeritems[i].extra['value7'],
+              onChanged: (value) => c.chargeritems[i].value7 = value,
+              filledColor: Colors.white,
+              textStyle: labelStyle,
+            ),
+            '모델명',
+            CTextField(
+              text: c.chargeritems[i].value8,
+              controller: c.chargeritems[i].extra['value8'],
+              onChanged: (value) => c.chargeritems[i].value8 = value,
+              filledColor: Colors.white,
+              textStyle: labelStyle,
+            ),
+          ),
+          entry(
+            '제작년월',
+            CRow(gap: 10, children: [
+              Expanded(
+                child: CSelectbox(
+                  backgroundColor: Colors.white,
+                  items: c.years,
+                  selected: int.tryParse(c.chargeritems[i].value9) ?? 0,
+                  onSelected: (pos) {
+                    c.chargeritems[i].value9 = pos.toString();
+                    c.chargeritemsRedraw();
+                  },
+                ),
+              ),
+              Expanded(
+                child: CSelectbox(
+                  backgroundColor: Colors.white,
+                  items: c.months,
+                  selected: int.tryParse(c.chargeritems[i].value10) ?? 0,
+                  onSelected: (pos) {
+                    c.chargeritems[i].value10 = pos.toString();
+                    c.chargeritemsRedraw();
+                  },
+                ),
+              ),
+            ]),
           ),
         ]),
-      ),
     ]);
   }
 
