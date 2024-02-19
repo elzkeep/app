@@ -672,8 +672,8 @@ class FacilityInsertScreen extends CWidget {
       ),
       c.sunlight.name == "" ? Container() : sun(),
       c.charger.name == "" ? Container() : ev(),
-      ess(),
-      ups(),
+      c.ess.name == "" ? Container() : ess(),
+      c.ups.length > 0 ? Container() : loopups(),
       fuelcell(),
       wind(),
       hydro(),
@@ -1204,95 +1204,131 @@ class FacilityInsertScreen extends CWidget {
     ]);
   }
 
-  ups() {
-    final upsplaces = CItem.list(['', '옥내', '옥상(컨테이너)', '옥외(전용건물)', '직접입력']);
-    final cctv = CItem.list(['', '설치', '미설치']);
-    final upsusage = CItem.list(['', '통신부하', '전산부하', '비상부하', '소방/EL등', '직접입력']);
-    final upsmethod = CItem.list(['', '온라인', '오프라인']);
-    final upsperiod = CItem.list(['', '보관안함', '보관(6개월)', '보관(1년)', '직력입력']);
+  loopups() {
+    return CColumn(
+      children: [for (int i = 0; i < c.ups.length; i++) ups(c.ups[i], i)],
+    );
+  }
 
-    List<CItem> years = [CItem(id: 0, value: '')];
-    for (var i = 1970; i <= 2024; i++) {
-      years.add(CItem(id: i - 1970, value: '$i년'));
-    }
-
-    List<CItem> months = [CItem(id: 0, value: '')];
-
-    for (var i = 1; i <= 12; i++) {
-      months.add(CItem(id: i, value: '$i월'));
-    }
-
+  ups(ups, index) {
     return round(<Widget>[
-      CText('UPS'),
+      entryAdd(
+        'UPS',
+        CTextField(
+          text: ups.name,
+          controller: ups.extra['name'],
+          onChanged: (value) => ups.name = value,
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+        () {
+          index == 0 ? c.ups.add(Facility()) : c.remove(c.ups, index);
+        },
+        index == 0 ? true : false,
+      ),
       entry2(
         '설치장소',
         CSelectbox(
           backgroundColor: Colors.white,
-          items: upsplaces,
-          selected: c.changeyear,
-          onSelected: (pos) => c.changeyear = pos,
+          items: c.upspositions,
+          selected: int.tryParse(ups.value1) ?? 0,
+          onSelected: (pos) {
+            ups.value1 = pos.toString();
+            c.upsRedraw();
+          },
         ),
         'CCTV',
         CSelectbox(
           backgroundColor: Colors.white,
-          items: cctv,
-          selected: c.changeyear,
-          onSelected: (pos) => c.changeyear = pos,
+          items: c.upscctvs,
+          selected: int.tryParse(ups.value3) ?? 0,
+          onSelected: (pos) {
+            ups.value3 = pos.toString();
+            c.upsRedraw();
+          },
         ),
       ),
       entry(
         '상시운영정보 별도장소 보관 기간',
-        CTextField(
-          filledColor: Colors.white,
-          textStyle: labelStyle,
+        CSelectbox(
+          backgroundColor: Colors.white,
+          items: c.upskeeps,
+          selected: int.tryParse(ups.value4) ?? 0,
+          onSelected: (pos) {
+            ups.value4 = pos.toString();
+            c.upsRedraw();
+          },
         ),
       ),
       entry2(
         '용도',
         CSelectbox(
           backgroundColor: Colors.white,
-          items: upsusage,
-          selected: c.changeyear,
-          onSelected: (pos) => c.changeyear = pos,
+          items: c.upsusages,
+          selected: int.tryParse(ups.value6) ?? 0,
+          onSelected: (pos) {
+            ups.value6 = pos.toString();
+            c.upsRedraw();
+          },
         ),
         '방식',
         CSelectbox(
           backgroundColor: Colors.white,
-          items: upsmethod,
-          selected: c.changeyear,
-          onSelected: (pos) => c.changeyear = pos,
+          items: c.upstypes,
+          selected: int.tryParse(ups.value8) ?? 0,
+          onSelected: (pos) {
+            ups.value8 = pos.toString();
+            c.upsRedraw();
+          },
         ),
       ),
       entry(
         '비상전원공급 지속시간',
         CSelectbox(
           backgroundColor: Colors.white,
-          items: upsperiod,
-          selected: c.changeyear,
-          onSelected: (pos) => c.changeyear = pos,
+          items: c.upstimes,
+          selected: int.tryParse(ups.value9) ?? 0,
+          onSelected: (pos) {
+            ups.value9 = pos.toString();
+            c.upsRedraw();
+          },
         ),
       ),
       CText('전력변환장치'),
       entry2(
         '출력전압',
         CTextField(
+          text: ups.value11,
+          controller: ups.extra['value11'],
+          onChanged: (value) => ups.value11 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: 'V',
         ),
         '정격용량',
         CTextField(
+          text: ups.value12,
+          controller: ups.extra['value12'],
+          onChanged: (value) => ups.value12 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: 'kVA',
         ),
       ),
       entry2(
         '제조사',
         CTextField(
+          text: ups.value13,
+          controller: ups.extra['value13'],
+          onChanged: (value) => ups.value13 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         '제작번호',
         CTextField(
+          text: ups.value14,
+          controller: ups.extra['value14'],
+          onChanged: (value) => ups.value14 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
@@ -1303,17 +1339,23 @@ class FacilityInsertScreen extends CWidget {
           Expanded(
             child: CSelectbox(
               backgroundColor: Colors.white,
-              items: years,
-              selected: c.changeyear,
-              onSelected: (pos) => c.changeyear = pos,
+              items: c.years,
+              selected: int.tryParse(ups.value15) ?? 0,
+              onSelected: (pos) {
+                ups.value15 = pos.toString();
+                c.upsRedraw();
+              },
             ),
           ),
           Expanded(
             child: CSelectbox(
               backgroundColor: Colors.white,
-              items: months,
-              selected: c.changemonth,
-              onSelected: (pos) => c.changemonth = pos,
+              items: c.months,
+              selected: int.tryParse(ups.value16) ?? 0,
+              onSelected: (pos) {
+                ups.value16 = pos.toString();
+                c.upsRedraw();
+              },
             ),
           ),
         ]),
@@ -1322,27 +1364,41 @@ class FacilityInsertScreen extends CWidget {
       entry2(
         '용량',
         CTextField(
+          text: ups.value17,
+          controller: ups.extra['value17'],
+          onChanged: (value) => ups.value17 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: 'kW',
         ),
         '종류',
         CTextField(
+          text: ups.value18,
+          controller: ups.extra['value18'],
+          onChanged: (value) => ups.value18 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: 'V',
         ),
       ),
       entry2(
         '제조사',
         CTextField(
+          text: ups.value19,
+          controller: ups.extra['value19'],
+          onChanged: (value) => ups.value19 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         '제작년도',
         CSelectbox(
           backgroundColor: Colors.white,
-          items: years,
-          selected: c.changeyear,
-          onSelected: (pos) => c.changeyear = pos,
+          items: c.years,
+          selected: int.tryParse(ups.value20) ?? 0,
+          onSelected: (pos) {
+            ups.value20 = pos.toString();
+            c.upsRedraw();
+          },
         ),
       ),
     ]);

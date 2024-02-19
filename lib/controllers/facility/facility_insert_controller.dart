@@ -47,6 +47,10 @@ class FacilityInsertController extends GetxController {
   Facility get ess => _ess.value;
   set ess(Facility value) => _ess.value = value;
 
+  final _ups = [].obs;
+  get ups => _ups;
+  set ups(value) => _ups.value = value;
+
   final _relay = 0.obs;
   int get relay => _relay.value;
   set relay(int value) => _relay.value = value;
@@ -100,6 +104,15 @@ class FacilityInsertController extends GetxController {
   final esstype =
       CItem.list(['', '리튬이온', '니켈카드뮴', '니켈염화', '나트륨 황', '금속공기', '니켈수소', '직접입력'])
           .obs;
+  final upspositions =
+      CItem.list(['', '옥내', '옥상(컨테이너)', '옥외(전용건물)', '직접입력']).obs;
+  final upscctvs = CItem.list(['', '설치', '미설치']).obs;
+  final upsusages =
+      CItem.list(['', '통신부하', '전산부하', '비상부하', '소방/EL등', '직접입력']).obs;
+  final upskeeps = CItem.list(['', '보관안함', '보관(6개월)', '보관(1년)', '직력입력']).obs;
+  final upstypes = CItem.list(['', '온라인', '오프라인']).obs;
+  final upstimes =
+      CItem.list(['', '30분', '1시간', '2시간', '3시간', '4시간', '직력입력']).obs;
 
   List<CItem> years = [CItem(id: 0, value: '')].obs;
   List<CItem> months = [CItem(id: 0, value: '')].obs;
@@ -121,6 +134,9 @@ class FacilityInsertController extends GetxController {
     Map<String, TextEditingController> chargerextra = {};
     Map<String, TextEditingController> chargeritemsextra = {};
     Map<String, TextEditingController> essextra = {};
+    Map<String, TextEditingController> upsextra = {
+      'name': TextEditingController(),
+    };
 
     for (int i = 1; i <= 20; i++) {
       itemextra['value$i'] = TextEditingController();
@@ -130,6 +146,7 @@ class FacilityInsertController extends GetxController {
       chargerextra['value$i'] = TextEditingController();
       chargeritemsextra['value$i'] = TextEditingController();
       essextra['value$i'] = TextEditingController();
+      upsextra['value$i'] = TextEditingController();
     }
 
     super.onInit();
@@ -266,6 +283,28 @@ class FacilityInsertController extends GetxController {
     ess.extra['value7'].text = ess.value7;
     ess.extra['value8'].text = ess.value8;
     ess.extra['value9'].text = ess.value9;
+
+    final resups = await FacilityManager.find(params: 'building=4&category=60');
+
+    ups = resups;
+
+    if (ups.length == 0) {
+      ups.add(Facility());
+    }
+
+    for (int j = 0; j < ups.length; j++) {
+      ups[j].extra = upsextra;
+      ups[j].extra['name'].text = ups[j].name;
+      ups[j].extra['value1'].text = ups[j].value1;
+      ups[j].extra['value2'].text = ups[j].value2;
+      ups[j].extra['value3'].text = ups[j].value3;
+      ups[j].extra['value4'].text = ups[j].value4;
+      ups[j].extra['value5'].text = ups[j].value5;
+      ups[j].extra['value6'].text = ups[j].value6;
+      ups[j].extra['value7'].text = ups[j].value7;
+      ups[j].extra['value8'].text = ups[j].value8;
+      ups[j].extra['value9'].text = ups[j].value9;
+    }
   }
 
   remove(data, index) {
@@ -303,6 +342,10 @@ class FacilityInsertController extends GetxController {
 
   essRedraw() {
     _ess.refresh();
+  }
+
+  upsRedraw() {
+    _ups.refresh();
   }
 
   bool toBoolean(String str) {
