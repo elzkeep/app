@@ -16,6 +16,8 @@ class Report {
   String content;
   ReportStatus status;
   Company company = Company();
+  int user;
+  int building;
   String date;
   bool checked;
   Map<String, dynamic> extra;  
@@ -30,6 +32,8 @@ class Report {
           this.content = '',       
           this.status = ReportStatus.none,       
           Company? company,       
+          this.user = 0,       
+          this.building = 0,       
           this.date = '',
           this.extra = const{},
           this.checked = false}) {
@@ -50,12 +54,14 @@ class Report {
         content: json['content'] as String,
         status: ReportStatus.values[json['status'] as int],
         company: Company.fromJson(json['extra']['company']),
+        user: json['user'] as int,
+        building: json['building'] as int,
         date: json['date'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
     );
   }
 
   Map<String, dynamic> toJson() =>
-      { 'id': id,'title': title,'period': period,'number': number,'checkdate': checkdate,'checktime': checktime,'content': content,'status': status.index,'company': company.id,'date': date };
+      { 'id': id,'title': title,'period': period,'number': number,'checkdate': checkdate,'checktime': checktime,'content': content,'status': status.index,'company': company.id,'user': user,'building': building,'date': date };
 
   Report clone() {
     return Report.fromJson(toJson());

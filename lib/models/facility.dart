@@ -6,6 +6,7 @@ class Facility {
   int id;
   int category;
   int parent;
+  String name;
   String value1;
   String value2;
   String value3;
@@ -26,6 +27,11 @@ class Facility {
   String value18;
   String value19;
   String value20;
+  String value21;
+  String value22;
+  String value23;
+  String value24;
+  String value25;
   String content;
   int building;
   String date;
@@ -36,6 +42,7 @@ class Facility {
           this.id = 0,       
           this.category = 0,       
           this.parent = 0,       
+          this.name = '',       
           this.value1 = '',       
           this.value2 = '',       
           this.value3 = '',       
@@ -56,6 +63,11 @@ class Facility {
           this.value18 = '',       
           this.value19 = '',       
           this.value20 = '',       
+          this.value21 = '',       
+          this.value22 = '',       
+          this.value23 = '',       
+          this.value24 = '',       
+          this.value25 = '',       
           this.content = '',       
           this.building = 0,       
           this.date = '',
@@ -68,6 +80,7 @@ class Facility {
         id: json['id'] as int,
         category: json['category'] as int,
         parent: json['parent'] as int,
+        name: json['name'] as String,
         value1: json['value1'] as String,
         value2: json['value2'] as String,
         value3: json['value3'] as String,
@@ -88,6 +101,11 @@ class Facility {
         value18: json['value18'] as String,
         value19: json['value19'] as String,
         value20: json['value20'] as String,
+        value21: json['value21'] as String,
+        value22: json['value22'] as String,
+        value23: json['value23'] as String,
+        value24: json['value24'] as String,
+        value25: json['value25'] as String,
         content: json['content'] as String,
         building: json['building'] as int,
         date: json['date'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
@@ -95,7 +113,7 @@ class Facility {
   }
 
   Map<String, dynamic> toJson() =>
-      { 'id': id,'category': category,'parent': parent,'value1': value1,'value2': value2,'value3': value3,'value4': value4,'value5': value5,'value6': value6,'value7': value7,'value8': value8,'value9': value9,'value10': value10,'value11': value11,'value12': value12,'value13': value13,'value14': value14,'value15': value15,'value16': value16,'value17': value17,'value18': value18,'value19': value19,'value20': value20,'content': content,'building': building,'date': date };
+      { 'id': id,'category': category,'parent': parent,'name': name,'value1': value1,'value2': value2,'value3': value3,'value4': value4,'value5': value5,'value6': value6,'value7': value7,'value8': value8,'value9': value9,'value10': value10,'value11': value11,'value12': value12,'value13': value13,'value14': value14,'value15': value15,'value16': value16,'value17': value17,'value18': value18,'value19': value19,'value20': value20,'value21': value21,'value22': value22,'value23': value23,'value24': value24,'value25': value25,'content': content,'building': building,'date': date };
 
   Facility clone() {
     return Facility.fromJson(toJson());
