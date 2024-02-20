@@ -115,17 +115,4 @@ class ReportManager {
   static delete(Report item) async {
     await Http.delete(baseUrl, item.toJson());
   }
-
-  static Future<List<Report>> search(
-      {int page = 0, int pagesize = 20, String? params}) async {
-    var result = await Http.get(
-        '$baseUrl/search/$page', {'page': page, 'pagesize': pagesize}, params);
-    if (result == null || result['items'] == null) {
-      return List<Report>.empty(growable: true);
-    }
-
-    return result['items']
-        .map<Report>((json) => Report.fromJson(json))
-        .toList();
-  }
 }
