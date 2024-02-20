@@ -11,7 +11,11 @@ facility() {
       page: () => FacilityViewScreen(),
       //middlewares: [AuthService()],
       binding: BindingsBuilder(() {
-        Get.put(FacilityViewController(0));
+        int building = 0;
+        if (Get.arguments != null) {
+          building = Get.arguments['building'];
+        }
+        Get.put(FacilityViewController(0, building));
       }),
     ),
     GetPage(
@@ -19,7 +23,11 @@ facility() {
       page: () => FacilityInsertScreen(),
       //middlewares: [AuthService()],
       binding: BindingsBuilder(() {
-        Get.put(FacilityInsertController(0));
+        int building = 0;
+        if (Get.arguments != null) {
+          building = Get.arguments['building'];
+        }
+        Get.put(FacilityInsertController(0, building));
       }),
     ),
   ];

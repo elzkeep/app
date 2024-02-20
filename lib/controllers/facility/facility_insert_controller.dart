@@ -3,9 +3,10 @@ import 'package:zkeep/components/cselectbox.dart';
 import 'package:zkeep/models/facility.dart';
 
 class FacilityInsertController extends GetxController {
-  FacilityInsertController(this.id);
+  FacilityInsertController(this.id, this.building);
 
   final int id;
+  final int building;
 
   final _item = Facility().obs;
   Facility get item => _item.value;
@@ -200,7 +201,9 @@ class FacilityInsertController extends GetxController {
     }
 
     super.onInit();
-    items = await FacilityManager.find(params: 'building=4&category=10');
+
+    items =
+        await FacilityManager.find(params: 'building=$building&category=10');
     if (items.length == 0) {
       item = Facility();
     } else {
@@ -217,13 +220,15 @@ class FacilityInsertController extends GetxController {
     item.extra['value2'].text = item.value2;
     item.extra['value10'].text = item.value10;
 
-    items = await FacilityManager.find(params: 'building=4&category=11');
+    items =
+        await FacilityManager.find(params: 'building=$building&category=11');
 
     if (items.length == 0) {
       items.add(Facility());
     }
 
-    transs = await FacilityManager.find(params: 'building=4&category=12');
+    transs =
+        await FacilityManager.find(params: 'building=$building&category=12');
 
     if (transs.length == 0) {
       transs.add(Facility());
@@ -242,7 +247,8 @@ class FacilityInsertController extends GetxController {
       transs[j].extra['value9'].text = transs[j].value9;
     }
 
-    highs = await FacilityManager.find(params: 'building=4&category=13');
+    highs =
+        await FacilityManager.find(params: 'building=$building&category=13');
     if (highs.length == 0) {
       highs.add(Facility());
     }
@@ -260,7 +266,8 @@ class FacilityInsertController extends GetxController {
       highs[j].extra['value9'].text = highs[j].value9;
     }
 
-    generator = await FacilityManager.find(params: 'building=4&category=20');
+    generator =
+        await FacilityManager.find(params: 'building=$building&category=20');
     if (generator.length == 0) {
       generator.add(Facility());
     }
@@ -279,7 +286,8 @@ class FacilityInsertController extends GetxController {
       generator[j].extra['value9'].text = generator[j].value9;
     }
 
-    final res = await FacilityManager.find(params: 'building=4&category=30');
+    final res =
+        await FacilityManager.find(params: 'building=$building&category=30');
 
     if (res.isNotEmpty) {
       sunlight = res[0];
@@ -298,7 +306,7 @@ class FacilityInsertController extends GetxController {
     sunlight.extra['value9'].text = sunlight.value9;
 
     final rescharger =
-        await FacilityManager.find(params: 'building=4&category=40');
+        await FacilityManager.find(params: 'building=$building&category=40');
 
     if (rescharger.isNotEmpty) {
       charger = rescharger[0];
@@ -317,7 +325,7 @@ class FacilityInsertController extends GetxController {
     charger.extra['value9'].text = charger.value9;
 
     final reschargeritems =
-        await FacilityManager.find(params: 'building=4&category=41');
+        await FacilityManager.find(params: 'building=$building&category=41');
 
     chargeritems = reschargeritems;
 
@@ -338,7 +346,8 @@ class FacilityInsertController extends GetxController {
       chargeritems[j].extra['value9'].text = chargeritems[j].value9;
     }
 
-    final resess = await FacilityManager.find(params: 'building=4&category=50');
+    final resess =
+        await FacilityManager.find(params: 'building=$building&category=50');
 
     if (resess.isNotEmpty) {
       ess = resess[0];
@@ -356,7 +365,8 @@ class FacilityInsertController extends GetxController {
     ess.extra['value8'].text = ess.value8;
     ess.extra['value9'].text = ess.value9;
 
-    final resups = await FacilityManager.find(params: 'building=4&category=60');
+    final resups =
+        await FacilityManager.find(params: 'building=$building&category=60');
 
     ups = resups;
 
@@ -381,7 +391,7 @@ class FacilityInsertController extends GetxController {
     }
 
     final resfuel =
-        await FacilityManager.find(params: 'building=4&category=70');
+        await FacilityManager.find(params: 'building=$building&category=70');
 
     fuel = resfuel;
 
@@ -406,7 +416,7 @@ class FacilityInsertController extends GetxController {
     }
 
     final reswind =
-        await FacilityManager.find(params: 'building=4&category=80');
+        await FacilityManager.find(params: 'building=$building&category=80');
 
     wind = reswind;
 
@@ -431,7 +441,7 @@ class FacilityInsertController extends GetxController {
     }
 
     final reswater =
-        await FacilityManager.find(params: 'building=4&category=90');
+        await FacilityManager.find(params: 'building=$building&category=90');
 
     if (reswater.isNotEmpty) {
       water = reswater[0];

@@ -123,13 +123,18 @@ class FacilityViewScreen extends CWidget {
               lineColor: Colors.black12,
               gap: 10,
               children: [
-                CBothSide(children: [CText('비상용발전:'), CText('발전용량:')]),
+                CBothSide(children: [
+                  CText('비상용발전:'),
+                  CText('발전용량:'),
+                ]),
                 CBothSide(children: [CText('태양광발전:'), CText('발전용량:')]),
               ]))
     ]);
   }
 
   clickUpdate(pos) {
-    Get.toNamed('/facility/${c.id}/insert');
+    print(c.building);
+    Get.toNamed('/facility/${c.id}/insert',
+        arguments: {'building': c.building});
   }
 }
