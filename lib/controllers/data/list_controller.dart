@@ -3,9 +3,12 @@ import 'package:localstorage/localstorage.dart';
 import 'package:zkeep/models/report.dart';
 
 class ListController extends InfiniteController {
-  ListController() : super(reader: ReportManager.search, params: '');
+  ListController()
+      : super(reader: ReportManager.search, params: 'user=$userId');
 
   TextEditingController searchTextController = TextEditingController();
+
+  static get userId => LocalStorage('login.json').getItem('user')['id'];
 
   final _searchIndex = 1.obs;
   int get searchIndex => _searchIndex.value;
@@ -34,11 +37,7 @@ class ListController extends InfiniteController {
       params += 'search=$searchText';
     }
 
-    final storage = LocalStorage('login.json');
-    await storage.ready;
-    final userItem = await storage.getItem('user');
-
-    params += '&user=${userItem['id']}';
+    params += '&user=$userId';
 
     await reset();
   }
