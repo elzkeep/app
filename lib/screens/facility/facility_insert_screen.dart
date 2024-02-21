@@ -580,66 +580,82 @@ class FacilityInsertScreen extends CWidget {
       CColumn(
         gap: 10,
         children: [
-          // for (int i = 0; i < highs.content; i++)
-          round(<Widget>[
-            entryAdd(
-              '계전기1',
-              CSelectbox(
-                backgroundColor: Colors.white,
-                items: c.relays,
-                selected: c.relay,
-                onSelected: (pos) => c.relay = pos,
-              ),
-              () {
-                index == 0
-                    ? highs.centent.add(Facility())
-                    : c.remove(highs.content, index);
-              },
-              index == 0 ? true : false,
-            ),
-            entry2(
-              '제조사',
-              CTextField(
-                suffixText: '',
-                filledColor: Colors.white,
-                textStyle: labelStyle,
-              ),
-              '제작년도',
-              CTextField(
-                suffixText: '',
-                filledColor: Colors.white,
-                textStyle: labelStyle,
-              ),
-            ),
-            entry2(
-              '형식',
-              CTextField(
-                suffixText: '',
-                filledColor: Colors.white,
-                textStyle: labelStyle,
-              ),
-              '계전기번호',
-              CTextField(
-                suffixText: '',
-                filledColor: Colors.white,
-                textStyle: labelStyle,
-              ),
-            ),
-            entry2(
-                '설치장소',
+          for (int i = 0; i < highs.content.length; i++)
+            round(<Widget>[
+              entryAdd(
+                '계전기1',
                 CTextField(
-                  suffixText: '',
+                  text: highs.content[i].value1,
+                  controller: highs.content[i].extra['value1'],
+                  onChanged: (value) => highs.content[i].value1 = value,
                   filledColor: Colors.white,
                   textStyle: labelStyle,
                 ),
-                '연결기기',
+                () {
+                  index == 0
+                      ? highs.centent.add(Facility())
+                      : c.remove(highs.content, index);
+                },
+                index == 0 ? true : false,
+              ),
+              entry2(
+                '제조사',
                 CSelectbox(
                   backgroundColor: Colors.white,
-                  items: c.breakers,
-                  selected: c.relayconnect,
-                  onSelected: (pos) => c.relayconnect = pos,
-                )),
-          ]),
+                  items: c.relays,
+                  selected: int.tryParse(highs.content[i].value2) ?? 0,
+                  onSelected: (pos) {
+                    highs.content[i].value2 = pos.toString();
+                    c.highsRedraw();
+                  },
+                ),
+                '제작년도',
+                CTextField(
+                  text: highs.content[i].value3,
+                  controller: highs.content[i].extra['value3'],
+                  onChanged: (value) => highs.content[i].value3 = value,
+                  filledColor: Colors.white,
+                  textStyle: labelStyle,
+                ),
+              ),
+              entry2(
+                '형식',
+                CTextField(
+                  text: highs.content[i].value4,
+                  controller: highs.content[i].extra['value4'],
+                  onChanged: (value) => highs.content[i].value4 = value,
+                  filledColor: Colors.white,
+                  textStyle: labelStyle,
+                ),
+                '계전기번호',
+                CTextField(
+                  text: highs.content[i].value5,
+                  controller: highs.content[i].extra['value5'],
+                  onChanged: (value) => highs.content[i].value5 = value,
+                  filledColor: Colors.white,
+                  textStyle: labelStyle,
+                ),
+              ),
+              entry2(
+                  '설치장소',
+                  CTextField(
+                    text: highs.content[i].value6,
+                    controller: highs.content[i].extra['value6'],
+                    onChanged: (value) => highs.content[i].value6 = value,
+                    filledColor: Colors.white,
+                    textStyle: labelStyle,
+                  ),
+                  '연결기기',
+                  CSelectbox(
+                    backgroundColor: Colors.white,
+                    items: c.years,
+                    selected: int.tryParse(highs.content[i].value7) ?? 0,
+                    onSelected: (pos) {
+                      highs.content[i].value7 = pos.toString();
+                      c.highsRedraw();
+                    },
+                  )),
+            ]),
         ],
       ),
     ]);

@@ -1,6 +1,7 @@
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/components/cselectbox.dart';
 import 'package:zkeep/models/facility.dart';
+import 'package:zkeep/models/facilityitem.dart';
 
 class FacilityInsertController extends GetxController {
   FacilityInsertController(this.id, this.building);
@@ -165,6 +166,7 @@ class FacilityInsertController extends GetxController {
     Map<String, TextEditingController> itemextra = {};
     Map<String, TextEditingController> transsextra = {};
     Map<String, TextEditingController> highsextra = {};
+    Map<String, TextEditingController> highsitemextra = {};
     Map<String, TextEditingController> generatorextra = {
       'name': TextEditingController(),
     };
@@ -185,10 +187,11 @@ class FacilityInsertController extends GetxController {
       'name': TextEditingController(),
     };
 
-    for (int i = 1; i <= 20; i++) {
+    for (int i = 1; i <= 25; i++) {
       itemextra['value$i'] = TextEditingController();
       transsextra['value$i'] = TextEditingController();
       highsextra['value$i'] = TextEditingController();
+      highsitemextra['value$i'] = TextEditingController();
       generatorextra['value$i'] = TextEditingController();
       sunlightextra['value$i'] = TextEditingController();
       chargerextra['value$i'] = TextEditingController();
@@ -251,6 +254,7 @@ class FacilityInsertController extends GetxController {
         await FacilityManager.find(params: 'building=$building&category=13');
     if (highs.length == 0) {
       highs.add(Facility());
+      highs.content.add(FacilityItem());
     }
 
     for (int j = 0; j < highs.length; j++) {
@@ -264,12 +268,27 @@ class FacilityInsertController extends GetxController {
       highs[j].extra['value7'].text = highs[j].value7;
       highs[j].extra['value8'].text = highs[j].value8;
       highs[j].extra['value9'].text = highs[j].value9;
+      for (int k = 0; k < highs[j].content.length; k++) {
+        highs[j].content[k].extra = highsitemextra;
+        highs[j].content[k].extra['value1'].text = highs[j].content[k].value1;
+        highs[j].content[k].extra['value2'].text = highs[j].content[k].value2;
+        highs[j].content[k].extra['value3'].text = highs[j].content[k].value3;
+        highs[j].content[k].extra['value4'].text = highs[j].content[k].value4;
+        highs[j].content[k].extra['value5'].text = highs[j].content[k].value5;
+        highs[j].content[k].extra['value6'].text = highs[j].content[k].value6;
+        highs[j].content[k].extra['value7'].text = highs[j].content[k].value7;
+        highs[j].content[k].extra['value8'].text = highs[j].content[k].value8;
+        highs[j].content[k].extra['value9'].text = highs[j].content[k].value9;
+        highs[j].content[k].extra['value10'].text = highs[j].content[k].value10;
+      }
     }
 
     generator =
         await FacilityManager.find(params: 'building=$building&category=20');
     if (generator.length == 0) {
       generator.add(Facility());
+    } else {
+      other[0] = true;
     }
 
     for (int j = 0; j < generator.length; j++) {
@@ -284,6 +303,17 @@ class FacilityInsertController extends GetxController {
       generator[j].extra['value7'].text = generator[j].value7;
       generator[j].extra['value8'].text = generator[j].value8;
       generator[j].extra['value9'].text = generator[j].value9;
+      generator[j].extra['value10'].text = generator[j].value10;
+      generator[j].extra['value11'].text = generator[j].value11;
+      generator[j].extra['value12'].text = generator[j].value12;
+      generator[j].extra['value13'].text = generator[j].value13;
+      generator[j].extra['value14'].text = generator[j].value14;
+      generator[j].extra['value15'].text = generator[j].value15;
+      generator[j].extra['value16'].text = generator[j].value16;
+      generator[j].extra['value17'].text = generator[j].value17;
+      generator[j].extra['value18'].text = generator[j].value18;
+      generator[j].extra['value19'].text = generator[j].value19;
+      generator[j].extra['value20'].text = generator[j].value20;
     }
 
     final res =
@@ -304,6 +334,13 @@ class FacilityInsertController extends GetxController {
     sunlight.extra['value7'].text = sunlight.value7;
     sunlight.extra['value8'].text = sunlight.value8;
     sunlight.extra['value9'].text = sunlight.value9;
+    sunlight.extra['value10'].text = sunlight.value10;
+    sunlight.extra['value11'].text = sunlight.value11;
+    sunlight.extra['value12'].text = sunlight.value12;
+    sunlight.extra['value13'].text = sunlight.value13;
+    sunlight.extra['value14'].text = sunlight.value14;
+    sunlight.extra['value15'].text = sunlight.value15;
+    sunlight.extra['value16'].text = sunlight.value16;
 
     final rescharger =
         await FacilityManager.find(params: 'building=$building&category=40');
@@ -364,6 +401,19 @@ class FacilityInsertController extends GetxController {
     ess.extra['value7'].text = ess.value7;
     ess.extra['value8'].text = ess.value8;
     ess.extra['value9'].text = ess.value9;
+    ess.extra['value10'].text = ess.value10;
+    ess.extra['value11'].text = ess.value11;
+    ess.extra['value12'].text = ess.value12;
+    ess.extra['value13'].text = ess.value13;
+    ess.extra['value14'].text = ess.value14;
+    ess.extra['value15'].text = ess.value15;
+    ess.extra['value16'].text = ess.value16;
+    ess.extra['value17'].text = ess.value17;
+    ess.extra['value18'].text = ess.value18;
+    ess.extra['value19'].text = ess.value19;
+    ess.extra['value20'].text = ess.value20;
+    ess.extra['value21'].text = ess.value21;
+    ess.extra['value22'].text = ess.value22;
 
     final resups =
         await FacilityManager.find(params: 'building=$building&category=60');
@@ -388,6 +438,16 @@ class FacilityInsertController extends GetxController {
       ups[j].extra['value7'].text = ups[j].value7;
       ups[j].extra['value8'].text = ups[j].value8;
       ups[j].extra['value9'].text = ups[j].value9;
+      ups[j].extra['value10'].text = ups[j].value10;
+      ups[j].extra['value11'].text = ups[j].value11;
+      ups[j].extra['value12'].text = ups[j].value12;
+      ups[j].extra['value13'].text = ups[j].value13;
+      ups[j].extra['value14'].text = ups[j].value14;
+      ups[j].extra['value15'].text = ups[j].value15;
+      ups[j].extra['value16'].text = ups[j].value16;
+      ups[j].extra['value17'].text = ups[j].value17;
+      ups[j].extra['value18'].text = ups[j].value18;
+      ups[j].extra['value19'].text = ups[j].value19;
     }
 
     final resfuel =
@@ -413,6 +473,16 @@ class FacilityInsertController extends GetxController {
       fuel[j].extra['value7'].text = fuel[j].value7;
       fuel[j].extra['value8'].text = fuel[j].value8;
       fuel[j].extra['value9'].text = fuel[j].value9;
+      fuel[j].extra['value10'].text = fuel[j].value10;
+      fuel[j].extra['value11'].text = fuel[j].value11;
+      fuel[j].extra['value12'].text = fuel[j].value12;
+      fuel[j].extra['value13'].text = fuel[j].value13;
+      fuel[j].extra['value14'].text = fuel[j].value14;
+      fuel[j].extra['value15'].text = fuel[j].value15;
+      fuel[j].extra['value16'].text = fuel[j].value16;
+      fuel[j].extra['value17'].text = fuel[j].value17;
+      fuel[j].extra['value18'].text = fuel[j].value18;
+      fuel[j].extra['value19'].text = fuel[j].value19;
     }
 
     final reswind =
@@ -438,6 +508,22 @@ class FacilityInsertController extends GetxController {
       wind[j].extra['value7'].text = wind[j].value7;
       wind[j].extra['value8'].text = wind[j].value8;
       wind[j].extra['value9'].text = wind[j].value9;
+      wind[j].extra['value10'].text = wind[j].value10;
+      wind[j].extra['value11'].text = wind[j].value11;
+      wind[j].extra['value12'].text = wind[j].value12;
+      wind[j].extra['value13'].text = wind[j].value13;
+      wind[j].extra['value14'].text = wind[j].value14;
+      wind[j].extra['value15'].text = wind[j].value15;
+      wind[j].extra['value16'].text = wind[j].value16;
+      wind[j].extra['value17'].text = wind[j].value17;
+      wind[j].extra['value18'].text = wind[j].value18;
+      wind[j].extra['value19'].text = wind[j].value19;
+      wind[j].extra['value20'].text = wind[j].value20;
+      wind[j].extra['value21'].text = wind[j].value21;
+      wind[j].extra['value22'].text = wind[j].value22;
+      wind[j].extra['value23'].text = wind[j].value23;
+      wind[j].extra['value24'].text = wind[j].value24;
+      wind[j].extra['value25'].text = wind[j].value25;
     }
 
     final reswater =
