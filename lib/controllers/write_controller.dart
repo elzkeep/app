@@ -1,5 +1,6 @@
 import 'package:common_control/common_control.dart';
 import 'package:intl/intl.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:zkeep/models/company.dart';
 import 'package:zkeep/models/report.dart';
 
@@ -69,7 +70,12 @@ class WriteController extends GetxController {
       return false;
     }
 
+    final storage = LocalStorage('login.json');
+    await storage.ready;
+    final userItem = await storage.getItem('user');
+
     final item = Report()
+      ..user = userItem['id']
       ..title = name.text
       ..period = period
       ..number = ordinal

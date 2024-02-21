@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:common_control/common_control.dart';
+import 'package:localstorage/localstorage.dart';
 
 class Config {
   static const serverUrl = 'http://localhost:9303';

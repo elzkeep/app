@@ -1,4 +1,5 @@
 import 'package:common_control/common_control.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:zkeep/models/report.dart';
 
 class ListController extends InfiniteController {
@@ -32,6 +33,12 @@ class ListController extends InfiniteController {
 
       params += 'search=$searchText';
     }
+
+    final storage = LocalStorage('login.json');
+    await storage.ready;
+    final userItem = await storage.getItem('user');
+
+    params += '&user=${userItem['id']}';
 
     await reset();
   }

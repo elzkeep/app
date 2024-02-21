@@ -65,7 +65,7 @@ class WriteScreen extends CWidget {
                     items: ordinal,
                     selected: c.ordinal,
                     onSelected: (pos) {
-                      c.period = pos;
+                      c.ordinal = pos;
                     }))
           ]),
           CFormtitle(title: '점검일시'),
