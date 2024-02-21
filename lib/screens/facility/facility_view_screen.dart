@@ -1,4 +1,6 @@
+import 'package:common_control/ccontainer.dart';
 import 'package:common_control/common_control.dart';
+import 'package:flutter/material.dart';
 import 'package:zkeep/components/cround.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/components/sub_title.dart';
@@ -12,16 +14,50 @@ class FacilityViewScreen extends CWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Layout(
+    return Obx(() => Layout(
         popup: true,
         child: CScroll(gap: 20, children: [
           company(),
           building(),
-          check(),
-          contract(),
-          contract2(),
+          CColumn(gap: 10, children: [
+            SubTitle(
+              '고압차단기',
+            ),
+            for (int i = 0; i < c.highs.length; i++) check(c.highs[i]),
+          ]),
+          CColumn(gap: 10, children: [
+            SubTitle(
+              '변전 설비',
+            ),
+            for (int i = 0; i < c.transs.length; i++) contract(c.transs[i]),
+          ]),
+          // contract2(),
           const SizedBox(height: 50)
-        ]));
+        ])));
+  }
+
+  entry(text1, answer1) {
+    return CRow(
+      children: [CText(text1), CText(answer1)],
+    );
+  }
+
+  entry2(text1, answer1, text2, answer2) {
+    return CRow(
+      children: [
+        Expanded(
+          child: CRow(
+            children: [CText(text1), CText(answer1)],
+          ),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: CRow(
+            children: [CText(text2), CText(answer2)],
+          ),
+        )
+      ],
+    );
   }
 
   company() {
@@ -38,8 +74,12 @@ class FacilityViewScreen extends CWidget {
               lineColor: Colors.black12,
               gap: 10,
               children: [
-                CBothSide(children: [CText('수전용량:'), CText('관리점수:')]),
-                CBothSide(children: [CText('수전 위치:'), CText('수전 형태:')]),
+                entry2('수전용량: ', c.item.value2, '관리점수: ', ''),
+                entry2(
+                    '수전 위치:',
+                    c.positions[int.tryParse(c.item.value4) ?? 0].value,
+                    '수전 형태:',
+                    c.types[int.tryParse(c.item.value3) ?? 0].value),
               ]))
     ]);
   }
@@ -48,8 +88,6 @@ class FacilityViewScreen extends CWidget {
     return CColumn(gap: 10, children: [
       SubTitle(
         '수배전 설비',
-        // more: '수정',
-        // onMore: () => clickUpdate(2),
       ),
       CRound(
           backgroundColor: Config.backgroundColor,
@@ -58,63 +96,83 @@ class FacilityViewScreen extends CWidget {
               lineColor: Colors.black12,
               gap: 10,
               children: [
-                CText('수전전압: '),
-                CBothSide(children: [CText('형태:'), CText('면수:')]),
-              ]))
+                entry('수전전압: ',
+                    c.arrangementtypes[int.tryParse(c.item.value6) ?? 0].value),
+                entry2(
+                    '형태:',
+                    c.arrangementtypes[int.tryParse(c.item.value7) ?? 0].value,
+                    '면수:',
+                    c.faces[int.tryParse(c.item.value8) ?? 0].value),
+              ])),
+      for (int i = 0; i < c.items.length; i++) distributiation(c.items[i]),
+      Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: entry2('제조사: ', c.item.value10, '설치년월',
+              c.years[int.tryParse(c.item.value11) ?? 0].value))
     ]);
   }
 
-  check() {
-    return CColumn(gap: 10, children: [
-      SubTitle(
-        '고압차단기',
-        // more: '수정',
-        // onMore: () => clickUpdate(3),
-      ),
-      CRound(
-          backgroundColor: Config.backgroundColor,
-          child: CColumn(
-              lineWidth: 1,
-              lineColor: Colors.black12,
-              gap: 10,
-              children: [
-                CText('형식: '),
-                CBothSide(children: [CText('정격전압:'), CText('정격전류:')]),
-                CBothSide(children: [CText('차단전류:'), CText('차단용량:')]),
-                CBothSide(children: [CText('제조사:'), CText('설치년월:')]),
-              ]))
-    ]);
+  distributiation(items) {
+    return CRound(
+        backgroundColor: Config.backgroundColor,
+        child: CColumn(
+            lineWidth: 1,
+            lineColor: Colors.black12,
+            gap: 10,
+            children: [
+              entry('분배전 전압: ', c.volts[int.tryParse(items.value1) ?? 0].value),
+              entry2(
+                  '형식:',
+                  c.distributationtypes[int.tryParse(items.value3) ?? 0].value,
+                  '면수:',
+                  c.faces[int.tryParse(items.value4) ?? 0].value),
+            ]));
   }
 
-  contract() {
-    return CColumn(gap: 10, children: [
-      SubTitle(
-        '변압 설비',
-        // more: '수정',
-        // onMore: () => clickUpdate(4),
-      ),
-      CRound(
-          backgroundColor: Config.backgroundColor,
-          child: CColumn(
-              lineWidth: 1,
-              lineColor: Colors.black12,
-              gap: 10,
-              children: [
-                CText('변압기:'),
-                CBothSide(children: [CText('공급방식:'), CText('형식:')]),
-                CBothSide(children: [CText('정격용량:'), CText('1차 전류:')]),
-                CBothSide(children: [CText('%Z수치:'), CText('2차 전류:')]),
-                CBothSide(children: [CText('제조사:'), CText('설치연도:')]),
-              ]))
-    ]);
+  check(highs) {
+    return CRound(
+        backgroundColor: Config.backgroundColor,
+        child: CColumn(
+            lineWidth: 1,
+            lineColor: Colors.black12,
+            gap: 10,
+            children: [
+              entry('설치 장소: ', highs.value1),
+              entry2('차단기명:', c.breakers[int.tryParse(highs.value2) ?? 0].value,
+                  '차단용량:', highs.value3),
+              entry2('정격전압:', highs.value4, '전류:', highs.value5),
+              entry2('제조사:', highs.value6, '제조번호:', highs.value7),
+              entry('제작년월:',
+                  '${c.years[int.tryParse(highs.value8) ?? 0].value}년 ${c.months[int.tryParse(highs.value9) ?? 0].value}'),
+            ]));
+  }
+
+  contract(transs) {
+    return CRound(
+        backgroundColor: Config.backgroundColor,
+        child: CColumn(
+            lineWidth: 1,
+            lineColor: Colors.black12,
+            gap: 10,
+            children: [
+              entry('설비명: ', transs.value1),
+              entry2(
+                  '형식:',
+                  c.transstypes[int.tryParse(transs.value2) ?? 0].value,
+                  '정격용량:',
+                  transs.value3),
+              entry2('%Z:', transs.value4, '정격전압:', transs.value5),
+              entry2('제조사:', transs.value6, '제조번호:', transs.value7),
+              entry('제작년월:',
+                  '${c.years[int.tryParse(transs.value8) ?? 0].value}년 ${c.months[int.tryParse(transs.value9) ?? 0].value}'),
+              CText('변압기:'),
+            ]));
   }
 
   contract2() {
     return CColumn(gap: 10, children: [
       SubTitle(
         '발전 설비',
-        // more: '수정',
-        // onMore: () => clickUpdate(4),
       ),
       CRound(
           backgroundColor: Config.backgroundColor,

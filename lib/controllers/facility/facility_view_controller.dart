@@ -186,6 +186,8 @@ class FacilityViewController extends GetxController {
 
     if (res.isEmpty) {
       items.add(Facility());
+    } else {
+      items = res;
     }
   }
 
@@ -195,6 +197,8 @@ class FacilityViewController extends GetxController {
 
     if (res.isEmpty) {
       transs.add(Facility());
+    } else {
+      transs = res;
     }
   }
 
@@ -204,6 +208,8 @@ class FacilityViewController extends GetxController {
 
     if (res.isEmpty) {
       highs.add(Facility());
+    } else {
+      highs = res;
     }
   }
 
@@ -214,6 +220,7 @@ class FacilityViewController extends GetxController {
     if (res.isEmpty) {
       generator.add(Facility());
     } else {
+      generator = res;
       other[0] = true;
     }
   }
@@ -246,6 +253,8 @@ class FacilityViewController extends GetxController {
 
     if (res.isEmpty) {
       chargeritems.add(Facility());
+    } else {
+      chargeritems = res;
     }
   }
 
