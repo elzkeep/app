@@ -75,7 +75,9 @@ class FacilityViewScreen extends CWidget {
                 entry2('수전용량: ', c.item.value2, '관리점수: ', ''),
                 entry2(
                     '수전 위치:',
-                    c.positions[int.tryParse(c.item.value4) ?? 0].value,
+                    c.item.value4 == '7'
+                        ? c.item.value5
+                        : c.positions[int.tryParse(c.item.value4) ?? 0].value,
                     '수전 형태:',
                     c.types[int.tryParse(c.item.value3) ?? 0].value),
               ]))
@@ -94,13 +96,16 @@ class FacilityViewScreen extends CWidget {
               lineColor: Colors.black12,
               gap: 10,
               children: [
-                entry('수전전압: ',
-                    c.arrangementtypes[int.tryParse(c.item.value6) ?? 0].value),
+                entry(
+                    '수전전압: ',
+                    c.item.value6 == '3'
+                        ? c.item.value7
+                        : c.volts[int.tryParse(c.item.value6) ?? 0].value),
                 entry2(
                     '형태:',
-                    c.arrangementtypes[int.tryParse(c.item.value7) ?? 0].value,
+                    c.arrangementtypes[int.tryParse(c.item.value8) ?? 0].value,
                     '면수:',
-                    c.faces[int.tryParse(c.item.value8) ?? 0].value),
+                    c.faces[int.tryParse(c.item.value9) ?? 0].value),
               ])),
       for (int i = 0; i < c.items.length; i++) distributiation(c.items[i]),
       Padding(
@@ -118,12 +123,21 @@ class FacilityViewScreen extends CWidget {
             lineColor: Colors.black12,
             gap: 10,
             children: [
-              entry('분배전 전압: ', c.volts[int.tryParse(items.value1) ?? 0].value),
+              entry(
+                  '분배전 전압: ',
+                  items.value1 == '3'
+                      ? items.value2
+                      : c.volts[int.tryParse(items.value1) ?? 0].value),
               entry2(
                   '형식:',
-                  c.distributationtypes[int.tryParse(items.value3) ?? 0].value,
+                  items.value3 == '3'
+                      ? items.value4
+                      : c.distributationtypes[int.tryParse(items.value3) ?? 0]
+                          .value,
                   '면수:',
-                  c.faces[int.tryParse(items.value4) ?? 0].value),
+                  items.value5 == '3'
+                      ? items.value6
+                      : c.faces[int.tryParse(items.value5) ?? 0].value),
             ]));
   }
 
@@ -153,7 +167,7 @@ class FacilityViewScreen extends CWidget {
             lineColor: Colors.black12,
             gap: 10,
             children: [
-              entry('설비명: ', transs.value1),
+              entry('설비명: ', transs.name),
               entry2(
                   '형식:',
                   c.transstypes[int.tryParse(transs.value2) ?? 0].value,
@@ -163,7 +177,6 @@ class FacilityViewScreen extends CWidget {
               entry2('제조사:', transs.value6, '제조번호:', transs.value7),
               entry('제작년월:',
                   '${c.years[int.tryParse(transs.value8) ?? 0].value}년 ${c.months[int.tryParse(transs.value9) ?? 0].value}'),
-              CText('변압기:'),
             ]));
   }
 

@@ -215,11 +215,24 @@ class FacilityInsertScreen extends CWidget {
             items: c.positions,
             selected: int.tryParse(c.item.value4) ?? 0,
             onSelected: (pos) {
+              c.item.value5 = '';
+              c.item.extra['value5'].text = '';
               c.item.value4 = pos.toString();
               c.itemRedraw();
             },
           ),
         ),
+        if (c.item.value4 == '7')
+          entry(
+            '수전위치',
+            CTextField(
+              text: c.item.value5,
+              onChanged: (value) => c.item.value5 = value,
+              controller: c.item.extra['value5'],
+              filledColor: Colors.white,
+              textStyle: labelStyle,
+            ),
+          ),
       ]),
       const SizedBox(height: 10),
       title('수배전설비'),
@@ -231,31 +244,60 @@ class FacilityInsertScreen extends CWidget {
               items: c.volts,
               selected: int.tryParse(c.item.value6) ?? 0,
               onSelected: (pos) {
+                c.item.value7 = '';
+                c.item.extra['value7'].text = '';
                 c.item.value6 = pos.toString();
                 c.itemRedraw();
               },
             )),
-        entry2(
-            '형식',
-            CSelectbox(
-              backgroundColor: Colors.white,
-              items: c.arrangementtypes,
-              selected: int.tryParse(c.item.value7) ?? 0,
-              onSelected: (pos) {
-                c.item.value7 = pos.toString();
-                c.itemRedraw();
-              },
+        if (c.item.value6 == '3')
+          entry(
+            '수전전압',
+            CTextField(
+              text: c.item.value7,
+              onChanged: (value) => c.item.value7 = value,
+              controller: c.item.extra['value7'],
+              filledColor: Colors.white,
+              textStyle: labelStyle,
             ),
+          ),
+        entry(
+          '형식',
+          CSelectbox(
+            backgroundColor: Colors.white,
+            items: c.arrangementtypes,
+            selected: int.tryParse(c.item.value8) ?? 0,
+            onSelected: (pos) {
+              c.item.value8 = pos.toString();
+              c.itemRedraw();
+            },
+          ),
+        ),
+        entry(
+          '면수',
+          CSelectbox(
+            backgroundColor: Colors.white,
+            items: c.faces,
+            selected: int.tryParse(c.item.value9) ?? 0,
+            onSelected: (pos) {
+              c.item.value10 = '';
+              c.item.extra['value10'].text = '';
+              c.item.value9 = pos.toString();
+              c.itemRedraw();
+            },
+          ),
+        ),
+        if (c.item.value9 == '13')
+          entry(
             '면수',
-            CSelectbox(
-              backgroundColor: Colors.white,
-              items: c.faces,
-              selected: int.tryParse(c.item.value8) ?? 0,
-              onSelected: (pos) {
-                c.item.value8 = pos.toString();
-                c.itemRedraw();
-              },
-            )),
+            CTextField(
+              text: c.item.value10,
+              onChanged: (value) => c.item.value10 = value,
+              controller: c.item.extra['value10'],
+              filledColor: Colors.white,
+              textStyle: labelStyle,
+            ),
+          ),
       ]),
       const SizedBox(height: 10),
       CColumn(
@@ -278,6 +320,8 @@ class FacilityInsertScreen extends CWidget {
           items: c.volts,
           selected: int.tryParse(items.value1) ?? 0,
           onSelected: (pos) {
+            items.value2 = '';
+            items.extra['value2'].text = '';
             items.value1 = pos.toString();
             c.itemsRedraw();
           },
@@ -287,27 +331,54 @@ class FacilityInsertScreen extends CWidget {
         },
         index == 0 ? true : false,
       ),
-      entry2(
-          '형식',
-          CSelectbox(
-            backgroundColor: Colors.white,
-            items: c.distributationtypes,
-            selected: int.tryParse(items.value3) ?? 0,
-            onSelected: (pos) {
-              items.value3 = pos.toString();
-              c.itemsRedraw();
-            },
+      if (items.value1 == '3')
+        entry(
+          '분배전 전압',
+          CTextField(
+            text: items.value2,
+            onChanged: (value) => items.value2 = value,
+            controller: items.extra['value2'],
+            filledColor: Colors.white,
+            textStyle: labelStyle,
           ),
+        ),
+      entry(
+        '형식',
+        CSelectbox(
+          backgroundColor: Colors.white,
+          items: c.distributationtypes,
+          selected: int.tryParse(items.value3) ?? 0,
+          onSelected: (pos) {
+            items.value3 = pos.toString();
+            c.itemsRedraw();
+          },
+        ),
+      ),
+      entry(
+        '면수',
+        CSelectbox(
+          backgroundColor: Colors.white,
+          items: c.faces,
+          selected: int.tryParse(items.value4) ?? 0,
+          onSelected: (pos) {
+            items.value5 = '';
+            items.extra['value5'].text = '';
+            items.value4 = pos.toString();
+            c.itemsRedraw();
+          },
+        ),
+      ),
+      if (items.value4 == '13')
+        entry(
           '면수',
-          CSelectbox(
-            backgroundColor: Colors.white,
-            items: c.faces,
-            selected: int.tryParse(items.value4) ?? 0,
-            onSelected: (pos) {
-              items.value4 = pos.toString();
-              c.itemsRedraw();
-            },
-          )),
+          CTextField(
+            text: items.value5,
+            onChanged: (value) => items.value5 = value,
+            controller: items.extra['value5'],
+            filledColor: Colors.white,
+            textStyle: labelStyle,
+          ),
+        ),
     ]);
   }
 
@@ -319,16 +390,16 @@ class FacilityInsertScreen extends CWidget {
             textStyle: labelStyle,
             filledColor: Colors.white,
             text: c.item.value10,
-            controller: c.item.extra['value10'],
-            onChanged: (value) => c.item.value10 = value,
+            controller: c.item.extra['value11'],
+            onChanged: (value) => c.item.value11 = value,
           ),
           '설치년월',
           CSelectbox(
             backgroundColor: Colors.white,
             items: c.years,
-            selected: int.tryParse(c.item.value11) ?? 0,
+            selected: int.tryParse(c.item.value12) ?? 0,
             onSelected: (pos) {
-              c.item.value11 = pos.toString();
+              c.item.value12 = pos.toString();
               c.itemRedraw();
             },
           )),
@@ -374,9 +445,9 @@ class FacilityInsertScreen extends CWidget {
       entryAdd(
         '설비명',
         CTextField(
-          text: transs.value1,
-          controller: transs.extra['value1'],
-          onChanged: (value) => transs.value1 = value,
+          text: transs.name,
+          controller: transs.extra['name'],
+          onChanged: (value) => transs.name = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
@@ -673,8 +744,8 @@ class FacilityInsertScreen extends CWidget {
             '연료전지',
             '풍려발전',
             '수력발전',
-            '소방펌프 발전기',
-            '공동주택 세대점검',
+            // '소방펌프 발전기',
+            // '공동주택 세대점검',
           ],
           index: 0,
           data: c.other,
@@ -906,38 +977,69 @@ class FacilityInsertScreen extends CWidget {
       entry(
         '태양광 발전',
         CTextField(
-          text: c.sunlight.value1,
-          controller: c.sunlight.extra['value1'],
-          onChanged: (value) => c.sunlight.value1 = value,
+          text: c.sunlight.name,
+          controller: c.sunlight.extra['name'],
+          onChanged: (value) => c.sunlight.name = value,
           textStyle: labelStyle,
           filledColor: Colors.white,
         ),
       ),
       entry(
-          '설치장소',
-          CSelectbox(
-            backgroundColor: Colors.white,
-            items: c.place,
-            selected: int.tryParse(c.sunlight.value2) ?? 0,
-            onSelected: (pos) {
-              c.sunlight.value2 = pos.toString();
-              c.sunlightRedraw();
-            },
-          )),
-      entry2(
-        '발전전압',
-        CTextField(
-          text: c.sunlight.value3,
-          controller: c.sunlight.extra['value3'],
-          onChanged: (value) => c.sunlight.value3 = value,
-          filledColor: Colors.white,
-          textStyle: labelStyle,
+        '설치장소',
+        CSelectbox(
+          backgroundColor: Colors.white,
+          items: c.place,
+          selected: int.tryParse(c.sunlight.value2) ?? 0,
+          onSelected: (pos) {
+            c.sunlight.value3 = '';
+            c.sunlight.extra['value3'].text = '';
+            c.sunlight.value2 = pos.toString();
+            c.sunlightRedraw();
+          },
         ),
+      ),
+      if (c.sunlight.value2 == '4')
+        entry(
+          '설치장소',
+          CTextField(
+            text: c.sunlight.value3,
+            onChanged: (value) => c.sunlight.value3 = value,
+            controller: c.sunlight.extra['value3'],
+            filledColor: Colors.white,
+            textStyle: labelStyle,
+          ),
+        ),
+      entry(
+        '발전전압',
+        CSelectbox(
+          backgroundColor: Colors.white,
+          items: c.voltage,
+          selected: int.tryParse(c.sunlight.value4) ?? 0,
+          onSelected: (pos) {
+            c.sunlight.value5 = '';
+            c.sunlight.extra['value5'].text = '';
+            c.sunlight.value4 = pos.toString();
+            c.sunlightRedraw();
+          },
+        ),
+      ),
+      if (c.sunlight.value4 == '3')
+        entry(
+          '발전전압',
+          CTextField(
+            text: c.sunlight.value5,
+            onChanged: (value) => c.sunlight.value5 = value,
+            controller: c.sunlight.extra['value5'],
+            filledColor: Colors.white,
+            textStyle: labelStyle,
+          ),
+        ),
+      entry(
         '발전용량',
         CTextField(
-          text: c.sunlight.value4,
-          controller: c.sunlight.extra['value4'],
-          onChanged: (value) => c.sunlight.value4 = value,
+          text: c.sunlight.value6,
+          controller: c.sunlight.extra['value6'],
+          onChanged: (value) => c.sunlight.value6 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
@@ -946,17 +1048,17 @@ class FacilityInsertScreen extends CWidget {
       entry2(
         '형식',
         CTextField(
-          text: c.sunlight.value5,
-          controller: c.sunlight.extra['value5'],
-          onChanged: (value) => c.sunlight.value5 = value,
+          text: c.sunlight.value7,
+          controller: c.sunlight.extra['value7'],
+          onChanged: (value) => c.sunlight.value7 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         '최대전력용량',
         CTextField(
-          text: c.sunlight.value6,
-          controller: c.sunlight.extra['value6'],
-          onChanged: (value) => c.sunlight.value6 = value,
+          text: c.sunlight.value8,
+          controller: c.sunlight.extra['value8'],
+          onChanged: (value) => c.sunlight.value8 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
           suffixText: 'kW',
@@ -965,17 +1067,18 @@ class FacilityInsertScreen extends CWidget {
       entry2(
         '최대동작전압',
         CTextField(
-          text: c.sunlight.value7,
-          controller: c.sunlight.extra['value7'],
-          onChanged: (value) => c.sunlight.value7 = value,
+          text: c.sunlight.value9,
+          controller: c.sunlight.extra['value9'],
+          onChanged: (value) => c.sunlight.value9 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
+          suffixText: 'V',
         ),
         '최대동작전류',
         CTextField(
-          text: c.sunlight.value8,
-          controller: c.sunlight.extra['value8'],
-          onChanged: (value) => c.sunlight.value8 = value,
+          text: c.sunlight.value10,
+          controller: c.sunlight.extra['value10'],
+          onChanged: (value) => c.sunlight.value10 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
           suffixText: 'A',
@@ -985,17 +1088,17 @@ class FacilityInsertScreen extends CWidget {
       entry2(
         '형식',
         CTextField(
-          text: c.sunlight.value9,
-          controller: c.sunlight.extra['value9'],
-          onChanged: (value) => c.sunlight.value9 = value,
+          text: c.sunlight.value11,
+          controller: c.sunlight.extra['value11'],
+          onChanged: (value) => c.sunlight.value11 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
         '정격용량',
         CTextField(
-          text: c.sunlight.value10,
-          controller: c.sunlight.extra['value10'],
-          onChanged: (value) => c.sunlight.value10 = value,
+          text: c.sunlight.value12,
+          controller: c.sunlight.extra['value12'],
+          onChanged: (value) => c.sunlight.value12 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
           suffixText: 'kW',
@@ -1004,18 +1107,18 @@ class FacilityInsertScreen extends CWidget {
       entry2(
         '최소 입력전압',
         CTextField(
-          text: c.sunlight.value11,
-          controller: c.sunlight.extra['value11'],
-          onChanged: (value) => c.sunlight.value11 = value,
+          text: c.sunlight.value13,
+          controller: c.sunlight.extra['value13'],
+          onChanged: (value) => c.sunlight.value13 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
           suffixText: 'V',
         ),
         '최대 입력전압',
         CTextField(
-          text: c.sunlight.value12,
-          controller: c.sunlight.extra['value12'],
-          onChanged: (value) => c.sunlight.value12 = value,
+          text: c.sunlight.value14,
+          controller: c.sunlight.extra['value14'],
+          onChanged: (value) => c.sunlight.value14 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
           suffixText: 'V',
@@ -1024,9 +1127,9 @@ class FacilityInsertScreen extends CWidget {
       entry(
         '출력전압',
         CTextField(
-          text: c.sunlight.value13,
-          controller: c.sunlight.extra['value13'],
-          onChanged: (value) => c.sunlight.value13 = value,
+          text: c.sunlight.value15,
+          controller: c.sunlight.extra['value15'],
+          onChanged: (value) => c.sunlight.value15 = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
           suffixText: 'V',
@@ -1041,9 +1144,9 @@ class FacilityInsertScreen extends CWidget {
       entry(
         '설비명',
         CTextField(
-          text: c.charger.value1,
-          controller: c.charger.extra['value1'],
-          onChanged: (value) => c.charger.value1 = value,
+          text: c.charger.name,
+          controller: c.charger.extra['name'],
+          onChanged: (value) => c.charger.name = value,
           textStyle: labelStyle,
           filledColor: Colors.white,
         ),
@@ -1056,27 +1159,41 @@ class FacilityInsertScreen extends CWidget {
         ),
       ),
       entry(
-          '설치장소',
-          CSelectbox(
-            backgroundColor: Colors.white,
-            items: c.evplace,
-            selected: int.tryParse(c.charger.value2) ?? 0,
-            onSelected: (pos) {
-              c.charger.value2 = pos.toString();
-              c.chargerRedraw();
-            },
-          )),
-      entry2(
+        '설치장소',
+        CTextField(
+          text: c.charger.value2,
+          onChanged: (value) => c.charger.value2 = value,
+          controller: c.charger.extra['value2'],
+          filledColor: Colors.white,
+          textStyle: labelStyle,
+        ),
+      ),
+      entry(
         '전압',
         CSelectbox(
           backgroundColor: Colors.white,
           items: c.voltage,
           selected: int.tryParse(c.charger.value3) ?? 0,
           onSelected: (pos) {
+            c.charger.value4 = '';
+            c.charger.extra['value4'].text = '';
             c.charger.value3 = pos.toString();
             c.chargerRedraw();
           },
         ),
+      ),
+      if (c.charger.value3 == '3')
+        entry(
+          '전압',
+          CTextField(
+            text: c.charger.value4,
+            onChanged: (value) => c.charger.value4 = value,
+            controller: c.charger.extra['value4'],
+            filledColor: Colors.white,
+            textStyle: labelStyle,
+          ),
+        ),
+      entry(
         '용량',
         CTextField(
           text: c.charger.value5,
@@ -1121,24 +1238,39 @@ class FacilityInsertScreen extends CWidget {
               textStyle: labelStyle,
             ),
           ),
-          entry2(
+          entry(
             '설치장소',
             CSelectbox(
               backgroundColor: Colors.white,
               items: c.evplace,
               selected: int.tryParse(c.chargeritems[i].value3) ?? 0,
               onSelected: (pos) {
+                c.chargeritems[i].value4 = '';
+                c.chargeritems[i].extra['value4'].text = '';
                 c.chargeritems[i].value3 = pos.toString();
                 c.chargeritemsRedraw();
               },
             ),
+          ),
+          if (c.chargeritems[i].value3 == '3')
+            entry(
+              '설치장소',
+              CTextField(
+                text: c.chargeritems[i].value4,
+                onChanged: (value) => c.chargeritems[i].value4 = value,
+                controller: c.chargeritems[i].extra['value4'],
+                filledColor: Colors.white,
+                textStyle: labelStyle,
+              ),
+            ),
+          entry(
             '충전형식',
             CSelectbox(
               backgroundColor: Colors.white,
               items: c.evform,
-              selected: int.tryParse(c.chargeritems[i].value4) ?? 0,
+              selected: int.tryParse(c.chargeritems[i].value5) ?? 0,
               onSelected: (pos) {
-                c.chargeritems[i].value4 = pos.toString();
+                c.chargeritems[i].value5 = pos.toString();
                 c.chargeritemsRedraw();
               },
             ),
@@ -1146,23 +1278,13 @@ class FacilityInsertScreen extends CWidget {
           entry2(
             '출력전압',
             CTextField(
-              text: c.chargeritems[i].value5,
-              controller: c.chargeritems[i].extra['value5'],
-              onChanged: (value) => c.chargeritems[i].value5 = value,
-              filledColor: Colors.white,
-              textStyle: labelStyle,
-            ),
-            '충전용량',
-            CTextField(
               text: c.chargeritems[i].value6,
               controller: c.chargeritems[i].extra['value6'],
               onChanged: (value) => c.chargeritems[i].value6 = value,
               filledColor: Colors.white,
               textStyle: labelStyle,
             ),
-          ),
-          entry2(
-            '제조사',
+            '충전용량',
             CTextField(
               text: c.chargeritems[i].value7,
               controller: c.chargeritems[i].extra['value7'],
@@ -1170,11 +1292,21 @@ class FacilityInsertScreen extends CWidget {
               filledColor: Colors.white,
               textStyle: labelStyle,
             ),
-            '모델명',
+          ),
+          entry2(
+            '제조사',
             CTextField(
               text: c.chargeritems[i].value8,
               controller: c.chargeritems[i].extra['value8'],
               onChanged: (value) => c.chargeritems[i].value8 = value,
+              filledColor: Colors.white,
+              textStyle: labelStyle,
+            ),
+            '모델명',
+            CTextField(
+              text: c.chargeritems[i].value9,
+              controller: c.chargeritems[i].extra['value9'],
+              onChanged: (value) => c.chargeritems[i].value9 = value,
               filledColor: Colors.white,
               textStyle: labelStyle,
             ),
@@ -1186,9 +1318,9 @@ class FacilityInsertScreen extends CWidget {
                 child: CSelectbox(
                   backgroundColor: Colors.white,
                   items: c.years,
-                  selected: int.tryParse(c.chargeritems[i].value9) ?? 0,
+                  selected: int.tryParse(c.chargeritems[i].value10) ?? 0,
                   onSelected: (pos) {
-                    c.chargeritems[i].value9 = pos.toString();
+                    c.chargeritems[i].value10 = pos.toString();
                     c.chargeritemsRedraw();
                   },
                 ),
@@ -1197,9 +1329,9 @@ class FacilityInsertScreen extends CWidget {
                 child: CSelectbox(
                   backgroundColor: Colors.white,
                   items: c.months,
-                  selected: int.tryParse(c.chargeritems[i].value10) ?? 0,
+                  selected: int.tryParse(c.chargeritems[i].value11) ?? 0,
                   onSelected: (pos) {
-                    c.chargeritems[i].value10 = pos.toString();
+                    c.chargeritems[i].value11 = pos.toString();
                     c.chargeritemsRedraw();
                   },
                 ),
@@ -1215,25 +1347,41 @@ class FacilityInsertScreen extends CWidget {
       entry(
         '전기저장장치',
         CTextField(
-          text: c.ess.value1,
-          controller: c.ess.extra['value1'],
-          onChanged: (value) => c.ess.value1 = value,
+          text: c.ess.name,
+          controller: c.ess.extra['name'],
+          onChanged: (value) => c.ess.name = value,
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
       ),
       CText('전력변환장치(PCS)'),
-      entry2(
+      entry(
         '출력전압',
         CSelectbox(
           backgroundColor: Colors.white,
           items: c.voltage,
           selected: int.tryParse(c.ess.value2) ?? 0,
           onSelected: (pos) {
+            c.ess.value3 = '';
+            c.ess.extra['value3'].text = '';
             c.ess.value2 = pos.toString();
             c.essRedraw();
           },
         ),
+      ),
+      if (c.ess.value2 == '3')
+        entry(
+          '출력전압',
+          CTextField(
+            text: c.ess.value3,
+            controller: c.ess.extra['value3'],
+            onChanged: (value) => c.ess.value3 = value,
+            filledColor: Colors.white,
+            textStyle: labelStyle,
+            suffixText: 'kW',
+          ),
+        ),
+      entry(
         '정격용량',
         CTextField(
           text: c.ess.value4,
@@ -1310,7 +1458,7 @@ class FacilityInsertScreen extends CWidget {
         ]),
       ),
       CText('배터리'),
-      entry2(
+      entry(
         '최대저장용량',
         CTextField(
           text: c.ess.value11,
@@ -1320,17 +1468,32 @@ class FacilityInsertScreen extends CWidget {
           textStyle: labelStyle,
           suffixText: 'kWh',
         ),
+      ),
+      entry(
         '종류',
         CSelectbox(
           backgroundColor: Colors.white,
           items: c.esstype,
           selected: int.tryParse(c.ess.value12) ?? 0,
           onSelected: (pos) {
+            c.ess.value13 = '';
+            c.ess.extra['value13'].text = '';
             c.ess.value12 = pos.toString();
             c.essRedraw();
           },
         ),
       ),
+      if (c.ess.value12 == '7')
+        entry(
+          '종류',
+          CTextField(
+            text: c.ess.value13,
+            controller: c.ess.extra['value13'],
+            onChanged: (value) => c.ess.value13 = value,
+            filledColor: Colors.white,
+            textStyle: labelStyle,
+          ),
+        ),
       entry3(
         '구성',
         CTextField(
@@ -1447,17 +1610,32 @@ class FacilityInsertScreen extends CWidget {
         },
         index == 0 ? true : false,
       ),
-      entry2(
+      entry(
         '설치장소',
         CSelectbox(
           backgroundColor: Colors.white,
           items: c.upspositions,
           selected: int.tryParse(ups.value1) ?? 0,
           onSelected: (pos) {
+            ups.value2 = '';
+            ups.extra['value2'].text = '';
             ups.value1 = pos.toString();
             c.upsRedraw();
           },
         ),
+      ),
+      if (ups.value1 == '4')
+        entry(
+          '설치장소',
+          CTextField(
+            text: ups.value2,
+            onChanged: (value) => ups.value2 = value,
+            controller: ups.extra['value2'],
+            filledColor: Colors.white,
+            textStyle: labelStyle,
+          ),
+        ),
+      entry(
         'CCTV',
         CSelectbox(
           backgroundColor: Colors.white,
@@ -1476,22 +1654,50 @@ class FacilityInsertScreen extends CWidget {
           items: c.upskeeps,
           selected: int.tryParse(ups.value4) ?? 0,
           onSelected: (pos) {
+            ups.value5 = '';
+            ups.extra['value5'].text = '';
             ups.value4 = pos.toString();
             c.upsRedraw();
           },
         ),
       ),
-      entry2(
+      if (ups.value4 == '4')
+        entry(
+          '상시운영정보 별도장소 보관 기간',
+          CTextField(
+            text: ups.value5,
+            onChanged: (value) => ups.value5 = value,
+            controller: ups.extra['value5'],
+            filledColor: Colors.white,
+            textStyle: labelStyle,
+          ),
+        ),
+      entry(
         '용도',
         CSelectbox(
           backgroundColor: Colors.white,
           items: c.upsusages,
           selected: int.tryParse(ups.value6) ?? 0,
           onSelected: (pos) {
+            ups.value7 = '';
+            ups.extra['value7'].text = '';
             ups.value6 = pos.toString();
             c.upsRedraw();
           },
         ),
+      ),
+      if (ups.value6 == '5')
+        entry(
+          '용도',
+          CTextField(
+            text: ups.value7,
+            onChanged: (value) => ups.value7 = value,
+            controller: ups.extra['value7'],
+            filledColor: Colors.white,
+            textStyle: labelStyle,
+          ),
+        ),
+      entry(
         '방식',
         CSelectbox(
           backgroundColor: Colors.white,
@@ -1510,11 +1716,24 @@ class FacilityInsertScreen extends CWidget {
           items: c.upstimes,
           selected: int.tryParse(ups.value9) ?? 0,
           onSelected: (pos) {
+            ups.value10 = '';
+            ups.extra['value10'].text = '';
             ups.value9 = pos.toString();
             c.upsRedraw();
           },
         ),
       ),
+      if (ups.value9 == '6')
+        entry(
+          '비상전원공급 지속시간',
+          CTextField(
+            text: ups.value10,
+            onChanged: (value) => ups.value10 = value,
+            controller: ups.extra['value10'],
+            filledColor: Colors.white,
+            textStyle: labelStyle,
+          ),
+        ),
       CText('전력변환장치'),
       entry2(
         '출력전압',
@@ -1963,7 +2182,7 @@ class FacilityInsertScreen extends CWidget {
         },
         index == 0 ? true : false,
       ),
-      entry2(
+      entry(
         '형식',
         CTextField(
           text: fuel.value1,
@@ -1972,17 +2191,32 @@ class FacilityInsertScreen extends CWidget {
           filledColor: Colors.white,
           textStyle: labelStyle,
         ),
+      ),
+      entry(
         '사용가스',
         CSelectbox(
           backgroundColor: Colors.white,
           items: c.gass,
           selected: int.tryParse(fuel.value2) ?? 0,
           onSelected: (pos) {
+            fuel.value3 = '';
+            fuel.extra['value3'].text = '';
             fuel.value2 = pos.toString();
             c.fuelRedraw();
           },
         ),
       ),
+      if (fuel.value2 == '4')
+        entry(
+          '사용가스',
+          CTextField(
+            text: fuel.value3,
+            onChanged: (value) => fuel.value3 = value,
+            controller: fuel.extra['value3'],
+            filledColor: Colors.white,
+            textStyle: labelStyle,
+          ),
+        ),
       entry2(
         '정격출력',
         CTextField(

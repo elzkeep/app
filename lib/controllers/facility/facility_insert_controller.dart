@@ -95,7 +95,7 @@ class FacilityInsertController extends GetxController {
   final types = CItem.list(['', '저압', '특고압']).obs;
   final positions =
       CItem.list(['', '지하', '단독/옥내', '옥상', '옥외', '복도/계단', '현관', '직접입력']).obs;
-  final volts = CItem.list(['', '[저압]380/220', '[특고압]22,900']).obs;
+  final volts = CItem.list(['', '[저압]380/220', '[특고압]22,900', '직접입력']).obs;
   final voltage = CItem.list(['', '380/220V', '220V', '직접입력']).obs;
   final arrangementtypes = CItem.list(['', '일반형', '일체형']).obs;
   final faces = CItem.list([
@@ -111,7 +111,6 @@ class FacilityInsertController extends GetxController {
     '71~80',
     '81~90',
     '91~100',
-    '11~20',
     '101이상',
     '직접입력'
   ]).obs;
@@ -142,10 +141,10 @@ class FacilityInsertController extends GetxController {
   final upscctvs = CItem.list(['', '설치', '미설치']).obs;
   final upsusages =
       CItem.list(['', '통신부하', '전산부하', '비상부하', '소방/EL등', '직접입력']).obs;
-  final upskeeps = CItem.list(['', '보관안함', '보관(6개월)', '보관(1년)', '직력입력']).obs;
+  final upskeeps = CItem.list(['', '보관안함', '보관(6개월)', '보관(1년)', '직접입력']).obs;
   final upstypes = CItem.list(['', '온라인', '오프라인']).obs;
   final upstimes =
-      CItem.list(['', '30분', '1시간', '2시간', '3시간', '4시간', '직력입력']).obs;
+      CItem.list(['', '30분', '1시간', '2시간', '3시간', '4시간', '직접입력']).obs;
   final gass = CItem.list(['', '도시가스', 'LPG', '바이오가스', '직접입력']).obs;
   final fueltypes = CItem.list(['', '옥상형', '옥외형']).obs;
   final fuelpositions = CItem.list(['', '독립형', '계통연계형']).obs;
@@ -164,16 +163,25 @@ class FacilityInsertController extends GetxController {
     }
 
     Map<String, TextEditingController> itemextra = {};
-    Map<String, TextEditingController> transsextra = {};
+    Map<String, TextEditingController> itemsextra = {};
+    Map<String, TextEditingController> transsextra = {
+      'name': TextEditingController(),
+    };
     Map<String, TextEditingController> highsextra = {};
     Map<String, TextEditingController> highsitemextra = {};
     Map<String, TextEditingController> generatorextra = {
       'name': TextEditingController(),
     };
-    Map<String, TextEditingController> sunlightextra = {};
-    Map<String, TextEditingController> chargerextra = {};
+    Map<String, TextEditingController> sunlightextra = {
+      'name': TextEditingController(),
+    };
+    Map<String, TextEditingController> chargerextra = {
+      'name': TextEditingController(),
+    };
     Map<String, TextEditingController> chargeritemsextra = {};
-    Map<String, TextEditingController> essextra = {};
+    Map<String, TextEditingController> essextra = {
+      'name': TextEditingController(),
+    };
     Map<String, TextEditingController> upsextra = {
       'name': TextEditingController(),
     };
@@ -189,6 +197,7 @@ class FacilityInsertController extends GetxController {
 
     for (int i = 1; i <= 25; i++) {
       itemextra['value$i'] = TextEditingController();
+      itemsextra['value$i'] = TextEditingController();
       transsextra['value$i'] = TextEditingController();
       highsextra['value$i'] = TextEditingController();
       highsitemextra['value$i'] = TextEditingController();
@@ -221,6 +230,7 @@ class FacilityInsertController extends GetxController {
 
     item.extra = itemextra;
     item.extra['value2'].text = item.value2;
+    item.extra['value5'].text = item.value5;
     item.extra['value10'].text = item.value10;
 
     items =
@@ -228,6 +238,12 @@ class FacilityInsertController extends GetxController {
 
     if (items.length == 0) {
       items.add(Facility());
+    }
+
+    for (int j = 0; j < items.length; j++) {
+      items[j].extra = itemsextra;
+      items[j].extra['value2'].text = items[j].value2;
+      items[j].extra['value5'].text = items[j].value5;
     }
 
     transs =
@@ -239,6 +255,7 @@ class FacilityInsertController extends GetxController {
 
     for (int j = 0; j < transs.length; j++) {
       transs[j].extra = transsextra;
+      transs[j].extra['name'].text = transs[j].name;
       transs[j].extra['value1'].text = transs[j].value1;
       transs[j].extra['value2'].text = transs[j].value2;
       transs[j].extra['value3'].text = transs[j].value3;
@@ -325,6 +342,7 @@ class FacilityInsertController extends GetxController {
     }
 
     sunlight.extra = sunlightextra;
+    sunlight.extra['name'].text = sunlight.name;
     sunlight.extra['value1'].text = sunlight.value1;
     sunlight.extra['value2'].text = sunlight.value2;
     sunlight.extra['value3'].text = sunlight.value3;
@@ -351,6 +369,7 @@ class FacilityInsertController extends GetxController {
     }
 
     charger.extra = chargerextra;
+    charger.extra['name'].text = charger.name;
     charger.extra['value1'].text = charger.value1;
     charger.extra['value2'].text = charger.value2;
     charger.extra['value3'].text = charger.value3;
@@ -392,6 +411,7 @@ class FacilityInsertController extends GetxController {
     }
 
     ess.extra = essextra;
+    ess.extra['name'].text = ess.name;
     ess.extra['value1'].text = ess.value1;
     ess.extra['value2'].text = ess.value2;
     ess.extra['value3'].text = ess.value3;
