@@ -12,26 +12,20 @@ class FacilityViewScreen extends CWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Layout(
+    return Obx(
+      () => Layout(
         popup: true,
-        child: CScroll(gap: 20, children: [
-          company(),
-          building(),
-          CColumn(gap: 10, children: [
-            SubTitle(
-              '고압차단기',
-            ),
-            for (int i = 0; i < c.highs.length; i++) check(c.highs[i]),
-          ]),
-          CColumn(gap: 10, children: [
-            SubTitle(
-              '변전 설비',
-            ),
-            for (int i = 0; i < c.transs.length; i++) contract(c.transs[i]),
-          ]),
-          // contract2(),
-          const SizedBox(height: 50)
-        ])));
+        child: CScroll(
+          gap: 20,
+          children: [
+            company(),
+            building(),
+            receivingtype(),
+            const SizedBox(height: 50)
+          ],
+        ),
+      ),
+    );
   }
 
   entry(text1, answer1) {
@@ -72,7 +66,7 @@ class FacilityViewScreen extends CWidget {
               lineColor: Colors.black12,
               gap: 10,
               children: [
-                entry2('수전용량: ', c.item.value2, '관리점수: ', ''),
+                entry2('수전용량:', c.item.value2, '관리점수:', ''),
                 entry2(
                     '수전 위치:',
                     c.item.value4 == '7'
@@ -85,10 +79,11 @@ class FacilityViewScreen extends CWidget {
   }
 
   building() {
-    return CColumn(gap: 10, children: [
+    return CColumn(children: [
       SubTitle(
         '수배전 설비',
       ),
+      const SizedBox(height: 10),
       CRound(
           backgroundColor: Config.backgroundColor,
           child: CColumn(
@@ -97,7 +92,7 @@ class FacilityViewScreen extends CWidget {
               gap: 10,
               children: [
                 entry(
-                    '수전전압: ',
+                    '수전전압:',
                     c.item.value6 == '3'
                         ? c.item.value7
                         : c.volts[int.tryParse(c.item.value6) ?? 0].value),
@@ -107,98 +102,127 @@ class FacilityViewScreen extends CWidget {
                     '면수:',
                     c.faces[int.tryParse(c.item.value9) ?? 0].value),
               ])),
-      for (int i = 0; i < c.items.length; i++) distributiation(c.items[i]),
+      // for (int i = 0; i < c.items.length; i++) distributiation(c.items[i]),
+      ListView.builder(
+        shrinkWrap: true,
+        itemCount: c.items.length,
+        itemBuilder: (context, index) {
+          return distributiation(c.items[index]);
+        },
+      ),
+      const SizedBox(height: 10),
       Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: entry2('제조사: ', c.item.value10, '설치년월',
+          child: entry2('제조사:', c.item.value10, '설치년월:',
               c.years[int.tryParse(c.item.value11) ?? 0].value))
     ]);
   }
 
   distributiation(items) {
-    return CRound(
-        backgroundColor: Config.backgroundColor,
-        child: CColumn(
-            lineWidth: 1,
-            lineColor: Colors.black12,
-            gap: 10,
-            children: [
-              entry(
-                  '분배전 전압: ',
-                  items.value1 == '3'
-                      ? items.value2
-                      : c.volts[int.tryParse(items.value1) ?? 0].value),
-              entry2(
-                  '형식:',
-                  items.value3 == '3'
-                      ? items.value4
-                      : c.distributationtypes[int.tryParse(items.value3) ?? 0]
-                          .value,
-                  '면수:',
-                  items.value5 == '3'
-                      ? items.value6
-                      : c.faces[int.tryParse(items.value5) ?? 0].value),
-            ]));
-  }
-
-  check(highs) {
-    return CRound(
-        backgroundColor: Config.backgroundColor,
-        child: CColumn(
-            lineWidth: 1,
-            lineColor: Colors.black12,
-            gap: 10,
-            children: [
-              entry('설치 장소: ', highs.value1),
-              entry2('차단기명:', c.breakers[int.tryParse(highs.value2) ?? 0].value,
-                  '차단용량:', highs.value3),
-              entry2('정격전압:', highs.value4, '전류:', highs.value5),
-              entry2('제조사:', highs.value6, '제조번호:', highs.value7),
-              entry('제작년월:',
-                  '${c.years[int.tryParse(highs.value8) ?? 0].value}년 ${c.months[int.tryParse(highs.value9) ?? 0].value}'),
-            ]));
-  }
-
-  contract(transs) {
-    return CRound(
-        backgroundColor: Config.backgroundColor,
-        child: CColumn(
-            lineWidth: 1,
-            lineColor: Colors.black12,
-            gap: 10,
-            children: [
-              entry('설비명: ', transs.name),
-              entry2(
-                  '형식:',
-                  c.transstypes[int.tryParse(transs.value2) ?? 0].value,
-                  '정격용량:',
-                  transs.value3),
-              entry2('%Z:', transs.value4, '정격전압:', transs.value5),
-              entry2('제조사:', transs.value6, '제조번호:', transs.value7),
-              entry('제작년월:',
-                  '${c.years[int.tryParse(transs.value8) ?? 0].value}년 ${c.months[int.tryParse(transs.value9) ?? 0].value}'),
-            ]));
-  }
-
-  contract2() {
-    return CColumn(gap: 10, children: [
-      SubTitle(
-        '발전 설비',
-      ),
-      CRound(
+    return Container(
+      margin: const EdgeInsets.only(top: 10),
+      child: CRound(
           backgroundColor: Config.backgroundColor,
           child: CColumn(
               lineWidth: 1,
               lineColor: Colors.black12,
               gap: 10,
               children: [
-                CBothSide(children: [
-                  CText('비상용발전:'),
-                  CText('발전용량:'),
-                ]),
-                CBothSide(children: [CText('태양광발전:'), CText('발전용량:')]),
-              ]))
-    ]);
+                entry(
+                    '분배전 전압:',
+                    items.value1 == '3'
+                        ? items.value2
+                        : c.volts[int.tryParse(items.value1) ?? 0].value),
+                entry2(
+                    '형식:',
+                    items.value3 == '3'
+                        ? items.value4
+                        : c.distributationtypes[int.tryParse(items.value3) ?? 0]
+                            .value,
+                    '면수:',
+                    items.value5 == '3'
+                        ? items.value6
+                        : c.faces[int.tryParse(items.value5) ?? 0].value),
+              ])),
+    );
+  }
+
+  check(highs) {
+    return CContainer(
+      margin: const EdgeInsets.only(top: 10),
+      child: CRound(
+          backgroundColor: Config.backgroundColor,
+          child: CColumn(
+              lineWidth: 1,
+              lineColor: Colors.black12,
+              gap: 10,
+              children: [
+                entry('설치 장소: ', highs.value1),
+                entry2(
+                    '차단기명:',
+                    c.breakers[int.tryParse(highs.value2) ?? 0].value,
+                    '차단용량:',
+                    highs.value3),
+                entry2('정격전압:', highs.value4, '전류:', highs.value5),
+                entry2('제조사:', highs.value6, '제조번호:', highs.value7),
+                entry('제작년월:',
+                    '${c.years[int.tryParse(highs.value8) ?? 0].value}년 ${c.months[int.tryParse(highs.value9) ?? 0].value}'),
+              ])),
+    );
+  }
+
+  contract(transs) {
+    return CContainer(
+      margin: const EdgeInsets.only(top: 10),
+      child: CRound(
+          backgroundColor: Config.backgroundColor,
+          child: CColumn(
+              lineWidth: 1,
+              lineColor: Colors.black12,
+              gap: 10,
+              children: [
+                entry('설비명:', transs.name),
+                entry2(
+                    '형식:',
+                    c.transstypes[int.tryParse(transs.value2) ?? 0].value,
+                    '정격용량:',
+                    transs.value3),
+                entry2('%Z:', transs.value4, '정격전압:', transs.value5),
+                entry2('제조사:', transs.value6, '제조번호:', transs.value7),
+                entry('제작년월:',
+                    '${c.years[int.tryParse(transs.value8) ?? 0].value}년 ${c.months[int.tryParse(transs.value9) ?? 0].value}'),
+              ])),
+    );
+  }
+
+  receivingtype() {
+    if (c.item.value3 == '2') {
+      return CColumn(children: [
+        SubTitle(
+          '고압차단기',
+        ),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: c.highs.length,
+          itemBuilder: (context, index) {
+            return check(c.highs[index]);
+          },
+        ),
+        const SizedBox(height: 20),
+        SubTitle(
+          '변전 설비',
+        ),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: c.transs.length,
+          itemBuilder: (context, index) {
+            return contract(c.transs[index]);
+          },
+        )
+      ]);
+    } else {
+      return Container();
+    }
   }
 
   clickUpdate(pos) {
