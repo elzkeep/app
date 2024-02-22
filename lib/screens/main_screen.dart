@@ -1,4 +1,5 @@
 import 'package:common_control/common_control.dart';
+import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/config/config.dart';
@@ -16,9 +17,31 @@ class MainScreen extends CWidget {
         child: CColumn(children: [
       search(),
       status(),
-      CText('오늘의 점검일정',
-          textStyle:
-              const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+      CBothSide(children: [
+        CText('오늘의 점검일정',
+            textStyle:
+                const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        CRow(
+          children: [
+            IconButton(
+                icon: const Icon(Icons.arrow_back_ios,
+                    color: Config.buttonColor, size: 10),
+                onPressed: () {
+                  c.minus();
+                }),
+            Obx(() => CText(
+                  DateFormat('yyyy-MM-dd').format(MainController.date),
+                  textStyle: const TextStyle(color: Config.buttonColor),
+                )),
+            IconButton(
+                icon: const Icon(Icons.arrow_forward_ios,
+                    color: Config.buttonColor, size: 10),
+                onPressed: () {
+                  c.plus();
+                }),
+          ],
+        )
+      ]),
       const SizedBox(height: 10),
       Expanded(child: lists()),
       const SizedBox(height: 10),

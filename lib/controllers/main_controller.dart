@@ -4,11 +4,28 @@ import 'package:localstorage/localstorage.dart';
 import 'package:zkeep/models/report.dart';
 
 class MainController extends InfiniteController {
+  static MainController get to => Get.find<MainController>();
+
   MainController()
       : super(
             reader: ReportManager.find,
             params:
-                'user=$userId&checkdate=${DateFormat('yyyy-MM-dd').format(DateTime.now())}');
+                'user=$userId&checkdate=${DateFormat('yyyy-MM-dd').format(date)}');
+
+  static final _date = DateTime.now().obs;
+  static DateTime get date => _date.value;
+  static set date(DateTime value) => _date.value = value;
 
   static get userId => LocalStorage('login.json').getItem('user')['id'];
+
+  void plus() {
+    date = date.add(const Duration(days: 1));
+    print(date);
+    MainController();
+  }
+
+  void minus() {
+    date = date.subtract(const Duration(days: 1));
+    print(date);
+  }
 }
