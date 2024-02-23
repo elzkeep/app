@@ -259,6 +259,7 @@ class FacilityInsertController extends GetxController {
 
     if (res.isEmpty) {
       generator.add(Facility());
+      generator[0].name = "$buildingName 발전설비";
     } else {
       generator = res;
       other[0] = true;
@@ -372,7 +373,7 @@ class FacilityInsertController extends GetxController {
 
     if (wind.length == 0) {
       wind.add(Facility());
-      wind.name = "$buildingName 풍력발전소";
+      wind[0].name = "$buildingName 풍력발전소";
     } else {
       other[6] = true;
     }
@@ -404,11 +405,17 @@ class FacilityInsertController extends GetxController {
   addItem(data, String item) {
     data.add(Facility());
     var j = data.length - 1;
+    if (item == 'generator') {
+      generator[j].name = "$buildingName 발전설비";
+    }
     if (item == 'ups') {
       data[j].name = "$buildingName UPS";
     }
     if (item == 'fuel') {
       data[j].name = "$buildingName 연료전지 발전설비";
+    }
+    if (item == 'wind') {
+      wind[j].name = "$buildingName 풍력발전소";
     }
     data[j].extra = <String, TextEditingController>{
       'name': TextEditingController(),
