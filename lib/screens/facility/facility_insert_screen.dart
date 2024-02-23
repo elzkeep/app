@@ -63,6 +63,7 @@ class FacilityInsertScreen extends CWidget {
   }
 
   clickSave() async {
+    await c.save();
     Get.back();
   }
 

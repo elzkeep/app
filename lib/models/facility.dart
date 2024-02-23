@@ -201,4 +201,12 @@ class FacilityManager {
   static delete(Facility item) async {
     await Http.delete(baseUrl, item.toJson());
   }
+
+  static deleteByBuildingCategory(building, category) async {
+    var item = {'building': building, 'category': category};
+
+    var result = await Http.delete('$baseUrl/bybuildingcategory', item);
+
+    return result;
+  }
 }

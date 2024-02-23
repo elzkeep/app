@@ -578,4 +578,117 @@ class FacilityInsertController extends GetxController {
   bool toBoolean(String str) {
     return str == 'true';
   }
+
+  save() async {
+    item.building = building;
+    item.category = 10;
+
+    if (item.id > 0) {
+      await FacilityManager.update(item);
+    } else {
+      await FacilityManager.insert(item);
+    }
+
+    await FacilityManager.deleteByBuildingCategory(building, 11);
+
+    for (int i = 0; i < items.length; i++) {
+      items[i].building = building;
+      items[i].category = 11;
+      await FacilityManager.insert(items[i]);
+    }
+
+    await FacilityManager.deleteByBuildingCategory(building, 12);
+
+    for (int i = 0; i < transs.length; i++) {
+      transs[i].building = building;
+      transs[i].category = 12;
+      await FacilityManager.insert(transs[i]);
+    }
+
+    // await FacilityManager.deleteByBuildingCategory(building, 13);
+
+    // for (int i = 0; i < highs.length; i++) {
+    //   highs[i].building = building;
+    //   highs[i].category = 13;
+    //   await FacilityManager.insert(highs[i]);
+    // }
+
+    await FacilityManager.deleteByBuildingCategory(building, 20);
+
+    for (int i = 0; i < generator.length; i++) {
+      generator[i].building = building;
+      generator[i].category = 20;
+      await FacilityManager.insert(generator[i]);
+    }
+
+    sunlight.building = building;
+    sunlight.category = 30;
+
+    if (sunlight.id > 0) {
+      await FacilityManager.update(sunlight);
+    } else {
+      await FacilityManager.insert(sunlight);
+    }
+
+    charger.building = building;
+    charger.category = 40;
+
+    if (charger.id > 0) {
+      await FacilityManager.update(charger);
+    } else {
+      await FacilityManager.insert(charger);
+    }
+
+    await FacilityManager.deleteByBuildingCategory(building, 41);
+
+    for (int i = 0; i < chargeritems.length; i++) {
+      chargeritems[i].building = building;
+      chargeritems[i].category = 41;
+      await FacilityManager.insert(chargeritems[i]);
+    }
+
+    ess.building = building;
+    ess.category = 50;
+
+    if (ess.id > 0) {
+      await FacilityManager.update(ess);
+    } else {
+      await FacilityManager.insert(ess);
+    }
+
+    await FacilityManager.deleteByBuildingCategory(building, 60);
+
+    for (int i = 0; i < ups.length; i++) {
+      ups[i].building = building;
+      ups[i].category = 60;
+      await FacilityManager.insert(ups[i]);
+    }
+
+    await FacilityManager.deleteByBuildingCategory(building, 70);
+
+    for (int i = 0; i < fuel.length; i++) {
+      fuel[i].building = building;
+      fuel[i].category = 70;
+      await FacilityManager.insert(fuel[i]);
+    }
+
+    await FacilityManager.deleteByBuildingCategory(building, 80);
+
+    for (int i = 0; i < wind.length; i++) {
+      wind[i].building = building;
+      wind[i].category = 80;
+      await FacilityManager.insert(wind[i]);
+    }
+
+    water.building = building;
+    water.category = 90;
+
+    if (water.id > 0) {
+      await FacilityManager.update(water);
+    } else {
+      await FacilityManager.insert(water);
+    }
+
+    print("complete");
+  }
 }
