@@ -100,7 +100,9 @@ class FacilityViewScreen extends CWidget {
                     '형태:',
                     c.arrangementtypes[int.tryParse(c.item.value8) ?? 0].value,
                     '면수:',
-                    c.faces[int.tryParse(c.item.value9) ?? 0].value),
+                    c.item.value9 == '13'
+                        ? c.item.value10
+                        : c.faces[int.tryParse(c.item.value9) ?? 0].value),
               ])),
       // for (int i = 0; i < c.items.length; i++) distributiation(c.items[i]),
       ListView.builder(
@@ -135,14 +137,12 @@ class FacilityViewScreen extends CWidget {
                         : c.volts[int.tryParse(items.value1) ?? 0].value),
                 entry2(
                     '형식:',
-                    items.value3 == '3'
-                        ? items.value4
-                        : c.distributationtypes[int.tryParse(items.value3) ?? 0]
-                            .value,
+                    c.distributationtypes[int.tryParse(items.value3) ?? 0]
+                        .value,
                     '면수:',
-                    items.value5 == '3'
-                        ? items.value6
-                        : c.faces[int.tryParse(items.value5) ?? 0].value),
+                    items.value4 == '13'
+                        ? items.value5
+                        : c.faces[int.tryParse(items.value4) ?? 0].value),
               ])),
     );
   }

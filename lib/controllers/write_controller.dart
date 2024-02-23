@@ -70,12 +70,10 @@ class WriteController extends GetxController {
       return false;
     }
 
-    final storage = LocalStorage('login.json');
-    await storage.ready;
-    final userItem = await storage.getItem('user');
+    final userId = LocalStorage('login.json').getItem('user')['id'];
 
     final item = Report()
-      ..user = userItem['id']
+      ..user = userId
       ..title = name.text
       ..period = period
       ..number = ordinal

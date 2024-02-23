@@ -84,14 +84,6 @@ class FacilityInsertController extends GetxController {
   get other => _other;
   set other(value) => _other.value = value;
 
-  final _relay = 0.obs;
-  int get relay => _relay.value;
-  set relay(int value) => _relay.value = value;
-
-  final _relayconnect = 0.obs;
-  int get relayconnect => _relayconnect.value;
-  set relayconnect(int value) => _relayconnect.value = value;
-
   final types = CItem.list(['', '저압', '특고압']).obs;
   final positions =
       CItem.list(['', '지하', '단독/옥내', '옥상', '옥외', '복도/계단', '현관', '직접입력']).obs;
@@ -154,6 +146,25 @@ class FacilityInsertController extends GetxController {
 
   @override
   onInit() async {
+    super.onInit();
+    getYearMonth();
+    getYearMonth();
+    getItem();
+    getItems();
+    getTranss();
+    getHighs();
+    getGenerator();
+    getSun();
+    getCharger();
+    getChargerItem();
+    getEss();
+    getUps();
+    getFuel();
+    getWind();
+    getWater();
+  }
+
+  getYearMonth() {
     for (var i = 1970; i <= 2024; i++) {
       years.add(CItem(id: i - 1969, value: '$i'));
     }
@@ -161,65 +172,15 @@ class FacilityInsertController extends GetxController {
     for (var i = 1; i <= 12; i++) {
       months.add(CItem(id: i, value: '$i월'));
     }
+  }
 
-    Map<String, TextEditingController> itemextra = {};
-    Map<String, TextEditingController> itemsextra = {};
-    Map<String, TextEditingController> transsextra = {
-      'name': TextEditingController(),
-    };
-    Map<String, TextEditingController> highsextra = {};
-    Map<String, TextEditingController> highsitemextra = {};
-    Map<String, TextEditingController> generatorextra = {
-      'name': TextEditingController(),
-    };
-    Map<String, TextEditingController> sunlightextra = {
-      'name': TextEditingController(),
-    };
-    Map<String, TextEditingController> chargerextra = {
-      'name': TextEditingController(),
-    };
-    Map<String, TextEditingController> chargeritemsextra = {};
-    Map<String, TextEditingController> essextra = {
-      'name': TextEditingController(),
-    };
-    Map<String, TextEditingController> upsextra = {
-      'name': TextEditingController(),
-    };
-    Map<String, TextEditingController> fuelextra = {
-      'name': TextEditingController(),
-    };
-    Map<String, TextEditingController> windextra = {
-      'name': TextEditingController(),
-    };
-    Map<String, TextEditingController> waterextra = {
-      'name': TextEditingController(),
-    };
-
-    for (int i = 1; i <= 25; i++) {
-      itemextra['value$i'] = TextEditingController();
-      itemsextra['value$i'] = TextEditingController();
-      transsextra['value$i'] = TextEditingController();
-      highsextra['value$i'] = TextEditingController();
-      highsitemextra['value$i'] = TextEditingController();
-      generatorextra['value$i'] = TextEditingController();
-      sunlightextra['value$i'] = TextEditingController();
-      chargerextra['value$i'] = TextEditingController();
-      chargeritemsextra['value$i'] = TextEditingController();
-      essextra['value$i'] = TextEditingController();
-      upsextra['value$i'] = TextEditingController();
-      fuelextra['value$i'] = TextEditingController();
-      windextra['value$i'] = TextEditingController();
-      waterextra['value$i'] = TextEditingController();
-    }
-
-    super.onInit();
-
-    items =
+  getItem() async {
+    final res =
         await FacilityManager.find(params: 'building=$building&category=10');
-    if (items.length == 0) {
+    if (res.isEmpty) {
       item = Facility();
     } else {
-      item = items[0];
+      item = res[0];
     }
 
     if (item.value1 == 'true') {
@@ -228,111 +189,76 @@ class FacilityInsertController extends GetxController {
       installation = false;
     }
 
-    item.extra = itemextra;
-    item.extra['value2'].text = item.value2;
-    item.extra['value5'].text = item.value5;
-    item.extra['value10'].text = item.value10;
+    addExtra(item);
+  }
 
-    items =
+  getItems() async {
+    final res =
         await FacilityManager.find(params: 'building=$building&category=11');
 
-    if (items.length == 0) {
+    if (res.isEmpty) {
       items.add(Facility());
+    } else {
+      items = res;
     }
 
     for (int j = 0; j < items.length; j++) {
-      items[j].extra = itemsextra;
-      items[j].extra['value2'].text = items[j].value2;
-      items[j].extra['value5'].text = items[j].value5;
+      addExtra(items[j]);
     }
+  }
 
-    transs =
+  getTranss() async {
+    final res =
         await FacilityManager.find(params: 'building=$building&category=12');
 
-    if (transs.length == 0) {
+    if (res.isEmpty) {
       transs.add(Facility());
+    } else {
+      transs = res;
     }
 
     for (int j = 0; j < transs.length; j++) {
-      transs[j].extra = transsextra;
-      transs[j].extra['name'].text = transs[j].name;
-      transs[j].extra['value1'].text = transs[j].value1;
-      transs[j].extra['value2'].text = transs[j].value2;
-      transs[j].extra['value3'].text = transs[j].value3;
-      transs[j].extra['value4'].text = transs[j].value4;
-      transs[j].extra['value5'].text = transs[j].value5;
-      transs[j].extra['value6'].text = transs[j].value6;
-      transs[j].extra['value7'].text = transs[j].value7;
-      transs[j].extra['value8'].text = transs[j].value8;
-      transs[j].extra['value9'].text = transs[j].value9;
+      addExtra(transs[j]);
     }
+  }
 
-    highs =
+  getHighs() async {
+    final res =
         await FacilityManager.find(params: 'building=$building&category=13');
-    if (highs.length == 0) {
-      highs.add(Facility());
-      highs.content.add(FacilityItem());
+
+    if (res.isEmpty) {
+      // Facility().content.add(FacilityItem());
+      // highs.add(Facility());
+      highs.add(Facility().content.add(FacilityItem()));
+    } else {
+      highs = res;
     }
 
     for (int j = 0; j < highs.length; j++) {
-      highs[j].extra = highsextra;
-      highs[j].extra['value1'].text = highs[j].value1;
-      highs[j].extra['value2'].text = highs[j].value2;
-      highs[j].extra['value3'].text = highs[j].value3;
-      highs[j].extra['value4'].text = highs[j].value4;
-      highs[j].extra['value5'].text = highs[j].value5;
-      highs[j].extra['value6'].text = highs[j].value6;
-      highs[j].extra['value7'].text = highs[j].value7;
-      highs[j].extra['value8'].text = highs[j].value8;
-      highs[j].extra['value9'].text = highs[j].value9;
+      addExtra(highs[j]);
       for (int k = 0; k < highs[j].content.length; k++) {
-        highs[j].content[k].extra = highsitemextra;
-        highs[j].content[k].extra['value1'].text = highs[j].content[k].value1;
-        highs[j].content[k].extra['value2'].text = highs[j].content[k].value2;
-        highs[j].content[k].extra['value3'].text = highs[j].content[k].value3;
-        highs[j].content[k].extra['value4'].text = highs[j].content[k].value4;
-        highs[j].content[k].extra['value5'].text = highs[j].content[k].value5;
-        highs[j].content[k].extra['value6'].text = highs[j].content[k].value6;
-        highs[j].content[k].extra['value7'].text = highs[j].content[k].value7;
-        highs[j].content[k].extra['value8'].text = highs[j].content[k].value8;
-        highs[j].content[k].extra['value9'].text = highs[j].content[k].value9;
-        highs[j].content[k].extra['value10'].text = highs[j].content[k].value10;
+        // addExtra(highs[j].content[k]);
       }
     }
+  }
 
-    generator =
+  getGenerator() async {
+    final res =
         await FacilityManager.find(params: 'building=$building&category=20');
-    if (generator.length == 0) {
+
+    if (res.isEmpty) {
       generator.add(Facility());
     } else {
+      generator = res;
       other[0] = true;
     }
 
     for (int j = 0; j < generator.length; j++) {
-      generator[j].extra = generatorextra;
-      generator[j].extra['name'].text = generator[j].name;
-      generator[j].extra['value1'].text = generator[j].value1;
-      generator[j].extra['value2'].text = generator[j].value2;
-      generator[j].extra['value3'].text = generator[j].value3;
-      generator[j].extra['value4'].text = generator[j].value4;
-      generator[j].extra['value5'].text = generator[j].value5;
-      generator[j].extra['value6'].text = generator[j].value6;
-      generator[j].extra['value7'].text = generator[j].value7;
-      generator[j].extra['value8'].text = generator[j].value8;
-      generator[j].extra['value9'].text = generator[j].value9;
-      generator[j].extra['value10'].text = generator[j].value10;
-      generator[j].extra['value11'].text = generator[j].value11;
-      generator[j].extra['value12'].text = generator[j].value12;
-      generator[j].extra['value13'].text = generator[j].value13;
-      generator[j].extra['value14'].text = generator[j].value14;
-      generator[j].extra['value15'].text = generator[j].value15;
-      generator[j].extra['value16'].text = generator[j].value16;
-      generator[j].extra['value17'].text = generator[j].value17;
-      generator[j].extra['value18'].text = generator[j].value18;
-      generator[j].extra['value19'].text = generator[j].value19;
-      generator[j].extra['value20'].text = generator[j].value20;
+      addExtra(generator[j]);
     }
+  }
 
+  getSun() async {
     final res =
         await FacilityManager.find(params: 'building=$building&category=30');
 
@@ -341,104 +267,54 @@ class FacilityInsertController extends GetxController {
       other[1] = true;
     }
 
-    sunlight.extra = sunlightextra;
-    sunlight.extra['name'].text = sunlight.name;
-    sunlight.extra['value1'].text = sunlight.value1;
-    sunlight.extra['value2'].text = sunlight.value2;
-    sunlight.extra['value3'].text = sunlight.value3;
-    sunlight.extra['value4'].text = sunlight.value4;
-    sunlight.extra['value5'].text = sunlight.value5;
-    sunlight.extra['value6'].text = sunlight.value6;
-    sunlight.extra['value7'].text = sunlight.value7;
-    sunlight.extra['value8'].text = sunlight.value8;
-    sunlight.extra['value9'].text = sunlight.value9;
-    sunlight.extra['value10'].text = sunlight.value10;
-    sunlight.extra['value11'].text = sunlight.value11;
-    sunlight.extra['value12'].text = sunlight.value12;
-    sunlight.extra['value13'].text = sunlight.value13;
-    sunlight.extra['value14'].text = sunlight.value14;
-    sunlight.extra['value15'].text = sunlight.value15;
-    sunlight.extra['value16'].text = sunlight.value16;
+    addExtra(sunlight);
+  }
 
-    final rescharger =
+  getCharger() async {
+    final res =
         await FacilityManager.find(params: 'building=$building&category=40');
 
-    if (rescharger.isNotEmpty) {
-      charger = rescharger[0];
+    if (res.isNotEmpty) {
+      charger = res[0];
       other[2] = true;
     }
+    addExtra(charger);
+  }
 
-    charger.extra = chargerextra;
-    charger.extra['name'].text = charger.name;
-    charger.extra['value1'].text = charger.value1;
-    charger.extra['value2'].text = charger.value2;
-    charger.extra['value3'].text = charger.value3;
-    charger.extra['value4'].text = charger.value4;
-    charger.extra['value5'].text = charger.value5;
-    charger.extra['value6'].text = charger.value6;
-    charger.extra['value7'].text = charger.value7;
-    charger.extra['value8'].text = charger.value8;
-    charger.extra['value9'].text = charger.value9;
-
-    final reschargeritems =
+  getChargerItem() async {
+    final res =
         await FacilityManager.find(params: 'building=$building&category=41');
 
-    chargeritems = reschargeritems;
+    chargeritems = res;
 
-    if (chargeritems.length == 0) {
+    if (res.isEmpty) {
       chargeritems.add(Facility());
+    } else {
+      chargeritems = res;
     }
 
     for (int j = 0; j < chargeritems.length; j++) {
-      chargeritems[j].extra = chargeritemsextra;
-      chargeritems[j].extra['value1'].text = chargeritems[j].value1;
-      chargeritems[j].extra['value2'].text = chargeritems[j].value2;
-      chargeritems[j].extra['value3'].text = chargeritems[j].value3;
-      chargeritems[j].extra['value4'].text = chargeritems[j].value4;
-      chargeritems[j].extra['value5'].text = chargeritems[j].value5;
-      chargeritems[j].extra['value6'].text = chargeritems[j].value6;
-      chargeritems[j].extra['value7'].text = chargeritems[j].value7;
-      chargeritems[j].extra['value8'].text = chargeritems[j].value8;
-      chargeritems[j].extra['value9'].text = chargeritems[j].value9;
+      addExtra(chargeritems[j]);
     }
+  }
 
-    final resess =
+  getEss() async {
+    final res =
         await FacilityManager.find(params: 'building=$building&category=50');
 
-    if (resess.isNotEmpty) {
-      ess = resess[0];
+    if (res.isNotEmpty) {
+      ess = res[0];
       other[3] = true;
     }
 
-    ess.extra = essextra;
-    ess.extra['name'].text = ess.name;
-    ess.extra['value1'].text = ess.value1;
-    ess.extra['value2'].text = ess.value2;
-    ess.extra['value3'].text = ess.value3;
-    ess.extra['value4'].text = ess.value4;
-    ess.extra['value5'].text = ess.value5;
-    ess.extra['value6'].text = ess.value6;
-    ess.extra['value7'].text = ess.value7;
-    ess.extra['value8'].text = ess.value8;
-    ess.extra['value9'].text = ess.value9;
-    ess.extra['value10'].text = ess.value10;
-    ess.extra['value11'].text = ess.value11;
-    ess.extra['value12'].text = ess.value12;
-    ess.extra['value13'].text = ess.value13;
-    ess.extra['value14'].text = ess.value14;
-    ess.extra['value15'].text = ess.value15;
-    ess.extra['value16'].text = ess.value16;
-    ess.extra['value17'].text = ess.value17;
-    ess.extra['value18'].text = ess.value18;
-    ess.extra['value19'].text = ess.value19;
-    ess.extra['value20'].text = ess.value20;
-    ess.extra['value21'].text = ess.value21;
-    ess.extra['value22'].text = ess.value22;
+    addExtra(ess);
+  }
 
-    final resups =
+  getUps() async {
+    final res =
         await FacilityManager.find(params: 'building=$building&category=60');
 
-    ups = resups;
+    ups = res;
 
     if (ups.length == 0) {
       ups.add(Facility());
@@ -447,33 +323,15 @@ class FacilityInsertController extends GetxController {
     }
 
     for (int j = 0; j < ups.length; j++) {
-      ups[j].extra = upsextra;
-      ups[j].extra['name'].text = ups[j].name;
-      ups[j].extra['value1'].text = ups[j].value1;
-      ups[j].extra['value2'].text = ups[j].value2;
-      ups[j].extra['value3'].text = ups[j].value3;
-      ups[j].extra['value4'].text = ups[j].value4;
-      ups[j].extra['value5'].text = ups[j].value5;
-      ups[j].extra['value6'].text = ups[j].value6;
-      ups[j].extra['value7'].text = ups[j].value7;
-      ups[j].extra['value8'].text = ups[j].value8;
-      ups[j].extra['value9'].text = ups[j].value9;
-      ups[j].extra['value10'].text = ups[j].value10;
-      ups[j].extra['value11'].text = ups[j].value11;
-      ups[j].extra['value12'].text = ups[j].value12;
-      ups[j].extra['value13'].text = ups[j].value13;
-      ups[j].extra['value14'].text = ups[j].value14;
-      ups[j].extra['value15'].text = ups[j].value15;
-      ups[j].extra['value16'].text = ups[j].value16;
-      ups[j].extra['value17'].text = ups[j].value17;
-      ups[j].extra['value18'].text = ups[j].value18;
-      ups[j].extra['value19'].text = ups[j].value19;
+      addExtra(ups[j]);
     }
+  }
 
-    final resfuel =
+  getFuel() async {
+    final res =
         await FacilityManager.find(params: 'building=$building&category=70');
 
-    fuel = resfuel;
+    fuel = res;
 
     if (fuel.length == 0) {
       fuel.add(Facility());
@@ -482,33 +340,15 @@ class FacilityInsertController extends GetxController {
     }
 
     for (int j = 0; j < fuel.length; j++) {
-      fuel[j].extra = fuelextra;
-      fuel[j].extra['name'].text = fuel[j].name;
-      fuel[j].extra['value1'].text = fuel[j].value1;
-      fuel[j].extra['value2'].text = fuel[j].value2;
-      fuel[j].extra['value3'].text = fuel[j].value3;
-      fuel[j].extra['value4'].text = fuel[j].value4;
-      fuel[j].extra['value5'].text = fuel[j].value5;
-      fuel[j].extra['value6'].text = fuel[j].value6;
-      fuel[j].extra['value7'].text = fuel[j].value7;
-      fuel[j].extra['value8'].text = fuel[j].value8;
-      fuel[j].extra['value9'].text = fuel[j].value9;
-      fuel[j].extra['value10'].text = fuel[j].value10;
-      fuel[j].extra['value11'].text = fuel[j].value11;
-      fuel[j].extra['value12'].text = fuel[j].value12;
-      fuel[j].extra['value13'].text = fuel[j].value13;
-      fuel[j].extra['value14'].text = fuel[j].value14;
-      fuel[j].extra['value15'].text = fuel[j].value15;
-      fuel[j].extra['value16'].text = fuel[j].value16;
-      fuel[j].extra['value17'].text = fuel[j].value17;
-      fuel[j].extra['value18'].text = fuel[j].value18;
-      fuel[j].extra['value19'].text = fuel[j].value19;
+      addExtra(fuel[j]);
     }
+  }
 
-    final reswind =
+  getWind() async {
+    final res =
         await FacilityManager.find(params: 'building=$building&category=80');
 
-    wind = reswind;
+    wind = res;
 
     if (wind.length == 0) {
       wind.add(Facility());
@@ -517,52 +357,141 @@ class FacilityInsertController extends GetxController {
     }
 
     for (int j = 0; j < wind.length; j++) {
-      wind[j].extra = windextra;
-      wind[j].extra['name'].text = wind[j].name;
-      wind[j].extra['value1'].text = wind[j].value1;
-      wind[j].extra['value2'].text = wind[j].value2;
-      wind[j].extra['value3'].text = wind[j].value3;
-      wind[j].extra['value4'].text = wind[j].value4;
-      wind[j].extra['value5'].text = wind[j].value5;
-      wind[j].extra['value6'].text = wind[j].value6;
-      wind[j].extra['value7'].text = wind[j].value7;
-      wind[j].extra['value8'].text = wind[j].value8;
-      wind[j].extra['value9'].text = wind[j].value9;
-      wind[j].extra['value10'].text = wind[j].value10;
-      wind[j].extra['value11'].text = wind[j].value11;
-      wind[j].extra['value12'].text = wind[j].value12;
-      wind[j].extra['value13'].text = wind[j].value13;
-      wind[j].extra['value14'].text = wind[j].value14;
-      wind[j].extra['value15'].text = wind[j].value15;
-      wind[j].extra['value16'].text = wind[j].value16;
-      wind[j].extra['value17'].text = wind[j].value17;
-      wind[j].extra['value18'].text = wind[j].value18;
-      wind[j].extra['value19'].text = wind[j].value19;
-      wind[j].extra['value20'].text = wind[j].value20;
-      wind[j].extra['value21'].text = wind[j].value21;
-      wind[j].extra['value22'].text = wind[j].value22;
-      wind[j].extra['value23'].text = wind[j].value23;
-      wind[j].extra['value24'].text = wind[j].value24;
-      wind[j].extra['value25'].text = wind[j].value25;
+      addExtra(wind[j]);
     }
+  }
 
-    final reswater =
+  getWater() async {
+    final res =
         await FacilityManager.find(params: 'building=$building&category=90');
 
-    if (reswater.isNotEmpty) {
-      water = reswater[0];
+    if (res.isNotEmpty) {
+      water = res[0];
       other[7] = true;
     }
 
-    water.extra = waterextra;
-    water.extra['name'].text = water.name;
-    water.extra['value1'].text = water.value2;
-    water.extra['value2'].text = water.value3;
+    addExtra(water);
   }
 
   remove(data, index) {
     data.value.removeAt(index);
     itemsRedraw();
+  }
+
+  addItem(data) {
+    data.add(Facility());
+    var j = data.length - 1;
+    data[j].extra = <String, TextEditingController>{
+      'name': TextEditingController(),
+      'value1': TextEditingController(),
+      'value2': TextEditingController(),
+      'value3': TextEditingController(),
+      'value4': TextEditingController(),
+      'value5': TextEditingController(),
+      'value6': TextEditingController(),
+      'value7': TextEditingController(),
+      'value8': TextEditingController(),
+      'value9': TextEditingController(),
+      'value10': TextEditingController(),
+      'value11': TextEditingController(),
+      'value12': TextEditingController(),
+      'value13': TextEditingController(),
+      'value14': TextEditingController(),
+      'value15': TextEditingController(),
+      'value16': TextEditingController(),
+      'value17': TextEditingController(),
+      'value18': TextEditingController(),
+      'value19': TextEditingController(),
+      'value20': TextEditingController(),
+      'value21': TextEditingController(),
+      'value22': TextEditingController(),
+      'value23': TextEditingController(),
+      'value24': TextEditingController(),
+      'value25': TextEditingController(),
+    };
+    data[j].extra['name'].text = data[j].name;
+    data[j].extra['value1'].text = data[j].value1;
+    data[j].extra['value2'].text = data[j].value2;
+    data[j].extra['value3'].text = data[j].value3;
+    data[j].extra['value4'].text = data[j].value4;
+    data[j].extra['value5'].text = data[j].value5;
+    data[j].extra['value6'].text = data[j].value6;
+    data[j].extra['value7'].text = data[j].value7;
+    data[j].extra['value8'].text = data[j].value8;
+    data[j].extra['value9'].text = data[j].value9;
+    data[j].extra['value10'].text = data[j].value10;
+    data[j].extra['value11'].text = data[j].value11;
+    data[j].extra['value12'].text = data[j].value12;
+    data[j].extra['value13'].text = data[j].value13;
+    data[j].extra['value14'].text = data[j].value14;
+    data[j].extra['value15'].text = data[j].value15;
+    data[j].extra['value16'].text = data[j].value16;
+    data[j].extra['value17'].text = data[j].value17;
+    data[j].extra['value18'].text = data[j].value18;
+    data[j].extra['value19'].text = data[j].value19;
+    data[j].extra['value20'].text = data[j].value20;
+    data[j].extra['value21'].text = data[j].value21;
+    data[j].extra['value22'].text = data[j].value22;
+    data[j].extra['value23'].text = data[j].value23;
+    data[j].extra['value24'].text = data[j].value24;
+    data[j].extra['value25'].text = data[j].value25;
+  }
+
+  addExtra(data) {
+    data.extra = <String, TextEditingController>{
+      'name': TextEditingController(),
+      'value1': TextEditingController(),
+      'value2': TextEditingController(),
+      'value3': TextEditingController(),
+      'value4': TextEditingController(),
+      'value5': TextEditingController(),
+      'value6': TextEditingController(),
+      'value7': TextEditingController(),
+      'value8': TextEditingController(),
+      'value9': TextEditingController(),
+      'value10': TextEditingController(),
+      'value11': TextEditingController(),
+      'value12': TextEditingController(),
+      'value13': TextEditingController(),
+      'value14': TextEditingController(),
+      'value15': TextEditingController(),
+      'value16': TextEditingController(),
+      'value17': TextEditingController(),
+      'value18': TextEditingController(),
+      'value19': TextEditingController(),
+      'value20': TextEditingController(),
+      'value21': TextEditingController(),
+      'value22': TextEditingController(),
+      'value23': TextEditingController(),
+      'value24': TextEditingController(),
+      'value25': TextEditingController(),
+    };
+    data.extra['name'].text = data.name;
+    data.extra['value1'].text = data.value1;
+    data.extra['value2'].text = data.value2;
+    data.extra['value3'].text = data.value3;
+    data.extra['value4'].text = data.value4;
+    data.extra['value5'].text = data.value5;
+    data.extra['value6'].text = data.value6;
+    data.extra['value7'].text = data.value7;
+    data.extra['value8'].text = data.value8;
+    data.extra['value9'].text = data.value9;
+    data.extra['value10'].text = data.value10;
+    data.extra['value11'].text = data.value11;
+    data.extra['value12'].text = data.value12;
+    data.extra['value13'].text = data.value13;
+    data.extra['value14'].text = data.value14;
+    data.extra['value15'].text = data.value15;
+    data.extra['value16'].text = data.value16;
+    data.extra['value17'].text = data.value17;
+    data.extra['value18'].text = data.value18;
+    data.extra['value19'].text = data.value19;
+    data.extra['value20'].text = data.value20;
+    data.extra['value21'].text = data.value21;
+    data.extra['value22'].text = data.value22;
+    data.extra['value23'].text = data.value23;
+    data.extra['value24'].text = data.value24;
+    data.extra['value25'].text = data.value25;
   }
 
   itemRedraw() {

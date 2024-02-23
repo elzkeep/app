@@ -82,7 +82,7 @@ class FacilityViewController extends GetxController {
   final types = CItem.list(['', '저압', '특고압']).obs;
   final positions =
       CItem.list(['', '지하', '단독/옥내', '옥상', '옥외', '복도/계단', '현관', '직접입력']).obs;
-  final volts = CItem.list(['', '[저압]380/220', '[특고압]22,900']).obs;
+  final volts = CItem.list(['', '[저압]380/220', '[특고압]22,900', '직접입력']).obs;
   final voltage = CItem.list(['', '380/220V', '220V', '직접입력']).obs;
   final arrangementtypes = CItem.list(['', '일반형', '일체형']).obs;
   final faces = CItem.list([
@@ -98,7 +98,6 @@ class FacilityViewController extends GetxController {
     '71~80',
     '81~90',
     '91~100',
-    '11~20',
     '101이상',
     '직접입력'
   ]).obs;
@@ -143,7 +142,6 @@ class FacilityViewController extends GetxController {
   @override
   onInit() async {
     super.onInit();
-    // item = await FacilityManager.get(id);
     getYearMonth();
     getItem();
     getItems();
