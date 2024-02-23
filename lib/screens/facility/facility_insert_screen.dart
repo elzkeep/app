@@ -329,7 +329,9 @@ class FacilityInsertScreen extends CWidget {
               },
             ),
             () {
-              index == 0 ? c.addItem(c.items) : c.remove(c.items, index);
+              index == 0
+                  ? c.addItem(c.items, 'items')
+                  : c.remove(c.items, index);
             },
             index == 0 ? true : false,
           ),
@@ -461,7 +463,9 @@ class FacilityInsertScreen extends CWidget {
               textStyle: labelStyle,
             ),
             () {
-              index == 0 ? c.addItem(c.transs) : c.remove(c.transs, index);
+              index == 0
+                  ? c.addItem(c.transs, 'transs')
+                  : c.remove(c.transs, index);
             },
             index == 0 ? true : false,
           ),
@@ -571,7 +575,9 @@ class FacilityInsertScreen extends CWidget {
               textStyle: labelStyle,
             ),
             () {
-              index == 0 ? c.addItem(c.highs) : c.remove(c.highs, index);
+              index == 0
+                  ? c.addItem(c.highs, 'highs')
+                  : c.remove(c.highs, index);
             },
             index == 0 ? true : false,
           ),
@@ -893,7 +899,7 @@ class FacilityInsertScreen extends CWidget {
             ),
             () {
               index == 0
-                  ? c.addItem(c.generator)
+                  ? c.addItem(c.generator, 'generator')
                   : c.remove(c.generator, index);
             },
             index == 0 ? true : false,
@@ -1340,7 +1346,7 @@ class FacilityInsertScreen extends CWidget {
             CContainer(),
             () {
               index == 0
-                  ? c.addItem(c.chargeritems)
+                  ? c.addItem(c.chargeritems, 'chargeritems')
                   : c.remove(c.chargeritems, index);
             },
             index == 0 ? true : false,
@@ -1739,7 +1745,7 @@ class FacilityInsertScreen extends CWidget {
               textStyle: labelStyle,
             ),
             () {
-              index == 0 ? c.addItem(c.ups) : c.remove(c.ups, index);
+              index == 0 ? c.addItem(c.ups, 'ups') : c.remove(c.ups, index);
             },
             index == 0 ? true : false,
           ),
@@ -2004,7 +2010,7 @@ class FacilityInsertScreen extends CWidget {
               textStyle: labelStyle,
             ),
             () {
-              index == 0 ? c.addItem(c.wind) : c.remove(c.wind, index);
+              index == 0 ? c.addItem(c.wind, 'wind') : c.remove(c.wind, index);
             },
             index == 0 ? true : false,
           ),
@@ -2329,7 +2335,7 @@ class FacilityInsertScreen extends CWidget {
               textStyle: labelStyle,
             ),
             () {
-              index == 0 ? c.addItem(c.fuel) : c.remove(c.fuel, index);
+              index == 0 ? c.addItem(c.fuel, 'fuel') : c.remove(c.fuel, index);
             },
             index == 0 ? true : false,
           ),

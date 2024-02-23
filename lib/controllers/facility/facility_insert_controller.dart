@@ -1,5 +1,6 @@
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/components/cselectbox.dart';
+import 'package:zkeep/models/building.dart';
 import 'package:zkeep/models/facility.dart';
 import 'package:zkeep/models/facilityitem.dart';
 
@@ -8,6 +9,10 @@ class FacilityInsertController extends GetxController {
 
   final int id;
   final int building;
+
+  final _buildingName = ''.obs;
+  String get buildingName => _buildingName.value;
+  set buildingName(String value) => _buildingName.value = value;
 
   final _item = Facility().obs;
   Facility get item => _item.value;
@@ -149,6 +154,7 @@ class FacilityInsertController extends GetxController {
     super.onInit();
     getYearMonth();
     getYearMonth();
+    getBuilding();
     getItem();
     getItems();
     getTranss();
@@ -172,6 +178,11 @@ class FacilityInsertController extends GetxController {
     for (var i = 1; i <= 12; i++) {
       months.add(CItem(id: i, value: '$i월'));
     }
+  }
+
+  getBuilding() async {
+    final res = await BuildingManager.get(building);
+    buildingName = res.name;
   }
 
   getItem() async {
@@ -228,8 +239,8 @@ class FacilityInsertController extends GetxController {
 
     if (res.isEmpty) {
       // Facility().content.add(FacilityItem());
-      // highs.add(Facility());
-      highs.add(Facility().content.add(FacilityItem()));
+      highs.add(Facility());
+      // highs.add(Facility().content.add(FacilityItem()));
     } else {
       highs = res;
     }
@@ -265,6 +276,8 @@ class FacilityInsertController extends GetxController {
     if (res.isNotEmpty) {
       sunlight = res[0];
       other[1] = true;
+    } else {
+      sunlight.name = "$buildingName 태양광발전";
     }
 
     addExtra(sunlight);
@@ -277,7 +290,10 @@ class FacilityInsertController extends GetxController {
     if (res.isNotEmpty) {
       charger = res[0];
       other[2] = true;
+    } else {
+      charger.name = "$buildingName EV충전기";
     }
+
     addExtra(charger);
   }
 
@@ -305,6 +321,8 @@ class FacilityInsertController extends GetxController {
     if (res.isNotEmpty) {
       ess = res[0];
       other[3] = true;
+    } else {
+      ess.name = "$buildingName 전기저장장치";
     }
 
     addExtra(ess);
@@ -318,6 +336,7 @@ class FacilityInsertController extends GetxController {
 
     if (ups.length == 0) {
       ups.add(Facility());
+      ups[0].name = "$buildingName UPS";
     } else {
       other[4] = true;
     }
@@ -335,6 +354,7 @@ class FacilityInsertController extends GetxController {
 
     if (fuel.length == 0) {
       fuel.add(Facility());
+      fuel[0].name = "$buildingName 연료전지 발전설비";
     } else {
       other[5] = true;
     }
@@ -352,6 +372,7 @@ class FacilityInsertController extends GetxController {
 
     if (wind.length == 0) {
       wind.add(Facility());
+      wind.name = "$buildingName 풍력발전소";
     } else {
       other[6] = true;
     }
@@ -368,6 +389,8 @@ class FacilityInsertController extends GetxController {
     if (res.isNotEmpty) {
       water = res[0];
       other[7] = true;
+    } else {
+      water.name = "$buildingName 수력발전설비";
     }
 
     addExtra(water);
@@ -378,9 +401,15 @@ class FacilityInsertController extends GetxController {
     itemsRedraw();
   }
 
-  addItem(data) {
+  addItem(data, String item) {
     data.add(Facility());
     var j = data.length - 1;
+    if (item == 'ups') {
+      data[j].name = "$buildingName UPS";
+    }
+    if (item == 'fuel') {
+      data[j].name = "$buildingName 연료전지 발전설비";
+    }
     data[j].extra = <String, TextEditingController>{
       'name': TextEditingController(),
       'value1': TextEditingController(),
