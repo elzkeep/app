@@ -33,8 +33,8 @@ class Facility {
   String value23;
   String value24;
   String value25;
-  // String content;
-  List<FacilityItem> content;
+  String content;
+  List<FacilityItem> contents;
   int building;
   String date;
   bool checked;
@@ -70,8 +70,8 @@ class Facility {
       this.value23 = '',
       this.value24 = '',
       this.value25 = '',
-      // this.content = '',
-      this.content = const [],
+      this.content = '',
+      this.contents = const [],
       this.building = 0,
       this.date = '',
       this.extra = const {},
@@ -114,8 +114,8 @@ class Facility {
         value23: json['value23'] as String,
         value24: json['value24'] as String,
         value25: json['value25'] as String,
-        // content: json['content'] as String,
-        content: contentFacilities,
+        content: json['content'] as String,
+        contents: contentFacilities,
         building: json['building'] as int,
         date: json['date'] as String,
         extra: json['extra'] == null
@@ -153,8 +153,8 @@ class Facility {
         'value23': value23,
         'value24': value24,
         'value25': value25,
-        // 'content': content,
-        'content': jsonEncode(content),
+        'content': content,
+        'contents': jsonEncode(content),
         'building': building,
         'date': date
       };
