@@ -56,15 +56,15 @@ class MypageScreen extends CWidget {
               margin: const EdgeInsets.symmetric(vertical: 10),
               children: [
                 CText(
-                  '홍길동' ' 님',
+                  '${c.user['name']} 님',
                   textStyle: nameStyle,
                 ),
                 CText(
-                  '010-9999-1111',
+                  c.user['tel'],
                   textStyle: textStyle,
                 ),
                 CText(
-                  'hongpro@myster.co.kr',
+                  c.user['email'],
                   textStyle: textStyle,
                 ),
               ],

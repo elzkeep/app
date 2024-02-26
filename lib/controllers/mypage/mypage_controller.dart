@@ -1,7 +1,9 @@
 import 'package:common_control/common_control.dart';
 import 'package:intl/intl.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:zkeep/models/report.dart';
+import 'package:zkeep/models/user.dart';
 
 class MypageController extends GetxController {
   MypageController();
@@ -13,6 +15,10 @@ class MypageController extends GetxController {
   final _search = 1.obs;
   int get search => _search.value;
   set search(int value) => _search.value = value;
+
+  final user = LocalStorage('login.json').getItem('user');
+  // User get user => _user.value;
+  // set user(User value) => _user.value = value;
 
   final _focusedDay = DateTime(DateTime.now().year, DateTime.now().month,
           DateTime.now().day, 0, 0, 0)
