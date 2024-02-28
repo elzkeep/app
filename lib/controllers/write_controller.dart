@@ -1,6 +1,7 @@
 import 'package:common_control/common_control.dart';
 import 'package:intl/intl.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:zkeep/models/building.dart';
 import 'package:zkeep/models/company.dart';
 import 'package:zkeep/models/report.dart';
 
@@ -34,6 +35,10 @@ class WriteController extends GetxController {
   int get customerid => _customerid.value;
   set customerid(int value) => _customerid.value = value;
 
+  final _buildingid = 0.obs;
+  int get buildingid => _buildingid.value;
+  set buildingid(int value) => _buildingid.value = value;
+
   final _items = [].obs;
   get items => _items;
   set items(value) => _items.value = value;
@@ -50,13 +55,13 @@ class WriteController extends GetxController {
   onInit() async {
     super.onInit();
 
-    items = await CompanyManager.find();
+    items = await BuildingManager.find();
   }
 
   Future<bool> insert() async {
     bool flag = true;
 
-    if (customerid == 0) {
+    if (customerid == 0 || buildingid == 0) {
       errorCompany = '점검대상을 선택하세요';
       flag = false;
     }
@@ -80,6 +85,7 @@ class WriteController extends GetxController {
       ..checkdate = DateFormat('yyyy-MM-dd', 'ko_KR').format(date)
       ..checktime =
           '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}'
+      ..building = buildingid
       ..company = Company(id: customerid)
       ..status = ReportStatus.newer;
 

@@ -4,7 +4,7 @@ import 'package:zkeep/components/cformtext.dart';
 import 'package:zkeep/components/cselectbox.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/controllers/write_controller.dart';
-import 'package:zkeep/models/company.dart';
+import 'package:zkeep/models/building.dart';
 
 class WriteScreen extends CWidget {
   WriteScreen({super.key});
@@ -236,8 +236,8 @@ class WriteScreen extends CWidget {
     List<Widget> items = [];
 
     for (var i = 0; i < c.items.length; i++) {
-      Company item = c.items[i];
-      final name = item.billingname;
+      Building item = c.items[i];
+      final name = item.name;
 
       if (c.search != '') {
         if (!name.contains(c.search)) {
@@ -265,9 +265,10 @@ class WriteScreen extends CWidget {
         ])));
   }
 
-  clickSelectCustomer(Company item) {
-    c.customer = item.billingname;
-    c.customerid = item.id;
+  clickSelectCustomer(Building item) {
+    c.customer = item.name;
+    c.customerid = item.company;
+    c.buildingid = item.id;
     Get.back();
   }
 
