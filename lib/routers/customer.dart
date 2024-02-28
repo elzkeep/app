@@ -4,6 +4,7 @@ import 'package:zkeep/controllers/customer/customer_insert_controller.dart';
 import 'package:zkeep/controllers/customer/customer_list_controller.dart';
 import 'package:zkeep/controllers/customer/customer_update_controller.dart';
 import 'package:zkeep/controllers/customer/customer_view_controller.dart';
+import 'package:zkeep/models/customer.dart';
 import 'package:zkeep/screens/customer/customer_detail_screen.dart';
 import 'package:zkeep/screens/customer/customer_insert_screen.dart';
 import 'package:zkeep/screens/customer/customer_list_screen.dart';
@@ -35,7 +36,11 @@ customer() {
       //middlewares: [AuthService()],
       binding: BindingsBuilder(() {
         final id = int.parse(Get.parameters['id']!);
-        Get.put(CustomerViewController(id));
+        Customer item = Customer();
+        if (Get.arguments != null) {
+          item = Get.arguments['item'];
+        }
+        Get.put(CustomerViewController(id, item));
       }),
     ),
     GetPage(

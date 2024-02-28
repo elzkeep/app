@@ -1,12 +1,11 @@
 import 'package:common_control/common_control.dart';
-
 import 'package:zkeep/components/company.dart';
 import 'package:zkeep/components/cselectbutton.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/components/customer/customer_box.dart';
 import 'package:zkeep/components/sub_title.dart';
 import 'package:zkeep/controllers/customer/customer_list_controller.dart';
-import 'package:zkeep/models/company.dart';
+import 'package:zkeep/models/customer.dart';
 
 class CustomerListScreen extends CWidget {
   CustomerListScreen({super.key});
@@ -17,8 +16,12 @@ class CustomerListScreen extends CWidget {
   Widget build(BuildContext context) {
     return Layout(
         title: '고객관리',
-        child: CColumn(
-            gap: 20, children: [search(), customer(), buttons(), Expanded(child: lists())]));
+        child: CColumn(gap: 20, children: [
+          search(),
+          customer(),
+          buttons(),
+          Expanded(child: lists())
+        ]));
   }
 
   customer() {
@@ -45,7 +48,7 @@ class CustomerListScreen extends CWidget {
   }
 
   lists() {
-    return InfiniteScroll<Company>(
+    return InfiniteScroll<Customer>(
       axis: Axis.vertical,
       controller: c,
       builder: list,
@@ -53,7 +56,7 @@ class CustomerListScreen extends CWidget {
     );
   }
 
-  Widget list(Company item, int index) {
+  Widget list(Customer item, int index) {
     return CompanyWidget(item);
   }
 }

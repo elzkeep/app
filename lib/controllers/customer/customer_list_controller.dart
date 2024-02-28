@@ -1,8 +1,8 @@
 import 'package:common_control/common_control.dart';
-import 'package:zkeep/models/company.dart';
+import 'package:zkeep/models/customer.dart';
 
 class CustomerListController extends InfiniteController {
-  CustomerListController() : super(reader: CompanyManager.find, params: '');
+  CustomerListController() : super(reader: CustomerManager.find, params: '');
 
   final _search = 1.obs;
   int get search => _search.value;

@@ -10,6 +10,42 @@ import 'package:zkeep/config/config.dart';
 import 'package:zkeep/controllers/customer/customer_view_controller.dart';
 import 'package:zkeep/models/report.dart';
 
+extension ReportStatusExtension on ReportStatus {
+  Color get color {
+    switch (this) {
+      case ReportStatus.none:
+        return Colors.grey;
+      case ReportStatus.newer:
+        return Colors.orange;
+      case ReportStatus.ing:
+        return Colors.blue;
+      case ReportStatus.check:
+        return Colors.black54;
+      case ReportStatus.complete:
+        return Colors.green;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  String get name {
+    switch (this) {
+      case ReportStatus.none:
+        return '없음';
+      case ReportStatus.newer:
+        return '신규';
+      case ReportStatus.ing:
+        return '점검중';
+      case ReportStatus.check:
+        return '서명완료';
+      case ReportStatus.complete:
+        return '완료';
+      default:
+        return '';
+    }
+  }
+}
+
 class CustomerViewScreen extends CWidget {
   CustomerViewScreen({super.key});
 
@@ -44,32 +80,17 @@ class CustomerViewScreen extends CWidget {
               lineColor: Colors.black12,
               gap: 20,
               children: [
-                CBothSide(
-                    gap: 10,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CText('고객명: '),
-                      CText('동부팀'),
-                    ]),
-                CBothSide(
-                    gap: 10,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CRow(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CText('담당자 명: '),
-                          CText('홍길동'),
-                        ],
-                      ),
-                      CRow(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CText('점검일: '),
-                          CText('매월 7일'),
-                        ],
-                      ),
-                    ]),
+                CText('고객명: 동부팀'),
+                CRow(gap: 10, children: [
+                  CText(
+                    '담당자 명: ${c.item.managername}',
+                    expanded: true,
+                  ),
+                  CText(
+                    '점검일: 매월 ${c.item.contractday}일',
+                    expanded: true,
+                  ),
+                ]),
               ]))
     ]);
   }
@@ -139,10 +160,9 @@ class CustomerViewScreen extends CWidget {
             ])),
             const SizedBox(width: 20),
             DRound(
-                backgroundColor:
-                    item.status == 1 ? Colors.black54 : Colors.blue,
+                backgroundColor: item.status.color,
                 child: CText(
-                  '점검중',
+                  item.status.name,
                   textStyle: const TextStyle(fontSize: 11, color: Colors.white),
                 )),
           ]),
