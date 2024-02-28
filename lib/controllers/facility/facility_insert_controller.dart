@@ -225,6 +225,7 @@ class FacilityInsertController extends GetxController {
 
     if (res.isEmpty) {
       transs.add(Facility());
+      transs[0].name = "TR1";
     } else {
       transs = res;
     }
@@ -409,6 +410,9 @@ class FacilityInsertController extends GetxController {
   addItem(data, String item) {
     data.add(Facility());
     var j = data.length - 1;
+    if (item == 'transs') {
+      data[j].name = 'TR${data.length}';
+    }
     if (item == 'generator') {
       data[j].name = "$buildingName 발전설비";
     }

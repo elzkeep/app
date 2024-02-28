@@ -25,7 +25,7 @@ class MypageEditRecodScreen extends CWidget {
       Obx(() => CForm(children: [
             CFormfield(
               title: '소속회사',
-              controller: c.company,
+              controller: c.companyTextEdit,
               errText: c.errorCompany,
             ),
             CFormfield(
@@ -139,7 +139,7 @@ class MypageEditRecodScreen extends CWidget {
   }
 
   clickSave() async {
-    final ret = await c.insert();
+    final ret = await c.save();
     if (ret == false) {
       return;
     }

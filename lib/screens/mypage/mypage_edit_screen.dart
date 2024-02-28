@@ -33,49 +33,67 @@ class MypageEditScreen extends CWidget {
             title: '아이디',
             controller: c.loginid,
             errText: c.errorLoginid,
+            onChanged: (value) => c.user.loginid = value,
           ),
           CFormfield(
             title: '비밀번호',
             controller: c.passwd,
             errText: c.errorPasswd,
+            onChanged: (value) => c.user.passwd = value,
           ),
           CFormfield(
             title: '이름',
             controller: c.name,
             errText: c.errorName,
+            onChanged: (value) => c.user.name = value,
           ),
           CFormfield(
             title: '휴대전화',
-            controller: c.phonenum,
-            errText: c.errorPhonenum,
+            controller: c.tel,
+            errText: c.errorTel,
+            onChanged: (value) => c.user.tel = value,
           ),
-          CFormtitle(title: '이메일'),
-          CRow(gap: 10, children: [
-            Expanded(
-              child: CFormtext(
-                c.emailId,
-                onTap: () => clickEmailId(),
-              ),
-            ),
-            CText('@'),
-            Expanded(
-                child: CSelectbox(
-                    items: emailAddress,
-                    selected: c.emailAddress,
-                    onSelected: (pos) {
-                      c.emailAddress = pos;
-                    }))
-          ]),
+          CFormfield(
+            title: '이메일',
+            controller: c.email,
+            errText: c.errorEmail,
+            onChanged: (value) => c.user.email = value,
+          ),
+          // CFormtitle(title: '이메일'),
+          // CRow(gap: 10, children: [
+          //   Expanded(
+          //     child: CFormtext(
+          //       c.emailId,
+          //       onTap: () => clickEmailId(),
+          //     ),
+          //   ),
+          //   CText('@'),
+          //   Expanded(
+          //       child: CSelectbox(
+          //           items: emailAddress,
+          //           selected: c.emailAddress,
+          //           onSelected: (pos) {
+          //             c.emailAddress = pos;
+          //           }))
+          // ]),
           CFormtitle(title: '주소'),
           CColumn(gap: 10, children: [
-            CFormtext(
-              c.addressStreet,
-              onTap: () => clickAdressStreet(),
+            CFormfield(
+              controller: c.address,
+              onChanged: (value) => c.user.address = value,
             ),
-            CFormtext(
-              c.addressEtc,
-              onTap: () => clickAdressEtc(),
+            CFormfield(
+              controller: c.addressetc,
+              onChanged: (value) => c.user.addressetc = value,
             ),
+            // CFormtext(
+            //   c.addressStreet,
+            //   onTap: () => clickAdressStreet(),
+            // ),
+            // CFormtext(
+            //   c.addressEtc,
+            //   onTap: () => clickAdressEtc(),
+            // ),
           ]),
         ]));
   }

@@ -3,7 +3,6 @@ import 'package:intl/intl.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:zkeep/models/report.dart';
-import 'package:zkeep/models/user.dart';
 
 class MypageController extends GetxController {
   MypageController();

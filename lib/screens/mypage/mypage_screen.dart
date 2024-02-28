@@ -291,7 +291,7 @@ class MypageScreen extends CWidget {
                 height: 14,
                 child: Container()),
             const SizedBox(width: 8),
-            SubTitle('10:00'),
+            SubTitle(item.checktime),
           ],
         ),
         CContainer(
