@@ -1,5 +1,6 @@
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/controllers/data/list_controller.dart';
+import 'package:zkeep/models/building.dart';
 import 'package:zkeep/models/report.dart';
 
 class ViewController extends GetxController {
@@ -10,6 +11,10 @@ class ViewController extends GetxController {
   final int id;
   final Report item;
 
+  final _building = Building().obs;
+  Building get building => _building.value;
+  set building(Building value) => _building.value = value;
+
   final _volt = 0.obs;
   int get volt => _volt.value;
   set volt(int value) => _volt.value = value;
@@ -19,12 +24,17 @@ class ViewController extends GetxController {
     super.onInit();
 
     content.text = item.content;
+    getBuilding();
+  }
+
+  getBuilding() async {
+    final res = await BuildingManager.get(item.building);
+    building = res;
   }
 
   save() async {
     item.status = ReportStatus.complete;
     item.content = content.text;
-
 
     print(item.content);
     print(item.id);

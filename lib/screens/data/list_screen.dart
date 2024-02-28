@@ -1,4 +1,5 @@
 import 'package:common_control/common_control.dart';
+import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:zkeep/components/cselectbutton.dart';
 import 'package:zkeep/components/layout.dart';
@@ -147,7 +148,8 @@ class ListScreen extends CWidget {
             CText('|',
                 textStyle:
                     const TextStyle(color: Colors.black54, fontSize: 12)),
-            CText('1',
+            CText(
+                '${DateFormat('MM월 dd일').format(DateTime.parse(item.checkdate))} ${item.checktime}',
                 textStyle: const TextStyle(color: Colors.black54, fontSize: 12))
           ]),
         ])),

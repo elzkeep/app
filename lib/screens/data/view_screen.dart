@@ -1,4 +1,5 @@
 import 'package:common_control/common_control.dart';
+import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/config/config.dart';
@@ -18,7 +19,9 @@ class ViewScreen extends CWidget {
         SingleChildScrollView(
             child: CColumn(children: [
           title('고객 정보'),
-          customer(),
+          Obx(
+            () => customer(),
+          ),
           const SizedBox(height: 10),
           title('설비 기본 정보'),
           info(),
@@ -181,9 +184,9 @@ class ViewScreen extends CWidget {
       child: CRow(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Expanded(
             child: CColumn(gap: 10, children: [
-          CText(c.item.company.buildingname),
+          CText(c.building.name),
           CRow(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            CText(c.item.company.managername,
+            CText(c.building.ceo,
                 textStyle:
                     const TextStyle(color: Colors.black54, fontSize: 12)),
           ]),
@@ -214,11 +217,12 @@ class ViewScreen extends CWidget {
       child: CRow(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Expanded(
             child: CColumn(gap: 10, children: [
-          CRow(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            CText('수전 용량: 800kW'),
-            CText(
-              '수전 형태: 특고압',
-              textAlign: TextAlign.right,
+          CRow(children: [
+            Expanded(
+              child: CText('수전 용량: 800kW'),
+            ),
+            Expanded(
+              child: CText('수전 형태: 특고압'),
             ),
           ]),
           CRow(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -282,7 +286,8 @@ class ViewScreen extends CWidget {
               CText('|',
                   textStyle:
                       const TextStyle(color: Colors.black54, fontSize: 12)),
-              CText(item['wat'],
+              CText(
+                  '${DateFormat('MM월 dd일').format(DateTime.parse(c.item.checkdate))} ${c.item.checktime}',
                   textStyle:
                       const TextStyle(color: Colors.black54, fontSize: 12))
             ]),
