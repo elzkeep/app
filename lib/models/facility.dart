@@ -1,9 +1,8 @@
-import 'dart:convert';
-
 import 'package:common_control/common_control.dart';
-import 'package:zkeep/models/facilityitem.dart';
 
-class Facility {
+
+  
+class Facility { 
   int id;
   int category;
   int parent;
@@ -38,7 +37,7 @@ class Facility {
   int building;
   String date;
   bool checked;
-  Map<String, dynamic> extra;
+  Map<String, dynamic> extra;  
 
   Facility(
       {this.id = 0,
@@ -78,12 +77,6 @@ class Facility {
       this.checked = false});
 
   factory Facility.fromJson(Map<String, dynamic> json) {
-    List<FacilityItem> contentFacilities = [];
-    if (json['content'] != null) {
-      contentFacilities = (jsonDecode(json['content']) as List<dynamic>)
-          .map<FacilityItem>((item) => FacilityItem.fromJson(item))
-          .toList();
-    }
     return Facility(
         id: json['id'] as int,
         category: json['category'] as int,
@@ -117,10 +110,8 @@ class Facility {
         content: json['content'] as String,
         contents: contentFacilities,
         building: json['building'] as int,
-        date: json['date'] as String,
-        extra: json['extra'] == null
-            ? <String, dynamic>{}
-            : json['extra'] as Map<String, dynamic>);
+        date: json['date'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
+    );
   }
 
   Map<String, dynamic> toJson() => {
@@ -165,7 +156,7 @@ class Facility {
 }
 
 class FacilityManager {
-  static const baseUrl = '/api/facility';
+  static const baseUrl = '/api/facility';  
 
   static Future<List<Facility>> find(
       {int page = 0, int pagesize = 20, String? params}) async {
@@ -200,13 +191,5 @@ class FacilityManager {
 
   static delete(Facility item) async {
     await Http.delete(baseUrl, item.toJson());
-  }
-
-  static deleteByBuildingCategory(building, category) async {
-    var item = {'building': building, 'category': category};
-
-    var result = await Http.delete('$baseUrl/bybuildingcategory', item);
-
-    return result;
   }
 }

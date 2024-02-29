@@ -1,4 +1,5 @@
 import 'package:common_control/common_control.dart';
+import 'package:zkeep/models/building.dart';
 
 
 enum CustomerType {
@@ -21,8 +22,9 @@ class Customer {
   String billingtel;
   String billingemail;
   int status;
+  int user;
   int company;
-  int building;
+  Building building = Building();
   String date;
   bool checked;
   Map<String, dynamic> extra;  
@@ -43,11 +45,16 @@ class Customer {
           this.billingtel = '',       
           this.billingemail = '',       
           this.status = 0,       
+          this.user = 0,       
           this.company = 0,       
-          this.building = 0,       
+          Building? building,       
           this.date = '',
           this.extra = const{},
-          this.checked = false}) ;
+          this.checked = false}) {
+          if (building != null) {
+              this.building = building;
+          }
+    }
   
 
   factory Customer.fromJson(Map<String, dynamic> json) {
@@ -67,14 +74,15 @@ class Customer {
         billingtel: json['billingtel'] as String,
         billingemail: json['billingemail'] as String,
         status: json['status'] as int,
+        user: json['user'] as int,
         company: json['company'] as int,
-        building: json['building'] as int,
+        building: Building.fromJson(json['extra']['building']),
         date: json['date'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
     );
   }
 
   Map<String, dynamic> toJson() =>
-      { 'id': id,'type': type.index,'checkdate': checkdate,'managername': managername,'managertel': managertel,'manageremail': manageremail,'contractstartdate': contractstartdate,'contractenddate': contractenddate,'contractprice': contractprice,'contractday': contractday,'billingdate': billingdate,'billingname': billingname,'billingtel': billingtel,'billingemail': billingemail,'status': status,'company': company,'building': building,'date': date };
+      { 'id': id,'type': type.index,'checkdate': checkdate,'managername': managername,'managertel': managertel,'manageremail': manageremail,'contractstartdate': contractstartdate,'contractenddate': contractenddate,'contractprice': contractprice,'contractday': contractday,'billingdate': billingdate,'billingname': billingname,'billingtel': billingtel,'billingemail': billingemail,'status': status,'user': user,'company': company,'building': building.id,'date': date };
 
   Customer clone() {
     return Customer.fromJson(toJson());
