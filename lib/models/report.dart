@@ -1,9 +1,14 @@
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/models/company.dart';
+import 'package:zkeep/models/user.dart';
+import 'package:zkeep/models/building.dart';
 
-enum ReportStatus { none, newer, ing, check, complete }
 
-class Report {
+enum ReportStatus {
+    none, newer, ing, check, complete
+}
+  
+class Report { 
   int id;
   String title;
   int period;
@@ -13,31 +18,38 @@ class Report {
   String content;
   ReportStatus status;
   Company company = Company();
-  int user;
-  int building;
+  User user = User();
+  Building building = Building();
   String date;
   bool checked;
-  Map<String, dynamic> extra;
+  Map<String, dynamic> extra;  
 
-  Report(
-      {this.id = 0,
-      this.title = '',
-      this.period = 0,
-      this.number = 0,
-      this.checkdate = '',
-      this.checktime = '',
-      this.content = '',
-      this.status = ReportStatus.none,
-      Company? company,
-      this.user = 0,
-      this.building = 0,
-      this.date = '',
-      this.extra = const {},
-      this.checked = false}) {
-    if (company != null) {
-      this.company = company;
+  Report({        
+          this.id = 0,       
+          this.title = '',       
+          this.period = 0,       
+          this.number = 0,       
+          this.checkdate = '',       
+          this.checktime = '',       
+          this.content = '',       
+          this.status = ReportStatus.none,       
+          Company? company,       
+          User? user,       
+          Building? building,       
+          this.date = '',
+          this.extra = const{},
+          this.checked = false}) {
+          if (company != null) {
+              this.company = company;
+          }
+if (user != null) {
+              this.user = user;
+          }
+if (building != null) {
+              this.building = building;
+          }
     }
-  }
+  
 
   factory Report.fromJson(Map<String, dynamic> json) {
     return Report(
@@ -50,28 +62,14 @@ class Report {
         content: json['content'] as String,
         status: ReportStatus.values[json['status'] as int],
         company: Company.fromJson(json['extra']['company']),
-        user: json['user'] as int,
-        building: json['building'] as int,
-        date: json['date'] as String,
-        extra: json['extra'] == null
-            ? <String, dynamic>{}
-            : json['extra'] as Map<String, dynamic>);
+        user: User.fromJson(json['extra']['user']),
+        building: Building.fromJson(json['extra']['building']),
+        date: json['date'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
+    );
   }
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'period': period,
-        'number': number,
-        'checkdate': checkdate,
-        'checktime': checktime,
-        'content': content,
-        'status': status.index,
-        'company': company.id,
-        'user': user,
-        'building': building,
-        'date': date
-      };
+  Map<String, dynamic> toJson() =>
+      { 'id': id,'title': title,'period': period,'number': number,'checkdate': checkdate,'checktime': checktime,'content': content,'status': status.index,'company': company.id,'user': user.id,'building': building.id,'date': date };
 
   Report clone() {
     return Report.fromJson(toJson());
@@ -79,7 +77,7 @@ class Report {
 }
 
 class ReportManager {
-  static const baseUrl = '/api/report';
+  static const baseUrl = '/api/report';  
 
   static Future<List<Report>> find(
       {int page = 0, int pagesize = 20, String? params}) async {
@@ -114,18 +112,5 @@ class ReportManager {
 
   static delete(Report item) async {
     await Http.delete(baseUrl, item.toJson());
-  }
-
-  static Future<List<Report>> search(
-      {int page = 0, int pagesize = 20, String? params}) async {
-    var result = await Http.get(
-        '$baseUrl/search/$page', {'page': page, 'pagesize': pagesize}, params);
-    if (result == null || result['items'] == null) {
-      return List<Report>.empty(growable: true);
-    }
-
-    return result['items']
-        .map<Report>((json) => Report.fromJson(json))
-        .toList();
   }
 }

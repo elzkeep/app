@@ -9,6 +9,7 @@ class Building {
   String ceo;
   String address;
   String addressetc;
+  double score;
   int status;
   int company;
   String date;
@@ -22,6 +23,7 @@ class Building {
           this.ceo = '',       
           this.address = '',       
           this.addressetc = '',       
+          this.score = 0.0,       
           this.status = 0,       
           this.company = 0,       
           this.date = '',
@@ -37,6 +39,7 @@ class Building {
         ceo: json['ceo'] as String,
         address: json['address'] as String,
         addressetc: json['addressetc'] as String,
+        score: json['score'] as double,
         status: json['status'] as int,
         company: json['company'] as int,
         date: json['date'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
@@ -44,7 +47,7 @@ class Building {
   }
 
   Map<String, dynamic> toJson() =>
-      { 'id': id,'name': name,'conpanyno': conpanyno,'ceo': ceo,'address': address,'addressetc': addressetc,'status': status,'company': company,'date': date };
+      { 'id': id,'name': name,'conpanyno': conpanyno,'ceo': ceo,'address': address,'addressetc': addressetc,'score': score,'status': status,'company': company,'date': date };
 
   Building clone() {
     return Building.fromJson(toJson());
