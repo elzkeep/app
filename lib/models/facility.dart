@@ -33,47 +33,48 @@ class Facility {
   String value24;
   String value25;
   String content;
+  List<FacilityItem> contents;
   int building;
   String date;
   bool checked;
   Map<String, dynamic> extra;  
 
-  Facility({        
-          this.id = 0,       
-          this.category = 0,       
-          this.parent = 0,       
-          this.name = '',       
-          this.value1 = '',       
-          this.value2 = '',       
-          this.value3 = '',       
-          this.value4 = '',       
-          this.value5 = '',       
-          this.value6 = '',       
-          this.value7 = '',       
-          this.value8 = '',       
-          this.value9 = '',       
-          this.value10 = '',       
-          this.value11 = '',       
-          this.value12 = '',       
-          this.value13 = '',       
-          this.value14 = '',       
-          this.value15 = '',       
-          this.value16 = '',       
-          this.value17 = '',       
-          this.value18 = '',       
-          this.value19 = '',       
-          this.value20 = '',       
-          this.value21 = '',       
-          this.value22 = '',       
-          this.value23 = '',       
-          this.value24 = '',       
-          this.value25 = '',       
-          this.content = '',       
-          this.building = 0,       
-          this.date = '',
-          this.extra = const{},
-          this.checked = false}) ;
-  
+  Facility(
+      {this.id = 0,
+      this.category = 0,
+      this.parent = 0,
+      this.name = '',
+      this.value1 = '',
+      this.value2 = '',
+      this.value3 = '',
+      this.value4 = '',
+      this.value5 = '',
+      this.value6 = '',
+      this.value7 = '',
+      this.value8 = '',
+      this.value9 = '',
+      this.value10 = '',
+      this.value11 = '',
+      this.value12 = '',
+      this.value13 = '',
+      this.value14 = '',
+      this.value15 = '',
+      this.value16 = '',
+      this.value17 = '',
+      this.value18 = '',
+      this.value19 = '',
+      this.value20 = '',
+      this.value21 = '',
+      this.value22 = '',
+      this.value23 = '',
+      this.value24 = '',
+      this.value25 = '',
+      this.content = '',
+      this.contents = const [],
+      this.building = 0,
+      this.date = '',
+      this.extra = const {},
+      this.checked = false});
 
   factory Facility.fromJson(Map<String, dynamic> json) {
     return Facility(
@@ -107,13 +108,47 @@ class Facility {
         value24: json['value24'] as String,
         value25: json['value25'] as String,
         content: json['content'] as String,
+        contents: contentFacilities,
         building: json['building'] as int,
         date: json['date'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
     );
   }
 
-  Map<String, dynamic> toJson() =>
-      { 'id': id,'category': category,'parent': parent,'name': name,'value1': value1,'value2': value2,'value3': value3,'value4': value4,'value5': value5,'value6': value6,'value7': value7,'value8': value8,'value9': value9,'value10': value10,'value11': value11,'value12': value12,'value13': value13,'value14': value14,'value15': value15,'value16': value16,'value17': value17,'value18': value18,'value19': value19,'value20': value20,'value21': value21,'value22': value22,'value23': value23,'value24': value24,'value25': value25,'content': content,'building': building,'date': date };
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'category': category,
+        'parent': parent,
+        'name': name,
+        'value1': value1,
+        'value2': value2,
+        'value3': value3,
+        'value4': value4,
+        'value5': value5,
+        'value6': value6,
+        'value7': value7,
+        'value8': value8,
+        'value9': value9,
+        'value10': value10,
+        'value11': value11,
+        'value12': value12,
+        'value13': value13,
+        'value14': value14,
+        'value15': value15,
+        'value16': value16,
+        'value17': value17,
+        'value18': value18,
+        'value19': value19,
+        'value20': value20,
+        'value21': value21,
+        'value22': value22,
+        'value23': value23,
+        'value24': value24,
+        'value25': value25,
+        'content': content,
+        'contents': jsonEncode(content),
+        'building': building,
+        'date': date
+      };
 
   Facility clone() {
     return Facility.fromJson(toJson());

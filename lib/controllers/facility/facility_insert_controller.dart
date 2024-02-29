@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/components/cselectbox.dart';
 import 'package:zkeep/models/building.dart';
@@ -153,7 +155,6 @@ class FacilityInsertController extends GetxController {
   onInit() async {
     super.onInit();
     getYearMonth();
-    getYearMonth();
     getBuilding();
     getItem();
     getItems();
@@ -238,17 +239,20 @@ class FacilityInsertController extends GetxController {
         await FacilityManager.find(params: 'building=$building&category=13');
 
     if (res.isEmpty) {
-      // Facility().content.add(FacilityItem());
-      highs.add(Facility());
-      // highs.add(Facility().content.add(FacilityItem()));
+      Facility newFacility = Facility();
+      newFacility.contents = [FacilityItem()];
+      highs.add(newFacility);
+      // Facility().contents.add(FacilityItem());
+      // highs.add(Facility());
+      // highs.add(Facility().contents.add(FacilityItem()));
     } else {
       highs = res;
     }
 
     for (int j = 0; j < highs.length; j++) {
       addExtra(highs[j]);
-      for (int k = 0; k < highs[j].content.length; k++) {
-        // addExtra(highs[j].content[k]);
+      for (int k = 0; k < highs[j].contents.length; k++) {
+        addHighsExtra(highs[j].contents[k]);
       }
     }
   }
@@ -406,7 +410,7 @@ class FacilityInsertController extends GetxController {
     data.add(Facility());
     var j = data.length - 1;
     if (item == 'generator') {
-      generator[j].name = "$buildingName 발전설비";
+      data[j].name = "$buildingName 발전설비";
     }
     if (item == 'ups') {
       data[j].name = "$buildingName UPS";
@@ -415,62 +419,13 @@ class FacilityInsertController extends GetxController {
       data[j].name = "$buildingName 연료전지 발전설비";
     }
     if (item == 'wind') {
-      wind[j].name = "$buildingName 풍력발전소";
+      data[j].name = "$buildingName 풍력발전소";
     }
-    data[j].extra = <String, TextEditingController>{
-      'name': TextEditingController(),
-      'value1': TextEditingController(),
-      'value2': TextEditingController(),
-      'value3': TextEditingController(),
-      'value4': TextEditingController(),
-      'value5': TextEditingController(),
-      'value6': TextEditingController(),
-      'value7': TextEditingController(),
-      'value8': TextEditingController(),
-      'value9': TextEditingController(),
-      'value10': TextEditingController(),
-      'value11': TextEditingController(),
-      'value12': TextEditingController(),
-      'value13': TextEditingController(),
-      'value14': TextEditingController(),
-      'value15': TextEditingController(),
-      'value16': TextEditingController(),
-      'value17': TextEditingController(),
-      'value18': TextEditingController(),
-      'value19': TextEditingController(),
-      'value20': TextEditingController(),
-      'value21': TextEditingController(),
-      'value22': TextEditingController(),
-      'value23': TextEditingController(),
-      'value24': TextEditingController(),
-      'value25': TextEditingController(),
-    };
-    data[j].extra['name'].text = data[j].name;
-    data[j].extra['value1'].text = data[j].value1;
-    data[j].extra['value2'].text = data[j].value2;
-    data[j].extra['value3'].text = data[j].value3;
-    data[j].extra['value4'].text = data[j].value4;
-    data[j].extra['value5'].text = data[j].value5;
-    data[j].extra['value6'].text = data[j].value6;
-    data[j].extra['value7'].text = data[j].value7;
-    data[j].extra['value8'].text = data[j].value8;
-    data[j].extra['value9'].text = data[j].value9;
-    data[j].extra['value10'].text = data[j].value10;
-    data[j].extra['value11'].text = data[j].value11;
-    data[j].extra['value12'].text = data[j].value12;
-    data[j].extra['value13'].text = data[j].value13;
-    data[j].extra['value14'].text = data[j].value14;
-    data[j].extra['value15'].text = data[j].value15;
-    data[j].extra['value16'].text = data[j].value16;
-    data[j].extra['value17'].text = data[j].value17;
-    data[j].extra['value18'].text = data[j].value18;
-    data[j].extra['value19'].text = data[j].value19;
-    data[j].extra['value20'].text = data[j].value20;
-    data[j].extra['value21'].text = data[j].value21;
-    data[j].extra['value22'].text = data[j].value22;
-    data[j].extra['value23'].text = data[j].value23;
-    data[j].extra['value24'].text = data[j].value24;
-    data[j].extra['value25'].text = data[j].value25;
+    if (item == 'highs') {
+      data[j].contents = [FacilityItem()];
+      addHighsExtra(data[j].contents[0]);
+    }
+    addExtra(data[j]);
   }
 
   addExtra(data) {
@@ -528,6 +483,31 @@ class FacilityInsertController extends GetxController {
     data.extra['value23'].text = data.value23;
     data.extra['value24'].text = data.value24;
     data.extra['value25'].text = data.value25;
+  }
+
+  addHighsExtra(data) {
+    data.extra = <String, TextEditingController>{
+      'value1': TextEditingController(),
+      'value2': TextEditingController(),
+      'value3': TextEditingController(),
+      'value4': TextEditingController(),
+      'value5': TextEditingController(),
+      'value6': TextEditingController(),
+      'value7': TextEditingController(),
+      'value8': TextEditingController(),
+      'value9': TextEditingController(),
+      'value10': TextEditingController(),
+    };
+    data.extra['value1'].text = data.value1;
+    data.extra['value2'].text = data.value2;
+    data.extra['value3'].text = data.value3;
+    data.extra['value4'].text = data.value4;
+    data.extra['value5'].text = data.value5;
+    data.extra['value6'].text = data.value6;
+    data.extra['value7'].text = data.value7;
+    data.extra['value8'].text = data.value8;
+    data.extra['value9'].text = data.value9;
+    data.extra['value10'].text = data.value10;
   }
 
   itemRedraw() {
@@ -612,13 +592,14 @@ class FacilityInsertController extends GetxController {
       await FacilityManager.insert(transs[i]);
     }
 
-    // await FacilityManager.deleteByBuildingCategory(building, 13);
+    await FacilityManager.deleteByBuildingCategory(building, 13);
 
-    // for (int i = 0; i < highs.length; i++) {
-    //   highs[i].building = building;
-    //   highs[i].category = 13;
-    //   await FacilityManager.insert(highs[i]);
-    // }
+    for (int i = 0; i < highs.length; i++) {
+      highs[i].building = building;
+      highs[i].category = 13;
+      highs[i].content = jsonEncode(highs[i].contents);
+      await FacilityManager.insert(highs[i]);
+    }
 
     await FacilityManager.deleteByBuildingCategory(building, 20);
 

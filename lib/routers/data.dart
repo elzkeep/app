@@ -23,10 +23,8 @@ data() {
       page: () => ViewScreen(),
       //middlewares: [AuthService()],
       binding: BindingsBuilder(() {
-        print('1111');
         Report item = Report();
         if (Get.arguments != null) {
-          print('2222');
           item = Get.arguments['item'];
         }
         final id = int.parse(Get.parameters['id']!);

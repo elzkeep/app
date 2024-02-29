@@ -22,22 +22,28 @@ class MainScreen extends CWidget {
             textStyle:
                 const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         CRow(
+          gap: 5,
           children: [
+            // const Icon(Icons.arrow_back_ios,
+            //     color: Config.buttonColor, size: 10),
             IconButton(
                 icon: const Icon(Icons.arrow_back_ios,
                     color: Config.buttonColor, size: 10),
                 onPressed: () {
-                  c.minus();
+                  // c.params =
+                  c.beforeDay();
                 }),
             Obx(() => CText(
                   DateFormat('yyyy-MM-dd').format(MainController.date),
                   textStyle: const TextStyle(color: Config.buttonColor),
                 )),
+            // const Icon(Icons.arrow_forward_ios,
+            //     color: Config.buttonColor, size: 10),
             IconButton(
                 icon: const Icon(Icons.arrow_forward_ios,
                     color: Config.buttonColor, size: 10),
                 onPressed: () {
-                  c.plus();
+                  c.nextDay();
                 }),
           ],
         )
