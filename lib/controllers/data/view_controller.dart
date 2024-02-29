@@ -28,7 +28,7 @@ class ViewController extends GetxController {
   }
 
   getBuilding() async {
-    final res = await BuildingManager.get(item.building);
+    final res = await BuildingManager.get(item.building.id);
     building = res;
   }
 

@@ -85,7 +85,7 @@ class WriteController extends GetxController {
       ..checkdate = DateFormat('yyyy-MM-dd', 'ko_KR').format(date)
       ..checktime =
           '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}'
-      ..building = buildingid
+      ..building = Building(id: buildingid)
       ..company = Company(id: customerid)
       ..status = ReportStatus.newer;
 
