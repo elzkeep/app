@@ -49,7 +49,17 @@ class MainScreen extends CWidget {
         )
       ]),
       const SizedBox(height: 10),
-      Expanded(child: lists()),
+      Expanded(
+          child: GestureDetector(
+        onHorizontalDragEnd: (DragEndDetails details) {
+          if (details.primaryVelocity! > 0) {
+            c.beforeDay();
+          } else if (details.primaryVelocity! < 0) {
+            c.nextDay();
+          }
+        },
+        child: lists(),
+      )),
       const SizedBox(height: 10),
     ]));
   }
@@ -119,7 +129,11 @@ class MainScreen extends CWidget {
       axis: Axis.vertical,
       controller: c,
       builder: list,
-      empty: Container(),
+      empty: CContainer(
+        height: 100,
+        alignment: Alignment.center,
+        child: CText('아직 등록된 일정이 없어요'),
+      ),
     );
   }
 
