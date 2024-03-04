@@ -17,6 +17,8 @@ class CircleNavigation extends CWidget {
   @override
   build(BuildContext context) {
     return Obx(() => AnimatedBottomNavigationBar(
+          height: 70,
+          iconSize: 30,
           icons: const [
             CupertinoIcons.home,
             CupertinoIcons.doc_plaintext,

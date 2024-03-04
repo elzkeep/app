@@ -151,6 +151,7 @@ class MypageScreen extends CWidget {
             locale: 'ko_KR',
             daysOfWeekHeight: 30,
             rowHeight: 35,
+            availableGestures: AvailableGestures.none,
             availableCalendarFormats: const {
               CalendarFormat.month: 'Month',
               CalendarFormat.week: 'Week'
