@@ -237,7 +237,7 @@ class ViewScreen extends CWidget {
                   textStyle:
                       const TextStyle(fontSize: 12, color: Colors.black54),
                   onTap: () => Get.toNamed('/facility/${c.id}',
-                      arguments: {'building': c.item.building}),
+                      arguments: {'building': c.item.building.id}),
                 ),
               ]),
         ])),

@@ -106,6 +106,7 @@ class FacilityViewScreen extends CWidget {
               ])),
       // for (int i = 0; i < c.items.length; i++) distributiation(c.items[i]),
       ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: c.items.length,
         itemBuilder: (context, index) {
@@ -202,6 +203,7 @@ class FacilityViewScreen extends CWidget {
           '고압차단기',
         ),
         ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: c.highs.length,
           itemBuilder: (context, index) {
@@ -213,6 +215,7 @@ class FacilityViewScreen extends CWidget {
           '변전 설비',
         ),
         ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: c.transs.length,
           itemBuilder: (context, index) {

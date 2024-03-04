@@ -301,6 +301,7 @@ class FacilityInsertScreen extends CWidget {
           ),
       ]),
       ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: c.items.length,
         itemBuilder: (context, index) {
@@ -428,6 +429,7 @@ class FacilityInsertScreen extends CWidget {
         const SizedBox(height: 10),
         title('변전설비'),
         ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: c.transs.length,
           itemBuilder: (context, index) {
@@ -437,6 +439,7 @@ class FacilityInsertScreen extends CWidget {
         const SizedBox(height: 10),
         title('고압차단기'),
         ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: c.highs.length,
           itemBuilder: (context, index) {
@@ -796,6 +799,7 @@ class FacilityInsertScreen extends CWidget {
 
   loopgenerator() {
     return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: c.generator.length,
       itemBuilder: (context, index) {
@@ -1248,6 +1252,7 @@ class FacilityInsertScreen extends CWidget {
         CText('총${c.chargertotal} kW'),
       ),
       ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: c.chargeritems.length,
         itemBuilder: (context, index) {
@@ -1643,6 +1648,7 @@ class FacilityInsertScreen extends CWidget {
 
   loopups() {
     return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: c.ups.length,
       itemBuilder: (context, index) {
@@ -1908,6 +1914,7 @@ class FacilityInsertScreen extends CWidget {
 
   loopwind() {
     return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: c.wind.length,
       itemBuilder: (context, index) {
@@ -2233,6 +2240,7 @@ class FacilityInsertScreen extends CWidget {
 
   loopfuel() {
     return ListView.builder(
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: c.fuel.length,
       itemBuilder: (context, index) {
