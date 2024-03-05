@@ -10,6 +10,12 @@ import 'package:zkeep/controllers/mypage/mypage_controller.dart';
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/models/report.dart';
 
+class Event {
+  String title;
+
+  Event(this.title);
+}
+
 class MypageScreen extends CWidget {
   MypageScreen({super.key});
 
@@ -144,6 +150,7 @@ class MypageScreen extends CWidget {
           () => TableCalendar(
             onFormatChanged: _onFormatChanged,
             onDaySelected: _onDaySelected,
+            onPageChanged: _onPageChanged,
             firstDay: DateTime.utc(2010, 10, 16),
             lastDay: DateTime.utc(2030, 3, 14),
             focusedDay: c.focusedDay,
@@ -160,6 +167,9 @@ class MypageScreen extends CWidget {
               outsideDaysVisible: false,
               disabledTextStyle: TextStyle(color: Color(0xFFBFBFBF)),
             ),
+            eventLoader: (day) {
+              return c.events[day] ?? [];
+            },
             calendarBuilders: CalendarBuilders(
               dowBuilder: (context, day) {
                 if (day.weekday == DateTime.sunday) {
@@ -174,6 +184,22 @@ class MypageScreen extends CWidget {
                     '토',
                     alignment: Alignment.center,
                     textStyle: const TextStyle(color: Colors.blue),
+                  );
+                }
+                return null;
+              },
+              markerBuilder: (context, day, events) {
+                if (events.isNotEmpty) {
+                  return Container(
+                    margin: const EdgeInsets.only(top: 25),
+                    child: Container(
+                      width: 8,
+                      height: 8,
+                      decoration: const BoxDecoration(
+                        color: Config.primaryColor,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
                   );
                 }
                 return null;
@@ -252,9 +278,19 @@ class MypageScreen extends CWidget {
     );
   }
 
-  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+  void _onDaySelected(DateTime selectedDay, DateTime focusedDay) async {
+    if (selectedDay.month != c.focusedDay.month) {
+      await c.getMonth(selectedDay);
+    }
     c.focusedDay = selectedDay;
     c.find(selectedDay);
+  }
+
+  void _onPageChanged(DateTime focusedDay) async {
+    if (focusedDay.month != c.focusedDay.month) {
+      await c.getMonth(focusedDay);
+    }
+    c.focusedDay = focusedDay;
   }
 
   void _onFormatChanged(CalendarFormat format) {

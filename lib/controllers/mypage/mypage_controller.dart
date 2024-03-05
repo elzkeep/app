@@ -11,6 +11,10 @@ class MypageController extends GetxController {
   get items => _items;
   set items(value) => _items.value = value;
 
+  final _monthitems = [].obs;
+  get monthitems => _monthitems;
+  set monthitems(value) => _monthitems.value = value;
+
   final _search = 1.obs;
   int get search => _search.value;
   set search(int value) => _search.value = value;
@@ -29,15 +33,48 @@ class MypageController extends GetxController {
   CalendarFormat get calendarFormat => _calendarFormat.value;
   set calendarFormat(CalendarFormat value) => _calendarFormat.value = value;
 
+  final _events = {}.obs;
+  get events => _events;
+  set events(value) => _events.value = value;
+
   @override
   onInit() async {
     super.onInit();
-    find(focusedDay);
+    await getMonth(focusedDay);
+    await find(focusedDay);
+    focusedDay = DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 1);
+  }
+
+  getMonth(DateTime date) async {
+    DateTime firstDayOfMonth = DateTime(date.year, date.month - 1, 22);
+    DateTime lastDayOfMonth = DateTime(date.year, date.month + 1, 7);
+
+    final ret = await ReportManager.find(
+        params:
+            'user=${user['id']}&startdate=${DateFormat('yyyy-MM-dd').format(firstDayOfMonth)}&enddate=${DateFormat('yyyy-MM-dd').format(lastDayOfMonth)}');
+
+    monthitems = ret;
+    await makeEvents(ret);
+  }
+
+  makeEvents(List<Report> data) {
+    events = {};
+    for (Report item in data) {
+      DateTime date =
+          DateTime.parse(item.checkdate).add(const Duration(hours: 9)).toUtc();
+      if (events[date] == null) {
+        events[date] = [item];
+      } else {
+        events[date].add(item);
+      }
+    }
   }
 
   find(DateTime date) async {
     final ret = await ReportManager.find(
-        params: 'checkdate=${DateFormat('yyyy-MM-dd').format(focusedDay)}');
+        params:
+            'user=${user['id']}&checkdate=${DateFormat('yyyy-MM-dd').format(date)}');
 
     items = ret;
   }
