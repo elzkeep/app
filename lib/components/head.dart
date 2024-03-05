@@ -10,6 +10,7 @@ class Head extends CWidget {
     if (title == '') {
       return CRow(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           gap: 5,
           children: [
             const Text('지킴',
@@ -17,15 +18,13 @@ class Head extends CWidget {
                     color: Colors.black,
                     fontSize: 20,
                     fontWeight: FontWeight.bold)),
-                Image.asset('assets/imgs/nlogo.png', height: 20)
+            Image.asset('assets/imgs/nlogo.png', height: 20)
             //CSvg('assets/imgs/logo.svg', height: 20)
           ]);
     }
 
-    return CRow(mainAxisAlignment: MainAxisAlignment.center, gap: 5, children: [
-      Text(title,
-          style: const TextStyle(
-              color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold))
-    ]);
+    return Text(title,
+        style: const TextStyle(
+            color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold));
   }
 }

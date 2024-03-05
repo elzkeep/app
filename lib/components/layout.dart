@@ -18,17 +18,21 @@ class Layout extends CWidget {
   @override
   Widget build(BuildContext context) {
     Widget? leading;
+    List<Widget>? actions;
 
     if (popup == true) {
       leading = IconButton(
           onPressed: () => Get.back(), icon: const Icon(Icons.arrow_back_ios));
       return CScaffold(
           appBar: AppBar(
-              title: Head(title: title),
-              backgroundColor: Colors.white,
-              elevation: 1.0,
-              automaticallyImplyLeading: true,
-              leading: leading),
+            title: Head(title: title),
+            centerTitle: true,
+            backgroundColor: Colors.white,
+            elevation: 1.0,
+            automaticallyImplyLeading: true,
+            leading: leading,
+            actions: actions,
+          ),
           autoLostFocus: true,
           body: Container(
               margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
@@ -43,6 +47,7 @@ class Layout extends CWidget {
     return CScaffold(
         appBar: AppBar(
             title: Head(title: title),
+            centerTitle: true,
             backgroundColor: Colors.white,
             elevation: 1.0,
             automaticallyImplyLeading: true,

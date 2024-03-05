@@ -120,6 +120,7 @@ class CustomerViewScreen extends CWidget {
     }
     return Obx(
       () => ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: c.items.length,
         itemBuilder: (context, index) {

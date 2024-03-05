@@ -12,6 +12,7 @@ class JoinBuisnessUserScreen extends CWidget {
       autoLostFocus: true,
       appBar: AppBar(
         title: const Text('회원가입', style: TextStyle(color: Colors.black)),
+        centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         automaticallyImplyLeading: true,
