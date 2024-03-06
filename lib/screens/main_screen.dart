@@ -1,6 +1,8 @@
 import 'package:common_control/common_control.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:table_calendar/table_calendar.dart';
+import 'package:zkeep/components/ctablecalendar.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/config/config.dart';
 import 'package:zkeep/controllers/main_controller.dart';
@@ -24,21 +26,38 @@ class MainScreen extends CWidget {
         CRow(
           gap: 5,
           children: [
-            // const Icon(Icons.arrow_back_ios,
-            //     color: Config.buttonColor, size: 10),
             IconButton(
                 icon: const Icon(Icons.arrow_back_ios,
                     color: Config.buttonColor, size: 10),
                 onPressed: () {
-                  // c.params =
                   c.beforeDay();
                 }),
             Obx(() => CText(
+                  onTap: () async {
+                    await c.getMonth(MainController.date);
+                    showModalBottomSheet<void>(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Container(
+                          height: 400,
+                          color: Colors.white,
+                          child: Center(
+                            child: CTableCalendar(
+                              focusedDay: MainController.date,
+                              events: c.events,
+                              calendarFormat: CalendarFormat.month,
+                              getMonth: c.getMonth,
+                              onDaySelected: onDaySelected,
+                              onPageChanged: onPageChanged,
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
                   DateFormat('yyyy-MM-dd').format(MainController.date),
                   textStyle: const TextStyle(color: Config.buttonColor),
                 )),
-            // const Icon(Icons.arrow_forward_ios,
-            //     color: Config.buttonColor, size: 10),
             IconButton(
                 icon: const Icon(Icons.arrow_forward_ios,
                     color: Config.buttonColor, size: 10),
@@ -62,6 +81,16 @@ class MainScreen extends CWidget {
       )),
       const SizedBox(height: 10),
     ]));
+  }
+
+  onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    final context = Get.context!;
+    c.find(selectedDay);
+    Navigator.pop(context);
+  }
+
+  onPageChanged(DateTime focusedDay) async {
+    await c.getMonth(focusedDay);
   }
 
   search() {
