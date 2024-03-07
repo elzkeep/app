@@ -13,7 +13,7 @@ class ViewScreen extends CWidget {
   @override
   Widget build(BuildContext context) {
     return Layout(
-      title: c.item.title,
+      title: c.report.title,
       popup: true,
       child: CFixedBottom(bottom: bottom(), children: [
         SingleChildScrollView(
@@ -24,55 +24,59 @@ class ViewScreen extends CWidget {
           ),
           const SizedBox(height: 10),
           title('설비 기본 정보'),
-          info(),
+          Obx(
+            () => info(),
+          ),
           const SizedBox(height: 20),
           view(),
+          const SizedBox(height: 10),
+          Obx(() => wrapbtn()),
           CRow(margin: const EdgeInsets.only(top: 10), gap: 10, children: [
             Expanded(
                 child: CContainer(
                     onTap: () => Get.toNamed('/data/${c.id}/write/1',
-                        arguments: {'item': c.item}),
+                        arguments: {'item': c.report}),
                     child: roundBorder(CText('저압설비')))),
             Expanded(
                 child: CContainer(
                     onTap: () => Get.toNamed('/data/${c.id}/write/2',
-                        arguments: {'item': c.item}),
+                        arguments: {'item': c.report}),
                     child: roundBorder(CText('고압설비')))),
           ]),
           CRow(margin: const EdgeInsets.only(top: 10), gap: 10, children: [
             Expanded(
                 child: CContainer(
                     onTap: () => Get.toNamed('/data/${c.id}/write/3',
-                        arguments: {'item': c.item}),
+                        arguments: {'item': c.report}),
                     child: roundBorder(CText('변전설비')))),
             Expanded(
                 child: CContainer(
                     onTap: () => Get.toNamed('/data/${c.id}/write/4',
-                        arguments: {'item': c.item}),
+                        arguments: {'item': c.report}),
                     child: roundBorder(CText('부하설비')))),
           ]),
           CRow(margin: const EdgeInsets.only(top: 10), gap: 10, children: [
             Expanded(
                 child: CContainer(
                     onTap: () => Get.toNamed('/data/${c.id}/write/5',
-                        arguments: {'item': c.item}),
+                        arguments: {'item': c.report}),
                     child: roundBorder(CText('발전설비')))),
             Expanded(
                 child: CContainer(
                     onTap: () => Get.toNamed('/data/${c.id}/write/6',
-                        arguments: {'item': c.item}),
+                        arguments: {'item': c.report}),
                     child: roundBorder(CText('기타안전설비')))),
           ]),
           CRow(margin: const EdgeInsets.only(top: 10), gap: 10, children: [
             Expanded(
                 child: CContainer(
                     onTap: () => Get.toNamed('/data/${c.id}/write/7',
-                        arguments: {'item': c.item}),
+                        arguments: {'item': c.report}),
                     child: roundBorder(CText('태양광 발전설비')))),
             Expanded(
                 child: CContainer(
                     onTap: () => Get.toNamed('/data/${c.id}/write/8',
-                        arguments: {'item': c.item}),
+                        arguments: {'item': c.report}),
                     child: roundBorder(CText('전기차충전기')))),
           ]),
           const SizedBox(height: 20),
@@ -186,7 +190,7 @@ class ViewScreen extends CWidget {
             child: CColumn(gap: 10, children: [
           CText(c.building.name),
           CRow(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            CText(c.building.ceo,
+            CText('담당자: ${c.building.ceo}',
                 textStyle:
                     const TextStyle(color: Colors.black54, fontSize: 12)),
           ]),
@@ -219,15 +223,14 @@ class ViewScreen extends CWidget {
             child: CColumn(gap: 10, children: [
           CRow(children: [
             Expanded(
-              child: CText('수전 용량: 800kW'),
+              child: CText('수전 용량: ${c.item.value2}kW'),
             ),
             Expanded(
-              child: CText('수전 형태: 특고압'),
+              child: CText(
+                  '수전 형태: ${c.types[int.tryParse(c.item.value3) ?? 0].value}'),
             ),
           ]),
-          CRow(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            CText('발전 설비 현황: 비상 발전기, 전기차 충전기'),
-          ]),
+          CText('발전 설비 현황: ${c.facilityStatus()}'),
           CRow(
               margin: const EdgeInsets.only(top: 5),
               mainAxisAlignment: MainAxisAlignment.center,
@@ -237,7 +240,7 @@ class ViewScreen extends CWidget {
                   textStyle:
                       const TextStyle(fontSize: 12, color: Colors.black54),
                   onTap: () => Get.toNamed('/facility/${c.id}',
-                      arguments: {'building': c.item.building.id}),
+                      arguments: {'building': c.report.building.id}),
                 ),
               ]),
         ])),
@@ -278,7 +281,7 @@ class ViewScreen extends CWidget {
           const SizedBox(width: 10),
           Expanded(
               child: CColumn(gap: 10, children: [
-            CText(c.item.title),
+            CText(c.report.title),
             CRow(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
               CText(item['name'],
                   textStyle:
@@ -287,7 +290,7 @@ class ViewScreen extends CWidget {
                   textStyle:
                       const TextStyle(color: Colors.black54, fontSize: 12)),
               CText(
-                  '${DateFormat('MM월 dd일').format(DateTime.parse(c.item.checkdate))} ${c.item.checktime}',
+                  '${DateFormat('MM월 dd일').format(DateTime.parse(c.report.checkdate))} ${c.report.checktime}',
                   textStyle:
                       const TextStyle(color: Colors.black54, fontSize: 12))
             ]),
@@ -299,5 +302,23 @@ class ViewScreen extends CWidget {
       items.add(widget);
     }
     return CColumn(children: items);
+  }
+
+  btn(url, name) {
+    return CContainer(
+        width: (Get.width - 30) / 2,
+        onTap: () => Get.toNamed(url, arguments: {'item': c.report}),
+        child: roundBorder(CText(name)));
+  }
+
+  wrapbtn() {
+    List<Widget> widgets = [];
+    for (var i = 0; i < c.other.length; i++) {
+      if (c.other[i] == true) {
+        final widget = btn('/data/${c.id}/write/${i + 5}', c.othername[i]);
+        widgets.add(widget);
+      }
+    }
+    return Wrap(spacing: 10, runSpacing: 10, children: widgets);
   }
 }

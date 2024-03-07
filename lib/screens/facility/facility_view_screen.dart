@@ -3,12 +3,12 @@ import 'package:zkeep/components/cround.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/components/sub_title.dart';
 import 'package:zkeep/config/config.dart';
-import 'package:zkeep/controllers/facility/facility_view_controller.dart';
+import 'package:zkeep/controllers/data/view_controller.dart';
 
 class FacilityViewScreen extends CWidget {
   FacilityViewScreen({super.key});
 
-  final c = Get.find<FacilityViewController>();
+  final c = Get.find<ViewController>();
 
   entry(text1, answer1) {
     return CRow(

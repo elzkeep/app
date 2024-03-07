@@ -771,7 +771,7 @@ class FacilityInsertScreen extends CWidget {
             'ESS',
             'UPS',
             '연료전지',
-            '풍려발전',
+            '풍력발전',
             '수력발전',
             // '소방펌프 발전기',
             // '공동주택 세대점검',

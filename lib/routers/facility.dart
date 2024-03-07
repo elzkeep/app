@@ -1,5 +1,4 @@
 import 'package:common_control/common_control.dart';
-import 'package:zkeep/controllers/facility/facility_view_controller.dart';
 import 'package:zkeep/controllers/facility/facility_insert_controller.dart';
 import 'package:zkeep/screens/facility/facility_view_screen.dart';
 import 'package:zkeep/screens/facility/facility_insert_screen.dart';
@@ -11,11 +10,11 @@ facility() {
       page: () => FacilityViewScreen(),
       //middlewares: [AuthService()],
       binding: BindingsBuilder(() {
-        int building = 0;
-        if (Get.arguments != null) {
-          building = Get.arguments['building'];
-        }
-        Get.put(FacilityViewController(0, building));
+        // int building = 0;
+        // if (Get.arguments != null) {
+        //   building = Get.arguments['building'];
+        // }
+        // Get.put(ViewController());
       }),
     ),
     GetPage(
