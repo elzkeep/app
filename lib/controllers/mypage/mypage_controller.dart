@@ -52,7 +52,7 @@ class MypageController extends GetxController {
 
     final ret = await ReportManager.find(
         params:
-            'user=${user['id']}&startdate=${DateFormat('yyyy-MM-dd').format(firstDayOfMonth)}&enddate=${DateFormat('yyyy-MM-dd').format(lastDayOfMonth)}');
+            'user=${user['id']}&startcheckdate=${DateFormat('yyyy-MM-dd').format(firstDayOfMonth)}&endcheckdate=${DateFormat('yyyy-MM-dd').format(lastDayOfMonth)}');
 
     monthitems = ret;
     await makeEvents(ret);
@@ -74,7 +74,7 @@ class MypageController extends GetxController {
   find(DateTime date) async {
     final ret = await ReportManager.find(
         params:
-            'user=${user['id']}&checkdate=${DateFormat('yyyy-MM-dd').format(date)}');
+            'user=${user['id']}&startcheckdate=${DateFormat('yyyy-MM-dd').format(date)}&endcheckdate=${DateFormat('yyyy-MM-dd').format(date)}');
 
     items = ret;
   }

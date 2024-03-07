@@ -8,7 +8,7 @@ class MainController extends InfiniteController {
       : super(
             reader: ReportManager.find,
             params:
-                'user=$userId&checkdate=${DateFormat('yyyy-MM-dd').format(date)}');
+                'user=$userId&startcheckdate=${DateFormat('yyyy-MM-dd').format(date)}&endcheckdate=${DateFormat('yyyy-MM-dd').format(date)}');
 
   static final _date = DateTime.now().obs;
   static DateTime get date => _date.value;
@@ -26,13 +26,15 @@ class MainController extends InfiniteController {
 
   void nextDay() {
     date = date.add(const Duration(days: 1));
-    params = 'user=$userId&checkdate=${DateFormat('yyyy-MM-dd').format(date)}';
+    params =
+        'user=$userId&startcheckdate=${DateFormat('yyyy-MM-dd').format(date)}&endcheckdate=${DateFormat('yyyy-MM-dd').format(date)}';
     reset();
   }
 
   void beforeDay() {
     date = date.subtract(const Duration(days: 1));
-    params = 'user=$userId&checkdate=${DateFormat('yyyy-MM-dd').format(date)}';
+    params =
+        'user=$userId&startcheckdate=${DateFormat('yyyy-MM-dd').format(date)}&endcheckdate=${DateFormat('yyyy-MM-dd').format(date)}';
     reset();
   }
 
@@ -42,7 +44,7 @@ class MainController extends InfiniteController {
 
     final ret = await ReportManager.find(
         params:
-            'user=$userId&startdate=${DateFormat('yyyy-MM-dd').format(firstDayOfMonth)}&enddate=${DateFormat('yyyy-MM-dd').format(lastDayOfMonth)}');
+            'user=$userId&startcheckdate=${DateFormat('yyyy-MM-dd').format(firstDayOfMonth)}&endcheckdate=${DateFormat('yyyy-MM-dd').format(lastDayOfMonth)}');
 
     monthitems = ret;
     await makeEvents(ret);
@@ -63,7 +65,8 @@ class MainController extends InfiniteController {
 
   find(DateTime focusedDay) {
     date = focusedDay;
-    params = 'user=$userId&checkdate=${DateFormat('yyyy-MM-dd').format(date)}';
+    params =
+        'user=$userId&startcheckdate=${DateFormat('yyyy-MM-dd').format(date)}&endcheckdate=${DateFormat('yyyy-MM-dd').format(date)}';
     reset();
   }
 }
