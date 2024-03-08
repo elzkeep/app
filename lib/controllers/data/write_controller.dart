@@ -5,12 +5,16 @@ import 'package:zkeep/models/item.dart';
 import 'package:zkeep/models/report.dart';
 import 'package:zkeep/screens/data/dataitem/change.dart';
 import 'package:zkeep/screens/data/dataitem/charger.dart';
+import 'package:zkeep/screens/data/dataitem/ess.dart';
 import 'package:zkeep/screens/data/dataitem/etc.dart';
+import 'package:zkeep/screens/data/dataitem/fuel.dart';
 import 'package:zkeep/screens/data/dataitem/generator.dart';
 import 'package:zkeep/screens/data/dataitem/high.dart';
 import 'package:zkeep/screens/data/dataitem/load.dart';
 import 'package:zkeep/screens/data/dataitem/low.dart';
 import 'package:zkeep/screens/data/dataitem/sunlight.dart';
+import 'package:zkeep/screens/data/dataitem/ups.dart';
+import 'package:zkeep/screens/data/dataitem/wind.dart';
 
 class WriteController extends GetxController {
   WriteController(this.id, this.topcategory, this.item);
@@ -48,6 +52,14 @@ class WriteController extends GetxController {
       return sunlight(index, order, suborder);
     } else if (topcategory == 8) {
       return charger(index, order, suborder);
+    } else if (topcategory == 9) {
+      return ess(index, order, suborder);
+    } else if (topcategory == 10) {
+      return ups(index, order, suborder);
+    } else if (topcategory == 11) {
+      return fuel(index, order, suborder);
+    } else if (topcategory == 12) {
+      return wind(index, order, suborder);
     }
     return Dataitem.empty();
   }
@@ -77,6 +89,18 @@ class WriteController extends GetxController {
     } else if (topcategory == 8) {
       final item = chargers(0, 0, 0);
       return item.length;
+    } else if (topcategory == 9) {
+      final item = esss(0, 0, 0);
+      return item.length;
+    } else if (topcategory == 10) {
+      final item = upss(0, 0, 0);
+      return item.length;
+    } else if (topcategory == 11) {
+      final item = fuels(0, 0, 0);
+      return item.length;
+    } else if (topcategory == 12) {
+      final item = winds(0, 0, 0);
+      return item.length;
     }
 
     return 0;
@@ -97,23 +121,17 @@ class WriteController extends GetxController {
       }
 
       if (item.items[j].type == ItemType.text) {
-        if (item.items[j].extra != null) {
-          var extra = item.items[j].extra;
+        var extra = item.items[j].extra;
 
-          var newExtra = <String, dynamic>{};
+        var newExtra = <String, dynamic>{};
 
-          for (var key in extra.keys) {
-            newExtra[key] = extra[key];
-          }
-
-          newExtra['text'] = TextEditingController();
-
-          item.items[j].extra = newExtra;
-        } else {
-          item.items[j].extra = {
-            'text': TextEditingController(),
-          };
+        for (var key in extra.keys) {
+          newExtra[key] = extra[key];
         }
+
+        newExtra['text'] = TextEditingController();
+
+        item.items[j].extra = newExtra;
       } else if (item.items[j].type == ItemType.status) {
         item.items[j].status = ItemStatus.notuse;
 
@@ -142,7 +160,12 @@ class WriteController extends GetxController {
       '발전설비',
       '기타안전설비',
       '태양광 발전설비',
-      '전기차충전기'
+      '전기차 충전기',
+      'ESS',
+      'UPS',
+      '연료전지',
+      '풍력발전',
+      '수력발전',
     ];
     title = '${item.title} - ${titles[topcategory - 1]}';
     print('title = $title');

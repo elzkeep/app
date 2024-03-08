@@ -91,7 +91,7 @@ class FacilityViewScreen extends CWidget {
 
   clickUpdate() {
     Get.toNamed('/facility/${c.id}/insert',
-        arguments: {'building': c.building});
+        arguments: {'building': c.building.id});
   }
 
   building() {
