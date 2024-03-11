@@ -151,28 +151,29 @@ class Status extends CWidget {
                               .pickImage(source: ImageSource.gallery);
                           if (returnedImage == null) return;
                           item.image = returnedImage.path;
+                          item.extra['image'] = false;
                           onSelected(item);
                         },
                       )
+                    // : CContainer(
+                    //     width: 100,
+                    //     height: 100,
+                    //     child: Image.asset(
+                    //       item.image,
+                    //       fit: BoxFit.cover,
+                    //     ))
                     : CContainer(
                         width: 100,
                         height: 100,
-                        child: Image.asset(
-                          item.image,
-                          fit: BoxFit.cover,
-                        ))
-                // : CContainer(
-                //     width: 100,
-                //     height: 100,
-                //     child: ?????
-                //         ? Image.asset(
-                //             item.image,
-                //             fit: BoxFit.cover,
-                //           )
-                //         : Image.network(
-                //             item.image,
-                //             fit: BoxFit.cover,
-                //           ))
+                        child: item.extra['image'] == false
+                            ? Image.asset(
+                                item.image,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.network(
+                                item.image,
+                                fit: BoxFit.cover,
+                              ))
               ])),
         ),
       ]);

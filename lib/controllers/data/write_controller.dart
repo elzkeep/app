@@ -1,4 +1,5 @@
 import 'package:common_control/common_control.dart';
+import 'package:zkeep/config/config.dart';
 import 'package:zkeep/models/data.dart';
 import 'package:zkeep/models/dataitem.dart';
 import 'package:zkeep/models/item.dart';
@@ -138,6 +139,7 @@ class WriteController extends GetxController {
         item.items[j].extra = {
           'reasontext': TextEditingController(),
           'actiontext': TextEditingController(),
+          'image': false,
         };
       }
     }
@@ -211,8 +213,11 @@ class WriteController extends GetxController {
           dataitem.items[pos].extra['text'].text = item.content;
         } else if (dataitem.items[pos].type == ItemType.select) {
         } else if (dataitem.items[pos].type == ItemType.status) {
-          // dataitem.items[pos].image =
-          // '${Config.serverUrl}/webdata/${item.image}';
+          if (dataitem.items[pos].image != '') {
+            dataitem.items[pos].image =
+                '${Config.serverUrl}/webdata/${item.image}';
+            dataitem.items[pos].extra['image'].text = true;
+          }
           dataitem.items[pos].status = item.status;
           dataitem.items[pos].reason = item.reason;
           dataitem.items[pos].action = item.action;
