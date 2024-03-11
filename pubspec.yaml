@@ -45,6 +45,7 @@ dependencies:
   table_calendar: ^3.0.9
   fl_chart: ^0.66.1
   image_picker: ^1.0.7
+  hand_signature: ^3.0.2
 
 dev_dependencies:
   flutter_test:

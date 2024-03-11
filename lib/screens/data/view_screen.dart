@@ -1,8 +1,10 @@
 import 'package:common_control/common_control.dart';
+import 'package:hand_signature/signature.dart';
 import 'package:intl/intl.dart';
 import 'package:zkeep/components/cselectbox.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/controllers/data/view_controller.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ViewScreen extends CWidget {
   ViewScreen({super.key});
@@ -11,33 +13,70 @@ class ViewScreen extends CWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Layout(
-      title: c.report.title,
-      popup: true,
-      child: CFixedBottom(bottom: bottom(), children: [
-        SingleChildScrollView(
-            child: CColumn(children: [
-          title('고객 정보'),
-          Obx(
-            () => customer(),
-          ),
-          const SizedBox(height: 10),
-          title('설비 기본 정보'),
-          Obx(
-            () => info(),
-          ),
-          const SizedBox(height: 20),
-          view(),
-          const SizedBox(height: 10),
-          Obx(() => wrapbtn()),
-          const SizedBox(height: 20),
-          CTextField(
-            text: '종합 검토 의견',
-            maxLines: 5,
-            controller: c.content,
-          ),
-        ])),
-      ]),
+    return Obx(
+      () => Layout(
+        title: c.report.title,
+        popup: true,
+        child: CFixedBottom(bottom: bottom(), children: [
+          SingleChildScrollView(
+              child: CColumn(children: [
+            title('고객 정보'),
+            customer(),
+            const SizedBox(height: 10),
+            title('설비 기본 정보'),
+            info(),
+            const SizedBox(height: 20),
+            view(),
+            const SizedBox(height: 10),
+            wrapbtn(),
+            const SizedBox(height: 20),
+            CTextField(
+              text: '종합 검토 의견',
+              maxLines: 5,
+              controller: c.content,
+            ),
+            CRow(
+              gap: 10,
+              children: [
+                Expanded(
+                  child: CContainer(
+                    height: 130,
+                    child: roundBorder(Stack(
+                      children: [
+                        Positioned(
+                            child: c.sign.toSvg() != null
+                                ? SvgPicture.string(c.sign.toSvg())
+                                : CContainer()),
+                        Positioned(child: CText('점검자'))
+                      ],
+                    )),
+                    onTap: () {
+                      clickSign(c.sign);
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: CContainer(
+                    height: 130,
+                    child: roundBorder(Stack(
+                      children: [
+                        Positioned(
+                            child: c.csign.toSvg() != null
+                                ? SvgPicture.string(c.csign.toSvg())
+                                : CContainer()),
+                        Positioned(child: CText('관리담당자'))
+                      ],
+                    )),
+                    onTap: () {
+                      clickSign(c.csign);
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ])),
+        ]),
+      ),
     );
   }
 
@@ -69,6 +108,42 @@ class ViewScreen extends CWidget {
   clickSave() async {
     await c.save();
     Get.back();
+  }
+
+  clickSign(controller) {
+    Get.dialog(
+      barrierDismissible: true,
+      AlertDialog(
+        insetPadding: const EdgeInsets.all(10),
+        contentPadding: EdgeInsets.zero,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        content: SizedBox(
+          width: Get.width - 40,
+          height: Get.height / 3,
+          child: HandSignature(
+            control: controller,
+            color: Colors.black,
+            type: SignatureDrawType.shape,
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => controller.clear(),
+            child: const Text('지우기'),
+          ),
+          TextButton(
+            onPressed: () {
+              print('tosvg : ' + controller.toSvg());
+              Get.back();
+            },
+            child: const Text('저장'),
+          ),
+        ],
+      ),
+    );
   }
 
   title(str) {

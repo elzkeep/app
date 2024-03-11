@@ -1,4 +1,5 @@
 import 'package:common_control/common_control.dart';
+import 'package:hand_signature/signature.dart';
 import 'package:zkeep/components/cselectbox.dart';
 import 'package:zkeep/controllers/data/list_controller.dart';
 import 'package:zkeep/models/building.dart';
@@ -159,6 +160,14 @@ class ViewController extends GetxController {
 
   List<CItem> years = [CItem(id: 0, value: '')].obs;
   List<CItem> months = [CItem(id: 0, value: '')].obs;
+
+  final _sign = HandSignatureControl().obs;
+  get sign => _sign.value;
+  set sign(value) => _sign.value = value;
+
+  final _csign = HandSignatureControl().obs;
+  get csign => _csign.value;
+  set csign(value) => _csign.value = value;
 
   @override
   onInit() async {
