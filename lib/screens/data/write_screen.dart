@@ -107,7 +107,6 @@ class WriteScreen extends CWidget {
             subitems.add(CText(item.parent, textStyle: titleStyle));
             subitems.add(widget);
           }
-
         } else {
           subitems.add(widget);
         }
@@ -117,13 +116,12 @@ class WriteScreen extends CWidget {
     }
 
     if (parentStart == true) {
-          items.add(CRound(
-              backgroundColor: Config.backgroundColor,
-              child: CColumn(
-                  gap: 20,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: subitems)));
-
+      items.add(CRound(
+          backgroundColor: Config.backgroundColor,
+          child: CColumn(
+              gap: 20,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: subitems)));
     }
 
     return CColumn(gap: 20, children: items);
