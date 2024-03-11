@@ -65,6 +65,7 @@ class FacilityInsertScreen extends CWidget {
   clickSave() async {
     await c.save();
     Get.back();
+    Get.delete<FacilityInsertController>();
   }
 
   title(title, [Function()? onPlus]) {
@@ -749,7 +750,7 @@ class FacilityInsertScreen extends CWidget {
                         items: c.years,
                         selected: int.tryParse(highs.contents[i].value7) ?? 0,
                         onSelected: (pos) {
-                          highs.as[i].value7 = pos.toString();
+                          highs.contents[i].value7 = pos.toString();
                           c.highsRedraw();
                         },
                       )),

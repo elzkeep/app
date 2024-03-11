@@ -79,7 +79,7 @@ class Facility {
 
   factory Facility.fromJson(Map<String, dynamic> json) {
     List<FacilityItem> contentFacilities = [];
-    if (json['content'] != null) {
+    if (json['content'] != null && json['content'] != '') {
       contentFacilities = (jsonDecode(json['content']) as List<dynamic>)
           .map<FacilityItem>((item) => FacilityItem.fromJson(item))
           .toList();

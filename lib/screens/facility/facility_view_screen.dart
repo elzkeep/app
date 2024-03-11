@@ -130,8 +130,8 @@ class FacilityViewScreen extends CWidget {
       const SizedBox(height: 10),
       Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: entry2('제조사:', c.item.value10, '설치년월:',
-              c.years[int.tryParse(c.item.value11) ?? 0].value))
+          child: entry2('제조사:', c.item.value11, '설치년월:',
+              c.years[int.tryParse(c.item.value12) ?? 0].value))
     ]);
   }
 
