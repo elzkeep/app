@@ -137,6 +137,7 @@ class ViewScreen extends CWidget {
           TextButton(
             onPressed: () {
               print('tosvg : ' + controller.toSvg());
+              c.redraw();
               Get.back();
             },
             child: const Text('저장'),

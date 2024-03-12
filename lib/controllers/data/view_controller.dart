@@ -366,4 +366,10 @@ class ViewController extends GetxController {
     final c = Get.find<ListController>();
     c.reset();
   }
+
+  redraw() {
+    _sign.refresh();
+    _csign.refresh();
+    _item.refresh();
+  }
 }
