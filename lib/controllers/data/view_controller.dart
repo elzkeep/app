@@ -161,13 +161,17 @@ class ViewController extends GetxController {
   List<CItem> years = [CItem(id: 0, value: '')].obs;
   List<CItem> months = [CItem(id: 0, value: '')].obs;
 
-  final _sign = HandSignatureControl().obs;
-  get sign => _sign.value;
-  set sign(value) => _sign.value = value;
+  final _sign1 = HandSignatureControl().obs;
+  get sign1 => _sign1.value;
+  set sign1(value) => _sign1.value = value;
 
-  final _csign = HandSignatureControl().obs;
-  get csign => _csign.value;
-  set csign(value) => _csign.value = value;
+  final _sign2 = HandSignatureControl().obs;
+  get sign2 => _sign2.value;
+  set sign2(value) => _sign2.value = value;
+
+  final _image = ''.obs;
+  get image => _image.value;
+  set image(value) => _image.value = value;
 
   @override
   onInit() async {
@@ -360,6 +364,15 @@ class ViewController extends GetxController {
   save() async {
     report.status = ReportStatus.complete;
     report.content = content.text;
+    if (image != '') {
+      List<String> parts = image.split("/");
+      String imageName = parts[parts.length - 1];
+      await Http.upload('/api/upload/index', imageName, image);
+      report.image = imageName;
+    }
+
+    report.sign1 = sign1.toSvg();
+    report.sign2 = sign2.toSvg();
 
     await ReportManager.update(report);
 
@@ -368,8 +381,8 @@ class ViewController extends GetxController {
   }
 
   redraw() {
-    _sign.refresh();
-    _csign.refresh();
+    _sign1.refresh();
+    _sign2.refresh();
     _item.refresh();
   }
 }

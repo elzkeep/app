@@ -13,6 +13,9 @@ class Report {
   String checkdate;
   String checktime;
   String content;
+  String image;
+  String sign1;
+  String sign2;
   ReportStatus status;
   Company company = Company();
   User user = User();
@@ -29,6 +32,9 @@ class Report {
       this.checkdate = '',
       this.checktime = '',
       this.content = '',
+      this.image = '',
+      this.sign1 = '',
+      this.sign2 = '',
       this.status = ReportStatus.none,
       Company? company,
       User? user,
@@ -56,6 +62,9 @@ class Report {
         checkdate: json['checkdate'] as String,
         checktime: json['checktime'] as String,
         content: json['content'] as String,
+        image: json['image'] as String,
+        sign1: json['sign1'] as String,
+        sign2: json['sign2'] as String,
         status: ReportStatus.values[json['status'] as int],
         company: Company.fromJson(json['extra']['company']),
         user: User.fromJson(json['extra']['user']),
@@ -74,6 +83,9 @@ class Report {
         'checkdate': checkdate,
         'checktime': checktime,
         'content': content,
+        'image': image,
+        'sign1': sign1,
+        'sign2': sign2,
         'status': status.index,
         'company': company.id,
         'user': user.id,

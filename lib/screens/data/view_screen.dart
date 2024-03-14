@@ -1,8 +1,11 @@
 import 'package:common_control/common_control.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:hand_signature/signature.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:zkeep/components/cselectbox.dart';
 import 'package:zkeep/components/layout.dart';
+import 'package:zkeep/config/config.dart';
 import 'package:zkeep/controllers/data/view_controller.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -30,11 +33,49 @@ class ViewScreen extends CWidget {
             const SizedBox(height: 10),
             wrapbtn(),
             const SizedBox(height: 20),
+            CText('사진'),
+            c.report.image != ''
+                ? CContainer(
+                    width: 100,
+                    height: 100,
+                    child: Image.network(
+                      '${Config.serverUrl}/webdata/${c.report.image}',
+                      fit: BoxFit.cover,
+                    ))
+                : c.image != ''
+                    ? CContainer(
+                        width: 100,
+                        height: 100,
+                        child: Image.asset(
+                          c.image,
+                          fit: BoxFit.cover,
+                        ))
+                    : CContainer(
+                        height: 100,
+                        width: 100,
+                        decoration: BoxDecoration(
+                            color: backgroundColor,
+                            border: Border.all(
+                              color: const Color(0xffE0E0E0),
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(8)),
+                        child: const Icon(CupertinoIcons.plus),
+                        onTap: () async {
+                          final returnedImage = await ImagePicker()
+                              .pickImage(source: ImageSource.gallery);
+                          if (returnedImage == null) return;
+                          c.image = returnedImage.path;
+                          c.redraw();
+                        },
+                      ),
+            const SizedBox(height: 20),
             CTextField(
               text: '종합 검토 의견',
               maxLines: 5,
               controller: c.content,
             ),
+            const SizedBox(height: 20),
             CRow(
               gap: 10,
               children: [
@@ -44,14 +85,18 @@ class ViewScreen extends CWidget {
                     child: roundBorder(Stack(
                       children: [
                         Positioned(
-                            child: c.sign.toSvg() != null
-                                ? SvgPicture.string(c.sign.toSvg())
-                                : CContainer()),
+                            child: c.report.sign1 != ''
+                                ? SvgPicture.string(c.report.sign1)
+                                : c.sign1.toSvg() != null
+                                    ? SvgPicture.string(c.sign1!.toSvg())
+                                    : CContainer()),
                         Positioned(child: CText('점검자'))
                       ],
                     )),
                     onTap: () {
-                      clickSign(c.sign);
+                      if (c.report.sign1 == '') {
+                        clickSign(c.sign1);
+                      }
                     },
                   ),
                 ),
@@ -61,14 +106,18 @@ class ViewScreen extends CWidget {
                     child: roundBorder(Stack(
                       children: [
                         Positioned(
-                            child: c.csign.toSvg() != null
-                                ? SvgPicture.string(c.csign.toSvg())
-                                : CContainer()),
+                            child: c.report.sign2 != ''
+                                ? SvgPicture.string(c.report.sign2)
+                                : c.sign2.toSvg() != null
+                                    ? SvgPicture.string(c.sign2!.toSvg())
+                                    : CContainer()),
                         Positioned(child: CText('관리담당자'))
                       ],
                     )),
                     onTap: () {
-                      clickSign(c.csign);
+                      if (c.report.sign2 == '') {
+                        clickSign(c.sign2);
+                      }
                     },
                   ),
                 ),
@@ -106,8 +155,10 @@ class ViewScreen extends CWidget {
   }
 
   clickSave() async {
-    await c.save();
-    Get.back();
+    if (c.sign1.toSvg() != null && c.sign2.toSvg() != null) {
+      await c.save();
+      Get.back();
+    }
   }
 
   clickSign(controller) {
@@ -135,8 +186,7 @@ class ViewScreen extends CWidget {
             child: const Text('지우기'),
           ),
           TextButton(
-            onPressed: () {
-              print('tosvg : ' + controller.toSvg());
+            onPressed: () async {
               c.redraw();
               Get.back();
             },

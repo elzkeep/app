@@ -20,13 +20,13 @@ class ListController extends InfiniteController {
 
   search() async {
     if (searchIndex == 1) {
-      params = '';
+      params = 'status=${ReportStatus.newer.index}';
     } else if (searchIndex == 2) {
       return;
     } else if (searchIndex == 3) {
       params = 'status=${ReportStatus.newer.index}';
     } else if (searchIndex == 4) {
-      params = 'status=${ReportStatus.check.index}';
+      params = 'status=${ReportStatus.complete.index}';
     }
 
     if (searchText != '') {
