@@ -2,8 +2,8 @@ import 'package:common_control/common_control.dart';
 import 'package:intl/intl.dart';
 import 'package:zkeep/models/customer.dart';
 
-class CompanyWidget extends CWidget {
-  CompanyWidget(this.item, {super.key});
+class CustomerWidget extends CWidget {
+  CustomerWidget(this.item, {super.key});
 
   final Customer item;
 

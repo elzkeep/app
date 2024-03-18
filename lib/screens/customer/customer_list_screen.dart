@@ -57,6 +57,6 @@ class CustomerListScreen extends CWidget {
   }
 
   Widget list(Customer item, int index) {
-    return CompanyWidget(item);
+    return CustomerWidget(item);
   }
 }

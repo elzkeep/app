@@ -79,84 +79,35 @@ class CustomerUpdateScreen extends CWidget {
 
   building() {
     return CForm(children: [
+      CFormfield(title: '시설명', text: c.name.text, controller: c.name),
       CFormfield(
-          title: '시설명', text: c.buildingname.text, controller: c.buildingname),
-      CFormfield(
-          title: '사업자번호',
-          text: c.buildingcompanyno.text,
-          controller: c.buildingcompanyno),
-      CFormfield(
-          title: '대표자', text: c.buildingceo.text, controller: c.buildingceo),
-      CFormfield(
-          title: '주소',
-          text: c.buildingaddress.text,
-          controller: c.buildingaddress),
+          title: '사업자번호', text: c.companyno.text, controller: c.companyno),
+      CFormfield(title: '대표자', text: c.ceo.text, controller: c.ceo),
+      CFormfield(title: '주소', text: c.address.text, controller: c.address),
     ]);
   }
 
   check() {
     return CForm(children: [
-      CFormfield(
-          title: '점검분야',
-          text: c.buildingaddress.text,
-          controller: c.buildingaddress),
-      CFormfield(
-          title: '관리형태',
-          text: c.buildingaddress.text,
-          controller: c.buildingaddress),
-      CFormfield(
-          title: '점검일',
-          text: c.buildingaddress.text,
-          controller: c.buildingaddress),
-      CFormfield(
-          title: '점검예정일',
-          text: c.buildingaddress.text,
-          controller: c.buildingaddress),
-      CFormfield(
-          title: '담당자',
-          text: c.buildingaddress.text,
-          controller: c.buildingaddress),
-      CFormfield(
-          title: '담당자 연락처',
-          text: c.buildingaddress.text,
-          controller: c.buildingaddress),
-      CFormfield(
-          title: '담당자 이메일',
-          text: c.buildingaddress.text,
-          controller: c.buildingaddress),
+      CFormfield(title: '점검분야', text: c.address.text, controller: c.address),
+      CFormfield(title: '관리형태', text: c.address.text, controller: c.address),
+      CFormfield(title: '점검일', text: c.address.text, controller: c.address),
+      CFormfield(title: '점검예정일', text: c.address.text, controller: c.address),
+      CFormfield(title: '담당자', text: c.address.text, controller: c.address),
+      CFormfield(title: '담당자 연락처', text: c.address.text, controller: c.address),
+      CFormfield(title: '담당자 이메일', text: c.address.text, controller: c.address),
     ]);
   }
 
   contract() {
     return CForm(children: [
-      CFormfield(
-          title: '계약기간',
-          text: c.buildingaddress.text,
-          controller: c.buildingaddress),
-      CFormfield(
-          title: '계약금액',
-          text: c.buildingaddress.text,
-          controller: c.buildingaddress),
-      CFormfield(
-          title: '청구방식',
-          text: c.buildingaddress.text,
-          controller: c.buildingaddress),
-      CFormfield(
-          title: '청구일',
-          text: c.buildingaddress.text,
-          controller: c.buildingaddress),
-      CFormfield(
-          title: '담당자명',
-          text: c.buildingaddress.text,
-          controller: c.buildingaddress),
-      CFormfield(
-          title: '담당자 연락처',
-          text: c.buildingaddress.text,
-          controller: c.buildingaddress),
-      CFormfield(
-          title: '담당자 이메일',
-          text: c.buildingaddress.text,
-          controller: c.buildingaddress),
+      CFormfield(title: '계약기간', text: c.address.text, controller: c.address),
+      CFormfield(title: '계약금액', text: c.address.text, controller: c.address),
+      CFormfield(title: '청구방식', text: c.address.text, controller: c.address),
+      CFormfield(title: '청구일', text: c.address.text, controller: c.address),
+      CFormfield(title: '담당자명', text: c.address.text, controller: c.address),
+      CFormfield(title: '담당자 연락처', text: c.address.text, controller: c.address),
+      CFormfield(title: '담당자 이메일', text: c.address.text, controller: c.address),
     ]);
   }
 }

@@ -58,7 +58,7 @@ class CustomerViewScreen extends CWidget {
 
   body() {
     return Obx(() => CScroll(gap: 20, children: [
-          CompanyWidget(c.item),
+          CustomerWidget(c.item),
           info(),
           CButton(
               text: '더보기',

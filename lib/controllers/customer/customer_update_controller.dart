@@ -9,10 +9,10 @@ class CustomerUpdateController extends GetxController {
   TextEditingController ceo = TextEditingController();
   TextEditingController address = TextEditingController();
 
-  TextEditingController buildingname = TextEditingController();
-  TextEditingController buildingcompanyno = TextEditingController();
-  TextEditingController buildingceo = TextEditingController();
-  TextEditingController buildingaddress = TextEditingController();
+  // TextEditingController buildingname = TextEditingController();
+  // TextEditingController buildingcompanyno = TextEditingController();
+  // TextEditingController buildingceo = TextEditingController();
+  // TextEditingController buildingaddress = TextEditingController();
 
   final int id;
   final int index;
@@ -33,9 +33,9 @@ class CustomerUpdateController extends GetxController {
     ceo.text = item.ceo;
     address.text = item.address;
 
-    buildingname.text = item.buildingname;
-    buildingcompanyno.text = item.buildingcompanyno;
-    buildingceo.text = item.buildingceo;
-    buildingaddress.text = item.buildingaddress;
+    // buildingname.text = item.buildingname;
+    // buildingcompanyno.text = item.buildingcompanyno;
+    // buildingceo.text = item.buildingceo;
+    // buildingaddress.text = item.buildingaddress;
   }
 }
