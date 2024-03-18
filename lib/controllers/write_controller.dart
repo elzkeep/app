@@ -4,11 +4,15 @@ import 'package:localstorage/localstorage.dart';
 import 'package:zkeep/models/building.dart';
 import 'package:zkeep/models/company.dart';
 import 'package:zkeep/models/report.dart';
+import 'package:zkeep/models/user.dart';
 
 class WriteController extends GetxController {
   final _period = 0.obs;
   final _ordinal = 0.obs;
-  final _date = DateTime.now().obs;
+  final _date = DateTime(DateTime.now().year, DateTime.now().month,
+          DateTime.now().day, DateTime.now().hour + 1, 0)
+      .obs;
+
   final _time = TimeOfDay.now().obs;
 
   final name = TextEditingController();
@@ -78,13 +82,13 @@ class WriteController extends GetxController {
     final userId = LocalStorage('login.json').getItem('user')['id'];
 
     final item = Report()
-      ..user = userId
+      ..user = User(id: userId)
       ..title = name.text
       ..period = period
       ..number = ordinal
       ..checkdate = DateFormat('yyyy-MM-dd', 'ko_KR').format(date)
-      ..checktime =
-          '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}'
+      ..checktime = DateFormat('HH:mm', 'ko_KR').format(date)
+      // '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}'
       ..building = Building(id: buildingid)
       ..company = Company(id: customerid)
       ..status = ReportStatus.newer;
