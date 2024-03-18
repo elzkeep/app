@@ -12,25 +12,11 @@ class Company {
   String ceo;
   String address;
   String addressetc;
-  String buildingname;
-  String buildingcompanyno;
-  String buildingceo;
-  String buildingaddress;
-  String buildingaddressetc;
   CompanyType type;
-  int checkdate;
-  String managername;
-  String managertel;
-  String manageremail;
-  String contractstartdate;
-  String contractenddate;
-  int contractprice;
-  int billingdate;
   String billingname;
   String billingtel;
   String billingemail;
   int status;
-  int companygroup;
   String date;
   bool checked;
   Map<String, dynamic> extra;  
@@ -42,25 +28,11 @@ class Company {
           this.ceo = '',       
           this.address = '',       
           this.addressetc = '',       
-          this.buildingname = '',       
-          this.buildingcompanyno = '',       
-          this.buildingceo = '',       
-          this.buildingaddress = '',       
-          this.buildingaddressetc = '',       
           this.type = CompanyType.none,       
-          this.checkdate = 0,       
-          this.managername = '',       
-          this.managertel = '',       
-          this.manageremail = '',       
-          this.contractstartdate = '',       
-          this.contractenddate = '',       
-          this.contractprice = 0,       
-          this.billingdate = 0,       
           this.billingname = '',       
           this.billingtel = '',       
           this.billingemail = '',       
           this.status = 0,       
-          this.companygroup = 0,       
           this.date = '',
           this.extra = const{},
           this.checked = false}) ;
@@ -74,31 +46,17 @@ class Company {
         ceo: json['ceo'] as String,
         address: json['address'] as String,
         addressetc: json['addressetc'] as String,
-        buildingname: json['buildingname'] as String,
-        buildingcompanyno: json['buildingcompanyno'] as String,
-        buildingceo: json['buildingceo'] as String,
-        buildingaddress: json['buildingaddress'] as String,
-        buildingaddressetc: json['buildingaddressetc'] as String,
         type: CompanyType.values[json['type'] as int],
-        checkdate: json['checkdate'] as int,
-        managername: json['managername'] as String,
-        managertel: json['managertel'] as String,
-        manageremail: json['manageremail'] as String,
-        contractstartdate: json['contractstartdate'] as String,
-        contractenddate: json['contractenddate'] as String,
-        contractprice: json['contractprice'] as int,
-        billingdate: json['billingdate'] as int,
         billingname: json['billingname'] as String,
         billingtel: json['billingtel'] as String,
         billingemail: json['billingemail'] as String,
         status: json['status'] as int,
-        companygroup: json['companygroup'] as int,
         date: json['date'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
     );
   }
 
   Map<String, dynamic> toJson() =>
-      { 'id': id,'name': name,'companyno': companyno,'ceo': ceo,'address': address,'addressetc': addressetc,'buildingname': buildingname,'buildingcompanyno': buildingcompanyno,'buildingceo': buildingceo,'buildingaddress': buildingaddress,'buildingaddressetc': buildingaddressetc,'type': type.index,'checkdate': checkdate,'managername': managername,'managertel': managertel,'manageremail': manageremail,'contractstartdate': contractstartdate,'contractenddate': contractenddate,'contractprice': contractprice,'billingdate': billingdate,'billingname': billingname,'billingtel': billingtel,'billingemail': billingemail,'status': status,'companygroup': companygroup,'date': date };
+      { 'id': id,'name': name,'companyno': companyno,'ceo': ceo,'address': address,'addressetc': addressetc,'type': type.index,'billingname': billingname,'billingtel': billingtel,'billingemail': billingemail,'status': status,'date': date };
 
   Company clone() {
     return Company.fromJson(toJson());

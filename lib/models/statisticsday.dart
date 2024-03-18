@@ -1,0 +1,82 @@
+import 'package:common_control/common_control.dart';
+
+
+  
+class Statisticsday { 
+  int id;
+  String month;
+  String duration;
+  int total;
+  int totalprice;
+  String billdate;
+  bool checked;
+  Map<String, dynamic> extra;  
+
+  Statisticsday({        
+          this.id = 0,       
+          this.month = '',       
+          this.duration = '',       
+          this.total = 0,       
+          this.totalprice = 0,       
+          this.billdate = '',
+          this.extra = const{},
+          this.checked = false}) ;
+  
+
+  factory Statisticsday.fromJson(Map<String, dynamic> json) {
+    return Statisticsday(
+        id: json['id'] as int,
+        month: json['month'] as String,
+        duration: json['duration'] as String,
+        total: json['total'] as int,
+        totalprice: json['totalprice'] as int,
+        billdate: json['billdate'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
+    );
+  }
+
+  Map<String, dynamic> toJson() =>
+      { 'id': id,'month': month,'duration': duration,'total': total,'totalprice': totalprice,'billdate': billdate };
+
+  Statisticsday clone() {
+    return Statisticsday.fromJson(toJson());
+  }
+}
+
+class StatisticsdayManager {
+  static const baseUrl = '/api/statisticsday';  
+
+  static Future<List<Statisticsday>> find(
+      {int page = 0, int pagesize = 20, String? params}) async {
+    var result =
+        await Http.get(baseUrl, {'page': page, 'pagesize': pagesize}, params);
+    if (result == null || result['items'] == null) {
+      return List<Statisticsday>.empty(growable: true);
+    }
+
+    return result['items']
+        .map<Statisticsday>((json) => Statisticsday.fromJson(json))
+        .toList();
+  }
+
+  static Future<Statisticsday> get(int id) async {
+    var result = await Http.get('$baseUrl/$id');
+    if (result == null || result['item'] == null) {
+      return Statisticsday();
+    }
+
+    return Statisticsday.fromJson(result['item']);
+  }
+
+  static Future<int> insert(Statisticsday item) async {
+    var result = await Http.insert(baseUrl, item.toJson());
+    return result;
+  }
+
+  static update(Statisticsday item) async {
+    await Http.put(baseUrl, item.toJson());
+  }
+
+  static delete(Statisticsday item) async {
+    await Http.delete(baseUrl, item.toJson());
+  }
+}
