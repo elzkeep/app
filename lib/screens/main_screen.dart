@@ -15,24 +15,24 @@ class MainScreen extends CWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Layout(
-        child: CColumn(children: [
-      search(),
-      status(),
-      CBothSide(children: [
-        CText('오늘의 점검일정',
-            textStyle:
-                const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        CRow(
-          gap: 5,
-          children: [
-            IconButton(
-                icon: const Icon(Icons.arrow_back_ios,
-                    color: Config.buttonColor, size: 10),
-                onPressed: () {
-                  c.beforeDay();
-                }),
-            Obx(() => CText(
+    return Obx(() => Layout(
+            child: CColumn(children: [
+          search(),
+          status(),
+          CBothSide(children: [
+            CText('오늘의 점검일정',
+                textStyle:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            CRow(
+              gap: 5,
+              children: [
+                IconButton(
+                    icon: const Icon(Icons.arrow_back_ios,
+                        color: Config.buttonColor, size: 10),
+                    onPressed: () {
+                      c.beforeDay();
+                    }),
+                CText(
                   onTap: () async {
                     await c.getMonth(MainController.date);
                     showModalBottomSheet<void>(
@@ -57,30 +57,30 @@ class MainScreen extends CWidget {
                   },
                   DateFormat('yyyy-MM-dd').format(MainController.date),
                   textStyle: const TextStyle(color: Config.buttonColor),
-                )),
-            IconButton(
-                icon: const Icon(Icons.arrow_forward_ios,
-                    color: Config.buttonColor, size: 10),
-                onPressed: () {
-                  c.nextDay();
-                }),
-          ],
-        )
-      ]),
-      const SizedBox(height: 10),
-      Expanded(
-          child: GestureDetector(
-        onHorizontalDragEnd: (DragEndDetails details) {
-          if (details.primaryVelocity! > 0) {
-            c.beforeDay();
-          } else if (details.primaryVelocity! < 0) {
-            c.nextDay();
-          }
-        },
-        child: lists(),
-      )),
-      const SizedBox(height: 10),
-    ]));
+                ),
+                IconButton(
+                    icon: const Icon(Icons.arrow_forward_ios,
+                        color: Config.buttonColor, size: 10),
+                    onPressed: () {
+                      c.nextDay();
+                    }),
+              ],
+            )
+          ]),
+          const SizedBox(height: 10),
+          Expanded(
+              child: GestureDetector(
+            onHorizontalDragEnd: (DragEndDetails details) {
+              if (details.primaryVelocity! > 0) {
+                c.beforeDay();
+              } else if (details.primaryVelocity! < 0) {
+                c.nextDay();
+              }
+            },
+            child: lists(),
+          )),
+          const SizedBox(height: 10),
+        ])));
   }
 
   onDaySelected(DateTime selectedDay, DateTime focusedDay) {
@@ -108,12 +108,12 @@ class MainScreen extends CWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         gap: 10,
         children: [
-          box('고객현황'),
-          box('점검진행률'),
+          box('고객현황', c.newcustomerTotal, c.customerTotal),
+          box('점검진행률', c.comReportTotal, c.reportTotal),
         ]);
   }
 
-  box(title) {
+  box(title, num, total) {
     return Expanded(
         child: roundBorder(
             CColumn(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -122,23 +122,30 @@ class MainScreen extends CWidget {
           margin: const EdgeInsets.only(top: 10, bottom: 10),
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CText('52',
+            CText('$num',
                 textStyle:
                     const TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
             CText('/', textStyle: const TextStyle(fontSize: 18)),
-            CText('60', textStyle: const TextStyle(fontSize: 18)),
+            CText('$total', textStyle: const TextStyle(fontSize: 18)),
           ]),
-      CText('86%',
+      CText('${(asFixed(num, total) * 100).toInt()}%',
           margin: const EdgeInsets.only(left: 10, right: 10, bottom: 5),
           textAlign: TextAlign.right,
           textStyle: const TextStyle(fontSize: 12, color: Colors.black38)),
       LinearPercentIndicator(
         lineHeight: 7.0,
-        percent: 0.5,
+        percent: asFixed(num, total) ?? 0.0,
         backgroundColor: Colors.grey,
         progressColor: Config.primaryColor,
       )
     ])));
+  }
+
+  asFixed(num, total) {
+    if (total == 0) {
+      return 0.0;
+    }
+    return double.parse((num / total).toStringAsFixed(2));
   }
 
   roundBorder(child) {

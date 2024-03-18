@@ -3,7 +3,14 @@ import 'package:zkeep/components/cround.dart';
 import 'package:zkeep/config/config.dart';
 
 class CustomerBox extends CWidget {
-  CustomerBox({super.key});
+  CustomerBox({
+    super.key,
+    required this.total,
+    required this.score,
+  });
+
+  final int total;
+  final double score;
 
   @override
   Widget build(BuildContext context) {
@@ -11,48 +18,47 @@ class CustomerBox extends CWidget {
     const countStyle = TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
 
     return CRound(
-          backgroundColor: Config.backgroundColor,
-          child: CRow(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Flexible(
+        backgroundColor: Config.backgroundColor,
+        child: CRow(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Flexible(
+                child: CRow(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CText(
+                        '관리고객수',
+                        textStyle: textStyle,
+                      ),
+                      CText(
+                        '$total',
+                        margin: const EdgeInsets.only(top: 10),
+                        textStyle: countStyle,
+                      ),
+                    ]),
+              ),
+              CContainer(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  width: 1,
+                  height: 40,
+                  backgroundColor: Colors.black26),
+              Flexible(
                   child: CRow(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CText(
-                          '관리고객수',
-                          textStyle: textStyle,
-                        ),
-                        CText(
-                          '28',
-                          margin: const EdgeInsets.only(top: 10),
-                          textStyle: countStyle,
-                        ),
-                      ]),
-                ),
-                CContainer(
-                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                    width: 1,
-                    height: 40,
-                    backgroundColor: Colors.black26),
-                Flexible(
-                    child: CRow(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                      CText(
-                        '관리점수',
-                        textStyle: textStyle,
-                      ),
-                      CText(
-                        '52',
-                        margin: const EdgeInsets.only(top: 10),
-                        textStyle: countStyle,
-                      ),
-                    ]))
-              ]));
-
+                    CText(
+                      '관리점수',
+                      textStyle: textStyle,
+                    ),
+                    CText(
+                      '$score',
+                      margin: const EdgeInsets.only(top: 10),
+                      textStyle: countStyle,
+                    ),
+                  ]))
+            ]));
   }
 }

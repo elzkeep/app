@@ -24,16 +24,16 @@ class MypageScreen extends CWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Layout(
+    return Obx(() => Layout(
         title: '마이페이지',
         child: CScroll(gap: 25, children: [
           myprofile(),
           record(),
           customer(),
           calendar(),
-          Obx(() => lists()),
+          lists(),
           const SizedBox(height: 50),
-        ]));
+        ])));
   }
 
   myprofile() {
@@ -138,7 +138,7 @@ class MypageScreen extends CWidget {
     return CColumn(gap: 10, children: [
       SubTitle('고객관리',
           more: '더보기', onMore: () => Get.toNamed('/mypage/customer')),
-      CustomerBox()
+      CustomerBox(total: c.customerTotal, score: c.score)
     ]);
   }
 

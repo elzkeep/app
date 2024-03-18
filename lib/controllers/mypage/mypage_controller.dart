@@ -2,6 +2,8 @@ import 'package:common_control/common_control.dart';
 import 'package:intl/intl.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:zkeep/models/building.dart';
+import 'package:zkeep/models/customer.dart';
 import 'package:zkeep/models/report.dart';
 
 class MypageController extends GetxController {
@@ -37,6 +39,14 @@ class MypageController extends GetxController {
   get events => _events;
   set events(value) => _events.value = value;
 
+  final _customerTotal = 0.obs;
+  get customerTotal => _customerTotal.value;
+  set customerTotal(value) => _customerTotal.value = value;
+
+  final _score = 0.0.obs;
+  get score => _score.value;
+  set score(value) => _score.value = value;
+
   @override
   onInit() async {
     super.onInit();
@@ -44,6 +54,8 @@ class MypageController extends GetxController {
     await find(focusedDay);
     focusedDay = DateTime(
         DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 1);
+    await getCustomerCount();
+    await getBuildingScore();
   }
 
   getMonth(DateTime date) async {
@@ -77,5 +89,23 @@ class MypageController extends GetxController {
             'user=${user['id']}&startcheckdate=${DateFormat('yyyy-MM-dd').format(date)}&endcheckdate=${DateFormat('yyyy-MM-dd').format(date)}');
 
     items = ret;
+  }
+
+  getCustomerCount() async {
+    final res = await CustomerManager.find();
+
+    if (res.isNotEmpty) {
+      customerTotal = res.length;
+    }
+  }
+
+  getBuildingScore() async {
+    final res = await BuildingManager.find();
+
+    if (res.isNotEmpty) {
+      for (int i = 0; i < res.length; i++) {
+        score += res[i].score;
+      }
+    }
   }
 }

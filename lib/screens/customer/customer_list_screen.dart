@@ -14,21 +14,21 @@ class CustomerListScreen extends CWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Layout(
+    return Obx(() => Layout(
         title: '고객관리',
         child: CColumn(gap: 20, children: [
           search(),
           customer(),
           buttons(),
           Expanded(child: lists())
-        ]));
+        ])));
   }
 
   customer() {
     return CColumn(gap: 10, children: [
       SubTitle('',
           more: '고객 추가', onMore: () => Get.toNamed('/customer/insert')),
-      CustomerBox()
+      CustomerBox(total: c.customerTotal, score: c.score)
     ]);
   }
 
