@@ -2,12 +2,15 @@ import 'dart:convert';
 
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/components/cselectbox.dart';
+import 'package:zkeep/controllers/data/view_controller.dart';
 import 'package:zkeep/models/building.dart';
 import 'package:zkeep/models/facility.dart';
 import 'package:zkeep/models/facilityitem.dart';
 
 class FacilityInsertController extends GetxController {
   FacilityInsertController(this.id, this.building);
+
+  final c = Get.find<ViewController>();
 
   final int id;
   final int building;
@@ -693,6 +696,21 @@ class FacilityInsertController extends GetxController {
         await FacilityManager.insert(water);
       }
     }
+
+    c.other = other;
+    c.item = item;
+    c.items = items;
+    c.transs = transs;
+    c.highs = highs;
+    c.generator = generator;
+    c.sunlight = sunlight;
+    c.charger = charger;
+    c.chargeritems = chargeritems;
+    c.ess = ess;
+    c.ups = ups;
+    c.fuel = fuel;
+    c.wind = wind;
+    c.water = water;
     print("complete");
   }
 }
