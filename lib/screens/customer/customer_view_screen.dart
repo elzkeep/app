@@ -1,6 +1,6 @@
 import 'package:common_control/common_control.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:zkeep/components/company.dart';
+import 'package:zkeep/components/customer_widget.dart';
 import 'package:zkeep/components/cround.dart';
 import 'package:zkeep/components/dround.dart';
 import 'package:zkeep/components/layout.dart';
@@ -80,7 +80,7 @@ class CustomerViewScreen extends CWidget {
               lineColor: Colors.black12,
               gap: 20,
               children: [
-                CText('고객명: 동부팀'),
+                CText('고객명: ${c.item.buildingcompany.name}'),
                 CRow(gap: 10, children: [
                   CText(
                     '담당자 명: ${c.item.managername}',
@@ -173,6 +173,6 @@ class CustomerViewScreen extends CWidget {
   }
 
   clickMore() {
-    Get.toNamed('/customer/${c.id}/detail');
+    Get.toNamed('/customer/${c.id}/detail', arguments: {'item': c.item});
   }
 }

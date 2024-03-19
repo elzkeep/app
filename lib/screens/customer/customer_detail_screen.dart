@@ -4,6 +4,22 @@ import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/components/sub_title.dart';
 import 'package:zkeep/config/config.dart';
 import 'package:zkeep/controllers/customer/customer_detail_controller.dart';
+import 'package:zkeep/models/customer.dart';
+
+extension CustomerTypeExtension on CustomerType {
+  String get name {
+    switch (this) {
+      case CustomerType.none:
+        return '';
+      case CustomerType.direct:
+        return '직영';
+      case CustomerType.outsourcing:
+        return '위탁';
+      default:
+        return '';
+    }
+  }
+}
 
 class CustomerDetailScreen extends CWidget {
   CustomerDetailScreen({super.key});
@@ -12,15 +28,42 @@ class CustomerDetailScreen extends CWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Layout(
+    return Obx(() => Layout(
         popup: true,
-        child: Obx(() => CScroll(gap: 20, children: [
-              company(),
-              building(),
-              check(),
-              contract(),
-              const SizedBox(height: 50)
-            ])));
+        child: CScroll(gap: 20, children: [
+          company(),
+          building(),
+          check(),
+          contract(),
+          const SizedBox(height: 50)
+        ])));
+  }
+
+  entry(text1, answer1) {
+    return CRow(
+      gap: 5,
+      children: [CText(text1), CText(answer1)],
+    );
+  }
+
+  entry2(text1, answer1, text2, answer2) {
+    return CRow(
+      children: [
+        Expanded(
+          child: CRow(
+            gap: 5,
+            children: [CText(text1), CText(answer1)],
+          ),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: CRow(
+            gap: 5,
+            children: [CText(text2), CText(answer2)],
+          ),
+        )
+      ],
+    );
   }
 
   company() {
@@ -37,11 +80,9 @@ class CustomerDetailScreen extends CWidget {
               lineColor: Colors.black12,
               gap: 10,
               children: [
-                CText('사업자번호: ${c.item.companyno}'),
-                CBothSide(children: [
-                  CText('고객명: ${c.item.name}'),
-                  CText('대표자: ${c.item.ceo}')
-                ]),
+                entry('사업자번호:', c.item.buildingcompany.companyno),
+                entry2('고객명:', c.item.buildingcompany.name, '대표자:',
+                    c.item.buildingcompany.ceo),
               ]))
     ]);
   }
@@ -60,9 +101,10 @@ class CustomerDetailScreen extends CWidget {
               lineColor: Colors.black12,
               gap: 10,
               children: [
-                CText('시설명: '),
-                CText('사업자번호: '),
-                CText('주소: '),
+                entry('시설명:', c.item.building.name),
+                entry('사업자번호:', c.item.building.conpanyno),
+                entry('주소:',
+                    '${c.item.building.address} ${c.item.building.addressetc}'),
               ]))
     ]);
   }
@@ -82,52 +124,13 @@ class CustomerDetailScreen extends CWidget {
               gap: 10,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                CRow(children: [
-                  CText(
-                    '점검분야:',
-                    expanded: true,
-                  ),
-                  CText(
-                    '관리형태:',
-                    expanded: true,
-                  ),
-                ]),
-                CRow(children: [
-                  CText(
-                    '점검일:',
-                    expanded: true,
-                  ),
-                  CText(
-                    '점검예정일:',
-                    expanded: true,
-                  ),
-                ]),
-                CRow(children: [
-                  CText(
-                    '수전 용량:',
-                    expanded: true,
-                  ),
-                  CText(
-                    '관리점수:',
-                    expanded: true,
-                  ),
-                ]),
-                CRow(children: [
-                  CText(
-                    '담당자명:',
-                    expanded: true,
-                  ),
-                  CText(
-                    '연락처:',
-                    expanded: true,
-                  ),
-                ]),
-                CRow(children: [
-                  CText(
-                    '이메일:',
-                    expanded: true,
-                  ),
-                ])
+                entry2('점검분야:', '전기', '관리형태:', c.item.type.name),
+                entry2('점검일:', '${c.item.checkdate}일', '점검예정일:',
+                    '${c.item.checkdate}일'),
+                entry2('수전 용량:', '${c.facility.value2}kW', '관리점수:',
+                    '${c.item.building.score}'),
+                entry2('담당자명:', c.item.managername, '연락처:', c.item.managertel),
+                entry('이메일:', c.item.manageremail),
               ]))
     ]);
   }
@@ -146,34 +149,12 @@ class CustomerDetailScreen extends CWidget {
               lineColor: Colors.black12,
               gap: 10,
               children: [
-                CText('계약기간:'),
-                CText('계약금액:'),
-                CRow(children: [
-                  CText(
-                    '청구방식:',
-                    expanded: true,
-                  ),
-                  CText(
-                    '청구일:',
-                    expanded: true,
-                  ),
-                ]),
-                CRow(children: [
-                  CText(
-                    '담당자명:',
-                    expanded: true,
-                  ),
-                  CText(
-                    '연락처:',
-                    expanded: true,
-                  ),
-                ]),
-                CRow(children: [
-                  CText(
-                    '이메일:',
-                    expanded: true,
-                  ),
-                ]),
+                entry('계약기간:',
+                    '${c.item.contractstartdate} ~ ${c.item.contractenddate}'),
+                entry('계약금액:', '${c.item.contractprice}'),
+                entry2('청구방식:', '', '청구일:', '${c.item.billingdate}일'),
+                entry2('담당자명:', c.item.billingname, '연락처:', c.item.billingtel),
+                entry('이메일:', c.item.billingemail),
               ]))
     ]);
   }

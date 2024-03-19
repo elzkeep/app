@@ -24,7 +24,7 @@ class CustomerWidget extends CWidget {
       child: CRow(children: [
         Expanded(
           child: CColumn(gap: 10, children: [
-            CText(item.managername),
+            CText(item.building.name),
             CText(
                 '계약 종료일: ${DateFormat('yyyy.MM.dd').format(DateTime.parse(item.contractenddate))}',
                 textStyle:
@@ -33,10 +33,10 @@ class CustomerWidget extends CWidget {
         ),
         Expanded(
           child: CColumn(gap: 10, children: [
-            CText('750KW / 2점 1회',
+            CText('750KW / ${item.building.score}점 1회',
                 textStyle:
                     const TextStyle(color: Colors.black54, fontSize: 12)),
-            CText('다음점검일 : 7월 10일',
+            CText('다음점검일 : ${item.contractday}일',
                 textStyle: const TextStyle(color: Colors.black54, fontSize: 12))
           ]),
         ),

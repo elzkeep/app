@@ -49,7 +49,11 @@ customer() {
       //middlewares: [AuthService()],
       binding: BindingsBuilder(() {
         final id = int.parse(Get.parameters['id']!);
-        Get.put(CustomerDetailController(id));
+        Customer item = Customer();
+        if (Get.arguments != null) {
+          item = Get.arguments['item'];
+        }
+        Get.put(CustomerDetailController(id, item));
       }),
     ),
     GetPage(
