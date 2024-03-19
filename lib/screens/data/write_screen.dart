@@ -45,7 +45,7 @@ class WriteScreen extends CWidget {
             onPressed: () => clickCancel(),
           ),
           CButton(
-            text: '확인',
+            text: '저장',
             flex: 1,
             size: CButtonSize.normal,
             onPressed: () => clickSave(),
