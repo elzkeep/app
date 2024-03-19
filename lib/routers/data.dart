@@ -2,6 +2,7 @@ import 'package:common_control/common_control.dart';
 import 'package:zkeep/controllers/data/list_controller.dart';
 import 'package:zkeep/controllers/data/view_controller.dart';
 import 'package:zkeep/controllers/data/write_controller.dart';
+import 'package:zkeep/models/building.dart';
 import 'package:zkeep/models/report.dart';
 import 'package:zkeep/screens/data/list_screen.dart';
 import 'package:zkeep/screens/data/view_screen.dart';
@@ -24,11 +25,13 @@ data() {
       //middlewares: [AuthService()],
       binding: BindingsBuilder(() {
         Report item = Report();
+        Building building = Building();
         if (Get.arguments != null) {
           item = Get.arguments['item'];
+          building = Get.arguments['building'];
         }
         final id = int.parse(Get.parameters['id']!);
-        Get.put(ViewController(id, item));
+        Get.put(ViewController(id, building, item));
       }),
     ),
     GetPage(

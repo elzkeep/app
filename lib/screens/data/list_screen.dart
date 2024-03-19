@@ -5,6 +5,7 @@ import 'package:zkeep/components/cselectbutton.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/config/config.dart';
 import 'package:zkeep/controllers/data/list_controller.dart';
+import 'package:zkeep/models/building.dart';
 import 'package:zkeep/models/report.dart';
 
 class ListScreen extends CWidget {
@@ -120,7 +121,10 @@ class ListScreen extends CWidget {
 
   Widget list(Report item, int index) {
     return CContainer(
-      onTap: () => Get.toNamed('/data/${item.id}', arguments: {'item': item}),
+      onTap: () => Get.toNamed('/data/${item.id}', arguments: {
+        'item': item,
+        'building': Building.fromJson(item.extra['building'])
+      }),
       decoration: BoxDecoration(
           color: const Color(0xffE0E0E0),
           border: Border.all(

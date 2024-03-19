@@ -65,10 +65,18 @@ class CustomerViewScreen extends CWidget {
               size: CButtonSize.xsmall,
               type: CButtonStyle.outlined,
               onPressed: () => clickMore()),
+          title('설비 기본 정보'),
+          facilityInfo(),
           graph(),
           history(),
           const SizedBox(height: 50),
         ]));
+  }
+
+  title(str) {
+    return CText(str,
+        // margin: const EdgeInsets.only(top: 10),
+        textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold));
   }
 
   info() {
@@ -93,6 +101,48 @@ class CustomerViewScreen extends CWidget {
                 ]),
               ]))
     ]);
+  }
+
+  facilityInfo() {
+    return CContainer(
+      decoration: BoxDecoration(
+          border: Border.all(
+            color: const Color(0xffE0E0E0),
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(8)),
+      // margin: const EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      child: CRow(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Expanded(
+            child: CColumn(gap: 10, children: [
+          CRow(children: [
+            Expanded(
+              child: CText('수전 용량: ${c.facility.value2}kW'),
+            ),
+            Expanded(
+              child: CText(
+                  '수전 형태: ${c.types[int.tryParse(c.facility.value3) ?? 0].value}'),
+            ),
+          ]),
+          CText('발전 설비 현황: ${c.facilityStatus()}'),
+          CRow(
+              margin: const EdgeInsets.only(top: 5),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CText(
+                  '더보기',
+                  textStyle:
+                      const TextStyle(fontSize: 12, color: Colors.black54),
+                  onTap: () => Get.toNamed('/facility/${c.id}', arguments: {
+                    'building': c.item.building,
+                    'item': Report()
+                  }),
+                ),
+              ]),
+        ])),
+      ]),
+    );
   }
 
   graph() {

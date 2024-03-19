@@ -7,16 +7,17 @@ import 'package:zkeep/models/facility.dart';
 import 'package:zkeep/models/report.dart';
 
 class ViewController extends GetxController {
-  ViewController(this.id, this.report);
+  ViewController(this.id, this.building, this.report);
 
   TextEditingController content = TextEditingController();
 
   final int id;
   final Report report;
+  final Building building;
 
-  final _building = Building().obs;
-  Building get building => _building.value;
-  set building(Building value) => _building.value = value;
+  // final _building = Building().obs;
+  // Building get building => _building.value;
+  // set building(Building value) => _building.value = value;
 
   final _item = Facility().obs;
   Facility get item => _item.value;
@@ -177,7 +178,7 @@ class ViewController extends GetxController {
   onInit() async {
     super.onInit();
     content.text = report.content;
-    building = Building.fromJson(report.extra['building']);
+    // building = Building.fromJson(report.extra['building']);
     await getYearMonth();
     await getItem();
     await getItems();
