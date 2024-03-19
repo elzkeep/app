@@ -26,6 +26,16 @@ final ordinal = [
   CItem(id: 4, value: '4차')
 ];
 
+final ordinalharf = [
+  CItem(id: 0, value: '차수'),
+  CItem(id: 1, value: '1차'),
+  CItem(id: 2, value: '2차'),
+];
+
+final ordinalyear = [
+  CItem(id: 0, value: '차수'),
+];
+
 class WriteScreen extends CWidget {
   WriteScreen({super.key});
 
@@ -68,7 +78,11 @@ class WriteScreen extends CWidget {
                     })),
             Expanded(
                 child: CSelectbox(
-                    items: ordinal,
+                    items: c.period == 3
+                        ? ordinalharf
+                        : c.period == 4
+                            ? ordinalyear
+                            : ordinal,
                     selected: c.ordinal,
                     onSelected: (pos) {
                       c.ordinal = pos;
