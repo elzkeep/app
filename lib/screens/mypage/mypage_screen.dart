@@ -7,6 +7,7 @@ import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/components/customer/customer_box.dart';
 import 'package:zkeep/components/sub_title.dart';
 import 'package:zkeep/config/config.dart';
+import 'package:zkeep/controllers/auth_controller.dart';
 import 'package:zkeep/controllers/mypage/mypage_controller.dart';
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/models/report.dart';
@@ -79,13 +80,24 @@ class MypageScreen extends CWidget {
           ],
         ),
         CText(
-          '변경',
+          '로그아웃',
           style: Config.moreStyle,
-          onTap: () => Get.toNamed('/mypage/edit'),
+          onTap: () => logout(),
           margin: const EdgeInsets.symmetric(vertical: 10),
         )
+        // CText(
+        //   '변경',
+        //   style: Config.moreStyle,
+        //   onTap: () => Get.toNamed('/mypage/edit'),
+        //   margin: const EdgeInsets.symmetric(vertical: 10),
+        // )
       ],
     );
+  }
+
+  logout() {
+    AuthController().logout();
+    Get.offAndToNamed('/login');
   }
 
   record() {
