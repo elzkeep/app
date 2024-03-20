@@ -8,6 +8,7 @@ import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/config/config.dart';
 import 'package:zkeep/controllers/data/view_controller.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:zkeep/models/report.dart';
 
 class ViewScreen extends CWidget {
   ViewScreen({super.key});
@@ -279,8 +280,10 @@ class ViewScreen extends CWidget {
                   '더보기',
                   textStyle:
                       const TextStyle(fontSize: 12, color: Colors.black54),
-                  onTap: () => Get.toNamed('/facility/${c.id}',
-                      arguments: {'building': c.report.building.id}),
+                  onTap: () => Get.toNamed('/facility/${c.id}', arguments: {
+                    'building': c.report.building,
+                    'item': Report()
+                  }),
                 ),
               ]),
         ])),
