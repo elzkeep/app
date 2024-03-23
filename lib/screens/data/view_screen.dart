@@ -1,3 +1,4 @@
+import 'package:common_control/ccolumn.dart';
 import 'package:common_control/common_control.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:hand_signature/signature.dart';
@@ -77,53 +78,55 @@ class ViewScreen extends CWidget {
               controller: c.content,
             ),
             const SizedBox(height: 20),
-            CRow(
-              gap: 10,
-              children: [
-                Expanded(
-                  child: CContainer(
-                    height: 130,
-                    child: roundBorder(Stack(
-                      children: [
-                        Positioned(
-                            child: c.report.sign1 != ''
-                                ? SvgPicture.string(c.report.sign1)
-                                : c.sign1.toSvg() != null
-                                    ? SvgPicture.string(c.sign1!.toSvg())
-                                    : CContainer()),
-                        Positioned(child: CText('점검자'))
-                      ],
-                    )),
-                    onTap: () {
-                      if (c.report.sign1 == '') {
-                        clickSign(c.sign1);
-                      }
-                    },
+            if (c.report.status == ReportStatus.check ||
+                c.report.status == ReportStatus.complete)
+              CRow(
+                gap: 10,
+                children: [
+                  Expanded(
+                    child: CContainer(
+                      height: 130,
+                      child: roundBorder(Stack(
+                        children: [
+                          Positioned(
+                              child: c.report.sign1 != ''
+                                  ? SvgPicture.string(c.report.sign1)
+                                  : c.sign1.toSvg() != null
+                                      ? SvgPicture.string(c.sign1!.toSvg())
+                                      : CContainer()),
+                          Positioned(child: CText('점검자'))
+                        ],
+                      )),
+                      onTap: () {
+                        if (c.report.sign1 == '') {
+                          clickSign(c.sign1);
+                        }
+                      },
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: CContainer(
-                    height: 130,
-                    child: roundBorder(Stack(
-                      children: [
-                        Positioned(
-                            child: c.report.sign2 != ''
-                                ? SvgPicture.string(c.report.sign2)
-                                : c.sign2.toSvg() != null
-                                    ? SvgPicture.string(c.sign2!.toSvg())
-                                    : CContainer()),
-                        Positioned(child: CText('관리담당자'))
-                      ],
-                    )),
-                    onTap: () {
-                      if (c.report.sign2 == '') {
-                        clickSign(c.sign2);
-                      }
-                    },
+                  Expanded(
+                    child: CContainer(
+                      height: 130,
+                      child: roundBorder(Stack(
+                        children: [
+                          Positioned(
+                              child: c.report.sign2 != ''
+                                  ? SvgPicture.string(c.report.sign2)
+                                  : c.sign2.toSvg() != null
+                                      ? SvgPicture.string(c.sign2!.toSvg())
+                                      : CContainer()),
+                          Positioned(child: CText('관리담당자'))
+                        ],
+                      )),
+                      onTap: () {
+                        if (c.report.sign2 == '') {
+                          clickSign(c.sign2);
+                        }
+                      },
+                    ),
                   ),
-                ),
-              ],
-            ),
+                ],
+              ),
           ])),
         ]),
       ),
@@ -143,7 +146,7 @@ class ViewScreen extends CWidget {
             onPressed: () => clickCancel(),
           ),
           CButton(
-            text: '작성완료',
+            text: c.report.status == ReportStatus.check ? '점검완료' : '작성완료',
             flex: 1,
             size: CButtonSize.large,
             onPressed: () => clickSave(),
@@ -156,7 +159,25 @@ class ViewScreen extends CWidget {
   }
 
   clickSave() async {
-    if (c.sign1.toSvg() != null && c.sign2.toSvg() != null) {
+    if (c.report.status == ReportStatus.newer) {
+      // c.ing();
+      print("새로운 점검 데이터 입니다.");
+    }
+    if (c.report.status == ReportStatus.ing) {
+      bool check = true;
+      for (int i = 0; i < c.otherdata.length; i++) {
+        if (c.otherdata[i] == true && c.data[i] == false) {
+          check = false;
+          break;
+        }
+      }
+      if (check) {
+        c.save();
+      }
+    }
+    if (c.report.status == ReportStatus.check &&
+        c.sign1.toSvg() != null &&
+        c.sign2.toSvg() != null) {
       await c.save();
       Get.back();
     }
@@ -279,11 +300,9 @@ class ViewScreen extends CWidget {
                 CText(
                   '더보기',
                   textStyle:
-                      const TextStyle(fontSize: 12, color: Colors.black54),
-                  onTap: () => Get.toNamed('/facility/${c.id}', arguments: {
-                    'building': c.report.building,
-                    'item': Report()
-                  }),
+                      const TextStyle(fontSize: 12, color: Config.primaryColor),
+                  onTap: () => Get.toNamed('/facility/${c.id}',
+                      arguments: {'building': c.report.building}),
                 ),
               ]),
         ])),
@@ -310,101 +329,127 @@ class ViewScreen extends CWidget {
 
     return CContainer(
       decoration: BoxDecoration(
-          color: const Color(0xffE0E0E0),
-          border: Border.all(
-            color: const Color(0xffE0E0E0),
-            width: 1,
-          ),
+          // color: const Color(0xffE0E0E0),
+          // border: Border.all(
+          //   color: const Color(0xffE0E0E0),
+          //   width: 1,
+          // ),
           borderRadius: BorderRadius.circular(8)),
       margin: const EdgeInsets.only(top: 10),
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       child: CRow(crossAxisAlignment: CrossAxisAlignment.start, children: [
         CContainer(
             margin: const EdgeInsets.only(top: 4),
-            backgroundColor: const Color.fromRGBO(237, 92, 66, 1.000),
+            backgroundColor: Config.primaryColor,
             width: 5,
             height: 14,
             child: Container()),
         const SizedBox(width: 10),
         Expanded(
-            child: CColumn(gap: 10, children: [
-          CText(c.report.title),
-          CRow(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            CText('${period[c.report.period].value} 점검',
-                textStyle:
-                    const TextStyle(color: Colors.black54, fontSize: 12)),
-            CText('|',
-                textStyle:
-                    const TextStyle(color: Colors.black54, fontSize: 12)),
-            CText(
-                '${DateFormat('MM월 dd일').format(DateTime.parse(c.report.checkdate))} ${c.report.checktime}',
-                textStyle: const TextStyle(color: Colors.black54, fontSize: 12))
-          ]),
+            child: CColumn(gap: 5, children: [
+          CRow(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CText(c.report.title),
+              CText('정보수정',
+                  textStyle: const TextStyle(color: Config.primaryColor))
+            ],
+          ),
+          CText(
+              '${DateFormat('MM월 dd일').format(DateTime.parse(c.report.checkdate))} ${c.report.checktime}',
+              textStyle: const TextStyle(color: Colors.black54, fontSize: 12)),
+          CText('${period[c.report.period].value} 점검',
+              textStyle: const TextStyle(color: Colors.black54, fontSize: 12)),
         ])),
         const SizedBox(width: 20),
       ]),
     );
   }
 
-  btn(url, name) {
+  btn(int num, String name) {
+    final url = '/data/${c.id}/write/$num';
     return CContainer(
         width: (Get.width - 30) / 2,
         onTap: () => Get.toNamed(url, arguments: {'item': c.report}),
-        child: roundBorder(CText(name)));
+        child: roundBorder(Stack(children: [
+          CText(name, alignment: Alignment.center),
+          if (c.data[num - 1])
+            Positioned(
+                right: 0,
+                child: Container(
+                    width: 8,
+                    height: 8,
+                    decoration: const BoxDecoration(
+                      color: Config.primaryColor,
+                      shape: BoxShape.circle,
+                    )))
+        ])));
   }
 
   wrapbtn() {
     List<Widget> widgets = [];
 
-    Widget widget = btn('/data/${c.id}/write/1', '저압설비');
+    Widget widget = btn(1, '저압설비');
     widgets.add(widget);
+    c.otherdata[0] = true;
 
     if (c.item.value3 == '2') {
-      widget = btn('/data/${c.id}/write/2', '고압설비');
+      widget = btn(2, '고압설비');
       widgets.add(widget);
-      widget = btn('/data/${c.id}/write/3', '변전설비');
+      c.otherdata[1] = true;
+      widget = btn(3, '변전설비');
       widgets.add(widget);
+      c.otherdata[2] = true;
     }
 
-    widget = btn('/data/${c.id}/write/4', '부하설비');
+    widget = btn(4, '부하설비');
     widgets.add(widget);
+    c.otherdata[3] = true;
 
     if (c.other[0] == true) {
-      widget = btn('/data/${c.id}/write/5', c.othername[0]);
+      widget = btn(5, c.othername[0]);
       widgets.add(widget);
+      c.otherdata[4] = true;
     }
 
-    widget = btn('/data/${c.id}/write/6', '기타안전설비');
+    widget = btn(6, '기타안전설비');
     widgets.add(widget);
+    c.otherdata[5] = true;
 
     if (c.other[1] == true) {
-      widget = btn('/data/${c.id}/write/7', c.othername[1]);
+      widget = btn(7, c.othername[1]);
       widgets.add(widget);
+      c.otherdata[6] = true;
     }
 
     if (c.other[2] == true) {
-      widget = btn('/data/${c.id}/write/8', c.othername[2]);
+      widget = btn(8, c.othername[2]);
       widgets.add(widget);
+      c.otherdata[7] = true;
     }
 
     if (c.other[3] == true) {
-      widget = btn('/data/${c.id}/write/9', c.othername[3]);
+      widget = btn(9, c.othername[3]);
       widgets.add(widget);
+      c.otherdata[8] = true;
     }
 
     if (c.other[4] == true) {
-      widget = btn('/data/${c.id}/write/10', c.othername[4]);
+      widget = btn(10, c.othername[4]);
       widgets.add(widget);
+      c.otherdata[9] = true;
     }
 
     if (c.other[5] == true) {
-      widget = btn('/data/${c.id}/write/11', c.othername[5]);
+      widget = btn(11, c.othername[5]);
       widgets.add(widget);
+      c.otherdata[10] = true;
     }
 
     if (c.other[6] == true) {
-      widget = btn('/data/${c.id}/write/12', c.othername[6]);
+      widget = btn(12, c.othername[6]);
       widgets.add(widget);
+      c.otherdata[11] = true;
     }
 
     return Wrap(spacing: 10, runSpacing: 10, children: widgets);

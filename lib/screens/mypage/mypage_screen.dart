@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:zkeep/components/cround.dart';
 import 'package:zkeep/components/ctablecalendar.dart';
@@ -11,6 +12,7 @@ import 'package:zkeep/controllers/auth_controller.dart';
 import 'package:zkeep/controllers/mypage/mypage_controller.dart';
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/models/report.dart';
+import 'package:zkeep/models/reportstatusextension.dart';
 
 class Event {
   String title;
@@ -225,7 +227,7 @@ class MypageScreen extends CWidget {
           children: [
             CContainer(
                 margin: const EdgeInsets.only(top: 4),
-                backgroundColor: const Color.fromRGBO(237, 92, 66, 1.000),
+                backgroundColor: Config.primaryColor,
                 width: 5,
                 height: 14,
                 child: Container()),
@@ -249,7 +251,21 @@ class MypageScreen extends CWidget {
             const SizedBox(width: 10),
             Expanded(
                 child: CColumn(gap: 10, children: [
-              CText(item.title),
+              CRow(gap: 5, children: [
+                Expanded(
+                  child: CText(
+                    item.title,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                DRound(
+                    backgroundColor: item.status.color,
+                    child: CText(
+                      item.status.name,
+                      textStyle:
+                          const TextStyle(fontSize: 11, color: Colors.white),
+                    )),
+              ]),
               CRow(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -259,7 +275,8 @@ class MypageScreen extends CWidget {
                     CText('|',
                         textStyle: const TextStyle(
                             color: Colors.black54, fontSize: 12)),
-                    CText('1',
+                    CText(
+                        '${DateFormat('MM월 dd일').format(DateTime.parse(item.checkdate))} ${item.checktime}',
                         textStyle: const TextStyle(
                             color: Colors.black54, fontSize: 12))
                   ]),

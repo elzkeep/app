@@ -9,42 +9,7 @@ import 'package:zkeep/components/sub_title.dart';
 import 'package:zkeep/config/config.dart';
 import 'package:zkeep/controllers/customer/customer_view_controller.dart';
 import 'package:zkeep/models/report.dart';
-
-extension ReportStatusExtension on ReportStatus {
-  Color get color {
-    switch (this) {
-      case ReportStatus.none:
-        return Colors.grey;
-      case ReportStatus.newer:
-        return Colors.orange;
-      case ReportStatus.ing:
-        return Colors.blue;
-      case ReportStatus.check:
-        return Colors.black54;
-      case ReportStatus.complete:
-        return Colors.green;
-      default:
-        return Colors.grey;
-    }
-  }
-
-  String get name {
-    switch (this) {
-      case ReportStatus.none:
-        return '없음';
-      case ReportStatus.newer:
-        return '신규';
-      case ReportStatus.ing:
-        return '점검중';
-      case ReportStatus.check:
-        return '서명완료';
-      case ReportStatus.complete:
-        return '완료';
-      default:
-        return '';
-    }
-  }
-}
+import 'package:zkeep/models/reportstatusextension.dart';
 
 class CustomerViewScreen extends CWidget {
   CustomerViewScreen({super.key});
@@ -133,11 +98,9 @@ class CustomerViewScreen extends CWidget {
                 CText(
                   '더보기',
                   textStyle:
-                      const TextStyle(fontSize: 12, color: Colors.black54),
-                  onTap: () => Get.toNamed('/facility/${c.id}', arguments: {
-                    'building': c.item.building,
-                    'item': Report()
-                  }),
+                      const TextStyle(fontSize: 12, color: Config.primaryColor),
+                  onTap: () => Get.toNamed('/facility/${c.id}',
+                      arguments: {'building': c.item.building}),
                 ),
               ]),
         ])),
@@ -184,8 +147,8 @@ class CustomerViewScreen extends CWidget {
     return CColumn(
       children: [
         CContainer(
-          onTap: () =>
-              Get.toNamed('/data/${item.id}', arguments: {'item': item}),
+          onTap: () => Get.toNamed('/data/${item.id}',
+              arguments: {'item': item, 'building': c.item.building}),
           decoration: BoxDecoration(
               color: const Color(0xffE0E0E0),
               border: Border.all(

@@ -2,11 +2,13 @@ import 'package:common_control/common_control.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:zkeep/components/cselectbutton.dart';
+import 'package:zkeep/components/dround.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/config/config.dart';
 import 'package:zkeep/controllers/data/list_controller.dart';
 import 'package:zkeep/models/building.dart';
 import 'package:zkeep/models/report.dart';
+import 'package:zkeep/models/reportstatusextension.dart';
 
 class ListScreen extends CWidget {
   ListScreen({super.key});
@@ -137,14 +139,27 @@ class ListScreen extends CWidget {
       child: CRow(crossAxisAlignment: CrossAxisAlignment.start, children: [
         CContainer(
             margin: const EdgeInsets.only(top: 4),
-            backgroundColor: const Color.fromRGBO(237, 92, 66, 1.000),
+            backgroundColor: Config.primaryColor,
             width: 5,
             height: 14,
             child: Container()),
         const SizedBox(width: 10),
         Expanded(
             child: CColumn(gap: 10, children: [
-          CText(item.title),
+          CRow(gap: 5, children: [
+            Expanded(
+              child: CText(
+                item.title,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            DRound(
+                backgroundColor: item.status.color,
+                child: CText(
+                  item.status.name,
+                  textStyle: const TextStyle(fontSize: 11, color: Colors.white),
+                )),
+          ]),
           CRow(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             CText(item.company.name,
                 textStyle:

@@ -15,17 +15,14 @@ facility() {
       binding: BindingsBuilder(() {
         Report item = Report();
         Building building = Building();
-        if (Get.arguments != null) {
+        if (Get.arguments['item'] != null) {
           item = Get.arguments['item'];
+        }
+        if (Get.arguments['building'] != null) {
           building = Get.arguments['building'];
         }
         final id = int.parse(Get.parameters['id']!);
         Get.put(ViewController(id, building, item));
-        // int building = 0;
-        // if (Get.arguments != null) {
-        //   building = Get.arguments['building'];
-        // }
-        // Get.put(ViewController());
       }),
     ),
     GetPage(

@@ -1,6 +1,7 @@
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/components/circle_navigation.dart';
 import 'package:zkeep/components/head.dart';
+import 'package:zkeep/config/config.dart';
 
 class Layout extends CWidget {
   Layout(
@@ -60,7 +61,7 @@ class Layout extends CWidget {
             onPressed: () =>
                 Get.toNamed('/write', arguments: {'mode': 'write'}),
             foregroundColor: Colors.white,
-            backgroundColor: const Color.fromRGBO(237, 92, 66, 1.000),
+            backgroundColor: Config.primaryColor,
             child: const Icon(Icons.add)),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: CircleNavigation());

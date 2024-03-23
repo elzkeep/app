@@ -1,5 +1,8 @@
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/config/config.dart';
+import 'package:zkeep/controllers/data/list_controller.dart';
+import 'package:zkeep/controllers/data/view_controller.dart';
+import 'package:zkeep/controllers/main_controller.dart';
 import 'package:zkeep/models/data.dart';
 import 'package:zkeep/models/dataitem.dart';
 import 'package:zkeep/models/item.dart';
@@ -311,5 +314,19 @@ class WriteController extends GetxController {
     print(items.runtimeType);
 
     await DataitemManager.insert(items.value);
+    if (item.status == ReportStatus.newer) {
+      item.status = ReportStatus.ing;
+      await ReportManager.update(item);
+    }
+    final c = Get.find<ViewController>();
+    c.data[topcategory - 1] = true;
+    if (Get.isRegistered<ListController>()) {
+      final c = Get.find<ListController>();
+      c.reset();
+    }
+    if (Get.isRegistered<MainController>()) {
+      final c = Get.find<MainController>();
+      c.reset();
+    }
   }
 }

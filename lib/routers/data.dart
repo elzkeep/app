@@ -26,8 +26,10 @@ data() {
       binding: BindingsBuilder(() {
         Report item = Report();
         Building building = Building();
-        if (Get.arguments != null) {
+        if (Get.arguments['item'] != null) {
           item = Get.arguments['item'];
+        }
+        if (Get.arguments['building'] != null) {
           building = Get.arguments['building'];
         }
         final id = int.parse(Get.parameters['id']!);

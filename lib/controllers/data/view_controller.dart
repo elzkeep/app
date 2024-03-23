@@ -2,7 +2,9 @@ import 'package:common_control/common_control.dart';
 import 'package:hand_signature/signature.dart';
 import 'package:zkeep/components/cselectbox.dart';
 import 'package:zkeep/controllers/data/list_controller.dart';
+import 'package:zkeep/controllers/main_controller.dart';
 import 'package:zkeep/models/building.dart';
+import 'package:zkeep/models/data.dart';
 import 'package:zkeep/models/facility.dart';
 import 'package:zkeep/models/report.dart';
 
@@ -14,10 +16,6 @@ class ViewController extends GetxController {
   final int id;
   final Report report;
   final Building building;
-
-  // final _building = Building().obs;
-  // Building get building => _building.value;
-  // set building(Building value) => _building.value = value;
 
   final _item = Facility().obs;
   Facility get item => _item.value;
@@ -74,6 +72,40 @@ class ViewController extends GetxController {
   final _water = Facility().obs;
   Facility get water => _water.value;
   set water(Facility value) => _water.value = value;
+
+  final _data = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ].obs;
+  get data => _data;
+  set data(value) => _data.value = value;
+
+  final _otherdata = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ].obs;
+  get otherdata => _otherdata;
+  set otherdata(value) => _otherdata.value = value;
 
   final othername = [
     '발전설비',
@@ -193,6 +225,7 @@ class ViewController extends GetxController {
     await getFuel();
     await getWind();
     await getWater();
+    getData();
   }
 
   getYearMonth() {
@@ -362,8 +395,21 @@ class ViewController extends GetxController {
     return facilitystatusarr.join(', ');
   }
 
+  getData() async {
+    final res = await DataManager.find(params: 'report=$id');
+    for (int i = 0; i < res.length; i++) {
+      data[res[i].topcategory - 1] = true;
+    }
+  }
+
   save() async {
-    report.status = ReportStatus.complete;
+    if (report.status == ReportStatus.ing) {
+      report.status = ReportStatus.check;
+    } else if (report.status == ReportStatus.check) {
+      report.status = ReportStatus.complete;
+      report.sign1 = sign1.toSvg();
+      report.sign2 = sign2.toSvg();
+    }
     report.content = content.text;
     if (image != '') {
       List<String> parts = image.split("/");
@@ -372,13 +418,15 @@ class ViewController extends GetxController {
       report.image = imageName;
     }
 
-    report.sign1 = sign1.toSvg();
-    report.sign2 = sign2.toSvg();
-
     await ReportManager.update(report);
-
-    final c = Get.find<ListController>();
-    c.reset();
+    if (Get.isRegistered<ListController>()) {
+      final c = Get.find<ListController>();
+      c.reset();
+    }
+    if (Get.isRegistered<MainController>()) {
+      final c = Get.find<MainController>();
+      c.reset();
+    }
   }
 
   redraw() {
