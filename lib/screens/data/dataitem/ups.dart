@@ -29,15 +29,36 @@ List<Dataitem> upss(index, order, suborder) {
         ]),
     Dataitem(
         order: order,
+        parent: '제어 및 보호장치',
         data: Data(
-            type: DataType.single,
-            title: '제어 및 보호장치',
+            type: DataType.multi,
+            title: '환기설비 상태 확인',
             category: index,
             order: suborder),
         items: [
-          Item(type: ItemType.status, title: '환기설비 상태 확인'),
-          Item(type: ItemType.status, title: '배전반 계기 및 경보장치 이상유무'),
-          Item(type: ItemType.status, title: '만충 후 추가충전 여부'),
+          Item(type: ItemType.status),
+        ]),
+    Dataitem(
+        order: order,
+        parent: '제어 및 보호장치',
+        data: Data(
+            type: DataType.single,
+            title: '배전반 계기 및 경보장치 이상유무',
+            category: index,
+            order: suborder),
+        items: [
+          Item(type: ItemType.status),
+        ]),
+    Dataitem(
+        order: order,
+        parent: '제어 및 보호장치',
+        data: Data(
+            type: DataType.single,
+            title: '만충 후 추가충전 여부',
+            category: index,
+            order: suborder),
+        items: [
+          Item(type: ItemType.status),
           Item(
               type: ItemType.text,
               title: '충전율 설정값',

@@ -37,16 +37,47 @@ List<Dataitem> fuels(index, order, suborder) {
         ]),
     Dataitem(
         order: order,
+        parent: '인버터 및 제어, 보호장치',
         data: Data(
-            type: DataType.single,
-            title: '인버터 및 제어, 보호장치',
+            type: DataType.multi,
+            title: '인버터 입/출력 운전상태',
             category: index,
             order: suborder),
         items: [
-          Item(type: ItemType.status, title: '인버터 입/출력 운전상태'),
-          Item(type: ItemType.status, title: '경보장치 작동상태'),
-          Item(type: ItemType.status, title: '배선 손상, 접속단자 체결 등 마감처리 상태'),
-          Item(type: ItemType.status, title: '보호계전기 설정값 및 계전기 연동상태'),
+          Item(type: ItemType.status),
+        ]),
+    Dataitem(
+        order: order,
+        parent: '인버터 및 제어, 보호장치',
+        data: Data(
+            type: DataType.single,
+            title: '경보장치 작동상태',
+            category: index,
+            order: suborder),
+        items: [
+          Item(type: ItemType.status),
+        ]),
+    Dataitem(
+        order: order,
+        parent: '인버터 및 제어, 보호장치',
+        data: Data(
+            type: DataType.single,
+            title: '배선 손상, 접속단자 체결 등 마감처리 상태',
+            category: index,
+            order: suborder),
+        items: [
+          Item(type: ItemType.status),
+        ]),
+    Dataitem(
+        order: order,
+        parent: '인버터 및 제어, 보호장치',
+        data: Data(
+            type: DataType.single,
+            title: '보호계전기 설정값 및 계전기 연동상태',
+            category: index,
+            order: suborder),
+        items: [
+          Item(type: ItemType.status),
         ]),
     Dataitem(
         order: order,
