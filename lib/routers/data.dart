@@ -41,17 +41,12 @@ data() {
       page: () => WriteScreen(),
       //middlewares: [AuthService()],
       binding: BindingsBuilder(() {
-        print('hiear');
         final id = int.parse(Get.parameters['id']!);
         final category = int.parse(Get.parameters['category']!);
         Report item = Report();
         if (Get.arguments != null) {
           item = Get.arguments['item'];
-
-          print('gogogogo');
-          print(item);
         }
-        print('category = $category');
         Get.put(WriteController(id, category, item));
       }),
     ),

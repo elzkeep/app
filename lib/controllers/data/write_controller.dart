@@ -43,7 +43,7 @@ class WriteController extends GetxController {
     if (topcategory == 1) {
       return low(index, order, suborder);
     } else if (topcategory == 2) {
-      return high(index, order, suborder);
+      return high(index, order, suborder, item.period);
     } else if (topcategory == 3) {
       return change(index, order, suborder);
     } else if (topcategory == 4) {
@@ -73,7 +73,7 @@ class WriteController extends GetxController {
       final item = lows(0, 0, 0);
       return item.length;
     } else if (topcategory == 2) {
-      final item = highs(0, 0, 0);
+      final item = highs(0, 0, 0, 0);
       return item.length;
     } else if (topcategory == 3) {
       final item = changes(0, 0, 0);
