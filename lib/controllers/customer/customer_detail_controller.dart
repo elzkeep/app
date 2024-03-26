@@ -1,12 +1,25 @@
 import 'package:common_control/common_control.dart';
+import 'package:zkeep/models/building.dart';
+import 'package:zkeep/models/company.dart';
 import 'package:zkeep/models/customer.dart';
 import 'package:zkeep/models/facility.dart';
 
 class CustomerDetailController extends GetxController {
-  CustomerDetailController(this.id, this.item);
+  CustomerDetailController(this.id);
 
   final int id;
-  final Customer item;
+
+  final _item = Customer().obs;
+  Customer get item => _item.value;
+  set item(Customer value) => _item.value = value;
+
+  final _company = Company().obs;
+  Company get company => _company.value;
+  set company(Company value) => _company.value = value;
+
+  final _building = Building().obs;
+  Building get building => _building.value;
+  set building(Building value) => _building.value = value;
 
   final _facility = Facility().obs;
   Facility get facility => _facility.value;
@@ -15,7 +28,15 @@ class CustomerDetailController extends GetxController {
   @override
   onInit() async {
     super.onInit();
-    getFacility(item.building.id);
+    await getItem();
+    await getFacility(item.building.id);
+  }
+
+  getItem() async {
+    final res = await CustomerManager.get(id);
+    item = res;
+    company = res.buildingcompany;
+    building = res.building;
   }
 
   getFacility(int building) async {

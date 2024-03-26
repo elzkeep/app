@@ -4,22 +4,7 @@ import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/components/sub_title.dart';
 import 'package:zkeep/config/config.dart';
 import 'package:zkeep/controllers/customer/customer_detail_controller.dart';
-import 'package:zkeep/models/customer.dart';
-
-extension CustomerTypeExtension on CustomerType {
-  String get name {
-    switch (this) {
-      case CustomerType.none:
-        return '';
-      case CustomerType.direct:
-        return '직영';
-      case CustomerType.outsourcing:
-        return '위탁';
-      default:
-        return '';
-    }
-  }
-}
+import 'package:zkeep/models/customertypeextension.dart';
 
 class CustomerDetailScreen extends CWidget {
   CustomerDetailScreen({super.key});
@@ -80,9 +65,8 @@ class CustomerDetailScreen extends CWidget {
               lineColor: Colors.black12,
               gap: 10,
               children: [
-                entry('사업자번호:', c.item.buildingcompany.companyno),
-                entry2('고객명:', c.item.buildingcompany.name, '대표자:',
-                    c.item.buildingcompany.ceo),
+                entry('사업자번호:', c.company.companyno),
+                entry2('고객명:', c.company.name, '대표자:', c.company.ceo),
               ]))
     ]);
   }
@@ -101,10 +85,9 @@ class CustomerDetailScreen extends CWidget {
               lineColor: Colors.black12,
               gap: 10,
               children: [
-                entry('시설명:', c.item.building.name),
-                entry('사업자번호:', c.item.building.conpanyno),
-                entry('주소:',
-                    '${c.item.building.address} ${c.item.building.addressetc}'),
+                entry('시설명:', c.building.name),
+                entry('사업자번호:', c.building.conpanyno),
+                entry('주소:', '${c.building.address} ${c.building.addressetc}'),
               ]))
     ]);
   }
@@ -128,7 +111,7 @@ class CustomerDetailScreen extends CWidget {
                 entry2('점검일:', '${c.item.checkdate}일', '점검예정일:',
                     '${c.item.checkdate}일'),
                 entry2('수전 용량:', '${c.facility.value2}kW', '관리점수:',
-                    '${c.item.building.score}'),
+                    '${c.building.score}'),
                 entry2('담당자명:', c.item.managername, '연락처:', c.item.managertel),
                 entry('이메일:', c.item.manageremail),
               ]))

@@ -5,10 +5,13 @@ import 'package:zkeep/models/facility.dart';
 import 'package:zkeep/models/report.dart';
 
 class CustomerViewController extends GetxController {
-  CustomerViewController(this.id, this.item);
+  CustomerViewController(this.id);
 
   final int id;
-  final Customer item;
+
+  final _item = Customer().obs;
+  Customer get item => _item.value;
+  set item(Customer value) => _item.value = value;
 
   final _items = [].obs;
   get items => _items;
@@ -50,12 +53,19 @@ class CustomerViewController extends GetxController {
   @override
   onInit() async {
     super.onInit();
-    find(item.building.id);
-    getFacility();
+    await getItem();
+    await find();
+    await getFacility();
   }
 
-  find(int building) async {
-    final ret = await ReportManager.find(params: 'building=$building');
+  getItem() async {
+    final res = await CustomerManager.get(id);
+    item = res;
+  }
+
+  find() async {
+    final ret =
+        await ReportManager.find(params: 'building=${item.building.id}');
 
     items = ret;
   }

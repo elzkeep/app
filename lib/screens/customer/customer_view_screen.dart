@@ -1,6 +1,5 @@
 import 'package:common_control/common_control.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:zkeep/components/customer_widget.dart';
 import 'package:zkeep/components/cround.dart';
 import 'package:zkeep/components/dround.dart';
 import 'package:zkeep/components/layout.dart';
@@ -23,7 +22,28 @@ class CustomerViewScreen extends CWidget {
 
   body() {
     return Obx(() => CScroll(gap: 20, children: [
-          CustomerWidget(c.item),
+          CContainer(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: CRow(children: [
+              Expanded(
+                child: CColumn(gap: 10, children: [
+                  CText(
+                    c.item.building.name,
+                    textStyle: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ]),
+              ),
+              CRow(
+                gap: 10,
+                children: [
+                  CSvg('assets/imgs/corner-up-right.svg'),
+                  CSvg('assets/imgs/call.svg'),
+                  CSvg('assets/imgs/message.svg'),
+                ],
+              )
+            ]),
+          ),
           info(),
           CButton(
               text: '더보기',
