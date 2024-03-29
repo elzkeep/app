@@ -110,7 +110,7 @@ class MainScreen extends CWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         gap: 10,
         children: [
-          box('고객현황', c.newcustomerTotal, 60),
+          box('고객현황', c.newcustomerTotal, c.customerTotal),
           box('점검진행률', c.comReportTotal, c.reportTotal),
         ]);
   }
