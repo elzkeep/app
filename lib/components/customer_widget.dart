@@ -24,10 +24,10 @@ class CustomerWidget extends CWidget {
         Expanded(
           child: CColumn(gap: 10, children: [
             CText(item.building.name),
-            CText(
-                '계약 종료일: ${DateFormat('yyyy.MM.dd').format(DateTime.parse(item.contractenddate))}',
-                textStyle:
-                    const TextStyle(color: Colors.black54, fontSize: 12)),
+            // CText(
+            //     '계약 종료일: ${DateFormat('yyyy.MM.dd').format(DateTime.parse(item.contractenddate))}',
+            //     textStyle:
+            //         const TextStyle(color: Colors.black54, fontSize: 12)),
           ]),
         ),
         Expanded(
