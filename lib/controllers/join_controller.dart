@@ -78,12 +78,12 @@ class JoinController extends GetxController {
       return false;
     }
 
-    if ((await UserManager.find(params: 'name=$name')).isNotEmpty) {
-      nameError = '이미 등록된 닉네임입니다';
-      return false;
-    }
+    // if ((await UserManager.find(params: 'name=$name')).isNotEmpty) {
+    //   nameError = '이미 등록된 닉네임입니다';
+    //   return false;
+    // }
 
-    if (passwd == passwdtwo) {
+    if (passwd != passwdtwo) {
       passwdtwoError = '비밀번호가 맞지 않습니다.';
       return false;
     }
