@@ -1,5 +1,6 @@
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/models/building.dart';
+import 'package:zkeep/models/company.dart';
 
 
 enum BillingStatus {
@@ -15,7 +16,9 @@ class Billing {
   BillingStatus status;
   BillingGiro giro;
   String billdate;
-  int company;
+  String month;
+  int period;
+  Company company = Company();
   Building building = Building();
   String date;
   bool checked;
@@ -27,13 +30,18 @@ class Billing {
           this.status = BillingStatus.none,       
           this.giro = BillingGiro.none,       
           this.billdate = '',       
-          this.company = 0,       
+          this.month = '',       
+          this.period = 0,       
+          Company? company,       
           Building? building,       
           this.date = '',
           this.extra = const{},
           this.checked = false}) {
           if (building != null) {
               this.building = building;
+          }
+if (company != null) {
+              this.company = company;
           }
     }
   
@@ -45,14 +53,16 @@ class Billing {
         status: BillingStatus.values[json['status'] as int],
         giro: BillingGiro.values[json['giro'] as int],
         billdate: json['billdate'] as String,
-        company: json['company'] as int,
+        month: json['month'] as String,
+        period: json['period'] as int,
+        company: Company.fromJson(json['extra']['company']),
         building: Building.fromJson(json['extra']['building']),
         date: json['date'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
     );
   }
 
   Map<String, dynamic> toJson() =>
-      { 'id': id,'price': price,'status': status.index,'giro': giro.index,'billdate': billdate,'company': company,'building': building.id,'date': date };
+      { 'id': id,'price': price,'status': status.index,'giro': giro.index,'billdate': billdate,'month': month,'period': period,'company': company.id,'building': building.id,'date': date };
 
   Billing clone() {
     return Billing.fromJson(toJson());

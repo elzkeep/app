@@ -1,12 +1,20 @@
 import 'package:common_control/common_control.dart';
+import 'package:zkeep/models/licensecategory.dart';
+import 'package:zkeep/models/licenselevel.dart';
 
 
   
 class License { 
   int id;
   int user;
-  int licensecategory;
-  int licenselevel;
+  String number;
+  String takingdate;
+  String educationdate;
+  String educationinstitution;
+  String specialeducationdate;
+  String specialeducationinstitution;
+  Licensecategory licensecategory = Licensecategory();
+  Licenselevel licenselevel = Licenselevel();
   String date;
   bool checked;
   Map<String, dynamic> extra;  
@@ -14,25 +22,44 @@ class License {
   License({        
           this.id = 0,       
           this.user = 0,       
-          this.licensecategory = 0,       
-          this.licenselevel = 0,       
+          this.number = '',       
+          this.takingdate = '',       
+          this.educationdate = '',       
+          this.educationinstitution = '',       
+          this.specialeducationdate = '',       
+          this.specialeducationinstitution = '',       
+          Licensecategory? licensecategory,       
+          Licenselevel? licenselevel,       
           this.date = '',
           this.extra = const{},
-          this.checked = false}) ;
+          this.checked = false}) {
+          if (licensecategory != null) {
+              this.licensecategory = licensecategory;
+          }
+if (licenselevel != null) {
+              this.licenselevel = licenselevel;
+          }
+    }
   
 
   factory License.fromJson(Map<String, dynamic> json) {
     return License(
         id: json['id'] as int,
         user: json['user'] as int,
-        licensecategory: json['licensecategory'] as int,
-        licenselevel: json['licenselevel'] as int,
+        number: json['number'] as String,
+        takingdate: json['takingdate'] as String,
+        educationdate: json['educationdate'] as String,
+        educationinstitution: json['educationinstitution'] as String,
+        specialeducationdate: json['specialeducationdate'] as String,
+        specialeducationinstitution: json['specialeducationinstitution'] as String,
+        licensecategory: Licensecategory.fromJson(json['extra']['licensecategory']),
+        licenselevel: Licenselevel.fromJson(json['extra']['licenselevel']),
         date: json['date'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
     );
   }
 
   Map<String, dynamic> toJson() =>
-      { 'id': id,'user': user,'licensecategory': licensecategory,'licenselevel': licenselevel,'date': date };
+      { 'id': id,'user': user,'number': number,'takingdate': takingdate,'educationdate': educationdate,'educationinstitution': educationinstitution,'specialeducationdate': specialeducationdate,'specialeducationinstitution': specialeducationinstitution,'licensecategory': licensecategory.id,'licenselevel': licenselevel.id,'date': date };
 
   License clone() {
     return License.fromJson(toJson());

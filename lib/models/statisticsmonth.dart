@@ -8,7 +8,7 @@ class Statisticsmonth {
   String duration;
   int total;
   int totalprice;
-  String billdate;
+  String date;
   bool checked;
   Map<String, dynamic> extra;  
 
@@ -18,7 +18,7 @@ class Statisticsmonth {
           this.duration = '',       
           this.total = 0,       
           this.totalprice = 0,       
-          this.billdate = '',
+          this.date = '',
           this.extra = const{},
           this.checked = false}) ;
   
@@ -30,12 +30,12 @@ class Statisticsmonth {
         duration: json['duration'] as String,
         total: json['total'] as int,
         totalprice: json['totalprice'] as int,
-        billdate: json['billdate'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
+        date: json['date'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
     );
   }
 
   Map<String, dynamic> toJson() =>
-      { 'id': id,'year': year,'duration': duration,'total': total,'totalprice': totalprice,'billdate': billdate };
+      { 'id': id,'year': year,'duration': duration,'total': total,'totalprice': totalprice,'date': date };
 
   Statisticsmonth clone() {
     return Statisticsmonth.fromJson(toJson());

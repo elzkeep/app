@@ -7,6 +7,9 @@ enum UserLevel {
 enum UserStatus {
     none, use, notuse
 }
+enum UserApproval {
+    none, wait, reject, complete
+}
   
 class User { 
   int id;
@@ -15,6 +18,7 @@ class User {
   String name;
   String email;
   String tel;
+  String zip;
   String address;
   String addressetc;
   String joindate;
@@ -22,6 +26,12 @@ class User {
   int careermonth;
   UserLevel level;
   double score;
+  UserApproval approval;
+  String educationdate;
+  String educationinstitution;
+  String specialeducationdate;
+  String specialeducationinstitution;
+  String rejectreason;
   UserStatus status;
   int company;
   int department;
@@ -36,6 +46,7 @@ class User {
           this.name = '',       
           this.email = '',       
           this.tel = '',       
+          this.zip = '',       
           this.address = '',       
           this.addressetc = '',       
           this.joindate = '',       
@@ -43,6 +54,12 @@ class User {
           this.careermonth = 0,       
           this.level = UserLevel.none,       
           this.score = 0.0,       
+          this.approval = UserApproval.none,       
+          this.educationdate = '',       
+          this.educationinstitution = '',       
+          this.specialeducationdate = '',       
+          this.specialeducationinstitution = '',       
+          this.rejectreason = '',       
           this.status = UserStatus.none,       
           this.company = 0,       
           this.department = 0,       
@@ -59,6 +76,7 @@ class User {
         name: json['name'] as String,
         email: json['email'] as String,
         tel: json['tel'] as String,
+        zip: json['zip'] as String,
         address: json['address'] as String,
         addressetc: json['addressetc'] as String,
         joindate: json['joindate'] as String,
@@ -66,6 +84,12 @@ class User {
         careermonth: json['careermonth'] as int,
         level: UserLevel.values[json['level'] as int],
         score: json['score'] as double,
+        approval: UserApproval.values[json['approval'] as int],
+        educationdate: json['educationdate'] as String,
+        educationinstitution: json['educationinstitution'] as String,
+        specialeducationdate: json['specialeducationdate'] as String,
+        specialeducationinstitution: json['specialeducationinstitution'] as String,
+        rejectreason: json['rejectreason'] as String,
         status: UserStatus.values[json['status'] as int],
         company: json['company'] as int,
         department: json['department'] as int,
@@ -74,7 +98,7 @@ class User {
   }
 
   Map<String, dynamic> toJson() =>
-      { 'id': id,'loginid': loginid,'passwd': passwd,'name': name,'email': email,'tel': tel,'address': address,'addressetc': addressetc,'joindate': joindate,'careeryear': careeryear,'careermonth': careermonth,'level': level.index,'score': score,'status': status.index,'company': company,'department': department,'date': date };
+      { 'id': id,'loginid': loginid,'passwd': passwd,'name': name,'email': email,'tel': tel,'zip': zip,'address': address,'addressetc': addressetc,'joindate': joindate,'careeryear': careeryear,'careermonth': careermonth,'level': level.index,'score': score,'approval': approval.index,'educationdate': educationdate,'educationinstitution': educationinstitution,'specialeducationdate': specialeducationdate,'specialeducationinstitution': specialeducationinstitution,'rejectreason': rejectreason,'status': status.index,'company': company,'department': department,'date': date };
 
   User clone() {
     return User.fromJson(toJson());

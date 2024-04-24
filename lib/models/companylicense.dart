@@ -4,6 +4,12 @@ import 'package:common_control/common_control.dart';
   
 class Companylicense { 
   int id;
+  String number;
+  String takingdate;
+  String educationdate;
+  String educationinstitution;
+  String specialeducationdate;
+  String specialeducationinstitution;
   int company;
   int licensecategory;
   int licenselevel;
@@ -13,6 +19,12 @@ class Companylicense {
 
   Companylicense({        
           this.id = 0,       
+          this.number = '',       
+          this.takingdate = '',       
+          this.educationdate = '',       
+          this.educationinstitution = '',       
+          this.specialeducationdate = '',       
+          this.specialeducationinstitution = '',       
           this.company = 0,       
           this.licensecategory = 0,       
           this.licenselevel = 0,       
@@ -24,6 +36,12 @@ class Companylicense {
   factory Companylicense.fromJson(Map<String, dynamic> json) {
     return Companylicense(
         id: json['id'] as int,
+        number: json['number'] as String,
+        takingdate: json['takingdate'] as String,
+        educationdate: json['educationdate'] as String,
+        educationinstitution: json['educationinstitution'] as String,
+        specialeducationdate: json['specialeducationdate'] as String,
+        specialeducationinstitution: json['specialeducationinstitution'] as String,
         company: json['company'] as int,
         licensecategory: json['licensecategory'] as int,
         licenselevel: json['licenselevel'] as int,
@@ -32,7 +50,7 @@ class Companylicense {
   }
 
   Map<String, dynamic> toJson() =>
-      { 'id': id,'company': company,'licensecategory': licensecategory,'licenselevel': licenselevel,'date': date };
+      { 'id': id,'number': number,'takingdate': takingdate,'educationdate': educationdate,'educationinstitution': educationinstitution,'specialeducationdate': specialeducationdate,'specialeducationinstitution': specialeducationinstitution,'company': company,'licensecategory': licensecategory,'licenselevel': licenselevel,'date': date };
 
   Companylicense clone() {
     return Companylicense.fromJson(toJson());

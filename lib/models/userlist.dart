@@ -16,6 +16,12 @@ class Userlist {
   int careermonth;
   int level;
   double score;
+  int approval;
+  String educationdate;
+  String educationinstitution;
+  String specialeducationdate;
+  String specialeducationinstitution;
+  String rejectreason;
   int status;
   int company;
   int department;
@@ -38,6 +44,12 @@ class Userlist {
           this.careermonth = 0,       
           this.level = 0,       
           this.score = 0.0,       
+          this.approval = 0,       
+          this.educationdate = '',       
+          this.educationinstitution = '',       
+          this.specialeducationdate = '',       
+          this.specialeducationinstitution = '',       
+          this.rejectreason = '',       
           this.status = 0,       
           this.company = 0,       
           this.department = 0,       
@@ -62,6 +74,12 @@ class Userlist {
         careermonth: json['careermonth'] as int,
         level: json['level'] as int,
         score: json['score'] as double,
+        approval: json['approval'] as int,
+        educationdate: json['educationdate'] as String,
+        educationinstitution: json['educationinstitution'] as String,
+        specialeducationdate: json['specialeducationdate'] as String,
+        specialeducationinstitution: json['specialeducationinstitution'] as String,
+        rejectreason: json['rejectreason'] as String,
         status: json['status'] as int,
         company: json['company'] as int,
         department: json['department'] as int,
@@ -71,7 +89,7 @@ class Userlist {
   }
 
   Map<String, dynamic> toJson() =>
-      { 'id': id,'loginid': loginid,'passwd': passwd,'name': name,'email': email,'tel': tel,'address': address,'addressetc': addressetc,'joindate': joindate,'careeryear': careeryear,'careermonth': careermonth,'level': level,'score': score,'status': status,'company': company,'department': department,'date': date,'totalscore': totalscore };
+      { 'id': id,'loginid': loginid,'passwd': passwd,'name': name,'email': email,'tel': tel,'address': address,'addressetc': addressetc,'joindate': joindate,'careeryear': careeryear,'careermonth': careermonth,'level': level,'score': score,'approval': approval,'educationdate': educationdate,'educationinstitution': educationinstitution,'specialeducationdate': specialeducationdate,'specialeducationinstitution': specialeducationinstitution,'rejectreason': rejectreason,'status': status,'company': company,'department': department,'date': date,'totalscore': totalscore };
 
   Userlist clone() {
     return Userlist.fromJson(toJson());
