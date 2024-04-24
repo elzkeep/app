@@ -35,7 +35,7 @@ class CustomerDetailController extends GetxController {
   getItem() async {
     final res = await CustomerManager.get(id);
     item = res;
-    company = res.buildingcompany;
+    company = res.company;
     building = res.building;
   }
 

@@ -55,14 +55,14 @@ class CustomerUpdateController extends GetxController {
 
     await getItem();
 
-    companycompanyno.text = item.buildingcompany.companyno;
-    companyname.text = item.buildingcompany.name;
-    companyceo.text = item.buildingcompany.ceo;
-    companyaddress.text = item.buildingcompany.address;
-    companyaddressetc.text = item.buildingcompany.addressetc;
+    companycompanyno.text = item.company.companyno;
+    companyname.text = item.company.name;
+    companyceo.text = item.company.ceo;
+    companyaddress.text = item.company.address;
+    companyaddressetc.text = item.company.addressetc;
 
     buildingname.text = item.building.name;
-    buildingcompanyno.text = item.building.conpanyno;
+    buildingcompanyno.text = item.building.companyno;
     buildingceo.text = item.building.ceo;
     buildingaddress.text = item.building.address;
     buildingaddressetc.text = item.building.addressetc;
@@ -90,7 +90,7 @@ class CustomerUpdateController extends GetxController {
   }
 
   companySave() async {
-    final company = item.buildingcompany
+    final company = item.company
       ..companyno = companycompanyno.text
       ..name = companyname.text
       ..ceo = companyceo.text
@@ -107,7 +107,7 @@ class CustomerUpdateController extends GetxController {
 
   buildingSave() async {
     final building = item.building
-      ..conpanyno = buildingcompanyno.text
+      ..companyno = buildingcompanyno.text
       ..name = buildingname.text
       ..ceo = buildingceo.text
       ..address = buildingaddress.text

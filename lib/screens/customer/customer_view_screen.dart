@@ -73,7 +73,7 @@ class CustomerViewScreen extends CWidget {
               lineColor: Colors.black12,
               gap: 20,
               children: [
-                CText('고객명: ${c.item.buildingcompany.name}'),
+                CText('고객명: ${c.item.company.name}'),
                 CRow(gap: 10, children: [
                   CText(
                     '담당자 명: ${c.item.managername}',

@@ -2,12 +2,9 @@ import 'package:common_control/common_control.dart';
 import 'package:zkeep/models/building.dart';
 import 'package:zkeep/models/company.dart';
 
+enum CustomerType { none, direct, outsourcing }
 
-enum CustomerType {
-    none, direct, outsourcing
-}
-  
-class Customer { 
+class Customer {
   int id;
   CustomerType type;
   int checkdate;
@@ -38,48 +35,47 @@ class Customer {
   Building building = Building();
   String date;
   bool checked;
-  Map<String, dynamic> extra;  
+  Map<String, dynamic> extra;
 
-  Customer({        
-          this.id = 0,       
-          this.type = CustomerType.none,       
-          this.checkdate = 0,       
-          this.managername = '',       
-          this.managertel = '',       
-          this.manageremail = '',       
-          this.contractstartdate = '',       
-          this.contractenddate = '',       
-          this.contractprice = 0,       
-          this.contractvat = 0,       
-          this.contractday = 0,       
-          this.billingdate = 0,       
-          this.billingtype = 0,       
-          this.billingname = '',       
-          this.billingtel = '',       
-          this.billingemail = '',       
-          this.address = '',       
-          this.addressetc = '',       
-          this.collectmonth = 0,       
-          this.collectday = 0,       
-          this.manager = '',       
-          this.tel = '',       
-          this.fax = '',       
-          this.status = 0,       
-          this.salesuser = 0,       
-          this.user = 0,       
-          Company? company,       
-          Building? building,       
-          this.date = '',
-          this.extra = const{},
-          this.checked = false}) {
-          if (building != null) {
-              this.building = building;
-          }
-if (company != null) {
-              this.company = company;
-          }
+  Customer(
+      {this.id = 0,
+      this.type = CustomerType.none,
+      this.checkdate = 0,
+      this.managername = '',
+      this.managertel = '',
+      this.manageremail = '',
+      this.contractstartdate = '',
+      this.contractenddate = '',
+      this.contractprice = 0,
+      this.contractvat = 0,
+      this.contractday = 0,
+      this.billingdate = 0,
+      this.billingtype = 0,
+      this.billingname = '',
+      this.billingtel = '',
+      this.billingemail = '',
+      this.address = '',
+      this.addressetc = '',
+      this.collectmonth = 0,
+      this.collectday = 0,
+      this.manager = '',
+      this.tel = '',
+      this.fax = '',
+      this.status = 0,
+      this.salesuser = 0,
+      this.user = 0,
+      Company? company,
+      Building? building,
+      this.date = '',
+      this.extra = const {},
+      this.checked = false}) {
+    if (building != null) {
+      this.building = building;
     }
-  
+    if (company != null) {
+      this.company = company;
+    }
+  }
 
   factory Customer.fromJson(Map<String, dynamic> json) {
     return Customer(
@@ -111,12 +107,43 @@ if (company != null) {
         user: json['user'] as int,
         company: Company.fromJson(json['extra']['company']),
         building: Building.fromJson(json['extra']['building']),
-        date: json['date'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
-    );
+        date: json['date'] as String,
+        extra: json['extra'] == null
+            ? <String, dynamic>{}
+            : json['extra'] as Map<String, dynamic>);
   }
 
-  Map<String, dynamic> toJson() =>
-      { 'id': id,'type': type.index,'checkdate': checkdate,'managername': managername,'managertel': managertel,'manageremail': manageremail,'contractstartdate': contractstartdate,'contractenddate': contractenddate,'contractprice': contractprice,'contractvat': contractvat,'contractday': contractday,'billingdate': billingdate,'billingtype': billingtype,'billingname': billingname,'billingtel': billingtel,'billingemail': billingemail,'address': address,'addressetc': addressetc,'collectmonth': collectmonth,'collectday': collectday,'manager': manager,'tel': tel,'fax': fax,'status': status,'salesuser': salesuser,'user': user,'company': company.id,'building': building.id,'date': date };
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'type': type.index,
+        'checkdate': checkdate,
+        'managername': managername,
+        'managertel': managertel,
+        'manageremail': manageremail,
+        'contractstartdate': contractstartdate,
+        'contractenddate': contractenddate,
+        'contractprice': contractprice,
+        'contractvat': contractvat,
+        'contractday': contractday,
+        'billingdate': billingdate,
+        'billingtype': billingtype,
+        'billingname': billingname,
+        'billingtel': billingtel,
+        'billingemail': billingemail,
+        'address': address,
+        'addressetc': addressetc,
+        'collectmonth': collectmonth,
+        'collectday': collectday,
+        'manager': manager,
+        'tel': tel,
+        'fax': fax,
+        'status': status,
+        'salesuser': salesuser,
+        'user': user,
+        'company': company.id,
+        'building': building.id,
+        'date': date
+      };
 
   Customer clone() {
     return Customer.fromJson(toJson());
@@ -124,7 +151,7 @@ if (company != null) {
 }
 
 class CustomerManager {
-  static const baseUrl = '/api/customer';  
+  static const baseUrl = '/api/customer';
 
   static Future<List<Customer>> find(
       {int page = 0, int pagesize = 20, String? params}) async {

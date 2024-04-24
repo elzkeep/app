@@ -86,7 +86,7 @@ class CustomerDetailScreen extends CWidget {
               gap: 10,
               children: [
                 entry('시설명:', c.building.name),
-                entry('사업자번호:', c.building.conpanyno),
+                entry('사업자번호:', c.building.companyno),
                 entry('주소:', '${c.building.address} ${c.building.addressetc}'),
               ]))
     ]);
