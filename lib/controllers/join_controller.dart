@@ -15,8 +15,7 @@ class JoinController extends GetxController {
   final _building = ''.obs;
   final _certificate = 0.obs;
   final _zip = ''.obs;
-  // final _address = ''.obs;
-  final address = TextEditingController();
+  final _address = ''.obs;
   final _addressetc = ''.obs;
 
   final _loginidError = ''.obs;
@@ -60,8 +59,8 @@ class JoinController extends GetxController {
   String get zip => _zip.value;
   set zip(String value) => _zip.value = value;
 
-  // String get address => _address.value;
-  // set address(String value) => _address.value = value;
+  String get address => _address.value;
+  set address(String value) => _address.value = value;
 
   String get addressetc => _addressetc.value;
   set addressetc(String value) => _addressetc.value = value;
@@ -111,7 +110,7 @@ class JoinController extends GetxController {
         passwd: passwd,
         tel: tel,
         zip: zip,
-        address: address.text,
+        address: address,
         addressetc: addressetc);
     await UserManager.insert(user);
 
@@ -138,7 +137,7 @@ class JoinController extends GetxController {
       ceo: name,
       tel: tel,
       email: email,
-      address: address.text,
+      address: address,
       addressetc: addressetc,
       type: CompanyType.work,
     );
@@ -155,7 +154,7 @@ class JoinController extends GetxController {
         passwd: passwd,
         tel: tel,
         zip: zip,
-        address: address.text,
+        address: address,
         addressetc: addressetc,
         company: res);
     await UserManager.insert(user);

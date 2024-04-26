@@ -60,6 +60,8 @@ class MypageController extends GetxController {
   get score => _score.value;
   set score(value) => _score.value = value;
 
+  final userId = LocalStorage('login.json').getItem('user')['id'];
+
   @override
   onInit() async {
     super.onInit();
@@ -108,7 +110,7 @@ class MypageController extends GetxController {
   }
 
   getCustomerCount() async {
-    final res = await CustomerManager.find();
+    final res = await CustomerManager.find(params: 'user=$userId');
 
     if (res.isNotEmpty) {
       customerTotal = res.length;

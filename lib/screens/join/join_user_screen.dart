@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:remedi_kopo/remedi_kopo.dart';
+import 'package:zkeep/components/cformtext.dart';
+import 'package:zkeep/components/cformtitle.dart';
 import 'package:zkeep/controllers/join_controller.dart';
 import 'package:common_control/common_control.dart';
 
@@ -23,7 +25,7 @@ class JoinUserScreen extends CWidget {
             icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
             onPressed: () {
               Get.back();
-              c.address.text = '';
+              c.address = '';
             }),
       ),
       body: Obx(
@@ -37,7 +39,7 @@ class JoinUserScreen extends CWidget {
                     c.name.isEmpty ||
                     c.tel.isEmpty ||
                     (c.passwd != c.passwdtwo) ||
-                    c.address.text.isEmpty ||
+                    c.address.isEmpty ||
                     c.addressetc.isEmpty,
                 onPressed: () async {
                   // var res = await c.join();
@@ -74,14 +76,8 @@ class JoinUserScreen extends CWidget {
                   title: '휴대폰번호',
                   onChanged: (value) => c.tel = value,
                 ),
-                InkWell(
-                  onTap: () => {searchAddress()},
-                  child: CFormfield(
-                    title: '주소',
-                    controller: c.address,
-                    readOnly: true,
-                  ),
-                ),
+                CFormtitle(title: '주소'),
+                CFormtext(c.address, onTap: () => searchAddress()),
                 CFormfield(
                   onChanged: (value) => c.addressetc = value,
                 ),
@@ -95,6 +91,6 @@ class JoinUserScreen extends CWidget {
     KopoModel? model = await Get.to(() => RemediKopo());
 
     c.zip = model?.zonecode ?? '';
-    c.address.text = model?.address ?? '';
+    c.address = model?.address ?? '';
   }
 }
