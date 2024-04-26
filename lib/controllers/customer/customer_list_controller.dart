@@ -1,9 +1,13 @@
 import 'package:common_control/common_control.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:zkeep/models/building.dart';
 import 'package:zkeep/models/customer.dart';
 
 class CustomerListController extends InfiniteController {
-  CustomerListController() : super(reader: CustomerManager.find, params: '');
+  CustomerListController()
+      : super(reader: CustomerManager.find, params: 'user=$userId');
+
+  static final userId = LocalStorage('login.json').getItem('user')['id'];
 
   final _search = 1.obs;
   int get search => _search.value;
@@ -25,7 +29,7 @@ class CustomerListController extends InfiniteController {
   }
 
   getCustomerCount() async {
-    final res = await CustomerManager.find();
+    final res = await CustomerManager.find(params: 'user=$userId');
 
     if (res.isNotEmpty) {
       customerTotal = res.length;
