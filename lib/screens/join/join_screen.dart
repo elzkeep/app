@@ -36,7 +36,7 @@ class JoinScreen extends CWidget {
                 text: c.form ? '건물사용자' : '개인회원',
                 onPressed: () async {
                   if (c.form) {
-                    Get.toNamed('/join/buisness/user');
+                    // Get.toNamed('/join/buisness/user');
                   } else {
                     Get.toNamed('/join/user');
                   }

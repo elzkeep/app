@@ -118,8 +118,10 @@ class MypageScreen extends CWidget {
                     children: [
                       const Icon(CupertinoIcons.building_2_fill,
                           color: Colors.black54),
-                      CText('(주)마이스터'),
-                      CText('동부팀'),
+                      // CText('(주)마이스터'),
+                      // CText('동부팀'),
+                      CText(c.company.name),
+                      CText(c.department.name),
                     ]),
                 CBothSide(
                     gap: 10,
@@ -129,20 +131,14 @@ class MypageScreen extends CWidget {
                       const Icon(CupertinoIcons.person_crop_rectangle,
                           color: Colors.black54),
                       const SizedBox(width: 10),
-                      DRound(
-                          backgroundColor: Colors.black54,
-                          child: CText(
-                            '전기기사(고급)',
-                            textStyle: const TextStyle(
-                                fontSize: 11, color: Colors.white),
-                          )),
-                      DRound(
-                          backgroundColor: Colors.black54,
-                          child: CText(
-                            '소방전기기사(고급)',
-                            textStyle: const TextStyle(
-                                fontSize: 11, color: Colors.white),
-                          )),
+                      for (var li in c.license)
+                        DRound(
+                            backgroundColor: Colors.black54,
+                            child: CText(
+                              '${li.extra['licensecategory']['name']}(${li.extra['licenselevel']['name']})',
+                              textStyle: const TextStyle(
+                                  fontSize: 11, color: Colors.white),
+                            )),
                     ]),
               ]))
     ]);
@@ -150,8 +146,7 @@ class MypageScreen extends CWidget {
 
   customer() {
     return CColumn(gap: 10, children: [
-      SubTitle('고객관리',
-          more: '더보기', onMore: () => Get.toNamed('/mypage/customer')),
+      SubTitle('고객관리', more: '더보기', onMore: () => Get.offAllNamed('/customer')),
       CustomerBox(total: c.customerTotal, score: c.score)
     ]);
   }

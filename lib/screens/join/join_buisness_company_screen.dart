@@ -1,3 +1,4 @@
+import 'package:remedi_kopo/remedi_kopo.dart';
 import 'package:zkeep/controllers/join_controller.dart';
 import 'package:common_control/common_control.dart';
 
@@ -20,36 +21,33 @@ class JoinBuisnessCompanyScreen extends CWidget {
             icon: const Icon(Icons.arrow_back_ios, color: Colors.black),
             onPressed: () {
               Get.back();
+              c.address.text = '';
             }),
       ),
-
-      /*action: "assets/imgs/icon_x_mark.svg",*/
       body: Obx(
         () => CFixedBottom(
             bottom: CButton(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
                 text: '회원 가입',
-                disabled: c.loginid.isEmpty ||
+                disabled: c.email.isEmpty ||
                     c.passwd.isEmpty ||
                     c.passwdtwo.isEmpty ||
+                    c.name.isEmpty ||
                     c.businessnum.isEmpty ||
-                    c.phonenum.isEmpty,
+                    c.tel.isEmpty ||
+                    (c.passwd != c.passwdtwo) ||
+                    c.addressetc.isEmpty,
                 onPressed: () async {
-                  var res = await c.join();
-                  if (res != true) {
-                    return;
-                  }
-
-                  Get.offAllNamed('/join/buisness/company/detail');
+                  Get.toNamed('/join/buisness/company/detail');
                 },
                 size: CButtonSize.large,
-                margin: const EdgeInsets.only(top: 24, bottom: 0)),
+                margin: const EdgeInsets.only(top: 5, bottom: 0)),
             children: [
               CForm(padding: const EdgeInsets.all(20), children: [
                 CFormfield(
-                  title: '아이디',
-                  onChanged: (value) => c.loginid = value,
-                  errText: c.loginidError,
+                  title: '이메일',
+                  onChanged: (value) => c.email = value,
+                  errText: c.emailError,
                 ),
                 CFormfield(
                   title: '비밀번호',
@@ -62,17 +60,40 @@ class JoinBuisnessCompanyScreen extends CWidget {
                   errText: c.passwdtwoError,
                 ),
                 CFormfield(
+                  title: '이름',
+                  onChanged: (value) => c.name = value,
+                  errText: c.nameError,
+                ),
+                CFormfield(
                   title: '사업자번호',
                   onChanged: (value) => c.businessnum = value,
                   errText: c.businessnumError,
                 ),
                 CFormfield(
                   title: '휴대폰번호',
-                  onChanged: (value) => c.phonenum = value,
+                  onChanged: (value) => c.tel = value,
+                ),
+                InkWell(
+                  onTap: () => {searchAddress()},
+                  child: CFormfield(
+                    title: '주소',
+                    controller: c.address,
+                    readOnly: true,
+                  ),
+                ),
+                CFormfield(
+                  onChanged: (value) => c.addressetc = value,
                 ),
               ]),
             ]),
       ),
     );
+  }
+
+  void searchAddress() async {
+    KopoModel? model = await Get.to(() => RemediKopo());
+
+    c.zip = model?.zonecode ?? '';
+    c.address.text = model?.address ?? '';
   }
 }

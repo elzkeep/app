@@ -40,4 +40,26 @@ class Config {
 
     return 'web';
   }
+
+  static String formatPhoneNumber(String number) {
+    String digitsOnly = number.replaceAll(RegExp(r'\D'), '');
+
+    String formattedNumber = digitsOnly.replaceFirstMapped(
+      RegExp(r'^(\d{3})(\d{4})(\d{4})$'),
+      (match) => '${match[1]}-${match[2]}-${match[3]}',
+    );
+
+    return formattedNumber;
+  }
+
+  static String formatCompanyNumber(String number) {
+    String digitsOnly = number.replaceAll(RegExp(r'\D'), '');
+
+    String formattedNumber = digitsOnly.replaceFirstMapped(
+      RegExp(r'^(\d{3})(\d{2})(\d{5})$'),
+      (match) => '${match[1]}-${match[2]}-${match[3]}',
+    );
+
+    return formattedNumber;
+  }
 }

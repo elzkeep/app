@@ -3,7 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:zkeep/models/building.dart';
+import 'package:zkeep/models/company.dart';
 import 'package:zkeep/models/customer.dart';
+import 'package:zkeep/models/department.dart';
+import 'package:zkeep/models/license.dart';
 import 'package:zkeep/models/report.dart';
 
 class MypageController extends GetxController {
@@ -22,8 +25,18 @@ class MypageController extends GetxController {
   set search(int value) => _search.value = value;
 
   final user = LocalStorage('login.json').getItem('user');
-  // User get user => _user.value;
-  // set user(User value) => _user.value = value;
+
+  final _company = Company().obs;
+  get company => _company.value;
+  set company(value) => _company.value = value;
+
+  final _department = Department().obs;
+  get department => _department.value;
+  set department(value) => _department.value = value;
+
+  final _license = [].obs;
+  get license => _license;
+  set license(value) => _license.value = value;
 
   final _focusedDay = DateTime(DateTime.now().year, DateTime.now().month,
           DateTime.now().day, 0, 0, 0)
@@ -50,6 +63,9 @@ class MypageController extends GetxController {
   @override
   onInit() async {
     super.onInit();
+    await getCompany();
+    await getDepartment();
+    await getLicense();
     await getMonth(focusedDay);
     await find(focusedDay);
     focusedDay = DateTime(
@@ -107,5 +123,23 @@ class MypageController extends GetxController {
         score += res[i].score;
       }
     }
+  }
+
+  getCompany() async {
+    final res = await CompanyManager.get(user['company']);
+
+    company = res;
+  }
+
+  getDepartment() async {
+    final res = await DepartmentManager.get(user['department']);
+
+    department = res;
+  }
+
+  getLicense() async {
+    final res = await LicenseManager.find(params: 'user=${user['id']}');
+
+    license = res;
   }
 }

@@ -39,22 +39,16 @@ class JoinCompanyDetailScreen extends CWidget {
                 text: '회원 가입',
                 disabled: c.email.isEmpty,
                 onPressed: () async {
-                  var res = await c.join();
+                  var res = await c.joincompany();
                   if (res != true) {
                     return;
                   }
-
-                  Get.offAllNamed('/');
+                  Get.offAllNamed('/login');
                 },
                 size: CButtonSize.large,
                 margin: const EdgeInsets.only(top: 24, bottom: 0)),
             children: [
               CForm(padding: const EdgeInsets.all(20), children: [
-                CFormfield(
-                  title: '이메일',
-                  onChanged: (value) => c.email = value,
-                  errText: c.emailError,
-                ),
                 CText('점검기술자격증'),
                 CSelectbox(
                   items: items,

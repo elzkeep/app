@@ -1,3 +1,5 @@
+import 'package:zkeep/config/config.dart';
+import 'package:zkeep/models/company.dart';
 import 'package:zkeep/models/user.dart';
 import 'package:common_control/common_control.dart';
 
@@ -7,11 +9,15 @@ class JoinController extends GetxController {
   final _name = ''.obs;
   final _passwd = ''.obs;
   final _passwdtwo = ''.obs;
-  final _phonenum = ''.obs;
+  final _tel = ''.obs;
   final _email = ''.obs;
   final _businessnum = ''.obs;
   final _building = ''.obs;
   final _certificate = 0.obs;
+  final _zip = ''.obs;
+  // final _address = ''.obs;
+  final address = TextEditingController();
+  final _addressetc = ''.obs;
 
   final _loginidError = ''.obs;
   final _nameError = ''.obs;
@@ -36,8 +42,8 @@ class JoinController extends GetxController {
   String get passwdtwo => _passwdtwo.value;
   set passwdtwo(String value) => _passwdtwo.value = value;
 
-  String get phonenum => _phonenum.value;
-  set phonenum(String value) => _phonenum.value = value;
+  String get tel => _tel.value;
+  set tel(String value) => _tel.value = value;
 
   String get email => _email.value;
   set email(String value) => _email.value = value;
@@ -50,6 +56,15 @@ class JoinController extends GetxController {
 
   int get certificate => _certificate.value;
   set certificate(int value) => _certificate.value = value;
+
+  String get zip => _zip.value;
+  set zip(String value) => _zip.value = value;
+
+  // String get address => _address.value;
+  // set address(String value) => _address.value = value;
+
+  String get addressetc => _addressetc.value;
+  set addressetc(String value) => _addressetc.value = value;
 
   String get loginidError => _loginidError.value;
   set loginidError(String value) => _loginidError.value = value;
@@ -73,27 +88,76 @@ class JoinController extends GetxController {
   set buildingError(String value) => _buildingError.value = value;
 
   Future<bool> join() async {
-    if ((await UserManager.find(params: 'email=$loginid')).isNotEmpty) {
-      loginidError = '이미 등록된 아이디입니다';
+    print(email);
+    if ((await UserManager.find(params: 'email=$email')).isNotEmpty) {
+      emailError = '이미 등록된 아이디입니다';
       return false;
     }
-
-    // if ((await UserManager.find(params: 'name=$name')).isNotEmpty) {
-    //   nameError = '이미 등록된 닉네임입니다';
-    //   return false;
-    // }
 
     if (passwd != passwdtwo) {
       passwdtwoError = '비밀번호가 맞지 않습니다.';
       return false;
     }
 
+    tel = Config.formatPhoneNumber(tel);
+
     final user = User(
-        email: loginid,
+        loginid: name,
+        email: email,
         name: name,
         status: UserStatus.use,
         level: UserLevel.normal,
-        passwd: passwd);
+        approval: UserApproval.complete,
+        passwd: passwd,
+        tel: tel,
+        zip: zip,
+        address: address.text,
+        addressetc: addressetc);
+    await UserManager.insert(user);
+
+    return true;
+  }
+
+  Future<bool> joincompany() async {
+    if ((await UserManager.find(params: 'email=$email')).isNotEmpty) {
+      emailError = '이미 등록된 아이디입니다';
+      return false;
+    }
+
+    if (passwd != passwdtwo) {
+      passwdtwoError = '비밀번호가 맞지 않습니다.';
+      return false;
+    }
+
+    tel = Config.formatPhoneNumber(tel);
+    businessnum = Config.formatCompanyNumber(businessnum);
+
+    final company = Company(
+      name: name,
+      companyno: businessnum,
+      ceo: name,
+      tel: tel,
+      email: email,
+      address: address.text,
+      addressetc: addressetc,
+      type: CompanyType.work,
+    );
+
+    final res = await CompanyManager.insert(company);
+
+    final user = User(
+        loginid: name,
+        email: email,
+        name: name,
+        status: UserStatus.use,
+        level: UserLevel.normal,
+        approval: UserApproval.complete,
+        passwd: passwd,
+        tel: tel,
+        zip: zip,
+        address: address.text,
+        addressetc: addressetc,
+        company: res);
     await UserManager.insert(user);
 
     return true;

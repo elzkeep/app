@@ -22,8 +22,6 @@ class JoinBuisnessUserScreen extends CWidget {
               Get.back();
             }),
       ),
-
-      /*action: "assets/imgs/icon_x_mark.svg",*/
       body: Obx(
         () => CFixedBottom(
             bottom: CButton(
@@ -35,7 +33,7 @@ class JoinBuisnessUserScreen extends CWidget {
                     c.name.isEmpty ||
                     c.businessnum.isEmpty ||
                     c.building.isEmpty ||
-                    c.phonenum.isEmpty,
+                    c.tel.isEmpty,
                 onPressed: () async {
                   var res = await c.join();
                   if (res != true) {
@@ -80,7 +78,7 @@ class JoinBuisnessUserScreen extends CWidget {
                 ),
                 CFormfield(
                   title: '휴대폰번호',
-                  onChanged: (value) => c.phonenum = value,
+                  onChanged: (value) => c.tel = value,
                 ),
               ]),
             ]),
