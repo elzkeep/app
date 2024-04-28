@@ -7,11 +7,17 @@ class CustomerListController extends InfiniteController {
   CustomerListController()
       : super(reader: CustomerManager.find, params: 'user=$userId');
 
+  TextEditingController searchTextController = TextEditingController();
+
   static final userId = LocalStorage('login.json').getItem('user')['id'];
 
-  final _search = 1.obs;
-  int get search => _search.value;
-  set search(int value) => _search.value = value;
+  final _searchIndex = 1.obs;
+  int get searchIndex => _searchIndex.value;
+  set searchIndex(int value) => _searchIndex.value = value;
+
+  final _searchText = ''.obs;
+  String get searchText => _searchText.value;
+  set searchText(String value) => _searchText.value = value;
 
   final _customerTotal = 0.obs;
   get customerTotal => _customerTotal.value;
@@ -44,5 +50,39 @@ class CustomerListController extends InfiniteController {
         score += res[i].score;
       }
     }
+  }
+
+  search() async {
+    if (searchIndex == 1) {
+      params = '';
+    } else if (searchIndex == 2) {
+      // params = 'status=${ReportStatus.newer.index}';
+      params = '';
+    } else if (searchIndex == 3) {
+      // params = 'status=${ReportStatus.ing.index}';
+      params = '';
+    } else if (searchIndex == 4) {
+      // params = 'status=${ReportStatus.check.index}';
+      params = '';
+    } else if (searchIndex == 5) {
+      // params = 'status=${ReportStatus.complete.index}';
+      params = '';
+    }
+
+    if (searchText != '') {
+      if (params != '') {
+        params += '&';
+      }
+
+      params += 'search=$searchText';
+    }
+
+    if (searchIndex != 0) {
+      params += 'user=$userId';
+    } else {
+      params += '&user=$userId';
+    }
+
+    await reset();
   }
 }

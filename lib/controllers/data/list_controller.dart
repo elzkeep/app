@@ -20,12 +20,14 @@ class ListController extends InfiniteController {
 
   search() async {
     if (searchIndex == 1) {
-      params = 'status=${ReportStatus.newer.index}';
+      params = '';
     } else if (searchIndex == 2) {
-      return;
-    } else if (searchIndex == 3) {
       params = 'status=${ReportStatus.newer.index}';
+    } else if (searchIndex == 3) {
+      params = 'status=${ReportStatus.ing.index}';
     } else if (searchIndex == 4) {
+      params = 'status=${ReportStatus.check.index}';
+    } else if (searchIndex == 5) {
       params = 'status=${ReportStatus.complete.index}';
     }
 
@@ -37,7 +39,11 @@ class ListController extends InfiniteController {
       params += 'search=$searchText';
     }
 
-    params += '&user=$userId';
+    if (searchIndex == 1) {
+      params += 'user=$userId';
+    } else {
+      params += '&user=$userId';
+    }
 
     await reset();
   }

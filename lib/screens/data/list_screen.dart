@@ -39,25 +39,26 @@ class ListScreen extends CWidget {
 
   buttons() {
     return CRow(gap: 10, children: [
-      Container(
-          margin: const EdgeInsets.only(top: 10),
-          child: OutlinedButton(
-              onPressed: () => {},
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  side: const BorderSide(width: 1.0, color: Colors.black54),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 3, horizontal: 10)),
-              child: CRow(gap: 3, children: [
-                CSvg('assets/imgs/filter.svg', width: 14),
-                const Text(
-                  '필터',
-                  style: TextStyle(color: Colors.black54, fontSize: 14),
-                ),
-              ]))),
+      // Container(
+      //     margin: const EdgeInsets.only(top: 10),
+      //     child: OutlinedButton(
+      //       onPressed: () => {},
+      //       style: ElevatedButton.styleFrom(
+      //           backgroundColor: Colors.white,
+      //           side: const BorderSide(width: 1.0, color: Colors.black54),
+      //           shape: RoundedRectangleBorder(
+      //             borderRadius: BorderRadius.circular(4.0),
+      //           ),
+      //           padding:
+      //               const EdgeInsets.symmetric(vertical: 3, horizontal: 10)),
+      //       child: CRow(gap: 3, children: [
+      //         CSvg('assets/imgs/filter.svg', width: 14),
+      //         const Text(
+      //           '필터',
+      //           style: TextStyle(color: Colors.black54, fontSize: 14),
+      //         ),
+      //       ]),
+      //     )),
       searchbutton()
     ]);
   }
@@ -66,7 +67,7 @@ class ListScreen extends CWidget {
     return Obx(() => Container(
         margin: const EdgeInsets.only(top: 10),
         child: CSelectButton(
-            items: const ['빠른순서', '가까운 순', '신규', '점검완료'],
+            items: const ['전체', '신규', '점검중', '점검완료', '작성완료'],
             index: c.searchIndex,
             onSelected: (index) => clickSearch(index))));
   }

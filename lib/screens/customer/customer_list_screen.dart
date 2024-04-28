@@ -37,14 +37,19 @@ class CustomerListScreen extends CWidget {
       text: '고객명, 건물명',
       svg: 'assets/imgs/search.svg',
       margin: const EdgeInsets.only(top: 10),
+      controller: c.searchTextController,
+      onChanged: (value) async {
+        c.searchText = c.searchTextController.text;
+        c.search();
+      },
     );
   }
 
   buttons() {
     return Obx(() => CSelectButton(
         items: const ['가나다순', '점검대상별', '관리점수순', '예정일순', '계약일순'],
-        index: c.search,
-        onSelected: (index) => c.search = index));
+        index: c.searchIndex,
+        onSelected: (index) => clickSearch(index)));
   }
 
   lists() {
@@ -58,5 +63,10 @@ class CustomerListScreen extends CWidget {
 
   Widget list(Customer item, int index) {
     return CustomerWidget(item);
+  }
+
+  clickSearch(index) async {
+    c.searchIndex = index;
+    await c.search();
   }
 }
