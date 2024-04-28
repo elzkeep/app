@@ -17,6 +17,7 @@ class JoinController extends GetxController {
   final _zip = ''.obs;
   final _address = ''.obs;
   final _addressetc = ''.obs;
+  final _company = Company().obs;
 
   final _loginidError = ''.obs;
   final _nameError = ''.obs;
@@ -65,6 +66,9 @@ class JoinController extends GetxController {
   String get addressetc => _addressetc.value;
   set addressetc(String value) => _addressetc.value = value;
 
+  Company get company => _company.value;
+  set company(Company value) => _company.value = value;
+
   String get loginidError => _loginidError.value;
   set loginidError(String value) => _loginidError.value = value;
 
@@ -86,6 +90,21 @@ class JoinController extends GetxController {
   String get buildingError => _buildingError.value;
   set buildingError(String value) => _buildingError.value = value;
 
+  final _items = [].obs;
+  get items => _items;
+  set items(value) => _items.value = value;
+
+  final _search = ''.obs;
+  String get search => _search.value;
+  set search(String value) => _search.value = value;
+
+  @override
+  onInit() async {
+    super.onInit();
+
+    items = await CompanyManager.find();
+  }
+
   Future<bool> join() async {
     print(email);
     if ((await UserManager.find(params: 'email=$email')).isNotEmpty) {
@@ -106,12 +125,13 @@ class JoinController extends GetxController {
         name: name,
         status: UserStatus.use,
         level: UserLevel.normal,
-        approval: UserApproval.complete,
+        approval: UserApproval.wait,
         passwd: passwd,
         tel: tel,
         zip: zip,
         address: address,
-        addressetc: addressetc);
+        addressetc: addressetc,
+        company: company.id);
     await UserManager.insert(user);
 
     return true;
