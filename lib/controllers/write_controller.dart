@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:zkeep/models/building.dart';
 import 'package:zkeep/models/company.dart';
+import 'package:zkeep/models/customer.dart';
 import 'package:zkeep/models/report.dart';
 import 'package:zkeep/models/user.dart';
 
@@ -16,6 +17,8 @@ class WriteController extends GetxController {
   final _time = TimeOfDay.now().obs;
 
   final name = TextEditingController();
+
+  static get userId => LocalStorage('login.json').getItem('user')['id'];
 
   int get period => _period.value;
   set period(int value) => _period.value = value;
@@ -59,7 +62,20 @@ class WriteController extends GetxController {
   onInit() async {
     super.onInit();
 
-    items = await BuildingManager.find();
+    // items = await BuildingManager.find();
+    getBuilding();
+  }
+
+  getBuilding() async {
+    final res = await CustomerManager.find(params: 'user=$userId');
+
+    if (res.isNotEmpty) {
+      items = [];
+      for (int i = 0; i < res.length; i++) {
+        Building building = Building.fromJson(res[i].extra['building']);
+        items.add(building);
+      }
+    }
   }
 
   Future<bool> insert() async {

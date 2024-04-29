@@ -52,7 +52,7 @@ class CustomerViewScreen extends CWidget {
               onPressed: () => clickMore()),
           title('설비 기본 정보'),
           facilityInfo(),
-          graph(),
+          // graph(),
           history(),
           const SizedBox(height: 50),
         ]));

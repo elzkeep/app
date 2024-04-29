@@ -19,7 +19,7 @@ class MainScreen extends CWidget {
   Widget build(BuildContext context) {
     return Obx(() => Layout(
             child: CColumn(children: [
-          search(),
+          // search(),
           status(),
           CBothSide(children: [
             CText('오늘의 점검일정',
@@ -97,7 +97,7 @@ class MainScreen extends CWidget {
 
   search() {
     return CTextField(
-      text: '고객명, 점검일자, 점검지역',
+      text: '고객명, 점검지명, 점검지역',
       svg: 'assets/imgs/search.svg',
       margin: const EdgeInsets.only(top: 10),
     );

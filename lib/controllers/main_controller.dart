@@ -97,7 +97,7 @@ class MainController extends InfiniteController {
   }
 
   getCustomerCount() async {
-    final res = await CustomerManager.find();
+    final res = await CustomerManager.find(params: 'user=$userId');
 
     if (res.isNotEmpty) {
       customerTotal = res.length;
@@ -109,7 +109,7 @@ class MainController extends InfiniteController {
     DateTime weekago = DateTime(today.year, today.month, today.day - 7);
     final res = await CustomerManager.find(
         params:
-            'startdate=${DateFormat('yyyy-MM-dd').format(weekago)}&endcheckdate=${DateFormat('yyyy-MM-dd').format(today)}');
+            'user=$userId&startdate=${DateFormat('yyyy-MM-dd').format(weekago)}&endcheckdate=${DateFormat('yyyy-MM-dd').format(today)}');
 
     if (res.isNotEmpty) {
       newcustomerTotal = res.length;
@@ -117,7 +117,7 @@ class MainController extends InfiniteController {
   }
 
   getReportCount() async {
-    final res = await ReportManager.find();
+    final res = await ReportManager.find(params: 'user=$userId');
 
     if (res.isNotEmpty) {
       reportTotal = res.length;
@@ -125,7 +125,7 @@ class MainController extends InfiniteController {
   }
 
   getCompleteReportCount() async {
-    final res = await ReportManager.find(params: 'status=4');
+    final res = await ReportManager.find(params: 'user=$userId&status=4');
 
     if (res.isNotEmpty) {
       comReportTotal = res.length;

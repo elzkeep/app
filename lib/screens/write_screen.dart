@@ -52,16 +52,16 @@ class WriteScreen extends CWidget {
 
   form() {
     return Obx(() => CForm(padding: const EdgeInsets.all(10), children: [
-          CRow(mainAxisAlignment: MainAxisAlignment.end, children: [
-            CButton(
-              width: 140,
-              text: '기존 기록 불러오기',
-              flex: 1,
-              size: CButtonSize.small,
-              type: CButtonStyle.outlined,
-              onPressed: () => {},
-            ),
-          ]),
+          // CRow(mainAxisAlignment: MainAxisAlignment.end, children: [
+          //   CButton(
+          //     width: 140,
+          //     text: '기존 기록 불러오기',
+          //     flex: 1,
+          //     size: CButtonSize.small,
+          //     type: CButtonStyle.outlined,
+          //     onPressed: () => {},
+          //   ),
+          // ]),
           CFormtitle(title: '점검대상'),
           CFormtext(c.customer,
               onTap: () => clickCustomer(), errText: c.errorCompany),

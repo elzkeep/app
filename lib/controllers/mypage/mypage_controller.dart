@@ -73,7 +73,6 @@ class MypageController extends GetxController {
     focusedDay = DateTime(
         DateTime.now().year, DateTime.now().month, DateTime.now().day, 0, 0, 1);
     await getCustomerCount();
-    await getBuildingScore();
   }
 
   getMonth(DateTime date) async {
@@ -114,15 +113,9 @@ class MypageController extends GetxController {
 
     if (res.isNotEmpty) {
       customerTotal = res.length;
-    }
-  }
 
-  getBuildingScore() async {
-    final res = await BuildingManager.find();
-
-    if (res.isNotEmpty) {
       for (int i = 0; i < res.length; i++) {
-        score += res[i].score;
+        score += res[i].extra['building']['score'];
       }
     }
   }

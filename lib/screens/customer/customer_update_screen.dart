@@ -2,6 +2,7 @@ import 'package:common_control/common_control.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:zkeep/components/cformtext.dart';
+import 'package:zkeep/components/cformtitle.dart';
 import 'package:zkeep/components/ctablecalendar.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/controllers/customer/customer_update_controller.dart';
@@ -15,7 +16,7 @@ class CustomerUpdateScreen extends CWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Layout(popup: true, child: body()));
+    return Layout(popup: true, child: body());
   }
 
   body() {
@@ -128,7 +129,7 @@ class CustomerUpdateScreen extends CWidget {
       // CFormfield(title: '관리형태', text: c.address.text, controller: c.address),
       CFormfield(title: '점검일', text: c.checkdate.text, controller: c.checkdate),
       CFormfield(
-          title: '점검예정일', text: c.checkdate.text, controller: c.checkdate),
+          title: '점검예정일', text: c.contractday.text, controller: c.contractday),
       CFormfield(
           title: '담당자', text: c.managername.text, controller: c.managername),
       CFormfield(
@@ -141,72 +142,93 @@ class CustomerUpdateScreen extends CWidget {
   }
 
   contract() {
-    return CForm(children: const [
-      // CRow(gap: 10, children: [
-      //   Expanded(
-      //     child: CFormtext(
-      //       DateFormat('yyyy.MM.dd').format(c.contractstartdate),
-      //       onTap: () => clickDate(c.contractstartdate),
-      //     ),
-      //   ),
-      //   Expanded(
-      //     child: CFormtext(
-      //       DateFormat('yyyy.MM.dd').format(c.contractenddate),
-      //       onTap: () => clickDate(c.contractenddate),
-      //     ),
-      //   ),
-      // ]),
-      // CFormfield(
-      //     type: CTextFieldType.number,
-      //     title: '계약금액',
-      //     text: c.contractprice.text,
-      //     controller: c.contractprice),
-      // // CFormfield(title: '청구방식', text: c.address.text, controller: c.address),
-      // CFormfield(
-      //     type: CTextFieldType.number,
-      //     title: '청구일',
-      //     text: c.billingdate.text,
-      //     controller: c.billingdate),
-      // CFormfield(
-      //     title: '담당자명', text: c.billingname.text, controller: c.billingname),
-      // CFormfield(
-      //     title: '담당자 연락처', text: c.billingtel.text, controller: c.billingtel),
-      // CFormfield(
-      //     title: '담당자 이메일',
-      //     text: c.billingemail.text,
-      //     controller: c.billingemail),
-    ]);
+    return Obx(() => CForm(children: [
+          CFormtitle(title: '계약기간'),
+          CRow(gap: 10, children: [
+            Expanded(
+              child: CFormtext(
+                DateFormat('yyyy.MM.dd').format(c.contractstartdate),
+                onTap: () => {
+                  c.startday = true,
+                  clickDate(c.contractstartdate),
+                },
+              ),
+            ),
+            Expanded(
+              child: CFormtext(
+                DateFormat('yyyy.MM.dd').format(c.contractenddate),
+                onTap: () => {
+                  c.startday = false,
+                  clickDate(c.contractenddate),
+                },
+              ),
+            ),
+          ]),
+          CFormfield(
+              type: CTextFieldType.number,
+              title: '계약금액',
+              text: c.contractprice.text,
+              controller: c.contractprice),
+          // CFormfield(title: '청구방식', text: c.address.text, controller: c.address),
+          CFormfield(
+              type: CTextFieldType.number,
+              title: '청구일',
+              text: c.billingdate.text,
+              controller: c.billingdate),
+          CFormfield(
+              title: '담당자명',
+              text: c.billingname.text,
+              controller: c.billingname),
+          CFormfield(
+              title: '담당자 연락처',
+              text: c.billingtel.text,
+              controller: c.billingtel),
+          CFormfield(
+              title: '담당자 이메일',
+              text: c.billingemail.text,
+              controller: c.billingemail),
+        ]));
   }
 
-  // clickDate(date) async {
-  //   final context = Get.context!;
+  clickDate(date) async {
+    final context = Get.context!;
 
-  //   await showModalBottomSheet<void>(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return Container(
-  //         height: 400,
-  //         color: Colors.white,
-  //         child: Center(
-  //           child: CTableCalendar(
-  //             focusedDay: date,
-  //             events: const {},
-  //             calendarFormat: CalendarFormat.month,
-  //             getMonth: () {},
-  //             onDaySelected: onDaySelected,
-  //             onPageChanged: onPageChanged,
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
+    await showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 400,
+          color: Colors.white,
+          child: Center(
+            child: CTableCalendar(
+              focusedDay: date,
+              events: const {},
+              calendarFormat: CalendarFormat.month,
+              getMonth: () {},
+              onDaySelected: onDaySelected,
+              onPageChanged: onPageChanged,
+            ),
+          ),
+        );
+      },
+    );
+  }
 
-  // onDaySelected(DateTime selectedDay, DateTime focusedDay) {
-  //   final context = Get.context!;
-  //   focusedDay = selectedDay;
-  //   Navigator.pop(context);
-  // }
+  onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    print(c.startday);
+    final context = Get.context!;
+    print(c.startday);
+    focusedDay = selectedDay;
+    print(c.startday);
+    if (c.startday == true) {
+      c.contractstartdate = focusedDay;
+      print("aaaa");
+    } else {
+      c.contractenddate = focusedDay;
+      print("bbbb");
+    }
+    Navigator.pop(context);
+  }
 
-  // onPageChanged(DateTime focusedDay) async {}
+  onPageChanged(DateTime focusedDay) async {}
 }

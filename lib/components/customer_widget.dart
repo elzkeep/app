@@ -35,7 +35,7 @@ class CustomerWidget extends CWidget {
             CText('750KW / ${item.building.score}점 1회',
                 textStyle:
                     const TextStyle(color: Colors.black54, fontSize: 12)),
-            CText('다음점검일 : ${item.contractday}일',
+            CText('다음점검일 : ${item.checkdate}일',
                 textStyle: const TextStyle(color: Colors.black54, fontSize: 12))
           ]),
         ),

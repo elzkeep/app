@@ -25,7 +25,7 @@ class ListScreen extends CWidget {
 
   search() {
     return CTextField(
-      text: '고객명, 점검일자, 점검지역',
+      text: '고객명, 점검지명, 점검지역',
       svg: 'assets/imgs/search.svg',
       margin: const EdgeInsets.only(top: 10),
       controller: c.searchTextController,

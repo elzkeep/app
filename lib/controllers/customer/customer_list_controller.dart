@@ -1,15 +1,15 @@
 import 'package:common_control/common_control.dart';
 import 'package:localstorage/localstorage.dart';
-import 'package:zkeep/models/building.dart';
 import 'package:zkeep/models/customer.dart';
 
 class CustomerListController extends InfiniteController {
   CustomerListController()
-      : super(reader: CustomerManager.find, params: 'user=$userId');
+      : super(
+            reader: CustomerManager.find, params: 'user=$userId&order=c_name');
 
   TextEditingController searchTextController = TextEditingController();
 
-  static final userId = LocalStorage('login.json').getItem('user')['id'];
+  static get userId => LocalStorage('login.json').getItem('user')['id'];
 
   final _searchIndex = 1.obs;
   int get searchIndex => _searchIndex.value;
@@ -31,7 +31,6 @@ class CustomerListController extends InfiniteController {
   onInit() async {
     super.onInit();
     await getCustomerCount();
-    await getBuildingScore();
   }
 
   getCustomerCount() async {
@@ -39,34 +38,24 @@ class CustomerListController extends InfiniteController {
 
     if (res.isNotEmpty) {
       customerTotal = res.length;
-    }
-  }
 
-  getBuildingScore() async {
-    final res = await BuildingManager.find();
-
-    if (res.isNotEmpty) {
       for (int i = 0; i < res.length; i++) {
-        score += res[i].score;
+        score += res[i].extra['building']['score'];
       }
     }
   }
 
   search() async {
     if (searchIndex == 1) {
-      params = '';
+      params = 'order=c_name';
     } else if (searchIndex == 2) {
-      // params = 'status=${ReportStatus.newer.index}';
-      params = '';
+      params = 'order=b_name';
     } else if (searchIndex == 3) {
-      // params = 'status=${ReportStatus.ing.index}';
-      params = '';
+      params = 'order=b_score';
     } else if (searchIndex == 4) {
-      // params = 'status=${ReportStatus.check.index}';
-      params = '';
+      params = 'order=c_checkday';
     } else if (searchIndex == 5) {
-      // params = 'status=${ReportStatus.complete.index}';
-      params = '';
+      params = 'order=c_contractday';
     }
 
     if (searchText != '') {
@@ -74,14 +63,10 @@ class CustomerListController extends InfiniteController {
         params += '&';
       }
 
-      params += 'search=$searchText';
+      params += 'name=$searchText';
     }
 
-    if (searchIndex != 0) {
-      params += 'user=$userId';
-    } else {
-      params += '&user=$userId';
-    }
+    params += '&user=$userId';
 
     await reset();
   }

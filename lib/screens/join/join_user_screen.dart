@@ -42,7 +42,8 @@ class JoinUserScreen extends CWidget {
                     c.tel.isEmpty ||
                     (c.passwd != c.passwdtwo) ||
                     c.address.isEmpty ||
-                    c.addressetc.isEmpty,
+                    c.addressetc.isEmpty ||
+                    c.company.id == 0,
                 onPressed: () async {
                   // var res = await c.join();
                   // if (res != true) {

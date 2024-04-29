@@ -20,7 +20,7 @@ class CustomerDetailScreen extends CWidget {
           building(),
           check(),
           contract(),
-          const SizedBox(height: 50)
+          // const SizedBox(height: 50)
         ])));
   }
 
@@ -109,7 +109,7 @@ class CustomerDetailScreen extends CWidget {
               children: [
                 entry2('점검분야:', '전기', '관리형태:', c.item.type.name),
                 entry2('점검일:', '${c.item.checkdate}일', '점검예정일:',
-                    '${c.item.checkdate}일'),
+                    '${c.item.contractday}일'),
                 entry2('수전 용량:', '${c.facility.value2}kW', '관리점수:',
                     '${c.building.score}'),
                 entry2('담당자명:', c.item.managername, '연락처:', c.item.managertel),
@@ -134,8 +134,10 @@ class CustomerDetailScreen extends CWidget {
               children: [
                 entry('계약기간:',
                     '${c.item.contractstartdate} ~ ${c.item.contractenddate}'),
-                entry('계약금액:', '${c.item.contractprice}'),
-                entry2('청구방식:', '', '청구일:', '${c.item.billingdate}일'),
+                entry2('계약금액:', '${c.item.contractprice}', '청구일:',
+                    '${c.item.billingdate}일'),
+                // entry('계약금액:', '${c.item.contractprice}'),
+                // entry2('청구방식:', '', '청구일:', '${c.item.billingdate}일'),
                 entry2('담당자명:', c.item.billingname, '연락처:', c.item.billingtel),
                 entry('이메일:', c.item.billingemail),
               ]))

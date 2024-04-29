@@ -20,7 +20,7 @@ class ListController extends InfiniteController {
 
   search() async {
     if (searchIndex == 1) {
-      params = '';
+      params = 'user=$userId';
     } else if (searchIndex == 2) {
       params = 'status=${ReportStatus.newer.index}';
     } else if (searchIndex == 3) {
@@ -39,9 +39,7 @@ class ListController extends InfiniteController {
       params += 'search=$searchText';
     }
 
-    if (searchIndex == 1) {
-      params += 'user=$userId';
-    } else {
+    if (searchIndex != 1) {
       params += '&user=$userId';
     }
 

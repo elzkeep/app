@@ -1,4 +1,5 @@
 import 'package:common_control/common_control.dart';
+import 'package:intl/intl.dart';
 import 'package:zkeep/controllers/customer/customer_detail_controller.dart';
 import 'package:zkeep/models/building.dart';
 import 'package:zkeep/models/company.dart';
@@ -21,6 +22,7 @@ class CustomerUpdateController extends GetxController {
 
   // TextEditingController type = TextEditingController();
   TextEditingController checkdate = TextEditingController();
+  TextEditingController contractday = TextEditingController();
   TextEditingController managername = TextEditingController();
   TextEditingController managertel = TextEditingController();
   TextEditingController manageremail = TextEditingController();
@@ -49,6 +51,10 @@ class CustomerUpdateController extends GetxController {
   DateTime get contractenddate => _contractenddate.value;
   set contractenddate(DateTime value) => _contractenddate.value = value;
 
+  final _startday = false.obs;
+  bool get startday => _startday.value;
+  set startday(bool value) => _startday.value = value;
+
   @override
   onInit() async {
     super.onInit();
@@ -68,6 +74,7 @@ class CustomerUpdateController extends GetxController {
     buildingaddressetc.text = item.building.addressetc;
 
     checkdate.text = item.checkdate.toString();
+    contractday.text = item.contractday.toString();
     managername.text = item.managername;
     managertel.text = item.managertel;
     manageremail.text = item.manageremail;
@@ -123,6 +130,7 @@ class CustomerUpdateController extends GetxController {
 
   facilitySave() async {
     item.checkdate = int.parse(checkdate.text);
+    item.contractday = int.parse(contractday.text);
     item.managername = managername.text;
     item.managertel = managertel.text;
     item.manageremail = manageremail.text;
@@ -141,6 +149,8 @@ class CustomerUpdateController extends GetxController {
     item.billingname = billingname.text;
     item.billingtel = billingtel.text;
     item.billingemail = billingemail.text;
+    item.contractstartdate = DateFormat('yyyy-MM-dd').format(contractstartdate);
+    item.contractenddate = DateFormat('yyyy-MM-dd').format(contractenddate);
 
     await CustomerManager.update(item);
 
