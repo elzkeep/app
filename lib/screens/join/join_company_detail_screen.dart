@@ -9,12 +9,17 @@ class JoinCompanyDetailScreen extends CWidget {
 
   @override
   Widget build(BuildContext context) {
-    final items = CItem.list([
-      '',
-      '전기 안전관리 대행업',
-      '소방 관리업',
-      '승강기 유지 관리업',
-    ]);
+    // final items = CItem.list([
+    //   '',
+    //   '전기 안전관리 대행업',
+    //   '소방 관리업',
+    //   '승강기 유지 관리업',
+    // ]);
+
+    final items =
+        CItem.list(['', '전기기사', '전기공사기능사', '전기산업기사', '전기기능장', '전기기능사', '전기기사']);
+
+    final levels = CItem.list(['', '특급', '고급', '중급', '초급']);
 
     return CScaffold(
       autoLostFocus: true,
@@ -49,26 +54,66 @@ class JoinCompanyDetailScreen extends CWidget {
                 margin: const EdgeInsets.only(top: 24, bottom: 0)),
             children: [
               CForm(padding: const EdgeInsets.all(20), children: [
-                CText('점검기술자격증'),
+                const Text('점검기술자격증'),
                 CSelectbox(
+                  title: '자격증1',
                   items: items,
                   selected: c.certificate,
                   onSelected: (pos) => c.certificate = pos,
                 ),
+                CSelectbox(
+                  items: levels,
+                  selected: c.level,
+                  onSelected: (pos) => c.level = pos,
+                ),
                 const SizedBox(
                   height: 10,
                 ),
-                CContainer(
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: const Color(0xffE0E0E0),
-                        width: 1,
-                      ),
-                      borderRadius: BorderRadius.circular(8)),
-                  width: double.infinity,
-                  height: 200,
-                  child: const Icon(Icons.add),
-                )
+                CSelectbox(
+                  title: '자격증2',
+                  items: items,
+                  selected: c.certificate1,
+                  onSelected: (pos) => c.certificate1 = pos,
+                ),
+                CSelectbox(
+                  items: levels,
+                  selected: c.level1,
+                  onSelected: (pos) => c.level1 = pos,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                CSelectbox(
+                  title: '자격증3',
+                  items: items,
+                  selected: c.certificate2,
+                  onSelected: (pos) => c.certificate2 = pos,
+                ),
+                CSelectbox(
+                  items: levels,
+                  selected: c.level2,
+                  onSelected: (pos) => c.level2 = pos,
+                ),
+                // CText('점검기술자격증'),
+                // CSelectbox(
+                //   items: items,
+                //   selected: c.certificate,
+                //   onSelected: (pos) => c.certificate = pos,
+                // ),
+                // const SizedBox(
+                //   height: 10,
+                // ),
+                // CContainer(
+                //   decoration: BoxDecoration(
+                //       border: Border.all(
+                //         color: const Color(0xffE0E0E0),
+                //         width: 1,
+                //       ),
+                //       borderRadius: BorderRadius.circular(8)),
+                //   width: double.infinity,
+                //   height: 200,
+                //   child: const Icon(Icons.add),
+                // )
               ]),
             ]),
       ),

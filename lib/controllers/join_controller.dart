@@ -140,7 +140,7 @@ class JoinController extends GetxController {
     tel = Config.formatPhoneNumber(tel);
 
     final user = User(
-        loginid: name,
+        loginid: loginid,
         email: email,
         name: name,
         status: UserStatus.use,
@@ -211,7 +211,7 @@ class JoinController extends GetxController {
     final res = await CompanyManager.insert(company);
 
     final user = User(
-        loginid: name,
+        loginid: loginid,
         email: email,
         name: name,
         status: UserStatus.use,
@@ -223,7 +223,35 @@ class JoinController extends GetxController {
         address: address,
         addressetc: addressetc,
         company: res);
-    await UserManager.insert(user);
+    final res1 = await UserManager.insert(user);
+
+    if (certificate != 0) {
+      final license = License(
+        user: res1,
+        licensecategory: Licensecategory(id: certificate),
+        licenselevel: Licenselevel(id: level),
+      );
+      await LicenseManager.insert(license);
+    }
+
+    if (certificate1 != 0) {
+      final license1 = License(
+        user: res1,
+        licensecategory: Licensecategory(id: certificate1),
+        licenselevel: Licenselevel(id: level1),
+      );
+      await LicenseManager.insert(license1);
+    }
+
+    if (certificate2 != 0) {
+      final license2 = License(
+        user: res1,
+        licensecategory: Licensecategory(id: certificate2),
+        licenselevel: Licenselevel(id: level2),
+      );
+      await LicenseManager.insert(license2);
+    }
+    return true;
 
     return true;
   }

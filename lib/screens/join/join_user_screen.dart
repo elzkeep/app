@@ -35,7 +35,8 @@ class JoinUserScreen extends CWidget {
             bottom: CButton(
                 padding: const EdgeInsets.all(20),
                 text: '회원 가입',
-                disabled: c.email.isEmpty ||
+                disabled: c.loginid.isEmpty ||
+                    c.email.isEmpty ||
                     c.passwd.isEmpty ||
                     c.passwdtwo.isEmpty ||
                     c.name.isEmpty ||
@@ -55,6 +56,11 @@ class JoinUserScreen extends CWidget {
                 margin: const EdgeInsets.only(top: 24, bottom: 0)),
             children: [
               CForm(padding: const EdgeInsets.all(20), children: [
+                CFormfield(
+                  title: '아이디',
+                  onChanged: (value) => c.loginid = value,
+                  errText: c.loginidError,
+                ),
                 CFormfield(
                   title: '이메일',
                   onChanged: (value) => c.email = value,
