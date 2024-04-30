@@ -11,13 +11,18 @@ class CustomerUpdateController extends GetxController {
   TextEditingController companycompanyno = TextEditingController();
   TextEditingController companyname = TextEditingController();
   TextEditingController companyceo = TextEditingController();
-  TextEditingController companyaddress = TextEditingController();
+  final _companyaddress = ''.obs;
+  String get companyaddress => _companyaddress.value;
+  set companyaddress(String value) => _companyaddress.value = value;
   TextEditingController companyaddressetc = TextEditingController();
 
   TextEditingController buildingname = TextEditingController();
   TextEditingController buildingcompanyno = TextEditingController();
   TextEditingController buildingceo = TextEditingController();
-  TextEditingController buildingaddress = TextEditingController();
+  // TextEditingController buildingaddress = TextEditingController();
+  final _buildingaddress = ''.obs;
+  String get buildingaddress => _buildingaddress.value;
+  set buildingaddress(String value) => _buildingaddress.value = value;
   TextEditingController buildingaddressetc = TextEditingController();
 
   // TextEditingController type = TextEditingController();
@@ -64,13 +69,13 @@ class CustomerUpdateController extends GetxController {
     companycompanyno.text = item.company.companyno;
     companyname.text = item.company.name;
     companyceo.text = item.company.ceo;
-    companyaddress.text = item.company.address;
+    companyaddress = item.company.address;
     companyaddressetc.text = item.company.addressetc;
 
     buildingname.text = item.building.name;
     buildingcompanyno.text = item.building.companyno;
     buildingceo.text = item.building.ceo;
-    buildingaddress.text = item.building.address;
+    buildingaddress = item.building.address;
     buildingaddressetc.text = item.building.addressetc;
 
     checkdate.text = item.checkdate.toString();
@@ -87,8 +92,8 @@ class CustomerUpdateController extends GetxController {
     billingtel.text = item.billingtel;
     billingemail.text = item.billingemail;
 
-    print(contractstartdate);
-    print(contractenddate);
+    print(item.building.address);
+    print(buildingaddress);
   }
 
   getItem() async {
@@ -101,7 +106,7 @@ class CustomerUpdateController extends GetxController {
       ..companyno = companycompanyno.text
       ..name = companyname.text
       ..ceo = companyceo.text
-      ..address = companyaddress.text
+      ..address = companyaddress
       ..addressetc = companyaddressetc.text;
 
     await CompanyManager.update(company);
@@ -117,7 +122,7 @@ class CustomerUpdateController extends GetxController {
       ..companyno = buildingcompanyno.text
       ..name = buildingname.text
       ..ceo = buildingceo.text
-      ..address = buildingaddress.text
+      ..address = buildingaddress
       ..addressetc = buildingaddressetc.text;
 
     await BuildingManager.update(building);

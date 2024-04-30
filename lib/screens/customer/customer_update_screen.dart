@@ -1,5 +1,6 @@
 import 'package:common_control/common_control.dart';
 import 'package:intl/intl.dart';
+import 'package:remedi_kopo/remedi_kopo.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:zkeep/components/cformtext.dart';
 import 'package:zkeep/components/cformtitle.dart';
@@ -93,10 +94,8 @@ class CustomerUpdateScreen extends CWidget {
           title: '고객명', text: c.companyname.text, controller: c.companyname),
       CFormfield(
           title: '대표자', text: c.companyceo.text, controller: c.companyceo),
-      CFormfield(
-          title: '주소',
-          text: c.companyaddress.text,
-          controller: c.companyaddress),
+      CFormtitle(title: '주소'),
+      Obx(() => CFormtext(c.companyaddress, onTap: () => searchAddress())),
       CFormfield(
           // title: '상세주소',
           text: c.companyaddressetc.text,
@@ -114,10 +113,8 @@ class CustomerUpdateScreen extends CWidget {
           controller: c.buildingcompanyno),
       CFormfield(
           title: '대표자', text: c.buildingceo.text, controller: c.buildingceo),
-      CFormfield(
-          title: '주소',
-          text: c.buildingaddress.text,
-          controller: c.buildingaddress),
+      CFormtitle(title: '주소'),
+      Obx(() => CFormtext(c.buildingaddress, onTap: () => searchAddress())),
       CFormfield(
           text: c.buildingaddressetc.text, controller: c.buildingaddressetc),
     ]);
@@ -231,4 +228,12 @@ class CustomerUpdateScreen extends CWidget {
   }
 
   onPageChanged(DateTime focusedDay) async {}
+
+  void searchAddress() async {
+    KopoModel? model = await Get.to(() => RemediKopo());
+
+    // c.zip = model?.zonecode ?? '';
+    c.companyaddress = model?.address ?? '';
+    c.buildingaddress = model?.address ?? '';
+  }
 }
