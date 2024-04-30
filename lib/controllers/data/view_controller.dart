@@ -434,4 +434,8 @@ class ViewController extends GetxController {
     _sign2.refresh();
     _item.refresh();
   }
+
+  getPdf() async {
+    final res = await ReportManager.getpdf(id);
+  }
 }

@@ -81,18 +81,20 @@ class MypageScreen extends CWidget {
             ),
           ],
         ),
-        CText(
-          '로그아웃',
-          style: Config.moreStyle,
-          onTap: () => logout(),
-          margin: const EdgeInsets.symmetric(vertical: 10),
-        )
-        // CText(
-        //   '변경',
-        //   style: Config.moreStyle,
-        //   onTap: () => Get.toNamed('/mypage/edit'),
-        //   margin: const EdgeInsets.symmetric(vertical: 10),
-        // )
+        CColumn(children: [
+          CText(
+            '변경',
+            style: Config.moreStyle,
+            onTap: () => Get.toNamed('/mypage/edit'),
+            margin: const EdgeInsets.symmetric(vertical: 10),
+          ),
+          CText(
+            '로그아웃',
+            style: Config.moreStyle,
+            onTap: () => logout(),
+            margin: const EdgeInsets.symmetric(vertical: 10),
+          ),
+        ]),
       ],
     );
   }

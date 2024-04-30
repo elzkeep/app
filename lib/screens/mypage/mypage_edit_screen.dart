@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:remedi_kopo/remedi_kopo.dart';
 import 'package:zkeep/components/Cformtitle.dart';
 import 'package:zkeep/components/cformtext.dart';
 import 'package:zkeep/components/cselectbox.dart';
@@ -34,6 +35,7 @@ class MypageEditScreen extends CWidget {
             controller: c.loginid,
             errText: c.errorLoginid,
             onChanged: (value) => c.user.loginid = value,
+            readOnly: true,
           ),
           CFormfield(
             title: '비밀번호',
@@ -58,44 +60,21 @@ class MypageEditScreen extends CWidget {
             controller: c.email,
             errText: c.errorEmail,
             onChanged: (value) => c.user.email = value,
+            readOnly: true,
           ),
-          // CFormtitle(title: '이메일'),
-          // CRow(gap: 10, children: [
-          //   Expanded(
-          //     child: CFormtext(
-          //       c.emailId,
-          //       onTap: () => clickEmailId(),
-          //     ),
-          //   ),
-          //   CText('@'),
-          //   Expanded(
-          //       child: CSelectbox(
-          //           items: emailAddress,
-          //           selected: c.emailAddress,
-          //           onSelected: (pos) {
-          //             c.emailAddress = pos;
-          //           }))
-          // ]),
           CFormtitle(title: '주소'),
-          CColumn(gap: 10, children: [
-            CFormfield(
-              controller: c.address,
-              onChanged: (value) => c.user.address = value,
-            ),
-            CFormfield(
-              controller: c.addressetc,
-              onChanged: (value) => c.user.addressetc = value,
-            ),
-            // CFormtext(
-            //   c.addressStreet,
-            //   onTap: () => clickAdressStreet(),
-            // ),
-            // CFormtext(
-            //   c.addressEtc,
-            //   onTap: () => clickAdressEtc(),
-            // ),
-          ]),
+          CFormtext(c.user.address, onTap: () => searchAddress()),
+          CFormfield(
+            onChanged: (value) => c.user.addressetc = value,
+          ),
         ]));
+  }
+
+  void searchAddress() async {
+    KopoModel? model = await Get.to(() => RemediKopo());
+
+    c.zip = model?.zonecode ?? '';
+    c.address = model?.address ?? '';
   }
 
   bottom() {

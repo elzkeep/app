@@ -1,4 +1,5 @@
 import 'package:common_control/common_control.dart';
+import 'package:intl/intl.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:zkeep/models/company.dart';
 import 'package:zkeep/models/user.dart';
@@ -14,11 +15,24 @@ class MypageEditController extends GetxController {
   final name = TextEditingController();
   final tel = TextEditingController();
   final email = TextEditingController();
-  final address = TextEditingController();
   final addressetc = TextEditingController();
-  final companyTextEdit = TextEditingController();
+
   final joinDate = TextEditingController();
-  final career = TextEditingController();
+  final careeryear = TextEditingController();
+  final careermonth = TextEditingController();
+
+  final _zip = ''.obs;
+  final _address = ''.obs;
+
+  String get zip => _zip.value;
+  set zip(String value) => _zip.value = value;
+
+  String get address => _address.value;
+  set address(String value) => _address.value = value;
+
+  final _date = DateTime.now().obs;
+  DateTime get date => _date.value;
+  set date(DateTime value) => _date.value = value;
 
   final _user = User().obs;
   User get user => _user.value;
@@ -80,11 +94,21 @@ class MypageEditController extends GetxController {
   Company get company => _company.value;
   set company(Company value) => _company.value = value;
 
+  final _items = [].obs;
+  get items => _items;
+  set items(value) => _items.value = value;
+
+  final _search = ''.obs;
+  String get search => _search.value;
+  set search(String value) => _search.value = value;
+
   @override
   onInit() async {
     super.onInit();
     getUser();
     getComaony();
+
+    items = await CompanyManager.find();
   }
 
   getUser() async {
@@ -95,14 +119,17 @@ class MypageEditController extends GetxController {
     name.text = user.name;
     tel.text = user.tel;
     email.text = user.email;
-    address.text = user.address;
+    zip = user.zip;
+    address = user.address;
     addressetc.text = user.addressetc;
+    careeryear.text = user.careeryear.toString();
+    careermonth.text = user.careermonth.toString();
+    date = DateTime.parse(user.date);
   }
 
   getComaony() async {
     final res = await CompanyManager.get(userCompany);
     company = res;
-    companyTextEdit.text = res.name;
   }
 
   save() async {
@@ -130,39 +157,21 @@ class MypageEditController extends GetxController {
     if (flag == false) {
       return false;
     }
+
+    user.loginid = loginid.text;
+    user.passwd = passwd.text;
+    user.name = name.text;
+    user.email = email.text;
+    user.tel = tel.text;
+    user.zip = zip;
+    user.address = address;
+    user.addressetc = addressetc.text;
+    user.careeryear = int.parse(careeryear.text);
+    user.careermonth = int.parse(careermonth.text);
+    user.joindate = DateFormat('yyyy-MM-dd', 'ko_KR').format(date);
+    user.company = company.id;
+
     await UserManager.update(user);
-    return true;
-  }
-
-  Future<bool> insert() async {
-    // bool flag = true;
-
-    // if (customerid == 0) {
-    //   errorCompany = '점검대상을 선택하세요';
-    //   flag = false;
-    // }
-
-    // if (name.text == '') {
-    //   errorTitle = '점검지명을 입력하세요';
-    //   flag = false;
-    // }
-
-    // if (flag == false) {
-    //   return false;
-    // }
-
-    // final item = Report()
-    //   ..title = name.text
-    //   ..period = period
-    //   ..number = ordinal
-    //   ..checkdate = DateFormat('yyyy-MM-dd', 'ko_KR').format(date)
-    //   ..checktime =
-    //       '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}'
-    //   ..company = Company(id: customerid)
-    //   ..status = ReportStatus.newer;
-
-    // await ReportManager.insert(item);
-
     return true;
   }
 }
