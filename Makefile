@@ -5,3 +5,6 @@ release:
 
 release-web:
 	flutter build web --dart-define=API_BASE_URL=  --dart-define=VERSION=$(version)
+
+deploy: release-web
+	scp -r ./web root@dev.zkeep.space:/home/zkeep/back
