@@ -35,7 +35,7 @@ class MainController extends InfiniteController {
   get reportTotal => _reportTotal.value;
   set reportTotal(value) => _reportTotal.value = value;
 
-  final _comReportTotal = 0.obs;
+  final _comReportTotal = (0.0).obs;
   get comReportTotal => _comReportTotal.value;
   set comReportTotal(value) => _comReportTotal.value = value;
 
@@ -130,10 +130,20 @@ class MainController extends InfiniteController {
   }
 
   getCompleteReportCount() async {
-    final res = await ReportManager.find(params: 'user=$userId&status=4');
+    DateTime now = DateTime.now();
+    DateTime firstDayOfYear = DateTime(now.year, now.month, 1);
+    DateTime lastDayOfYear = DateTime(now.year, now.month + 1, 0);
+    final res = await ReportManager.find(
+        params:
+            'user=$userId&status=4&startcheckdate=${DateFormat('yyyy-MM-dd').format(firstDayOfYear)}&endcheckdate=${DateFormat('yyyy-MM-dd').format(lastDayOfYear)}');
 
     if (res.isNotEmpty) {
-      comReportTotal = res.length;
+      // comReportTotal = res.length;
+      for (int i = 0; i < res.length; i++) {
+        comReportTotal += (res[i].extra['building']['score'] /
+            res[i].extra['building']['checkcount']);
+        print(comReportTotal);
+      }
     }
   }
 }
