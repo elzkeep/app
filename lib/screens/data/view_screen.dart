@@ -74,6 +74,7 @@ class ViewScreen extends CWidget {
             const SizedBox(height: 20),
             CTextField(
               text: '종합 검토 의견',
+              readOnly: c.report.status == ReportStatus.complete,
               maxLines: 5,
               controller: c.content,
             ),
@@ -386,7 +387,10 @@ class ViewScreen extends CWidget {
     final url = '/data/${c.id}/write/$num';
     return CContainer(
         width: (Get.width - 30) / 2,
-        onTap: () => Get.toNamed(url, arguments: {'item': c.report}),
+        onTap: () => Get.toNamed(url, arguments: {
+              'item': c.report,
+              'disable': c.report.status == ReportStatus.complete ? true : false
+            }),
         child: roundBorder(Stack(children: [
           CText(name, alignment: Alignment.center),
           if (c.data[num - 1])

@@ -67,7 +67,7 @@ class ListScreen extends CWidget {
     return Obx(() => Container(
         margin: const EdgeInsets.only(top: 10),
         child: CSelectButton(
-            items: const ['전체', '신규', '점검중', '점검완료', '작성완료'],
+            items: const ['전체', '신규', '점검중', '작성완료', '점검완료'],
             index: c.searchIndex,
             onSelected: (index) => clickSearch(index))));
   }

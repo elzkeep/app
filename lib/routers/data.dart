@@ -43,11 +43,13 @@ data() {
       binding: BindingsBuilder(() {
         final id = int.parse(Get.parameters['id']!);
         final category = int.parse(Get.parameters['category']!);
+        bool diable = false;
         Report item = Report();
         if (Get.arguments != null) {
           item = Get.arguments['item'];
+          diable = Get.arguments['disable'];
         }
-        Get.put(WriteController(id, category, item));
+        Get.put(WriteController(id, category, item, diable));
       }),
     ),
   ];

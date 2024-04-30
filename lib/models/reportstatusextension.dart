@@ -32,9 +32,9 @@ extension ReportStatusExtension on ReportStatus {
       case ReportStatus.ing:
         return '점검중';
       case ReportStatus.check:
-        return '서명완료';
+        return '작성완료';
       case ReportStatus.complete:
-        return '완료';
+        return '점검완료';
       default:
         return '';
     }

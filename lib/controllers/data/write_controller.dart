@@ -21,11 +21,12 @@ import 'package:zkeep/screens/data/dataitem/ups.dart';
 import 'package:zkeep/screens/data/dataitem/wind.dart';
 
 class WriteController extends GetxController {
-  WriteController(this.id, this.topcategory, this.item);
+  WriteController(this.id, this.topcategory, this.item, this.disable);
 
   final int id;
   final int topcategory;
   final Report item;
+  final bool disable;
 
   final _items = [].obs;
   get items => _items;
