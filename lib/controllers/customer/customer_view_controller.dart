@@ -56,6 +56,14 @@ class CustomerViewController extends GetxController {
     await getItem();
     await find();
     await getFacility();
+    await getGenerator();
+    await getSun();
+    await getCharger();
+    await getEss();
+    await getUps();
+    await getFuel();
+    await getWind();
+    await getWater();
   }
 
   getItem() async {
@@ -77,6 +85,78 @@ class CustomerViewController extends GetxController {
       facility = Facility();
     } else {
       facility = res[0];
+    }
+  }
+
+  getGenerator() async {
+    final res = await FacilityManager.find(
+        params: 'building=${item.building.id}&category=20');
+
+    if (res.isNotEmpty) {
+      other[0] = true;
+    }
+  }
+
+  getSun() async {
+    final res = await FacilityManager.find(
+        params: 'building=${item.building.id}&category=30');
+
+    if (res.isNotEmpty) {
+      other[1] = true;
+    }
+  }
+
+  getCharger() async {
+    final res = await FacilityManager.find(
+        params: 'building=${item.building.id}&category=40');
+
+    if (res.isNotEmpty) {
+      other[2] = true;
+    }
+  }
+
+  getEss() async {
+    final res = await FacilityManager.find(
+        params: 'building=${item.building.id}&category=50');
+
+    if (res.isNotEmpty) {
+      other[3] = true;
+    }
+  }
+
+  getUps() async {
+    final res = await FacilityManager.find(
+        params: 'building=${item.building.id}&category=60');
+
+    if (res.isNotEmpty) {
+      other[4] = true;
+    }
+  }
+
+  getFuel() async {
+    final res = await FacilityManager.find(
+        params: 'building=${item.building.id}&category=70');
+
+    if (res.isNotEmpty) {
+      other[5] = true;
+    }
+  }
+
+  getWind() async {
+    final res = await FacilityManager.find(
+        params: 'building=${item.building.id}&category=80');
+
+    if (res.isNotEmpty) {
+      other[6] = true;
+    }
+  }
+
+  getWater() async {
+    final res = await FacilityManager.find(
+        params: 'building=${item.building.id}&category=90');
+
+    if (res.isNotEmpty) {
+      other[7] = true;
     }
   }
 
