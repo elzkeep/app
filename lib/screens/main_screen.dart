@@ -147,6 +147,9 @@ class MainScreen extends CWidget {
     if (total == 0) {
       return 0.0;
     }
+    if ((num / total) > 1.0) {
+      return 1.0;
+    }
     return double.parse((num / total).toStringAsFixed(2));
   }
 

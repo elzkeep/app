@@ -40,14 +40,16 @@ class MainController extends InfiniteController {
   set comReportTotal(value) => _comReportTotal.value = value;
 
   static get userId => LocalStorage('login.json').getItem('user')['id'];
+  static get userScore => LocalStorage('login.json').getItem('user')['score'];
 
   @override
   onInit() async {
     super.onInit();
     await getCustomerCount();
-    await getNewCustomerCount();
+    // await getNewCustomerCount();
     await getReportCount();
     await getCompleteReportCount();
+    customerTotal = userScore.toInt();
   }
 
   void nextDay() {
@@ -100,21 +102,24 @@ class MainController extends InfiniteController {
     final res = await CustomerManager.find(params: 'user=$userId');
 
     if (res.isNotEmpty) {
-      customerTotal = res.length;
+      for (int i = 0; i < res.length; i++) {
+        newcustomerTotal += res[i].extra['building']['score'].toInt();
+        print(newcustomerTotal);
+      }
     }
   }
 
-  getNewCustomerCount() async {
-    DateTime today = DateTime.now();
-    DateTime weekago = DateTime(today.year, today.month, today.day - 7);
-    final res = await CustomerManager.find(
-        params:
-            'user=$userId&startdate=${DateFormat('yyyy-MM-dd').format(weekago)}&endcheckdate=${DateFormat('yyyy-MM-dd').format(today)}');
+  // getNewCustomerCount() async {
+  //   DateTime today = DateTime.now();
+  //   DateTime weekago = DateTime(today.year, today.month, today.day - 7);
+  //   final res = await CustomerManager.find(
+  //       params:
+  //           'user=$userId&startdate=${DateFormat('yyyy-MM-dd').format(weekago)}&endcheckdate=${DateFormat('yyyy-MM-dd').format(today)}');
 
-    if (res.isNotEmpty) {
-      newcustomerTotal = res.length;
-    }
-  }
+  //   if (res.isNotEmpty) {
+  //     // newcustomerTotal = res.length;
+  //   }
+  // }
 
   getReportCount() async {
     final res = await ReportManager.find(params: 'user=$userId');
