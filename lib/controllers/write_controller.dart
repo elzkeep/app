@@ -1,15 +1,24 @@
 import 'package:common_control/common_control.dart';
 import 'package:intl/intl.dart';
+import 'package:localstorage/localstorage.dart';
+import 'package:zkeep/models/building.dart';
 import 'package:zkeep/models/company.dart';
+import 'package:zkeep/models/customer.dart';
 import 'package:zkeep/models/report.dart';
+import 'package:zkeep/models/user.dart';
 
 class WriteController extends GetxController {
   final _period = 0.obs;
   final _ordinal = 0.obs;
-  final _date = DateTime.now().obs;
+  final _date = DateTime(DateTime.now().year, DateTime.now().month,
+          DateTime.now().day, DateTime.now().hour + 1, 0)
+      .obs;
+
   final _time = TimeOfDay.now().obs;
 
   final name = TextEditingController();
+
+  static get userId => LocalStorage('login.json').getItem('user')['id'];
 
   int get period => _period.value;
   set period(int value) => _period.value = value;
@@ -33,6 +42,10 @@ class WriteController extends GetxController {
   int get customerid => _customerid.value;
   set customerid(int value) => _customerid.value = value;
 
+  final _buildingid = 0.obs;
+  int get buildingid => _buildingid.value;
+  set buildingid(int value) => _buildingid.value = value;
+
   final _items = [].obs;
   get items => _items;
   set items(value) => _items.value = value;
@@ -49,13 +62,26 @@ class WriteController extends GetxController {
   onInit() async {
     super.onInit();
 
-    items = await CompanyManager.find();
+    // items = await BuildingManager.find();
+    getBuilding();
+  }
+
+  getBuilding() async {
+    final res = await CustomerManager.find(params: 'user=$userId');
+
+    if (res.isNotEmpty) {
+      items = [];
+      for (int i = 0; i < res.length; i++) {
+        Building building = Building.fromJson(res[i].extra['building']);
+        items.add(building);
+      }
+    }
   }
 
   Future<bool> insert() async {
     bool flag = true;
 
-    if (customerid == 0) {
+    if (customerid == 0 || buildingid == 0) {
       errorCompany = '점검대상을 선택하세요';
       flag = false;
     }
@@ -69,13 +95,17 @@ class WriteController extends GetxController {
       return false;
     }
 
+    final userId = LocalStorage('login.json').getItem('user')['id'];
+
     final item = Report()
+      ..user = User(id: userId)
       ..title = name.text
       ..period = period
       ..number = ordinal
       ..checkdate = DateFormat('yyyy-MM-dd', 'ko_KR').format(date)
-      ..checktime =
-          '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}'
+      ..checktime = DateFormat('HH:mm', 'ko_KR').format(date)
+      // '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}'
+      ..building = Building(id: buildingid)
       ..company = Company(id: customerid)
       ..status = ReportStatus.newer;
 

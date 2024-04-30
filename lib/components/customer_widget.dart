@@ -1,10 +1,11 @@
 import 'package:common_control/common_control.dart';
-import 'package:zkeep/models/company.dart';
+import 'package:intl/intl.dart';
+import 'package:zkeep/models/customer.dart';
 
-class CompanyWidget extends CWidget {
-  CompanyWidget(this.item, {super.key});
+class CustomerWidget extends CWidget {
+  CustomerWidget(this.item, {super.key});
 
-  final Company item;
+  final Customer item;
 
   @override
   Widget build(BuildContext context) {
@@ -19,24 +20,26 @@ class CompanyWidget extends CWidget {
           borderRadius: BorderRadius.circular(8)),
       margin: const EdgeInsets.only(top: 10),
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-      child: CRow(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      child: CRow(children: [
         Expanded(
-            child: CColumn(gap: 10, children: [
-          CText(item.name),
-          CRow(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            CText('',
+          child: CColumn(gap: 10, children: [
+            CText(item.building.name),
+            // CText(
+            //     '계약 종료일: ${DateFormat('yyyy.MM.dd').format(DateTime.parse(item.contractenddate))}',
+            //     textStyle:
+            //         const TextStyle(color: Colors.black54, fontSize: 12)),
+          ]),
+        ),
+        Expanded(
+          child: CColumn(gap: 10, children: [
+            CText('750KW / ${item.building.score}점 1회',
                 textStyle:
                     const TextStyle(color: Colors.black54, fontSize: 12)),
-            CText('',
-                textStyle:
-                    const TextStyle(color: Colors.black54, fontSize: 12)),
-            CText('',
+            CText('다음점검일 : ${item.checkdate}일',
                 textStyle: const TextStyle(color: Colors.black54, fontSize: 12))
           ]),
-        ])),
-        const SizedBox(width: 20),
+        ),
         CRow(
-          margin: const EdgeInsets.all(10),
           gap: 10,
           children: [
             CSvg('assets/imgs/call.svg'),
@@ -45,6 +48,5 @@ class CompanyWidget extends CWidget {
         )
       ]),
     );
-
   }
 }

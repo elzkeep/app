@@ -81,6 +81,24 @@ List<Dataitem> chargers(index, order, suborder) {
             order: suborder),
         items: [
           Item(type: ItemType.status),
-        ])
+        ]),
+    /* 반기일때 점검시에만 나옴
+    Dataitem(
+        order: order,
+        data: Data(
+            type: DataType.multi,
+            title: '절연/접지저항 측정',
+            category: index,
+            order: suborder),
+        items: [
+          Item(type: ItemType.text, title: '접지저항', unit: 'µA'),
+          Item(
+              type: ItemType.text,
+              title: '절연저항',
+              unit: 'MΩ',
+              extra: {'end': true}),
+          Item(type: ItemType.status),
+        ]),
+    */
   ];
 }

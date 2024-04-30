@@ -1,13 +1,14 @@
 import 'package:common_control/common_control.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:zkeep/components/company.dart';
 import 'package:zkeep/components/cround.dart';
 import 'package:zkeep/components/dround.dart';
 import 'package:zkeep/components/layout.dart';
+import 'package:zkeep/components/line_chart.dart';
 import 'package:zkeep/components/sub_title.dart';
 import 'package:zkeep/config/config.dart';
 import 'package:zkeep/controllers/customer/customer_view_controller.dart';
 import 'package:zkeep/models/report.dart';
+import 'package:zkeep/models/reportstatusextension.dart';
 
 class CustomerViewScreen extends CWidget {
   CustomerViewScreen({super.key});
@@ -20,21 +21,47 @@ class CustomerViewScreen extends CWidget {
   }
 
   body() {
-    return Obx(() => CColumn(children: [
-          CompanyWidget(c.item),
-          const SizedBox(height: 10),
+    return Obx(() => CScroll(gap: 20, children: [
+          CContainer(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: CRow(children: [
+              Expanded(
+                child: CColumn(gap: 10, children: [
+                  CText(
+                    c.item.building.name,
+                    textStyle: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ]),
+              ),
+              CRow(
+                gap: 10,
+                children: [
+                  CSvg('assets/imgs/corner-up-right.svg'),
+                  CSvg('assets/imgs/call.svg'),
+                  CSvg('assets/imgs/message.svg'),
+                ],
+              )
+            ]),
+          ),
           info(),
           CButton(
               text: '더보기',
-              margin: const EdgeInsets.only(top: 10),
-              flex: 1,
               size: CButtonSize.xsmall,
               type: CButtonStyle.outlined,
               onPressed: () => clickMore()),
-          const SizedBox(height: 10),
+          title('설비 기본 정보'),
+          facilityInfo(),
+          // graph(),
           history(),
-          Expanded(child: Container())
+          const SizedBox(height: 50),
         ]));
+  }
+
+  title(str) {
+    return CText(str,
+        // margin: const EdgeInsets.only(top: 10),
+        textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold));
   }
 
   info() {
@@ -46,40 +73,66 @@ class CustomerViewScreen extends CWidget {
               lineColor: Colors.black12,
               gap: 20,
               children: [
-                CBothSide(
-                    gap: 10,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CText('고객명: '),
-                      CText('동부팀'),
-                    ]),
-                CBothSide(
-                    gap: 10,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CRow(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CText('담당자 명: '),
-                          CText('홍길동'),
-                        ],
-                      ),
-                      CRow(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          CText('점검일: '),
-                          CText('매월 7일'),
-                        ],
-                      ),
-                    ]),
+                CText('고객명: ${c.item.company.name}'),
+                CRow(gap: 10, children: [
+                  CText(
+                    '담당자 명: ${c.item.managername}',
+                    expanded: true,
+                  ),
+                  CText(
+                    '점검일: 매월 ${c.item.contractday}일',
+                    expanded: true,
+                  ),
+                ]),
               ]))
     ]);
+  }
+
+  facilityInfo() {
+    return CContainer(
+      decoration: BoxDecoration(
+          border: Border.all(
+            color: const Color(0xffE0E0E0),
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(8)),
+      // margin: const EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+      child: CRow(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Expanded(
+            child: CColumn(gap: 10, children: [
+          CRow(children: [
+            Expanded(
+              child: CText('수전 용량: ${c.facility.value2}kW'),
+            ),
+            Expanded(
+              child: CText(
+                  '수전 형태: ${c.types[int.tryParse(c.facility.value3) ?? 0].value}'),
+            ),
+          ]),
+          CText('발전 설비 현황: ${c.facilityStatus()}'),
+          CRow(
+              margin: const EdgeInsets.only(top: 5),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CText(
+                  '더보기',
+                  textStyle:
+                      const TextStyle(fontSize: 12, color: Config.primaryColor),
+                  onTap: () => Get.toNamed('/facility/${c.id}',
+                      arguments: {'building': c.item.building}),
+                ),
+              ]),
+        ])),
+      ]),
+    );
   }
 
   graph() {
     return CColumn(children: [
       SubTitle('부적합 개소',
           more: '더보기', onMore: () => Get.toNamed('/mypage/customer')),
+      const CLineChart(),
     ]);
   }
 
@@ -100,6 +153,7 @@ class CustomerViewScreen extends CWidget {
     }
     return Obx(
       () => ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: c.items.length,
         itemBuilder: (context, index) {
@@ -113,8 +167,8 @@ class CustomerViewScreen extends CWidget {
     return CColumn(
       children: [
         CContainer(
-          onTap: () =>
-              Get.toNamed('/data/${item.id}', arguments: {'item': item}),
+          onTap: () => Get.toNamed('/data/${item.id}',
+              arguments: {'item': item, 'building': c.item.building}),
           decoration: BoxDecoration(
               color: const Color(0xffE0E0E0),
               border: Border.all(
@@ -140,10 +194,9 @@ class CustomerViewScreen extends CWidget {
             ])),
             const SizedBox(width: 20),
             DRound(
-                backgroundColor:
-                    item.status == 1 ? Colors.black54 : Colors.blue,
+                backgroundColor: item.status.color,
                 child: CText(
-                  '점검중',
+                  item.status.name,
                   textStyle: const TextStyle(fontSize: 11, color: Colors.white),
                 )),
           ]),
@@ -153,6 +206,6 @@ class CustomerViewScreen extends CWidget {
   }
 
   clickMore() {
-    Get.toNamed('/customer/${c.id}/detail');
+    Get.toNamed('/customer/${c.id}/detail', arguments: {'item': c.item});
   }
 }

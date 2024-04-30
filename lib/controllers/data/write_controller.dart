@@ -1,16 +1,24 @@
 import 'package:common_control/common_control.dart';
+import 'package:zkeep/config/config.dart';
+import 'package:zkeep/controllers/data/list_controller.dart';
+import 'package:zkeep/controllers/data/view_controller.dart';
+import 'package:zkeep/controllers/main_controller.dart';
 import 'package:zkeep/models/data.dart';
 import 'package:zkeep/models/dataitem.dart';
 import 'package:zkeep/models/item.dart';
 import 'package:zkeep/models/report.dart';
 import 'package:zkeep/screens/data/dataitem/change.dart';
 import 'package:zkeep/screens/data/dataitem/charger.dart';
+import 'package:zkeep/screens/data/dataitem/ess.dart';
 import 'package:zkeep/screens/data/dataitem/etc.dart';
+import 'package:zkeep/screens/data/dataitem/fuel.dart';
 import 'package:zkeep/screens/data/dataitem/generator.dart';
 import 'package:zkeep/screens/data/dataitem/high.dart';
 import 'package:zkeep/screens/data/dataitem/load.dart';
 import 'package:zkeep/screens/data/dataitem/low.dart';
 import 'package:zkeep/screens/data/dataitem/sunlight.dart';
+import 'package:zkeep/screens/data/dataitem/ups.dart';
+import 'package:zkeep/screens/data/dataitem/wind.dart';
 
 class WriteController extends GetxController {
   WriteController(this.id, this.topcategory, this.item);
@@ -35,7 +43,7 @@ class WriteController extends GetxController {
     if (topcategory == 1) {
       return low(index, order, suborder);
     } else if (topcategory == 2) {
-      return high(index, order, suborder);
+      return high(index, order, suborder, item.period);
     } else if (topcategory == 3) {
       return change(index, order, suborder);
     } else if (topcategory == 4) {
@@ -48,6 +56,14 @@ class WriteController extends GetxController {
       return sunlight(index, order, suborder);
     } else if (topcategory == 8) {
       return charger(index, order, suborder);
+    } else if (topcategory == 9) {
+      return ess(index, order, suborder);
+    } else if (topcategory == 10) {
+      return ups(index, order, suborder);
+    } else if (topcategory == 11) {
+      return fuel(index, order, suborder);
+    } else if (topcategory == 12) {
+      return wind(index, order, suborder);
     }
     return Dataitem.empty();
   }
@@ -57,7 +73,7 @@ class WriteController extends GetxController {
       final item = lows(0, 0, 0);
       return item.length;
     } else if (topcategory == 2) {
-      final item = highs(0, 0, 0);
+      final item = highs(0, 0, 0, 0);
       return item.length;
     } else if (topcategory == 3) {
       final item = changes(0, 0, 0);
@@ -76,6 +92,18 @@ class WriteController extends GetxController {
       return item.length;
     } else if (topcategory == 8) {
       final item = chargers(0, 0, 0);
+      return item.length;
+    } else if (topcategory == 9) {
+      final item = esss(0, 0, 0);
+      return item.length;
+    } else if (topcategory == 10) {
+      final item = upss(0, 0, 0);
+      return item.length;
+    } else if (topcategory == 11) {
+      final item = fuels(0, 0, 0);
+      return item.length;
+    } else if (topcategory == 12) {
+      final item = winds(0, 0, 0);
       return item.length;
     }
 
@@ -97,29 +125,24 @@ class WriteController extends GetxController {
       }
 
       if (item.items[j].type == ItemType.text) {
-        if (item.items[j].extra != null) {
-          var extra = item.items[j].extra;
+        var extra = item.items[j].extra;
 
-          var newExtra = <String, dynamic>{};
+        var newExtra = <String, dynamic>{};
 
-          for (var key in extra.keys) {
-            newExtra[key] = extra[key];
-          }
-
-          newExtra['text'] = TextEditingController();
-
-          item.items[j].extra = newExtra;
-        } else {
-          item.items[j].extra = {
-            'text': TextEditingController(),
-          };
+        for (var key in extra.keys) {
+          newExtra[key] = extra[key];
         }
+
+        newExtra['text'] = TextEditingController();
+
+        item.items[j].extra = newExtra;
       } else if (item.items[j].type == ItemType.status) {
         item.items[j].status = ItemStatus.notuse;
 
         item.items[j].extra = {
           'reasontext': TextEditingController(),
           'actiontext': TextEditingController(),
+          'image': false,
         };
       }
     }
@@ -142,7 +165,12 @@ class WriteController extends GetxController {
       '발전설비',
       '기타안전설비',
       '태양광 발전설비',
-      '전기차충전기'
+      '전기차 충전기',
+      'ESS',
+      'UPS',
+      '연료전지',
+      '풍력발전',
+      '수력발전',
     ];
     title = '${item.title} - ${titles[topcategory - 1]}';
     print('title = $title');
@@ -179,7 +207,6 @@ class WriteController extends GetxController {
       var pos = 0;
       for (var j = 0; j < ret2.length; j++) {
         final item = ret2[j];
-
         if (item.data != data.id) {
           continue;
         }
@@ -189,6 +216,11 @@ class WriteController extends GetxController {
           dataitem.items[pos].extra['text'].text = item.content;
         } else if (dataitem.items[pos].type == ItemType.select) {
         } else if (dataitem.items[pos].type == ItemType.status) {
+          if (dataitem.items[pos].image != '') {
+            dataitem.items[pos].image =
+                '${Config.serverUrl}/webdata/${item.image}';
+            dataitem.items[pos].extra['image'].text = true;
+          }
           dataitem.items[pos].status = item.status;
           dataitem.items[pos].reason = item.reason;
           dataitem.items[pos].action = item.action;
@@ -269,6 +301,12 @@ class WriteController extends GetxController {
 
           item.reasontext = item.extra['reasontext'].text;
           item.actiontext = item.extra['actiontext'].text;
+          if (item.image != '') {
+            List<String> parts = item.image.split("/");
+            String imageName = parts[parts.length - 1];
+            await Http.upload('/api/upload/index', imageName, item.image);
+            item.image = imageName;
+          }
         }
       }
     }
@@ -276,5 +314,19 @@ class WriteController extends GetxController {
     print(items.runtimeType);
 
     await DataitemManager.insert(items.value);
+    if (item.status == ReportStatus.newer) {
+      item.status = ReportStatus.ing;
+      await ReportManager.update(item);
+    }
+    final c = Get.find<ViewController>();
+    c.data[topcategory - 1] = true;
+    if (Get.isRegistered<ListController>()) {
+      final c = Get.find<ListController>();
+      c.reset();
+    }
+    if (Get.isRegistered<MainController>()) {
+      final c = Get.find<MainController>();
+      c.reset();
+    }
   }
 }

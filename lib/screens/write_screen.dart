@@ -1,10 +1,40 @@
 import 'package:common_control/common_control.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
+import 'package:table_calendar/table_calendar.dart';
 import 'package:zkeep/components/Cformtitle.dart';
 import 'package:zkeep/components/cformtext.dart';
 import 'package:zkeep/components/cselectbox.dart';
+import 'package:zkeep/components/ctablecalendar.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/controllers/write_controller.dart';
-import 'package:zkeep/models/company.dart';
+import 'package:zkeep/models/building.dart';
+
+final period = [
+  CItem(id: 0, value: '주기'),
+  CItem(id: 1, value: '월차'),
+  CItem(id: 2, value: '분기'),
+  CItem(id: 3, value: '반기'),
+  CItem(id: 4, value: '연차')
+];
+
+final ordinal = [
+  CItem(id: 0, value: '차수'),
+  CItem(id: 1, value: '1차'),
+  CItem(id: 2, value: '2차'),
+  CItem(id: 3, value: '3차'),
+  CItem(id: 4, value: '4차')
+];
+
+final ordinalharf = [
+  CItem(id: 0, value: '차수'),
+  CItem(id: 1, value: '1차'),
+  CItem(id: 2, value: '2차'),
+];
+
+final ordinalyear = [
+  CItem(id: 0, value: '차수'),
+];
 
 class WriteScreen extends CWidget {
   WriteScreen({super.key});
@@ -21,33 +51,17 @@ class WriteScreen extends CWidget {
   }
 
   form() {
-    final period = [
-      CItem(id: 0, value: '주기'),
-      CItem(id: 1, value: '월차'),
-      CItem(id: 2, value: '분기'),
-      CItem(id: 3, value: '반기'),
-      CItem(id: 4, value: '연차')
-    ];
-
-    final ordinal = [
-      CItem(id: 0, value: '차수'),
-      CItem(id: 1, value: '1차'),
-      CItem(id: 2, value: '2차'),
-      CItem(id: 3, value: '3차'),
-      CItem(id: 4, value: '4차')
-    ];
-
     return Obx(() => CForm(padding: const EdgeInsets.all(10), children: [
-          CRow(mainAxisAlignment: MainAxisAlignment.end, children: [
-            CButton(
-              width: 140,
-              text: '기존 기록 불러오기',
-              flex: 1,
-              size: CButtonSize.small,
-              type: CButtonStyle.outlined,
-              onPressed: () => {},
-            ),
-          ]),
+          // CRow(mainAxisAlignment: MainAxisAlignment.end, children: [
+          //   CButton(
+          //     width: 140,
+          //     text: '기존 기록 불러오기',
+          //     flex: 1,
+          //     size: CButtonSize.small,
+          //     type: CButtonStyle.outlined,
+          //     onPressed: () => {},
+          //   ),
+          // ]),
           CFormtitle(title: '점검대상'),
           CFormtext(c.customer,
               onTap: () => clickCustomer(), errText: c.errorCompany),
@@ -59,26 +73,34 @@ class WriteScreen extends CWidget {
                     selected: c.period,
                     onSelected: (pos) {
                       c.period = pos;
+                      c.name.text =
+                          '${c.customer} ${c.date.month}월 ${period[c.period].value} ${ordinal[c.ordinal].value} 안전점검';
                     })),
             Expanded(
                 child: CSelectbox(
-                    items: ordinal,
+                    items: c.period == 3
+                        ? ordinalharf
+                        : c.period == 4
+                            ? ordinalyear
+                            : ordinal,
                     selected: c.ordinal,
                     onSelected: (pos) {
-                      c.period = pos;
+                      c.ordinal = pos;
+                      c.name.text =
+                          '${c.customer} ${c.date.month}월 ${period[c.period].value} ${ordinal[c.ordinal].value} 안전점검';
                     }))
           ]),
           CFormtitle(title: '점검일시'),
           CRow(gap: 10, children: [
             Expanded(
               child: CFormtext(
-                '${c.date.year}.${c.date.month}.${c.date.day}',
+                DateFormat('yyyy.MM.dd').format(c.date),
                 onTap: () => clickDate(),
               ),
             ),
             Expanded(
               child: CFormtext(
-                '${c.time.hour}:${c.time.minute}',
+                DateFormat('HH:mm').format(c.date),
                 onTap: () => clickTime(),
               ),
             ),
@@ -236,8 +258,8 @@ class WriteScreen extends CWidget {
     List<Widget> items = [];
 
     for (var i = 0; i < c.items.length; i++) {
-      Company item = c.items[i];
-      final name = item.billingname;
+      Building item = c.items[i];
+      final name = item.name;
 
       if (c.search != '') {
         if (!name.contains(c.search)) {
@@ -265,36 +287,71 @@ class WriteScreen extends CWidget {
         ])));
   }
 
-  clickSelectCustomer(Company item) {
-    c.customer = item.billingname;
-    c.customerid = item.id;
+  clickSelectCustomer(Building item) {
+    c.customer = item.name;
+    c.customerid = item.company;
+    c.buildingid = item.id;
+    c.name.text =
+        '${item.name} ${c.date.month}월 ${period[c.period].value} ${ordinal[c.ordinal].value} 안전점검';
     Get.back();
   }
 
   clickDate() async {
     final context = Get.context!;
 
-    final date = await showDatePicker(
-        context: context,
-        initialDate: c.date,
-        firstDate: DateTime(1900),
-        lastDate: DateTime.now());
-
-    if (date != null) {
-      c.date = date;
-    }
+    await showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 400,
+          color: Colors.white,
+          child: Center(
+            child: CTableCalendar(
+              focusedDay: c.date,
+              events: const {},
+              calendarFormat: CalendarFormat.month,
+              getMonth: () {},
+              onDaySelected: onDaySelected,
+              onPageChanged: onPageChanged,
+            ),
+          ),
+        );
+      },
+    );
   }
+
+  onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    final context = Get.context!;
+    c.date = selectedDay;
+    c.name.text =
+        '${c.customer} ${c.date.month}월 ${period[c.period].value} ${ordinal[c.ordinal].value} 안전점검';
+    Navigator.pop(context);
+  }
+
+  onPageChanged(DateTime focusedDay) async {}
 
   clickTime() async {
     final context = Get.context!;
 
-    final time = await showTimePicker(
+    await showModalBottomSheet<void>(
       context: context,
-      initialTime: c.time,
+      builder: (BuildContext context) {
+        return Container(
+          height: 400,
+          color: Colors.white,
+          child: Center(
+            child: CupertinoDatePicker(
+              initialDateTime: c.date,
+              mode: CupertinoDatePickerMode.time,
+              minuteInterval: 5,
+              // use24hFormat: true,
+              onDateTimeChanged: (DateTime newTime) {
+                c.date = newTime;
+              },
+            ),
+          ),
+        );
+      },
     );
-
-    if (time != null) {
-      c.time = time;
-    }
   }
 }

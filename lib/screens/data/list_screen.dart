@@ -1,10 +1,14 @@
 import 'package:common_control/common_control.dart';
+import 'package:intl/intl.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:zkeep/components/cselectbutton.dart';
+import 'package:zkeep/components/dround.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/config/config.dart';
 import 'package:zkeep/controllers/data/list_controller.dart';
+import 'package:zkeep/models/building.dart';
 import 'package:zkeep/models/report.dart';
+import 'package:zkeep/models/reportstatusextension.dart';
 
 class ListScreen extends CWidget {
   ListScreen({super.key});
@@ -21,7 +25,7 @@ class ListScreen extends CWidget {
 
   search() {
     return CTextField(
-      text: '고객명, 점검일자, 점검지역',
+      text: '고객명, 점검지명, 점검지역',
       svg: 'assets/imgs/search.svg',
       margin: const EdgeInsets.only(top: 10),
       controller: c.searchTextController,
@@ -35,25 +39,26 @@ class ListScreen extends CWidget {
 
   buttons() {
     return CRow(gap: 10, children: [
-      Container(
-          margin: const EdgeInsets.only(top: 10),
-          child: OutlinedButton(
-              onPressed: () => {},
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  side: const BorderSide(width: 1.0, color: Colors.black54),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 3, horizontal: 10)),
-              child: CRow(gap: 3, children: [
-                CSvg('assets/imgs/filter.svg', width: 14),
-                const Text(
-                  '필터',
-                  style: TextStyle(color: Colors.black54, fontSize: 14),
-                ),
-              ]))),
+      // Container(
+      //     margin: const EdgeInsets.only(top: 10),
+      //     child: OutlinedButton(
+      //       onPressed: () => {},
+      //       style: ElevatedButton.styleFrom(
+      //           backgroundColor: Colors.white,
+      //           side: const BorderSide(width: 1.0, color: Colors.black54),
+      //           shape: RoundedRectangleBorder(
+      //             borderRadius: BorderRadius.circular(4.0),
+      //           ),
+      //           padding:
+      //               const EdgeInsets.symmetric(vertical: 3, horizontal: 10)),
+      //       child: CRow(gap: 3, children: [
+      //         CSvg('assets/imgs/filter.svg', width: 14),
+      //         const Text(
+      //           '필터',
+      //           style: TextStyle(color: Colors.black54, fontSize: 14),
+      //         ),
+      //       ]),
+      //     )),
       searchbutton()
     ]);
   }
@@ -62,7 +67,7 @@ class ListScreen extends CWidget {
     return Obx(() => Container(
         margin: const EdgeInsets.only(top: 10),
         child: CSelectButton(
-            items: const ['빠른순서', '가까운 순', '신규', '점검완료'],
+            items: const ['전체', '신규', '점검중', '점검완료', '작성완료'],
             index: c.searchIndex,
             onSelected: (index) => clickSearch(index))));
   }
@@ -119,7 +124,10 @@ class ListScreen extends CWidget {
 
   Widget list(Report item, int index) {
     return CContainer(
-      onTap: () => Get.toNamed('/data/${item.id}', arguments: {'item': item}),
+      onTap: () => Get.toNamed('/data/${item.id}', arguments: {
+        'item': item,
+        'building': Building.fromJson(item.extra['building'])
+      }),
       decoration: BoxDecoration(
           color: const Color(0xffE0E0E0),
           border: Border.all(
@@ -132,14 +140,27 @@ class ListScreen extends CWidget {
       child: CRow(crossAxisAlignment: CrossAxisAlignment.start, children: [
         CContainer(
             margin: const EdgeInsets.only(top: 4),
-            backgroundColor: const Color.fromRGBO(237, 92, 66, 1.000),
+            backgroundColor: Config.primaryColor,
             width: 5,
             height: 14,
             child: Container()),
         const SizedBox(width: 10),
         Expanded(
             child: CColumn(gap: 10, children: [
-          CText(item.title),
+          CRow(gap: 5, children: [
+            Expanded(
+              child: CText(
+                item.title,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            DRound(
+                backgroundColor: item.status.color,
+                child: CText(
+                  item.status.name,
+                  textStyle: const TextStyle(fontSize: 11, color: Colors.white),
+                )),
+          ]),
           CRow(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             CText(item.company.name,
                 textStyle:
@@ -147,7 +168,8 @@ class ListScreen extends CWidget {
             CText('|',
                 textStyle:
                     const TextStyle(color: Colors.black54, fontSize: 12)),
-            CText('1',
+            CText(
+                '${DateFormat('MM월 dd일').format(DateTime.parse(item.checkdate))} ${item.checktime}',
                 textStyle: const TextStyle(color: Colors.black54, fontSize: 12))
           ]),
         ])),

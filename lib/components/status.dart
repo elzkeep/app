@@ -1,5 +1,6 @@
 import 'package:common_control/common_control.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:zkeep/components/cselectbox.dart';
 import 'package:zkeep/components/cselectbutton.dart';
 import 'package:zkeep/models/item.dart';
@@ -111,11 +112,12 @@ class Status extends CWidget {
                       item.reason = pos;
                       onSelected(item);
                     }),
-                item.reason == 1 ? CTextField(
-                  textStyle: const TextStyle(fontSize: 14),
-                  filledColor: Colors.white,
-                  controller: item.extra['reasontext']
-                ) : const SizedBox.shrink(),
+                item.reason == 1
+                    ? CTextField(
+                        textStyle: const TextStyle(fontSize: 14),
+                        filledColor: Colors.white,
+                        controller: item.extra['reasontext'])
+                    : const SizedBox.shrink(),
                 CText('조치사항'),
                 CSelectbox(
                     backgroundColor: Colors.white,
@@ -125,13 +127,53 @@ class Status extends CWidget {
                       item.action = pos;
                       onSelected(item);
                     }),
-                    item.action == 1 ? CTextField(
-                  textStyle: const TextStyle(fontSize: 14),
-                  filledColor: Colors.white,
-                  controller: item.extra['actiontext']
-                ) : const SizedBox.shrink(),
+                item.action == 1
+                    ? CTextField(
+                        textStyle: const TextStyle(fontSize: 14),
+                        filledColor: Colors.white,
+                        controller: item.extra['actiontext'])
+                    : const SizedBox.shrink(),
                 CText('사진'),
-                const Icon(CupertinoIcons.plus)
+                item.image == ''
+                    ? CContainer(
+                        height: 100,
+                        width: 100,
+                        decoration: BoxDecoration(
+                            color: backgroundColor,
+                            border: Border.all(
+                              color: const Color(0xffE0E0E0),
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(8)),
+                        child: const Icon(CupertinoIcons.plus),
+                        onTap: () async {
+                          final returnedImage = await ImagePicker()
+                              .pickImage(source: ImageSource.gallery);
+                          if (returnedImage == null) return;
+                          item.image = returnedImage.path;
+                          item.extra['image'] = false;
+                          onSelected(item);
+                        },
+                      )
+                    // : CContainer(
+                    //     width: 100,
+                    //     height: 100,
+                    //     child: Image.asset(
+                    //       item.image,
+                    //       fit: BoxFit.cover,
+                    //     ))
+                    : CContainer(
+                        width: 100,
+                        height: 100,
+                        child: item.extra['image'] == false
+                            ? Image.asset(
+                                item.image,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.network(
+                                item.image,
+                                fit: BoxFit.cover,
+                              ))
               ])),
         ),
       ]);

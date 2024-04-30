@@ -1,6 +1,7 @@
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/components/circle_navigation.dart';
 import 'package:zkeep/components/head.dart';
+import 'package:zkeep/config/config.dart';
 
 class Layout extends CWidget {
   Layout(
@@ -18,17 +19,21 @@ class Layout extends CWidget {
   @override
   Widget build(BuildContext context) {
     Widget? leading;
+    List<Widget>? actions;
 
     if (popup == true) {
       leading = IconButton(
           onPressed: () => Get.back(), icon: const Icon(Icons.arrow_back_ios));
       return CScaffold(
           appBar: AppBar(
-              title: Head(title: title),
-              backgroundColor: Colors.white,
-              elevation: 1.0,
-              automaticallyImplyLeading: true,
-              leading: leading),
+            title: Head(title: title),
+            centerTitle: true,
+            backgroundColor: Colors.white,
+            elevation: 1.0,
+            automaticallyImplyLeading: true,
+            leading: leading,
+            actions: actions,
+          ),
           autoLostFocus: true,
           body: Container(
               margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
@@ -43,6 +48,7 @@ class Layout extends CWidget {
     return CScaffold(
         appBar: AppBar(
             title: Head(title: title),
+            centerTitle: true,
             backgroundColor: Colors.white,
             elevation: 1.0,
             automaticallyImplyLeading: true,
@@ -55,7 +61,7 @@ class Layout extends CWidget {
             onPressed: () =>
                 Get.toNamed('/write', arguments: {'mode': 'write'}),
             foregroundColor: Colors.white,
-            backgroundColor: const Color.fromRGBO(237, 92, 66, 1.000),
+            backgroundColor: Config.primaryColor,
             child: const Icon(Icons.add)),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: CircleNavigation());

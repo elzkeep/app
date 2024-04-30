@@ -18,42 +18,42 @@ class BottomNavigation extends CWidget {
   @override
   Widget build(BuildContext context) {
     return BottomAppBar(
-      /*
+        /*
       color: Colors.white,
       surfaceTintColor: Colors.white,
       elevation: 0.0,
       */
-                child: CContainer(
-                    padding: const EdgeInsets.all(0),
-                    child: CRow(
-                        padding: const EdgeInsets.only(top: 5),
-                        // crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          IconButton(
-                            icon: const Icon(CupertinoIcons.home, color: Colors.black54),
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onPressed: () => Get.offAndToNamed('/')
-                          ),
-                          IconButton(
-                            icon: const Icon(CupertinoIcons.doc_plaintext, color: Colors.black54),
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onPressed: () => Get.offAndToNamed('/data')
-                          ),
-                          IconButton(
-                            icon: const Icon(CupertinoIcons.person_2_square_stack, color: Colors.black54),
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onPressed: () => Get.offAndToNamed('/customer')
-                          ),
-                          IconButton(
-                            icon: const Icon(CupertinoIcons.person_crop_circle, color: Colors.black54),
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onPressed: () => Get.offAndToNamed('/mypage')
-                          ),
-                        ])));
+        child: CContainer(
+            padding: const EdgeInsets.all(0),
+            child: CRow(
+                padding: const EdgeInsets.only(top: 5),
+                // crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  IconButton(
+                      icon: const Icon(CupertinoIcons.home,
+                          color: Colors.black54),
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onPressed: () => Get.offAndToNamed('/')),
+                  IconButton(
+                      icon: const Icon(CupertinoIcons.doc_plaintext,
+                          color: Colors.black54),
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onPressed: () => Get.offAndToNamed('/data')),
+                  IconButton(
+                      icon: const Icon(CupertinoIcons.person_2_square_stack,
+                          color: Colors.black54),
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onPressed: () => Get.offAndToNamed('/customer')),
+                  IconButton(
+                      icon: const Icon(CupertinoIcons.person_crop_circle,
+                          color: Colors.black54),
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onPressed: () => Get.offAndToNamed('/mypage')),
+                ])));
   }
 }

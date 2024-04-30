@@ -43,6 +43,22 @@ List<Dataitem> changes(index, order, suborder) {
               type: ItemType.status,
               title: '관리 온도 이상 여부',
               extra: {'visible': 1}),
+          /* 연차일때 점검시에만 나옴
+          Item(type: ItemType.none, title: '절연저항 (MΩ)'),
+          Item(type: ItemType.text, title: '1차 - 대지'),
+          Item(type: ItemType.text, title: '2차 - 대지'),
+          Item(type: ItemType.text, title: '1차 - 2차', extra: {'end': true}),
+          Item(type: ItemType.status),
+          Item(type: ItemType.none, title: '유입형 내부점검'),
+          Item(type: ItemType.text, title: 'OT내전압 (5회평균)'),
+          Item(
+              type: ItemType.text때
+              title: 'OT산가도 (mgkoH/g)',
+              extra: {'end': true}),
+          Item(type: ItemType.text, title: '유량'),
+          Item(type: ItemType.text, title: '탭위치', extra: {'end': true}),
+          Item(type: ItemType.status),
+          */
         ])
   ];
 }

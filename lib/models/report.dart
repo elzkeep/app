@@ -1,5 +1,7 @@
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/models/company.dart';
+import 'package:zkeep/models/user.dart';
+import 'package:zkeep/models/building.dart';
 
 enum ReportStatus { none, newer, ing, check, complete }
 
@@ -11,8 +13,13 @@ class Report {
   String checkdate;
   String checktime;
   String content;
+  String image;
+  String sign1;
+  String sign2;
   ReportStatus status;
   Company company = Company();
+  User user = User();
+  Building building = Building();
   String date;
   bool checked;
   Map<String, dynamic> extra;
@@ -25,13 +32,24 @@ class Report {
       this.checkdate = '',
       this.checktime = '',
       this.content = '',
+      this.image = '',
+      this.sign1 = '',
+      this.sign2 = '',
       this.status = ReportStatus.none,
       Company? company,
+      User? user,
+      Building? building,
       this.date = '',
       this.extra = const {},
       this.checked = false}) {
     if (company != null) {
       this.company = company;
+    }
+    if (user != null) {
+      this.user = user;
+    }
+    if (building != null) {
+      this.building = building;
     }
   }
 
@@ -44,8 +62,13 @@ class Report {
         checkdate: json['checkdate'] as String,
         checktime: json['checktime'] as String,
         content: json['content'] as String,
+        image: json['image'] as String,
+        sign1: json['sign1'] as String,
+        sign2: json['sign2'] as String,
         status: ReportStatus.values[json['status'] as int],
         company: Company.fromJson(json['extra']['company']),
+        user: User.fromJson(json['extra']['user']),
+        building: Building.fromJson(json['extra']['building']),
         date: json['date'] as String,
         extra: json['extra'] == null
             ? <String, dynamic>{}
@@ -60,8 +83,13 @@ class Report {
         'checkdate': checkdate,
         'checktime': checktime,
         'content': content,
+        'image': image,
+        'sign1': sign1,
+        'sign2': sign2,
         'status': status.index,
         'company': company.id,
+        'user': user.id,
+        'building': building.id,
         'date': date
       };
 
@@ -100,14 +128,6 @@ class ReportManager {
     return result;
   }
 
-  static update(Report item) async {
-    await Http.put(baseUrl, item.toJson());
-  }
-
-  static delete(Report item) async {
-    await Http.delete(baseUrl, item.toJson());
-  }
-
   static Future<List<Report>> search(
       {int page = 0, int pagesize = 20, String? params}) async {
     var result = await Http.get(
@@ -119,5 +139,13 @@ class ReportManager {
     return result['items']
         .map<Report>((json) => Report.fromJson(json))
         .toList();
+  }
+
+  static update(Report item) async {
+    await Http.put(baseUrl, item.toJson());
+  }
+
+  static delete(Report item) async {
+    await Http.delete(baseUrl, item.toJson());
   }
 }
