@@ -146,7 +146,12 @@ class ViewScreen extends CWidget {
             onPressed: () => clickCancel(),
           ),
           CButton(
-            text: c.report.status == ReportStatus.check ? '점검완료' : '작성완료',
+            text: c.report.status == ReportStatus.check
+                ? '점검완료'
+                : c.report.status == ReportStatus.complete
+                    ? '완료'
+                    : '작성완료',
+            disabled: c.report.status == ReportStatus.complete,
             flex: 1,
             size: CButtonSize.large,
             onPressed: () => clickSave(),
