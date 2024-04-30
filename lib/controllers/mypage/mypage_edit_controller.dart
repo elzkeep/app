@@ -2,6 +2,7 @@ import 'package:common_control/common_control.dart';
 import 'package:intl/intl.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:zkeep/models/company.dart';
+import 'package:zkeep/models/license.dart';
 import 'package:zkeep/models/user.dart';
 
 class MypageEditController extends GetxController {
@@ -102,11 +103,16 @@ class MypageEditController extends GetxController {
   String get search => _search.value;
   set search(String value) => _search.value = value;
 
+  final _licenses = [].obs;
+  get licenses => _licenses;
+  set licenses(value) => _licenses.value = value;
+
   @override
   onInit() async {
     super.onInit();
     getUser();
     getComaony();
+    getLicense();
 
     items = await CompanyManager.find();
   }
@@ -125,6 +131,11 @@ class MypageEditController extends GetxController {
     careeryear.text = user.careeryear.toString();
     careermonth.text = user.careermonth.toString();
     date = DateTime.parse(user.date);
+  }
+
+  getLicense() async {
+    final res = await LicenseManager.find(params: 'user=$userid');
+    licenses = res;
   }
 
   getComaony() async {

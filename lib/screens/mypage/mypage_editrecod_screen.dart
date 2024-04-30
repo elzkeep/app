@@ -58,76 +58,82 @@ class MypageEditRecodScreen extends CWidget {
       //     more: '불러오기', onMore: () => Get.toNamed('/mypage/customer')),
       SubTitle('자격 정보'),
       CRow(gap: 20, children: [
-        Expanded(
-          child: CColumn(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CContainer(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Color.fromRGBO(92, 107, 192, 1.000),
-                          Color.fromRGBO(59, 69, 123, 1.000)
-                        ]),
-                    borderRadius: BorderRadius.circular(8)),
-                width: 89,
-                height: 64,
-                child: CText(
-                  '전기기사',
-                  textStyle: const TextStyle(color: Colors.white),
+        for (int i = 0; i < c.licenses.length; i++)
+          Expanded(
+            child: CColumn(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CContainer(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Color.fromRGBO(92, 107, 192, 1.000),
+                            Color.fromRGBO(59, 69, 123, 1.000)
+                          ]),
+                      borderRadius: BorderRadius.circular(8)),
+                  width: 89,
+                  height: 64,
+                  child: CText(
+                    c.licenses[i].extra['licensecategory']['name'] ?? '',
+                    textStyle: const TextStyle(color: Colors.white),
+                  ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              CText('2016.01.04', textStyle: const TextStyle(fontSize: 12)),
-              CText('기술등급: 고급', textStyle: const TextStyle(fontSize: 12)),
-            ],
-          ),
-        ),
-        Expanded(
-          child: CColumn(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CContainer(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                          Color.fromRGBO(92, 107, 192, 1.000),
-                          Color.fromRGBO(59, 69, 123, 1.000)
-                        ]),
-                    borderRadius: BorderRadius.circular(8)),
-                width: 89,
-                height: 64,
-                child: CText(
-                  '전기공사기사',
-                  textStyle: const TextStyle(color: Colors.white),
-                ),
-              ),
-              const SizedBox(height: 10),
-              CText('2010.04.05', textStyle: const TextStyle(fontSize: 12)),
-              CText('기술등급: 특급', textStyle: const TextStyle(fontSize: 12)),
-            ],
-          ),
-        ),
-        Expanded(
-          child: CContainer(
-            alignment: Alignment.center,
-            width: 58,
-            height: 58,
-            decoration: const BoxDecoration(
-                color: Config.buttonColor, shape: BoxShape.circle),
-            child: CText(
-              alignment: Alignment.center,
-              '+',
-              textStyle: const TextStyle(color: Colors.white),
+                const SizedBox(height: 10),
+                CText(
+                    DateFormat('yyyy.MM.dd')
+                        .format(DateTime.parse(c.licenses[i].date)),
+                    textStyle: const TextStyle(fontSize: 12)),
+                CText('기술등급: ${c.licenses[i].extra['licenselevel']['name']}',
+                    textStyle: const TextStyle(fontSize: 12)),
+              ],
             ),
           ),
-        )
+        // Expanded(
+        //   child: CColumn(
+        //     crossAxisAlignment: CrossAxisAlignment.center,
+        //     children: [
+        //       CContainer(
+        //         alignment: Alignment.center,
+        //         decoration: BoxDecoration(
+        //             gradient: const LinearGradient(
+        //                 begin: Alignment.topCenter,
+        //                 end: Alignment.bottomCenter,
+        //                 colors: [
+        //                   Color.fromRGBO(92, 107, 192, 1.000),
+        //                   Color.fromRGBO(59, 69, 123, 1.000)
+        //                 ]),
+        //             borderRadius: BorderRadius.circular(8)),
+        //         width: 89,
+        //         height: 64,
+        //         child: CText(
+        //           '전기공사기사',
+        //           textStyle: const TextStyle(color: Colors.white),
+        //         ),
+        //       ),
+        //       const SizedBox(height: 10),
+        //       CText('2010.04.05', textStyle: const TextStyle(fontSize: 12)),
+        //       CText('기술등급: 특급', textStyle: const TextStyle(fontSize: 12)),
+        //     ],
+        //   ),
+        // ),
+        for (int i = 0; i < 3 - c.licenses.length; i++)
+          Expanded(
+            child: CContainer(
+              alignment: Alignment.center,
+              width: 58,
+              height: 58,
+              decoration: const BoxDecoration(
+                  color: Config.buttonColor, shape: BoxShape.circle),
+              child: CText(
+                alignment: Alignment.center,
+                '+',
+                textStyle: const TextStyle(color: Colors.white),
+              ),
+            ),
+          )
       ])
     ]);
   }

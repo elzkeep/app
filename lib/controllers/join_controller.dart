@@ -1,5 +1,8 @@
 import 'package:zkeep/config/config.dart';
 import 'package:zkeep/models/company.dart';
+import 'package:zkeep/models/license.dart';
+import 'package:zkeep/models/licensecategory.dart';
+import 'package:zkeep/models/licenselevel.dart';
 import 'package:zkeep/models/user.dart';
 import 'package:common_control/common_control.dart';
 
@@ -14,10 +17,16 @@ class JoinController extends GetxController {
   final _businessnum = ''.obs;
   final _building = ''.obs;
   final _certificate = 0.obs;
+  final _certificate1 = 0.obs;
+  final _certificate2 = 0.obs;
   final _zip = ''.obs;
   final _address = ''.obs;
   final _addressetc = ''.obs;
   final _company = Company().obs;
+
+  final _level = 0.obs;
+  final _level1 = 0.obs;
+  final _level2 = 0.obs;
 
   final _loginidError = ''.obs;
   final _nameError = ''.obs;
@@ -56,6 +65,17 @@ class JoinController extends GetxController {
 
   int get certificate => _certificate.value;
   set certificate(int value) => _certificate.value = value;
+  int get certificate1 => _certificate1.value;
+  set certificate1(int value) => _certificate1.value = value;
+  int get certificate2 => _certificate2.value;
+  set certificate2(int value) => _certificate2.value = value;
+
+  int get level => _level.value;
+  set level(int value) => _level.value = value;
+  int get level1 => _level1.value;
+  set level1(int value) => _level1.value = value;
+  int get level2 => _level2.value;
+  set level2(int value) => _level2.value = value;
 
   String get zip => _zip.value;
   set zip(String value) => _zip.value = value;
@@ -132,8 +152,34 @@ class JoinController extends GetxController {
         address: address,
         addressetc: addressetc,
         company: company.id);
-    await UserManager.insert(user);
+    final res = await UserManager.insert(user);
 
+    if (certificate != 0) {
+      final license = License(
+        user: res,
+        licensecategory: Licensecategory(id: certificate),
+        licenselevel: Licenselevel(id: level),
+      );
+      await LicenseManager.insert(license);
+    }
+
+    if (certificate1 != 0) {
+      final license1 = License(
+        user: res,
+        licensecategory: Licensecategory(id: certificate1),
+        licenselevel: Licenselevel(id: level1),
+      );
+      await LicenseManager.insert(license1);
+    }
+
+    if (certificate2 != 0) {
+      final license2 = License(
+        user: res,
+        licensecategory: Licensecategory(id: certificate2),
+        licenselevel: Licenselevel(id: level2),
+      );
+      await LicenseManager.insert(license2);
+    }
     return true;
   }
 
