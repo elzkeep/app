@@ -1,5 +1,6 @@
 import 'package:common_control/common_control.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:zkeep/components/circle_navigation.dart';
 import 'package:zkeep/config/config.dart';
@@ -8,6 +9,7 @@ import 'package:zkeep/routers/router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await FlutterDownloader.initialize(debug: true);
 
   //Intl.defaultLocale = 'ko_KR';
 

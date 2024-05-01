@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		08527D1B2BE2A9DD006A245E /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 08527D1A2BE2A9D5006A245E /* libsqlite3.tbd */; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		16AE3BD6E9BCCF75EBCAB533 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1D4CF0B2595E290390F4293 /* Pods_Runner.framework */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
@@ -42,6 +43,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		08527D1A2BE2A9D5006A245E /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		331C807B294A618700263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08527D1B2BE2A9DD006A245E /* libsqlite3.tbd in Frameworks */,
 				16AE3BD6E9BCCF75EBCAB533 /* Pods_Runner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -98,6 +101,7 @@
 		3E4DAEEF65D5CA7938078323 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				08527D1A2BE2A9D5006A245E /* libsqlite3.tbd */,
 				F1D4CF0B2595E290390F4293 /* Pods_Runner.framework */,
 				C4ABD0881F839170A576F2C8 /* Pods_RunnerTests.framework */,
 			);
@@ -114,7 +118,6 @@
 				51A3E4D55B5DC09B34FE24D5 /* Pods-RunnerTests.release.xcconfig */,
 				DE0F82E81D803D374F158813 /* Pods-RunnerTests.profile.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};

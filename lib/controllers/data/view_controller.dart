@@ -1,5 +1,8 @@
 import 'package:common_control/common_control.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:hand_signature/signature.dart';
+import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:zkeep/components/cselectbox.dart';
 import 'package:zkeep/controllers/data/list_controller.dart';
 import 'package:zkeep/controllers/main_controller.dart';
@@ -455,11 +458,28 @@ class ViewController extends GetxController {
   }
 
   getPdf() async {
-    final res = await ReportManager.getpdf(id);
+    String dir = (await getApplicationDocumentsDirectory())
+        .path; //path provider로 저장할 경로 가져오기
+    String today = DateFormat('yyyy-MM-dd', 'ko_KR').format(DateTime.now());
+    String filename = '$today ${report.title}';
+    final config = CConfig();
+    final src = '${config.serverUrl}/api/report/download/$id';
+    try {
+      await FlutterDownloader.enqueue(
+        url: src, // file url
+        savedDir: '$dir/', // 저장할 dir
+        fileName: filename, // 파일명
+        saveInPublicStorage: true, // 동일한 파일 있을 경우 덮어쓰기 없으면 오류발생함!
+      );
+      print(src);
+      print("파일 다운로드 완료");
+    } catch (e) {
+      print("eerror :::: $e");
+    }
   }
 
   // getPdf() async {
-  //   final res = ReportManager.getpdf(id);
+  // final res = ReportManager.getpdf(id);
   //   String today = DateFormat('yyyy-MM-dd', 'ko_KR').format(DateTime.now());
   //   String filename = '$today ${report.title}';
   //   _getFilePath(filename);
