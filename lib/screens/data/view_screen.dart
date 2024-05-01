@@ -472,6 +472,18 @@ class ViewScreen extends CWidget {
       c.otherdata[11] = true;
     }
 
+    if (c.other[7] == true) {
+      widget = btn(13, c.othername[7]);
+      widgets.add(widget);
+      c.otherdata[12] = true;
+    }
+
+    if (c.other[8] == true) {
+      widget = btn(14, c.othername[8]);
+      widgets.add(widget);
+      c.otherdata[13] = true;
+    }
+
     return Wrap(spacing: 10, runSpacing: 10, children: widgets);
   }
 }

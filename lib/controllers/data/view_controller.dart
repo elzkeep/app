@@ -85,12 +85,16 @@ class ViewController extends GetxController {
     false,
     false,
     false,
+    false,
+    false,
     false
   ].obs;
   get data => _data;
   set data(value) => _data.value = value;
 
   final _otherdata = [
+    false,
+    false,
     false,
     false,
     false,
@@ -116,6 +120,7 @@ class ViewController extends GetxController {
     '연료전지',
     '풍력발전',
     '수력발전',
+    '적외선 열화상',
     // '소방펌프 발전기',
     // '공동주택 세대점검',
   ];
@@ -225,6 +230,7 @@ class ViewController extends GetxController {
     await getFuel();
     await getWind();
     await getWater();
+    await getThermography();
     getData();
   }
 
@@ -385,6 +391,19 @@ class ViewController extends GetxController {
     }
   }
 
+  getThermography() async {
+    final res = await FacilityManager.find(
+        params: 'building=${building.id}&category=100');
+
+    if (res.isNotEmpty) {
+      water = res[0];
+      other[8] = true;
+    }
+    if (report.period == 2) {
+      other[8] = true;
+    }
+  }
+
   facilityStatus() {
     List<String> facilitystatusarr = [];
     for (int i = 0; i < other.length; i++) {
@@ -438,4 +457,27 @@ class ViewController extends GetxController {
   getPdf() async {
     final res = await ReportManager.getpdf(id);
   }
+
+  // getPdf() async {
+  //   final res = ReportManager.getpdf(id);
+  //   String today = DateFormat('yyyy-MM-dd', 'ko_KR').format(DateTime.now());
+  //   String filename = '$today ${report.title}';
+  //   _getFilePath(filename);
+  //   // String dir = (await getApplicationDocumentsDirectory()).path;
+  // }
+
+  // Future<String> _getFilePath(String filename) async {
+  //   Directory? dir;
+  //   try {
+  //     if (Platform.isIOS) {
+  //       dir = await getApplicationDocumentsDirectory(); // for iOS
+  //     } else {
+  //       dir = Directory('/storage/emulated/0/Download/'); // for android
+  //       if (!await dir.exists()) dir = (await getExternalStorageDirectory())!;
+  //     }
+  //   } catch (err) {
+  //     print("Cannot get download folder path $err");
+  //   }
+  //   return "${dir?.path}";
+  // }
 }

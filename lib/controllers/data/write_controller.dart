@@ -17,6 +17,7 @@ import 'package:zkeep/screens/data/dataitem/high.dart';
 import 'package:zkeep/screens/data/dataitem/load.dart';
 import 'package:zkeep/screens/data/dataitem/low.dart';
 import 'package:zkeep/screens/data/dataitem/sunlight.dart';
+import 'package:zkeep/screens/data/dataitem/thermography.dart';
 import 'package:zkeep/screens/data/dataitem/ups.dart';
 import 'package:zkeep/screens/data/dataitem/wind.dart';
 
@@ -65,6 +66,8 @@ class WriteController extends GetxController {
       return fuel(index, order, suborder);
     } else if (topcategory == 12) {
       return wind(index, order, suborder);
+    } else if (topcategory == 14) {
+      return thermography(index, order, suborder);
     }
     return Dataitem.empty();
   }
@@ -105,6 +108,9 @@ class WriteController extends GetxController {
       return item.length;
     } else if (topcategory == 12) {
       final item = winds(0, 0, 0);
+      return item.length;
+    } else if (topcategory == 14) {
+      final item = thermographys(0, 0, 0);
       return item.length;
     }
 
@@ -172,6 +178,7 @@ class WriteController extends GetxController {
       '연료전지',
       '풍력발전',
       '수력발전',
+      '적외선 열화상'
     ];
     title = '${item.title} - ${titles[topcategory - 1]}';
     print('title = $title');
