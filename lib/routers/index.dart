@@ -36,49 +36,57 @@ index() {
       name: '/join',
       page: () => JoinScreen(),
       binding: BindingsBuilder(() {
-        Get.put(JoinController());
+        Get.put(JoinController(0, 0));
       }),
     ),
     GetPage(
       name: '/join/user',
       page: () => JoinUserScreen(),
       binding: BindingsBuilder(() {
-        Get.put(JoinController());
+        int companyId = 0;
+        int departmentId = 0;
+        if (Get.parameters['company'] != null) {
+          companyId = int.parse(Get.parameters['company']!);
+        }
+        if (Get.parameters['department'] != null) {
+          departmentId = int.parse(Get.parameters['department']!);
+        }
+        Get.put(JoinController(companyId, departmentId));
       }),
     ),
     GetPage(
       name: '/join/user/detail',
       page: () => JoinUserDetailScreen(),
       binding: BindingsBuilder(() {
-        Get.put(JoinController());
+        Get.put(JoinController(0, 0));
       }),
     ),
     GetPage(
       name: '/join/buisness',
       page: () => JoinScreen(),
       binding: BindingsBuilder(() {
-        Get.put(JoinController());
+        Get.put(JoinController(0, 0));
       }),
     ),
     GetPage(
       name: '/join/buisness/user',
       page: () => JoinBuisnessUserScreen(),
       binding: BindingsBuilder(() {
-        Get.put(JoinController());
+        Get.put(JoinController(0, 0));
       }),
     ),
     GetPage(
       name: '/join/buisness/company',
       page: () => JoinBuisnessCompanyScreen(),
       binding: BindingsBuilder(() {
-        Get.put(JoinController());
+        Get.put(JoinController(0, 0));
       }),
     ),
     GetPage(
       name: '/join/buisness/company/detail',
       page: () => JoinCompanyDetailScreen(),
       binding: BindingsBuilder(() {
-        Get.put(JoinController());
+        Get.put(JoinController(0, 0));
       }),
     ),
     GetPage(

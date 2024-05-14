@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'package:zkeep/config/config.dart';
 import 'package:zkeep/models/company.dart';
 import 'package:zkeep/models/department.dart';
@@ -9,6 +8,11 @@ import 'package:zkeep/models/user.dart';
 import 'package:common_control/common_control.dart';
 
 class JoinController extends GetxController {
+  JoinController(this.companyId, this.departmentId);
+
+  final int companyId;
+  final int departmentId;
+
   final _form = false.obs;
   final _loginid = ''.obs;
   final _name = ''.obs;
@@ -137,13 +141,9 @@ class JoinController extends GetxController {
   }
 
   getUrl() async {
-    var uri = Uri.dataFromString(window.location.href);
-    Map<String, String> params = uri.queryParameters;
-    if (params['company'] == null) {
+    if (companyId == 0) {
       return;
     }
-    var companyId = int.parse(params['company']!);
-    var departmentId = int.parse(params['department']!);
     await getDepartment(companyId);
     for (int i = 0; i < items.length; i++) {
       if (items[i].id == companyId) {
@@ -291,8 +291,6 @@ class JoinController extends GetxController {
       );
       await LicenseManager.insert(license2);
     }
-    return true;
-
     return true;
   }
 }
