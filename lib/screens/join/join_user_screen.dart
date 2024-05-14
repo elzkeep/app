@@ -6,6 +6,7 @@ import 'package:zkeep/components/cformtitle.dart';
 import 'package:zkeep/controllers/join_controller.dart';
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/models/company.dart';
+import 'package:zkeep/models/department.dart';
 
 class JoinUserScreen extends CWidget {
   JoinUserScreen({Key? key}) : super(key: key);
@@ -92,6 +93,8 @@ class JoinUserScreen extends CWidget {
                 ),
                 CFormtitle(title: '회사선택'),
                 CFormtext(c.company.name, onTap: () => clickCompany()),
+                CFormtitle(title: '팀선택'),
+                CFormtext(c.department.name, onTap: () => clickDepartment()),
               ]),
             ]),
       ),
@@ -187,6 +190,93 @@ class JoinUserScreen extends CWidget {
 
   clickSelectCustomer(Company item) {
     c.company = item;
+    c.getDepartment(item.id);
+    c.department = Department();
+    Get.back();
+  }
+
+  clickDepartment() {
+    Get.dialog(
+      barrierDismissible: true,
+      AlertDialog(
+          insetPadding: const EdgeInsets.all(10),
+          contentPadding: EdgeInsets.zero,
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          content: SizedBox(
+            width: Get.width - 40,
+            child: Obx(
+              () => CColumn(
+                gap: 10,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                padding: const EdgeInsets.only(
+                    left: 20, right: 20, top: 10, bottom: 20),
+                children: [
+                  const SizedBox(height: 0),
+                  CRow(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(),
+                        CText('회사 검색',
+                            textStyle: const TextStyle(fontSize: 18)),
+                        CContainer(
+                            onTap: () => Get.back(),
+                            child: const Icon(Icons.close, color: Colors.black))
+                      ]),
+                  const SizedBox(height: 5),
+                  CTextField(
+                      svg: 'assets/imgs/search.svg',
+                      maxLines: 1,
+                      onChanged: (value) {
+                        c.search = value;
+                      }),
+                  departmentlist()
+                ],
+              ),
+            ),
+          )),
+    );
+  }
+
+  departmentlist() {
+    List<Widget> items = [];
+
+    for (var i = 0; i < c.departments.length; i++) {
+      Department item = c.departments[i];
+      final name = item.name;
+
+      if (c.search != '') {
+        if (!name.contains(c.search)) {
+          if (!containsInitialConsonant(name, c.search)) {
+            continue;
+          }
+        }
+      }
+
+      items.add(CText(
+        name,
+        margin: const EdgeInsets.only(bottom: 10),
+        onTap: () => clickSelectDepartment(item),
+      ));
+    }
+
+    return CContainer(
+        height: Get.height / 2,
+        child: SingleChildScrollView(
+            child: CRow(children: [
+          Expanded(
+              child: CColumn(
+            children: items,
+          ))
+        ])));
+  }
+
+  clickSelectDepartment(Department item) {
+    c.department = item;
     Get.back();
   }
 

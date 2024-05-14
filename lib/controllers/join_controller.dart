@@ -1,5 +1,7 @@
+import 'dart:html';
 import 'package:zkeep/config/config.dart';
 import 'package:zkeep/models/company.dart';
+import 'package:zkeep/models/department.dart';
 import 'package:zkeep/models/license.dart';
 import 'package:zkeep/models/licensecategory.dart';
 import 'package:zkeep/models/licenselevel.dart';
@@ -23,6 +25,7 @@ class JoinController extends GetxController {
   final _address = ''.obs;
   final _addressetc = ''.obs;
   final _company = Company().obs;
+  final _department = Department().obs;
 
   final _level = 0.obs;
   final _level1 = 0.obs;
@@ -89,6 +92,9 @@ class JoinController extends GetxController {
   Company get company => _company.value;
   set company(Company value) => _company.value = value;
 
+  Department get department => _department.value;
+  set department(Department value) => _department.value = value;
+
   String get loginidError => _loginidError.value;
   set loginidError(String value) => _loginidError.value = value;
 
@@ -114,6 +120,10 @@ class JoinController extends GetxController {
   get items => _items;
   set items(value) => _items.value = value;
 
+  final _departments = [].obs;
+  get departments => _departments;
+  set departments(value) => _departments.value = value;
+
   final _search = ''.obs;
   String get search => _search.value;
   set search(String value) => _search.value = value;
@@ -123,6 +133,35 @@ class JoinController extends GetxController {
     super.onInit();
 
     items = await CompanyManager.find();
+    getUrl();
+  }
+
+  getUrl() async {
+    var uri = Uri.dataFromString(window.location.href);
+    Map<String, String> params = uri.queryParameters;
+    if (params['company'] == null) {
+      return;
+    }
+    var companyId = int.parse(params['company']!);
+    var departmentId = int.parse(params['department']!);
+    await getDepartment(companyId);
+    for (int i = 0; i < items.length; i++) {
+      if (items[i].id == companyId) {
+        company = items[i];
+        break;
+      }
+    }
+
+    for (int i = 0; i < departments.length; i++) {
+      if (departments[i].id == departmentId) {
+        department = departments[i];
+        break;
+      }
+    }
+  }
+
+  getDepartment(companyid) async {
+    departments = await DepartmentManager.find(params: 'company=$companyid');
   }
 
   Future<bool> join() async {
@@ -151,7 +190,8 @@ class JoinController extends GetxController {
         zip: zip,
         address: address,
         addressetc: addressetc,
-        company: company.id);
+        company: company.id,
+        department: department.id);
     final res = await UserManager.insert(user);
 
     if (certificate != 0) {
