@@ -111,7 +111,7 @@ class MainScreen extends CWidget {
         gap: 10,
         children: [
           box('고객현황', c.newcustomerTotal, c.customerTotal),
-          box('점검진행률', c.comReportTotal, c.newcustomerTotal),
+          box('점검진행률', c.comReportTotal.toStringAsFixed(2), c.newcustomerTotal),
         ]);
   }
 
