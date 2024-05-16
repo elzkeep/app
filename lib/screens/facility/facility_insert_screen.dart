@@ -747,7 +747,7 @@ class FacilityInsertScreen extends CWidget {
                       '연결기기',
                       CSelectbox(
                         backgroundColor: Colors.white,
-                        items: c.years,
+                        items: c.connecttranss,
                         selected: int.tryParse(highs.contents[i].value7) ?? 0,
                         onSelected: (pos) {
                           highs.contents[i].value7 = pos.toString();

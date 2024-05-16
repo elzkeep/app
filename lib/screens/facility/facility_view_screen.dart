@@ -263,8 +263,12 @@ class FacilityViewScreen extends CWidget {
                     highsContents.value3),
                 entry2('형식:', highsContents.value4, '계전기번호:',
                     highsContents.value5),
-                entry2('설치장소:', highsContents.value6, '연결기기:',
-                    c.years[int.tryParse(highsContents.value7) ?? 0].value),
+                entry2(
+                    '설치장소:',
+                    highsContents.value6,
+                    '연결기기:',
+                    c.connecttranss[int.tryParse(highsContents.value7) ?? 0]
+                        .value),
               ])),
     );
   }

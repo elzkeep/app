@@ -198,6 +198,7 @@ class ViewController extends GetxController {
 
   List<CItem> years = [CItem(id: 0, value: '')].obs;
   List<CItem> months = [CItem(id: 0, value: '')].obs;
+  List<CItem> connecttranss = [CItem(id: 0, value: '')].obs;
 
   final _sign1 = HandSignatureControl().obs;
   get sign1 => _sign1.value;
@@ -273,6 +274,10 @@ class ViewController extends GetxController {
       transs.add(Facility());
     } else {
       transs = res;
+    }
+
+    for (int j = 0; j < transs.length; j++) {
+      connecttranss.add(CItem(id: j + 1, value: transs[j].name));
     }
   }
 

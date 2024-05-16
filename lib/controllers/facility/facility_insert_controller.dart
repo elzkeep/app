@@ -153,6 +153,7 @@ class FacilityInsertController extends GetxController {
 
   List<CItem> years = [CItem(id: 0, value: '')].obs;
   List<CItem> months = [CItem(id: 0, value: '')].obs;
+  List<CItem> connecttranss = [CItem(id: 0, value: '')].obs;
 
   @override
   onInit() async {
@@ -235,6 +236,7 @@ class FacilityInsertController extends GetxController {
 
     for (int j = 0; j < transs.length; j++) {
       addExtra(transs[j]);
+      connecttranss.add(CItem(id: j + 1, value: transs[j].name));
     }
   }
 
@@ -406,7 +408,19 @@ class FacilityInsertController extends GetxController {
   }
 
   remove(data, index) {
-    data.value.removeAt(index);
+    for (int i = 0; i < highs.length; i++) {
+      for (int j = 0; j < highs[i].contents.length; j++) {
+        if (highs[i].contents[j].value7 == (index + 1).toString()) {
+          highs[i].contents[j].value7 = 0.toString();
+          highsRedraw();
+        }
+      }
+    }
+    data.removeAt(index);
+    connecttranss = [CItem(id: 0, value: '')];
+    for (int j = 0; j < transs.length; j++) {
+      connecttranss.add(CItem(id: j + 1, value: transs[j].name));
+    }
     itemsRedraw();
   }
 
@@ -415,6 +429,10 @@ class FacilityInsertController extends GetxController {
     var j = data.length - 1;
     if (item == 'transs') {
       data[j].name = 'TR${data.length}';
+      connecttranss = [CItem(id: 0, value: '')];
+      for (int j = 0; j < transs.length; j++) {
+        connecttranss.add(CItem(id: j + 1, value: transs[j].name));
+      }
     }
     if (item == 'generator') {
       data[j].name = "$buildingName 발전설비";
