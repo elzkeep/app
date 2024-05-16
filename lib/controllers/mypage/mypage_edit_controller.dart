@@ -1,6 +1,7 @@
 import 'package:common_control/common_control.dart';
 import 'package:intl/intl.dart';
 import 'package:localstorage/localstorage.dart';
+import 'package:zkeep/controllers/mypage/mypage_controller.dart';
 import 'package:zkeep/models/company.dart';
 import 'package:zkeep/models/license.dart';
 import 'package:zkeep/models/user.dart';
@@ -183,6 +184,11 @@ class MypageEditController extends GetxController {
     user.company = company.id;
 
     await UserManager.update(user);
+    final storage = LocalStorage('login.json');
+    await storage.ready;
+    await storage.setItem('user', user.toJson());
+    // final c = Get.find<MypageController>();
+    // await c.getLicense();
     return true;
   }
 }

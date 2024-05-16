@@ -1,4 +1,7 @@
+import 'package:common_control/ccontainer.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:zkeep/components/cround.dart';
@@ -125,23 +128,33 @@ class MypageScreen extends CWidget {
                       CText(c.company.name),
                       CText(c.department.name),
                     ]),
-                CBothSide(
-                    gap: 10,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    margin: const EdgeInsets.symmetric(vertical: 2),
-                    children: [
-                      const Icon(CupertinoIcons.person_crop_rectangle,
-                          color: Colors.black54),
-                      const SizedBox(width: 10),
-                      for (var li in c.license)
-                        DRound(
-                            backgroundColor: Colors.black54,
-                            child: CText(
-                              '${li.extra['licensecategory']['name']}(${li.extra['licenselevel']['name']})',
-                              textStyle: const TextStyle(
-                                  fontSize: 11, color: Colors.white),
-                            )),
-                    ]),
+                CRow(
+                  children: [
+                    const Icon(CupertinoIcons.person_crop_rectangle,
+                        color: Colors.black54),
+                    const SizedBox(width: 30),
+                    Expanded(
+                      child: Wrap(
+                        direction: Axis.horizontal,
+                        spacing: 5,
+                        runSpacing: 4,
+                        children: [
+                          for (var li in c.license)
+                            Container(
+                              margin: const EdgeInsets.symmetric(vertical: 2),
+                              child: DRound(
+                                  backgroundColor: Colors.black54,
+                                  child: CText(
+                                    '${li.extra['licensecategory']['name']}(${li.extra['licenselevel']['name']})',
+                                    textStyle: const TextStyle(
+                                        fontSize: 11, color: Colors.white),
+                                  )),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ]))
     ]);
   }

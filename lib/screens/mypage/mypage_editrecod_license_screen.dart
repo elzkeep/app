@@ -1,0 +1,92 @@
+import 'package:zkeep/components/cformtitle.dart';
+import 'package:zkeep/components/cselectbox.dart';
+import 'package:zkeep/components/layout.dart';
+import 'package:common_control/common_control.dart';
+import 'package:zkeep/controllers/mypage/mypage_edit_license_controller.dart';
+
+final items =
+    CItem.list(['', '전기기사', '전기공사기능사', '전기산업기사', '전기기능장', '전기기능사', '전기기사']);
+
+final levels = CItem.list(['', '특급', '고급', '중급', '초급']);
+
+class MypageEditRecodLicenseScreen extends CWidget {
+  MypageEditRecodLicenseScreen({super.key});
+
+  final c = Get.find<MypageEditLicenseController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Layout(popup: true, child: body());
+  }
+
+  body() {
+    return CFixedBottom(bottom: bottom(), body: form());
+  }
+
+  form() {
+    return Obx(() => CForm(padding: const EdgeInsets.all(10), children: [
+          CFormtitle(title: '자격증 정보'),
+          CRow(gap: 10, children: [
+            Expanded(
+                child: CSelectbox(
+                    items: items,
+                    selected: c.licensecategory,
+                    onSelected: (pos) {
+                      c.licensecategory = pos;
+                    })),
+            Expanded(
+                child: CSelectbox(
+                    items: levels,
+                    selected: c.licenselevel,
+                    onSelected: (pos) {
+                      c.licenselevel = pos;
+                    }))
+          ]),
+        ]));
+  }
+
+  bottom() {
+    return CRow(padding: const EdgeInsets.only(bottom: 10), gap: 10, children: [
+      CButton(
+        text: '취소',
+        flex: 1,
+        size: CButtonSize.normal,
+        type: CButtonStyle.outlined,
+        onPressed: () => clickCancel(),
+      ),
+      if (c.index != 0)
+        CButton(
+          text: '삭제',
+          flex: 1,
+          size: CButtonSize.normal,
+          onPressed: () => clickDelete(),
+        ),
+      CButton(
+        text: '저장',
+        flex: 1,
+        size: CButtonSize.normal,
+        onPressed: () => clickSave(),
+      ),
+    ]);
+  }
+
+  clickCancel() {
+    Get.back();
+  }
+
+  clickSave() async {
+    final ret = await c.save();
+    if (ret == false) {
+      return;
+    }
+    Get.back();
+  }
+
+  clickDelete() async {
+    final ret = await c.delete();
+    if (ret == false) {
+      return;
+    }
+    Get.back();
+  }
+}

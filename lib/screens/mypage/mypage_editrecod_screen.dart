@@ -22,115 +22,97 @@ class MypageEditRecodScreen extends CWidget {
   }
 
   body() {
-    return CFixedBottom(bottom: bottom(), body: form());
+    return CFixedBottom(bottom: bottom(), body: Obx(() => form()));
   }
 
   form() {
     return CScroll(gap: 10, padding: const EdgeInsets.all(10), children: [
       SubTitle('소속 정보'),
-      Obx(() => CForm(children: [
-            CFormtitle(title: '회사선택'),
-            CFormtext(c.company.name, onTap: () => clickCompany()),
-            CFormtitle(title: '입사일'),
-            CFormtext(
-              DateFormat('yyyy.MM.dd').format(c.date),
-              onTap: () => clickDate(),
+      CForm(children: [
+        CFormtitle(title: '회사선택'),
+        CFormtext(c.company.name, onTap: () => clickCompany()),
+        CFormtitle(title: '입사일'),
+        CFormtext(
+          DateFormat('yyyy.MM.dd').format(c.date),
+          onTap: () => clickDate(),
+        ),
+        CFormtitle(title: '경력'),
+        CRow(gap: 10, children: [
+          Expanded(
+            child: CFormfield(
+              text: '연',
+              controller: c.careeryear,
+              errText: c.errorCareer,
             ),
-            CFormtitle(title: '경력'),
-            CRow(gap: 10, children: [
-              Expanded(
-                child: CFormfield(
-                  text: '연',
-                  controller: c.careeryear,
-                  errText: c.errorCareer,
-                ),
-              ),
-              Expanded(
-                child: CFormfield(
-                  text: '월',
-                  controller: c.careermonth,
-                  errText: c.errorCareer,
-                ),
-              ),
-            ]),
-          ])),
+          ),
+          Expanded(
+            child: CFormfield(
+              text: '월',
+              controller: c.careermonth,
+              errText: c.errorCareer,
+            ),
+          ),
+        ]),
+      ]),
       // SubTitle('자격 정보',
       //     more: '불러오기', onMore: () => Get.toNamed('/mypage/customer')),
       SubTitle('자격 정보'),
       CRow(gap: 20, children: [
         for (int i = 0; i < c.licenses.length; i++)
           Expanded(
-            child: CColumn(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                CContainer(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Color.fromRGBO(92, 107, 192, 1.000),
-                            Color.fromRGBO(59, 69, 123, 1.000)
-                          ]),
-                      borderRadius: BorderRadius.circular(8)),
-                  width: 89,
-                  height: 64,
-                  child: CText(
-                    c.licenses[i].extra['licensecategory']['name'] ?? '',
-                    textStyle: const TextStyle(color: Colors.white),
+            child: InkWell(
+              onTap: () => Get.toNamed('mypage/editrecod/license', arguments: {
+                'index': c.licenses[i].id,
+                'license': c.licenses[i]
+              }),
+              child: CColumn(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CContainer(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Color.fromRGBO(92, 107, 192, 1.000),
+                              Color.fromRGBO(59, 69, 123, 1.000)
+                            ]),
+                        borderRadius: BorderRadius.circular(8)),
+                    width: 89,
+                    height: 64,
+                    child: CText(
+                      c.licenses[i].extra['licensecategory']['name'] ?? '',
+                      textStyle: const TextStyle(color: Colors.white),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                CText(
-                    DateFormat('yyyy.MM.dd')
-                        .format(DateTime.parse(c.licenses[i].date)),
-                    textStyle: const TextStyle(fontSize: 12)),
-                CText('기술등급: ${c.licenses[i].extra['licenselevel']['name']}',
-                    textStyle: const TextStyle(fontSize: 12)),
-              ],
+                  const SizedBox(height: 10),
+                  CText(
+                      DateFormat('yyyy.MM.dd')
+                          .format(DateTime.parse(c.licenses[i].date)),
+                      textStyle: const TextStyle(fontSize: 12)),
+                  CText('기술등급: ${c.licenses[i].extra['licenselevel']['name']}',
+                      textStyle: const TextStyle(fontSize: 12)),
+                ],
+              ),
             ),
           ),
-        // Expanded(
-        //   child: CColumn(
-        //     crossAxisAlignment: CrossAxisAlignment.center,
-        //     children: [
-        //       CContainer(
-        //         alignment: Alignment.center,
-        //         decoration: BoxDecoration(
-        //             gradient: const LinearGradient(
-        //                 begin: Alignment.topCenter,
-        //                 end: Alignment.bottomCenter,
-        //                 colors: [
-        //                   Color.fromRGBO(92, 107, 192, 1.000),
-        //                   Color.fromRGBO(59, 69, 123, 1.000)
-        //                 ]),
-        //             borderRadius: BorderRadius.circular(8)),
-        //         width: 89,
-        //         height: 64,
-        //         child: CText(
-        //           '전기공사기사',
-        //           textStyle: const TextStyle(color: Colors.white),
-        //         ),
-        //       ),
-        //       const SizedBox(height: 10),
-        //       CText('2010.04.05', textStyle: const TextStyle(fontSize: 12)),
-        //       CText('기술등급: 특급', textStyle: const TextStyle(fontSize: 12)),
-        //     ],
-        //   ),
-        // ),
         for (int i = 0; i < 3 - c.licenses.length; i++)
           Expanded(
-            child: CContainer(
-              alignment: Alignment.center,
-              width: 58,
-              height: 58,
-              decoration: const BoxDecoration(
-                  color: Config.buttonColor, shape: BoxShape.circle),
-              child: CText(
+            child: InkWell(
+              onTap: () => Get.toNamed('mypage/editrecod/license',
+                  arguments: {'index': 0}),
+              child: CContainer(
                 alignment: Alignment.center,
-                '+',
-                textStyle: const TextStyle(color: Colors.white),
+                width: 58,
+                height: 58,
+                decoration: const BoxDecoration(
+                    color: Config.buttonColor, shape: BoxShape.circle),
+                child: CText(
+                  alignment: Alignment.center,
+                  '+',
+                  textStyle: const TextStyle(color: Colors.white),
+                ),
               ),
             ),
           )
@@ -166,7 +148,7 @@ class MypageEditRecodScreen extends CWidget {
       return;
     }
 
-    Get.offAllNamed('/');
+    Get.offAllNamed('/mypage');
   }
 
   clickDate() async {
