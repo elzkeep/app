@@ -175,6 +175,16 @@ class FacilityInsertController extends GetxController {
     getWater();
   }
 
+  getChargerTotal() {
+    int total = 0;
+    for (int i = 0; i < chargeritems.length; i++) {
+      int value1 = int.tryParse(chargeritems[i].value1) ?? 0;
+      int value2 = int.tryParse(chargeritems[i].value2) ?? 0;
+      total += value1 * value2;
+    }
+    return total;
+  }
+
   getYearMonth() {
     for (var i = 1970; i <= 2024; i++) {
       years.add(CItem(id: i - 1969, value: '$i'));
