@@ -224,11 +224,6 @@ class WriteController extends GetxController {
           dataitem.items[pos].extra['text'].text = item.content;
         } else if (dataitem.items[pos].type == ItemType.select) {
         } else if (dataitem.items[pos].type == ItemType.status) {
-          if (dataitem.items[pos].image != '') {
-            dataitem.items[pos].image =
-                '${Config.serverUrl}/webdata/${item.image}';
-            dataitem.items[pos].extra['image'].text = true;
-          }
           dataitem.items[pos].status = item.status;
           dataitem.items[pos].reason = item.reason;
           dataitem.items[pos].action = item.action;
@@ -236,6 +231,17 @@ class WriteController extends GetxController {
           dataitem.items[pos].extra['reasontext'].text = item.reasontext;
           dataitem.items[pos].extra['actiontext'].text = item.actiontext;
         }
+
+        if (dataitem.items[pos].status == ItemStatus.danger ||
+            dataitem.items[pos].status == ItemStatus.warning) {
+          print(item.id);
+          if (item.image != '') {
+            dataitem.items[pos].image =
+                '${Config.serverUrl}/webdata/${item.image}';
+            dataitem.items[pos].extra['image'] = true;
+          }
+        }
+
         pos++;
       }
 
@@ -309,6 +315,10 @@ class WriteController extends GetxController {
 
           item.reasontext = item.extra['reasontext'].text;
           item.actiontext = item.extra['actiontext'].text;
+        }
+
+        if (item.status == ItemStatus.danger ||
+            item.status == ItemStatus.warning) {
           if (item.image != '') {
             List<String> parts = item.image.split("/");
             String imageName = parts[parts.length - 1];

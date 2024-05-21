@@ -151,7 +151,7 @@ class MainScreen extends CWidget {
     if ((num / total) > 1.0) {
       return 1.0;
     }
-    return double.parse((num / total).toStringAsFixed(2));
+    return double.parse((num / total).toStringAsFixed(1));
   }
 
   roundBorder(child) {

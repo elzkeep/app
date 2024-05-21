@@ -133,47 +133,48 @@ class Status extends CWidget {
                         filledColor: Colors.white,
                         controller: item.extra['actiontext'])
                     : const SizedBox.shrink(),
-                // CText('사진'),
-                // item.image == ''
-                //     ? CContainer(
-                //         height: 100,
-                //         width: 100,
-                //         decoration: BoxDecoration(
-                //             color: backgroundColor,
-                //             border: Border.all(
-                //               color: const Color(0xffE0E0E0),
-                //               width: 1,
-                //             ),
-                //             borderRadius: BorderRadius.circular(8)),
-                //         child: const Icon(CupertinoIcons.plus),
-                //         onTap: () async {
-                //           final returnedImage = await ImagePicker()
-                //               .pickImage(source: ImageSource.gallery);
-                //           if (returnedImage == null) return;
-                //           item.image = returnedImage.path;
-                //           item.extra['image'] = false;
-                //           onSelected(item);
-                //         },
-                //       )
-                //     // : CContainer(
-                //     //     width: 100,
-                //     //     height: 100,
-                //     //     child: Image.asset(
-                //     //       item.image,
-                //     //       fit: BoxFit.cover,
-                //     //     ))
-                //     : CContainer(
-                //         width: 100,
-                //         height: 100,
-                //         child: item.extra['image'] == false
-                //             ? Image.asset(
-                //                 item.image,
-                //                 fit: BoxFit.cover,
-                //               )
-                //             : Image.network(
-                //                 item.image,
-                //                 fit: BoxFit.cover,
-                //               ))
+                CText('사진'),
+                item.image == ''
+                    ? CContainer(
+                        height: 100,
+                        width: 100,
+                        decoration: BoxDecoration(
+                            color: backgroundColor,
+                            border: Border.all(
+                              color: const Color(0xffE0E0E0),
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(8)),
+                        child: const Icon(CupertinoIcons.plus),
+                        onTap: () async {
+                          final returnedImage = await ImagePicker()
+                              .pickImage(source: ImageSource.gallery);
+                          if (returnedImage == null) return;
+                          item.image = returnedImage.path;
+                          item.extra['image'] = false;
+                          onSelected(item);
+                          print(item.image);
+                        },
+                      )
+                    // : CContainer(
+                    //     width: 100,
+                    //     height: 100,
+                    //     child: Image.asset(
+                    //       item.image,
+                    //       fit: BoxFit.cover,
+                    //     ))
+                    : CContainer(
+                        width: 100,
+                        height: 100,
+                        child: item.extra['image'] == false
+                            ? Image.asset(
+                                item.image,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.network(
+                                item.image,
+                                fit: BoxFit.cover,
+                              ))
               ])),
         ),
       ]);
