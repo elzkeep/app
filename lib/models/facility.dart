@@ -7,6 +7,7 @@ class Facility {
   int id;
   int category;
   int parent;
+  int type;
   String name;
   String value1;
   String value2;
@@ -44,6 +45,7 @@ class Facility {
       {this.id = 0,
       this.category = 0,
       this.parent = 0,
+      this.type = 1,
       this.name = '',
       this.value1 = '',
       this.value2 = '',
@@ -89,6 +91,7 @@ class Facility {
         id: json['id'] as int,
         category: json['category'] as int,
         parent: json['parent'] as int,
+        type: json['type'] as int,
         name: json['name'] as String,
         value1: json['value1'] as String,
         value2: json['value2'] as String,
@@ -128,6 +131,7 @@ class Facility {
         'id': id,
         'category': category,
         'parent': parent,
+        'type': type,
         'name': name,
         'value1': value1,
         'value2': value2,
