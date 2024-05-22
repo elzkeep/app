@@ -111,70 +111,72 @@ List<Dataitem> highs(index, order, suborder, period) {
         items: [
           Item(type: ItemType.status),
         ]),
-    /* 연차일때 점검시에만 나옴
-    Dataitem(
-        order: order,
-        parent: '절연저항',
-        data: Data(
-            type: DataType.multi,
-            title: '측정회로 및 기기',
-            category: index,
-            order: suborder),
-        items: [
-          Item(type: ItemType.text, title: '전선-대지', unit: 'MΩ'),
-          Item(type: ItemType.text, title: 'A-B', unit: 'MΩ'),
-          Item(type: ItemType.text, title: 'B-C', unit: 'MΩ'),
-          Item(
-              type: ItemType.text,
-              title: 'C-A',
-              unit: 'MΩ',
-              extra: {'end': true}),
-          Item(type: ItemType.status),
-        ]),
-    Dataitem(
-        order: order,
-        parent: '접지저항',
-        data: Data(
-            type: DataType.multi,
-            title: '점검대상 명',
-            category: index,
-            order: suborder),
-        items: [
-          Item(type: ItemType.select, title: '접지선', extra: {
-            'select': [
-              CItem(id: 0, value: '접지선'),
-              CItem(id: 1, value: 'HIV'),
-              CItem(id: 2, value: 'GV'),
-            ],
-            'default': 1
-          }),
-          Item(type: ItemType.text, title: '접지선 두깨', unit: 'mm'),
-          Item(type: ItemType.text, title: '기준치', unit: 'Ω'),
-          Item(
-              type: ItemType.text,
-              title: '측정치',
-              unit: 'Ω',
-              extra: {'end': true}),
-          Item(type: ItemType.status),
-        ]),
-    Dataitem(
-        order: order,
-        parent: '절연내력',
-        data: Data(
-            type: DataType.multi,
-            title: '시험항목',
-            category: index,
-            order: suborder),
-        items: [
-          Item(type: ItemType.text, title: '시험전압', unit: 'kV'),
-          Item(type: ItemType.text, title: '누적전류', unit: 'µA'),
-          Item(
-              type: ItemType.text,
-              title: '절연저항',
-              unit: 'MΩ',
-              extra: {'end': true}),
-          Item(type: ItemType.status),
-        ]),
-        */
+    // /* 연차일때 점검시에만 나옴
+    if (period == 4) ...[
+      Dataitem(
+          order: order,
+          parent: '절연저항',
+          data: Data(
+              type: DataType.multi,
+              title: '측정회로 및 기기',
+              category: index,
+              order: suborder),
+          items: [
+            Item(type: ItemType.text, title: '전선-대지', unit: 'MΩ'),
+            Item(type: ItemType.text, title: 'A-B', unit: 'MΩ'),
+            Item(type: ItemType.text, title: 'B-C', unit: 'MΩ'),
+            Item(
+                type: ItemType.text,
+                title: 'C-A',
+                unit: 'MΩ',
+                extra: {'end': true}),
+            Item(type: ItemType.status),
+          ]),
+      Dataitem(
+          order: order,
+          parent: '접지저항',
+          data: Data(
+              type: DataType.multi,
+              title: '점검대상 명',
+              category: index,
+              order: suborder),
+          items: [
+            Item(type: ItemType.select, title: '접지선', extra: {
+              'select': [
+                CItem(id: 0, value: '접지선'),
+                CItem(id: 1, value: 'HIV'),
+                CItem(id: 2, value: 'GV'),
+              ],
+              'default': 1
+            }),
+            Item(type: ItemType.text, title: '접지선 두깨', unit: 'mm'),
+            Item(type: ItemType.text, title: '기준치', unit: 'Ω'),
+            Item(
+                type: ItemType.text,
+                title: '측정치',
+                unit: 'Ω',
+                extra: {'end': true}),
+            Item(type: ItemType.status),
+          ]),
+      Dataitem(
+          order: order,
+          parent: '절연내력',
+          data: Data(
+              type: DataType.multi,
+              title: '시험항목',
+              category: index,
+              order: suborder),
+          items: [
+            Item(type: ItemType.text, title: '시험전압', unit: 'kV'),
+            Item(type: ItemType.text, title: '누적전류', unit: 'µA'),
+            Item(
+                type: ItemType.text,
+                title: '절연저항',
+                unit: 'MΩ',
+                extra: {'end': true}),
+            Item(type: ItemType.status),
+          ]),
+    ],
+    // */
   ];
 }

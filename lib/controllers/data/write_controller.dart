@@ -22,11 +22,11 @@ import 'package:zkeep/screens/data/dataitem/ups.dart';
 import 'package:zkeep/screens/data/dataitem/wind.dart';
 
 class WriteController extends GetxController {
-  WriteController(this.id, this.topcategory, this.item, this.disable);
+  WriteController(this.id, this.topcategory, this.report, this.disable);
 
   final int id;
   final int topcategory;
-  final Report item;
+  final Report report;
   final bool disable;
 
   final _items = [].obs;
@@ -43,21 +43,21 @@ class WriteController extends GetxController {
 
   Dataitem getData(index, order, suborder) {
     if (topcategory == 1) {
-      return low(index, order, suborder);
+      return low(index, order, suborder, report.period);
     } else if (topcategory == 2) {
-      return high(index, order, suborder, item.period);
+      return high(index, order, suborder, report.period);
     } else if (topcategory == 3) {
-      return change(index, order, suborder);
+      return change(index, order, suborder, report.period);
     } else if (topcategory == 4) {
       return load(index, order, suborder);
     } else if (topcategory == 5) {
-      return generator(index, order, suborder);
+      return generator(index, order, suborder, report.period);
     } else if (topcategory == 6) {
       return etc(index, order, suborder);
     } else if (topcategory == 7) {
       return sunlight(index, order, suborder);
     } else if (topcategory == 8) {
-      return charger(index, order, suborder);
+      return charger(index, order, suborder, report.period);
     } else if (topcategory == 9) {
       return ess(index, order, suborder);
     } else if (topcategory == 10) {
@@ -74,19 +74,19 @@ class WriteController extends GetxController {
 
   int getLength() {
     if (topcategory == 1) {
-      final item = lows(0, 0, 0);
+      final item = lows(0, 0, 0, report.period);
       return item.length;
     } else if (topcategory == 2) {
-      final item = highs(0, 0, 0, 0);
+      final item = highs(0, 0, 0, report.period);
       return item.length;
     } else if (topcategory == 3) {
-      final item = changes(0, 0, 0);
+      final item = changes(0, 0, 0, report.period);
       return item.length;
     } else if (topcategory == 4) {
       final item = loads(0, 0, 0);
       return item.length;
     } else if (topcategory == 5) {
-      final item = generators(0, 0, 0);
+      final item = generators(0, 0, 0, report.period);
       return item.length;
     } else if (topcategory == 6) {
       final item = etcs(0, 0, 0);
@@ -95,7 +95,7 @@ class WriteController extends GetxController {
       final item = sunlights(0, 0, 0);
       return item.length;
     } else if (topcategory == 8) {
-      final item = chargers(0, 0, 0);
+      final item = chargers(0, 0, 0, report.period);
       return item.length;
     } else if (topcategory == 9) {
       final item = esss(0, 0, 0);
@@ -180,7 +180,7 @@ class WriteController extends GetxController {
       '수력발전',
       '적외선 열화상'
     ];
-    title = '${item.title} - ${titles[topcategory - 1]}';
+    title = '${report.title} - ${titles[topcategory - 1]}';
     print('title = $title');
 
     List<Dataitem> datas = [];
@@ -286,7 +286,7 @@ class WriteController extends GetxController {
 
       entry.data.order = j;
       entry.data.report = id;
-      entry.data.company = item.company.id;
+      entry.data.company = report.company.id;
 
       print('category = ${entry.data.category}');
       if (entry.data.type == DataType.multi) {
@@ -332,9 +332,9 @@ class WriteController extends GetxController {
     print(items.runtimeType);
 
     await DataitemManager.insert(items.value);
-    if (item.status == ReportStatus.newer) {
-      item.status = ReportStatus.ing;
-      await ReportManager.update(item);
+    if (report.status == ReportStatus.newer) {
+      report.status = ReportStatus.ing;
+      await ReportManager.update(report);
     }
     final c = Get.find<ViewController>();
     c.data[topcategory - 1] = true;

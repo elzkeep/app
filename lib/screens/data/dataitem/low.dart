@@ -3,12 +3,12 @@ import 'package:zkeep/models/data.dart';
 import 'package:zkeep/models/dataitem.dart';
 import 'package:zkeep/models/item.dart';
 
-Dataitem low(index, order, suborder) {
-  var items = lows(index, order, suborder);
+Dataitem low(index, order, suborder, period) {
+  var items = lows(index, order, suborder, period);
   return items[index - 1];
 }
 
-List<Dataitem> lows(index, order, suborder) {
+List<Dataitem> lows(index, order, suborder, period) {
   return [
     Dataitem(
         order: order,
@@ -128,37 +128,38 @@ List<Dataitem> lows(index, order, suborder) {
         items: [
           Item(type: ItemType.status),
         ]),
-    /* 반기, 연차일때 점검시에만 나옴
-    Dataitem(
-        order: order,
-        parent: '절연저항/누설전류/접지저항 측정',
-        data: Data(
-            type: DataType.multi,
-            title: '점검대상 명',
-            category: index,
-            order: suborder)
-        items: [
-          Item(
-              type: ItemType.text,
-              title: '사용전압',
-              unit: 'A',
-              extra: {'end': true}),
-          //절연저항, 누설전류 선택하는 탭 있어야함
-          Item(type: ItemType.text, title: '기준치', unit: 'MΩ'),
-          Item(
-              type: ItemType.text,
-              title: '측정치',
-              unit: 'MΩ',
-              extra: {'end': true}),
-          Item(type: ItemTyp.status),
-          Item(type: ItemType.text, title: '기준치', unit: 'MΩ'),
-          Item(
-              type: ItemType.text,
-              title: '측정치',
-              unit: 'MΩ',
-              extra: {'end': true}),
-          Item(type: ItemType.status),
-        ]),
-    */
+    // /* 반기, 연차일때 점검시에만 나옴
+    if (period == 3 || period == 4)
+      Dataitem(
+          order: order,
+          parent: '절연저항/누설전류/접지저항 측정',
+          data: Data(
+              type: DataType.multi,
+              title: '점검대상 명',
+              category: index,
+              order: suborder),
+          items: [
+            Item(
+                type: ItemType.text,
+                title: '사용전압',
+                unit: 'A',
+                extra: {'end': true}),
+            //절연저항, 누설전류 선택하는 탭 있어야함
+            Item(type: ItemType.text, title: '기준치', unit: 'MΩ'),
+            Item(
+                type: ItemType.text,
+                title: '측정치',
+                unit: 'MΩ',
+                extra: {'end': true}),
+            Item(type: ItemType.status),
+            Item(type: ItemType.text, title: '기준치', unit: 'MΩ'),
+            Item(
+                type: ItemType.text,
+                title: '측정치',
+                unit: 'MΩ',
+                extra: {'end': true}),
+            Item(type: ItemType.status),
+          ]),
+    // */
   ];
 }

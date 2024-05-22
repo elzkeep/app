@@ -2,12 +2,12 @@ import 'package:zkeep/models/data.dart';
 import 'package:zkeep/models/dataitem.dart';
 import 'package:zkeep/models/item.dart';
 
-Dataitem charger(index, order, suborder) {
-  var items = chargers(index, order, suborder);
+Dataitem charger(index, order, suborder, period) {
+  var items = chargers(index, order, suborder, period);
   return items[index - 1];
 }
 
-List<Dataitem> chargers(index, order, suborder) {
+List<Dataitem> chargers(index, order, suborder, period) {
   return [
     Dataitem(
         order: order,
@@ -82,23 +82,24 @@ List<Dataitem> chargers(index, order, suborder) {
         items: [
           Item(type: ItemType.status),
         ]),
-    /* 반기일때 점검시에만 나옴
-    Dataitem(
-        order: order,
-        data: Data(
-            type: DataType.multi,
-            title: '절연/접지저항 측정',
-            category: index,
-            order: suborder),
-        items: [
-          Item(type: ItemType.text, title: '접지저항', unit: 'µA'),
-          Item(
-              type: ItemType.text,
-              title: '절연저항',
-              unit: 'MΩ',
-              extra: {'end': true}),
-          Item(type: ItemType.status),
-        ]),
-    */
+    // /* 반기일때 점검시에만 나옴
+    if (period == 3)
+      Dataitem(
+          order: order,
+          data: Data(
+              type: DataType.multi,
+              title: '절연/접지저항 측정',
+              category: index,
+              order: suborder),
+          items: [
+            Item(type: ItemType.text, title: '접지저항', unit: 'µA'),
+            Item(
+                type: ItemType.text,
+                title: '절연저항',
+                unit: 'MΩ',
+                extra: {'end': true}),
+            Item(type: ItemType.status),
+          ]),
+    // */
   ];
 }
