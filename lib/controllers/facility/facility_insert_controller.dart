@@ -75,6 +75,10 @@ class FacilityInsertController extends GetxController {
   get wind => _wind;
   set wind(value) => _wind.value = value;
 
+  final _aswitch = false.obs;
+  get aswitch => _aswitch.value;
+  set aswitch(value) => _aswitch.value = value;
+
   final _water = Facility().obs;
   Facility get water => _water.value;
   set water(Facility value) => _water.value = value;
@@ -210,6 +214,7 @@ class FacilityInsertController extends GetxController {
     }
 
     if (item.value1 == 'true') {
+      aswitch = true;
       installation = true;
     } else {
       installation = false;
@@ -597,13 +602,10 @@ class FacilityInsertController extends GetxController {
     _water.refresh();
   }
 
-  bool toBoolean(String str) {
-    return str == 'true';
-  }
-
   save() async {
     item.building = building;
     item.category = 10;
+    item.value1 = aswitch.toString();
 
     if (item.id > 0) {
       await FacilityManager.update(item);

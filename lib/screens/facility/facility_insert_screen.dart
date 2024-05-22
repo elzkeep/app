@@ -183,8 +183,8 @@ class FacilityInsertScreen extends CWidget {
 
   basic() {
     return CColumn(children: [
-      titleSwitch('수전설비', c.toBoolean(c.item.value1), (bool val) {
-        c.item.value1 = '$val';
+      titleSwitch('수전설비', c.aswitch, (bool val) {
+        c.aswitch = val;
       }),
       round(<Widget>[
         entry(
