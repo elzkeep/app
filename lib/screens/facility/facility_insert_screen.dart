@@ -203,9 +203,9 @@ class FacilityInsertScreen extends CWidget {
           CSelectbox(
             backgroundColor: Colors.white,
             items: c.types,
-            selected: int.tryParse(c.item.value3) ?? 0,
+            selected: c.item.type,
             onSelected: (pos) {
-              c.item.value3 = pos.toString();
+              c.item.type = pos;
               c.itemRedraw();
             },
           ),
@@ -832,6 +832,18 @@ class FacilityInsertScreen extends CWidget {
             },
             index == 0 ? true : false,
           ),
+          entry(
+            '형태',
+            CSelectbox(
+              backgroundColor: Colors.white,
+              items: c.types,
+              selected: generator.type,
+              onSelected: (pos) {
+                generator.type = pos;
+                c.generatorRedraw();
+              },
+            ),
+          ),
           entry2(
             '원동기',
             Container(),
@@ -1093,6 +1105,18 @@ class FacilityInsertScreen extends CWidget {
               textStyle: labelStyle,
             ),
           ),
+          entry(
+            '형태',
+            CSelectbox(
+              backgroundColor: Colors.white,
+              items: c.types,
+              selected: c.sunlight.type,
+              onSelected: (pos) {
+                c.sunlight.type = pos;
+                c.sunlightRedraw();
+              },
+            ),
+          ),
           CText('태양광 모듈'),
           entry2(
             '형식',
@@ -1263,6 +1287,18 @@ class FacilityInsertScreen extends CWidget {
               filledColor: Colors.white,
               textStyle: labelStyle,
               suffixText: 'kW',
+            ),
+          ),
+          entry(
+            '형태',
+            CSelectbox(
+              backgroundColor: Colors.white,
+              items: c.types,
+              selected: c.charger.type,
+              onSelected: (pos) {
+                c.charger.type = pos;
+                c.chargerRedraw();
+              },
             ),
           ),
           entry(
@@ -1483,6 +1519,18 @@ class FacilityInsertScreen extends CWidget {
               filledColor: Colors.white,
               textStyle: labelStyle,
               suffixText: 'kW',
+            ),
+          ),
+          entry(
+            '형태',
+            CSelectbox(
+              backgroundColor: Colors.white,
+              items: c.types,
+              selected: c.ess.type,
+              onSelected: (pos) {
+                c.ess.type = pos;
+                c.essRedraw();
+              },
             ),
           ),
           entry2(
@@ -1861,6 +1909,18 @@ class FacilityInsertScreen extends CWidget {
                   suffixText: 'kVA',
                 ),
               ),
+              entry(
+                '형태',
+                CSelectbox(
+                  backgroundColor: Colors.white,
+                  items: c.types,
+                  selected: ups.type,
+                  onSelected: (pos) {
+                    ups.type = pos;
+                    c.upsRedraw()();
+                  },
+                ),
+              ),
               entry2(
                 '제조사',
                 CTextField(
@@ -2141,6 +2201,18 @@ class FacilityInsertScreen extends CWidget {
               suffixText: 'kW',
             ),
           ),
+          entry(
+            '형태',
+            CSelectbox(
+              backgroundColor: Colors.white,
+              items: c.types,
+              selected: wind.type,
+              onSelected: (pos) {
+                wind.type = pos;
+                c.windRedraw();
+              },
+            ),
+          ),
           entry2(
             '제조사',
             CTextField(
@@ -2286,6 +2358,18 @@ class FacilityInsertScreen extends CWidget {
               suffixText: 'kW',
             ),
           ),
+          entry(
+            '형태',
+            CSelectbox(
+              backgroundColor: Colors.white,
+              items: c.types,
+              selected: c.water.type,
+              onSelected: (pos) {
+                c.water.type = pos;
+                c.waterRedraw();
+              },
+            ),
+          ),
         ]),
       ],
     );
@@ -2377,6 +2461,18 @@ class FacilityInsertScreen extends CWidget {
               onChanged: (value) => fuel.value5 = value,
               filledColor: Colors.white,
               textStyle: labelStyle,
+            ),
+          ),
+          entry(
+            '형태',
+            CSelectbox(
+              backgroundColor: Colors.white,
+              items: c.types,
+              selected: fuel.type,
+              onSelected: (pos) {
+                fuel.type = pos;
+                c.fuelRedraw();
+              },
             ),
           ),
           entry(
