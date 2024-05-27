@@ -93,8 +93,8 @@ class JoinUserScreen extends CWidget {
                 ),
                 CFormtitle(title: '회사선택'),
                 CFormtext(c.company.name, onTap: () => clickCompany()),
-                CFormtitle(title: '팀선택'),
-                CFormtext(c.department.name, onTap: () => clickDepartment()),
+                // CFormtitle(title: '팀선택'),
+                // CFormtext(c.department.name, onTap: () => clickDepartment()),
               ]),
             ]),
       ),
@@ -161,6 +161,8 @@ class JoinUserScreen extends CWidget {
     for (var i = 0; i < c.items.length; i++) {
       Company item = c.items[i];
       final name = item.name;
+      final companyno = item.companyno;
+      final address = '${item.address} ${item.addressetc}';
 
       if (c.search != '') {
         if (!name.contains(c.search)) {
@@ -170,11 +172,50 @@ class JoinUserScreen extends CWidget {
         }
       }
 
-      items.add(CText(
-        name,
-        margin: const EdgeInsets.only(bottom: 10),
-        onTap: () => clickSelectCustomer(item),
-      ));
+      items.add(CColumn(
+          margin: const EdgeInsets.only(bottom: 10),
+          onTap: () => clickSelectCustomer(item),
+          children: [
+            CText(
+              name,
+              textStyle: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xff212121)),
+            ),
+            CRow(children: [
+              CText(
+                '사업자번호 ',
+                textStyle: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.grey),
+              ),
+              CText(
+                companyno,
+                textStyle: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.grey),
+              ),
+            ]),
+            CRow(children: [
+              CText(
+                '주소 ',
+                textStyle: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.grey),
+              ),
+              CText(
+                address,
+                textStyle: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Colors.grey),
+              ),
+            ]),
+          ]));
     }
 
     return CContainer(

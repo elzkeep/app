@@ -28,7 +28,7 @@ class CustomerListScreen extends CWidget {
     return CColumn(gap: 10, children: [
       // SubTitle('',
       //     more: '고객 추가', onMore: () => Get.toNamed('/customer/insert')),
-      CustomerBox(total: c.customerTotal, score: c.score)
+      CustomerBox(total: c.customerTotal, score: c.score.toStringAsFixed(1))
     ]);
   }
 

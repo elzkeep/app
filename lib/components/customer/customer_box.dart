@@ -10,7 +10,7 @@ class CustomerBox extends CWidget {
   });
 
   final int total;
-  final double score;
+  final String score;
 
   @override
   Widget build(BuildContext context) {

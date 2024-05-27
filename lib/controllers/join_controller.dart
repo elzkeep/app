@@ -136,7 +136,7 @@ class JoinController extends GetxController {
   onInit() async {
     super.onInit();
 
-    items = await CompanyManager.find();
+    items = await CompanyManager.find(params: "type=1");
     getUrl();
   }
 

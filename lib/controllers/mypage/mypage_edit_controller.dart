@@ -115,7 +115,7 @@ class MypageEditController extends GetxController {
     getComaony();
     getLicense();
 
-    items = await CompanyManager.find();
+    items = await CompanyManager.find(params: 'type=1');
   }
 
   getUser() async {

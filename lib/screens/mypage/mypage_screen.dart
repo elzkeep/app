@@ -162,7 +162,7 @@ class MypageScreen extends CWidget {
   customer() {
     return CColumn(gap: 10, children: [
       SubTitle('고객관리', more: '더보기', onMore: () => Get.offAllNamed('/customer')),
-      CustomerBox(total: c.customerTotal, score: c.score)
+      CustomerBox(total: c.customerTotal, score: c.score.toStringAsFixed(1))
     ]);
   }
 
