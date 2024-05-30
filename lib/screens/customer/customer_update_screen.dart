@@ -1,4 +1,5 @@
 import 'package:common_control/common_control.dart';
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:remedi_kopo/remedi_kopo.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -7,6 +8,9 @@ import 'package:zkeep/components/cformtitle.dart';
 import 'package:zkeep/components/ctablecalendar.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/controllers/customer/customer_update_controller.dart';
+import 'package:zkeep/components/mapView/mapView.dart' as MapV;
+
+bool get isWeb => identical(0, 0.0);
 
 class CustomerUpdateScreen extends CWidget {
   CustomerUpdateScreen({super.key});
@@ -230,10 +234,16 @@ class CustomerUpdateScreen extends CWidget {
   onPageChanged(DateTime focusedDay) async {}
 
   void searchAddress() async {
-    KopoModel? model = await Get.to(() => RemediKopo());
+    if (kIsWeb) {
+      KopoModel? result = await Get.to(() => MapV.MapView(), routeName: '/k');
 
-    // c.zip = model?.zonecode ?? '';
-    c.companyaddress = model?.address ?? '';
-    c.buildingaddress = model?.address ?? '';
+      c.companyaddress = result?.address ?? '';
+      c.buildingaddress = result?.address ?? '';
+    } else {
+      KopoModel? model = await Get.to(() => RemediKopo());
+
+      c.companyaddress = model?.address ?? '';
+      c.buildingaddress = model?.address ?? '';
+    }
   }
 }

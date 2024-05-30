@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:remedi_kopo/remedi_kopo.dart';
 import 'package:zkeep/components/Cformtitle.dart';
 import 'package:zkeep/components/cformtext.dart';
@@ -6,6 +7,7 @@ import 'package:zkeep/components/cselectbox.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/controllers/mypage/mypage_edit_controller.dart';
+import 'package:zkeep/components/mapView/mapView.dart' as MapV;
 
 class MypageEditScreen extends CWidget {
   MypageEditScreen({super.key});
@@ -71,10 +73,17 @@ class MypageEditScreen extends CWidget {
   }
 
   void searchAddress() async {
-    KopoModel? model = await Get.to(() => RemediKopo());
+    if (kIsWeb) {
+      KopoModel? result = await Get.to(() => MapV.MapView(), routeName: '/k');
 
-    c.zip = model?.zonecode ?? '';
-    c.address = model?.address ?? '';
+      c.zip = result?.zonecode ?? '';
+      c.address = result?.address ?? '';
+    } else {
+      KopoModel? model = await Get.to(() => RemediKopo());
+
+      c.zip = model?.zonecode ?? '';
+      c.address = model?.address ?? '';
+    }
   }
 
   bottom() {

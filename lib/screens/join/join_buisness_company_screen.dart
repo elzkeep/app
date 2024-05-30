@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:remedi_kopo/remedi_kopo.dart';
 import 'package:zkeep/components/cformtext.dart';
 import 'package:zkeep/components/cformtitle.dart';
 import 'package:zkeep/controllers/join_controller.dart';
 import 'package:common_control/common_control.dart';
+import 'package:zkeep/components/mapView/mapView.dart' as MapV;
 
 class JoinBuisnessCompanyScreen extends CWidget {
   JoinBuisnessCompanyScreen({Key? key}) : super(key: key);
@@ -93,9 +95,16 @@ class JoinBuisnessCompanyScreen extends CWidget {
   }
 
   void searchAddress() async {
-    KopoModel? model = await Get.to(() => RemediKopo());
+    if (kIsWeb) {
+      KopoModel? result = await Get.to(() => MapV.MapView(), routeName: '/k');
 
-    c.zip = model?.zonecode ?? '';
-    c.address = model?.address ?? '';
+      c.zip = result?.zonecode ?? '';
+      c.address = result?.address ?? '';
+    } else {
+      KopoModel? model = await Get.to(() => RemediKopo());
+
+      c.zip = model?.zonecode ?? '';
+      c.address = model?.address ?? '';
+    }
   }
 }
