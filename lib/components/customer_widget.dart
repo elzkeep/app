@@ -32,7 +32,8 @@ class CustomerWidget extends CWidget {
         ),
         Expanded(
           child: CColumn(gap: 10, children: [
-            CText('750KW / ${item.building.score}점 1회',
+            CText(
+                '${item.building.weight.toInt()}KW / ${item.building.score.toInt()}점 1회',
                 textStyle:
                     const TextStyle(color: Colors.black54, fontSize: 12)),
             CText('다음점검일 : ${item.checkdate}일',

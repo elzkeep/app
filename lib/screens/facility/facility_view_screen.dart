@@ -84,7 +84,7 @@ class FacilityViewScreen extends CWidget {
                         ? c.item.value5
                         : c.positions[int.tryParse(c.item.value4) ?? 0].value,
                     '수전 형태:',
-                    c.types[int.tryParse(c.item.value3) ?? 0].value),
+                    c.types[c.item.type].value),
               ]))
     ]);
   }
@@ -302,6 +302,7 @@ class FacilityViewScreen extends CWidget {
               gap: 10,
               children: [
                 entry('발전설비명: ', generator.name),
+                entry('전압 형태: ', c.types[generator.type].value),
                 entry2('원동기', '', '발전기', ''),
                 entry2('형식(모델명):', generator.value2, '형식(모델명):',
                     generator.value11),
@@ -353,6 +354,7 @@ class FacilityViewScreen extends CWidget {
                         ? c.sunlight.value5
                         : c.voltage[int.tryParse(c.sunlight.value4) ?? 0].value,
                   ),
+                  entry('전압 형태:', c.types[c.sunlight.type].value),
                   entry('발전용량:', c.sunlight.value6),
                   entry2('형식:', c.sunlight.value7, '최대전력용량:',
                       '${c.sunlight.value8} kW'),
@@ -391,6 +393,7 @@ class FacilityViewScreen extends CWidget {
                         : c.voltage[int.tryParse(c.charger.value3) ?? 0].value,
                   ),
                   entry('용량:', '${c.charger.value5} kW'),
+                  entry('전압 형태:', c.types[c.charger.type].value),
                   ListView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
@@ -455,6 +458,7 @@ class FacilityViewScreen extends CWidget {
                           : c.voltage[int.tryParse(c.ess.value2) ?? 0].value,
                       '정격용량:',
                       '${c.ess.value4} kW'),
+                  entry('전압 형태:', c.types[c.ess.type].value),
                   entry2(
                       '입력전압:', '${c.ess.value5} V', '~', '${c.ess.value6} V'),
                   entry2('제조사:', c.ess.value7, '제조번호:', c.ess.value8),
@@ -540,6 +544,7 @@ class FacilityViewScreen extends CWidget {
                 entry('전력변환장치', ''),
                 entry2(
                     '출력전압:', '${ups.value11} V', '정격용량:', '${ups.value12} kVA'),
+                entry('전압 형태:', c.types[ups.type].value),
                 entry2('제조사:', ups.value13, '제작번호:', ups.value14),
                 entry('제작년월:',
                     '${c.years[int.tryParse(ups.value15) ?? 0].value}년 ${c.months[int.tryParse(ups.value16) ?? 0].value}'),
@@ -591,6 +596,7 @@ class FacilityViewScreen extends CWidget {
                       : c.gass[int.tryParse(fuel.value2) ?? 0].value,
                 ),
                 entry2('정격출력:', fuel.value4, '가스소비량:', fuel.value5),
+                entry('전압 형태:', c.types[fuel.type].value),
                 entry('가스압력범위:', '${fuel.value6} ~ ${fuel.value7}'),
                 entry2('정격전압:', fuel.value8, '주파수:', fuel.value9),
                 entry2('발전효율:', fuel.value10, '열효율:', fuel.value11),
@@ -647,6 +653,7 @@ class FacilityViewScreen extends CWidget {
                 entry('풍향조건:',
                     '${wind.value9} m/s    ${wind.value10} m/s    ${wind.value11} m/s'),
                 entry2('형식:', wind.value12, '정격용량:', '${wind.value13} kW'),
+                entry('전압 형태:', c.types[wind.type].value),
                 entry2('제조사:', wind.value14, '제작번호:', wind.value15),
                 entry('제작년월:',
                     '${c.years[int.tryParse(wind.value16) ?? 0].value}년 ${c.months[int.tryParse(wind.value17) ?? 0].value}'),
@@ -675,6 +682,7 @@ class FacilityViewScreen extends CWidget {
                   entry('수력발전설비:', c.water.name),
                   entry2('정격전압:', '${c.water.value1} V', '정격용량:',
                       '${c.ess.value2} kW'),
+                  entry('전압 형태:', c.types[c.water.type].value),
                 ])),
       ]);
     } else {

@@ -305,8 +305,7 @@ class ViewScreen extends CWidget {
               child: CText('수전 용량: ${c.item.value2}kW'),
             ),
             Expanded(
-              child: CText(
-                  '수전 형태: ${c.types[int.tryParse(c.item.value3) ?? 0].value}'),
+              child: CText('수전 형태: ${c.types[c.item.type].value}'),
             ),
           ]),
           CText('발전 설비 현황: ${c.facilityStatus()}'),
