@@ -153,7 +153,6 @@ class Status extends CWidget {
                           item.image = returnedImage.path;
                           item.extra['image'] = false;
                           onSelected(item);
-                          print(item.image);
                         },
                       )
                     // : CContainer(

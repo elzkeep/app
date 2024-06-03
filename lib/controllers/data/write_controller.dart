@@ -320,10 +320,8 @@ class WriteController extends GetxController {
         if (item.status == ItemStatus.danger ||
             item.status == ItemStatus.warning) {
           if (item.image != '') {
-            List<String> parts = item.image.split("/");
-            String imageName = parts[parts.length - 1];
-            await Http.upload('/api/upload/index', imageName, item.image);
-            item.image = imageName;
+            var result = await Http.upload('/api/upload/index', item.image);
+            item.image = result['filename'];
           }
         }
       }

@@ -436,10 +436,8 @@ class ViewController extends GetxController {
     }
     report.content = content.text;
     if (image != '') {
-      List<String> parts = image.split("/");
-      String imageName = parts[parts.length - 1];
-      await Http.upload('/api/upload/index', imageName, image);
-      report.image = imageName;
+      var result = await Http.upload('/api/upload/index', image);
+      report.image = result['filename'];
     }
 
     await ReportManager.update(report);

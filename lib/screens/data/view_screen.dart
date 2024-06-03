@@ -35,42 +35,42 @@ class ViewScreen extends CWidget {
             const SizedBox(height: 10),
             wrapbtn(),
             const SizedBox(height: 20),
-            // CText('사진'),
-            // c.report.image != ''
-            //     ? CContainer(
-            //         width: 100,
-            //         height: 100,
-            //         child: Image.network(
-            //           '${Config.serverUrl}/webdata/${c.report.image}',
-            //           fit: BoxFit.cover,
-            //         ))
-            //     : c.image != ''
-            //         ? CContainer(
-            //             width: 100,
-            //             height: 100,
-            //             child: Image.asset(
-            //               c.image,
-            //               fit: BoxFit.cover,
-            //             ))
-            //         : CContainer(
-            //             height: 100,
-            //             width: 100,
-            //             decoration: BoxDecoration(
-            //                 color: backgroundColor,
-            //                 border: Border.all(
-            //                   color: const Color(0xffE0E0E0),
-            //                   width: 1,
-            //                 ),
-            //                 borderRadius: BorderRadius.circular(8)),
-            //             child: const Icon(CupertinoIcons.plus),
-            //             onTap: () async {
-            //               final returnedImage = await ImagePicker()
-            //                   .pickImage(source: ImageSource.gallery);
-            //               if (returnedImage == null) return;
-            //               c.image = returnedImage.path;
-            //               c.redraw();
-            //             },
-            //           ),
+            CText('사진'),
+            c.report.image != ''
+                ? CContainer(
+                    width: 100,
+                    height: 100,
+                    child: Image.network(
+                      '${Config.serverUrl}/webdata/${c.report.image}',
+                      fit: BoxFit.cover,
+                    ))
+                : c.image != ''
+                    ? CContainer(
+                        width: 100,
+                        height: 100,
+                        child: Image.asset(
+                          c.image,
+                          fit: BoxFit.cover,
+                        ))
+                    : CContainer(
+                        height: 100,
+                        width: 100,
+                        decoration: BoxDecoration(
+                            color: backgroundColor,
+                            border: Border.all(
+                              color: const Color(0xffE0E0E0),
+                              width: 1,
+                            ),
+                            borderRadius: BorderRadius.circular(8)),
+                        child: const Icon(CupertinoIcons.plus),
+                        onTap: () async {
+                          final returnedImage = await ImagePicker()
+                              .pickImage(source: ImageSource.gallery);
+                          if (returnedImage == null) return;
+                          c.image = returnedImage.path;
+                          c.redraw();
+                        },
+                      ),
             const SizedBox(height: 20),
             CTextField(
               text: '종합 검토 의견',
