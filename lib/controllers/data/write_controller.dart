@@ -320,8 +320,9 @@ class WriteController extends GetxController {
         if (item.status == ItemStatus.danger ||
             item.status == ItemStatus.warning) {
           if (item.image != '') {
-            var result = await Http.upload('/api/upload/index', item.image);
-            item.image = result['filename'];
+            var result =
+                await Http.upload('/api/upload/index', "file", item.image);
+            item.image = result;
           }
         }
       }

@@ -436,8 +436,8 @@ class ViewController extends GetxController {
     }
     report.content = content.text;
     if (image != '') {
-      var result = await Http.upload('/api/upload/index', image);
-      report.image = result['filename'];
+      var result = await Http.upload('/api/upload/index', "file", image);
+      report.image = result;
     }
 
     await ReportManager.update(report);
