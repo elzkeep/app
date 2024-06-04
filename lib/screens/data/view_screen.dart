@@ -128,13 +128,13 @@ class ViewScreen extends CWidget {
                   ),
                 ],
               ),
-            // if (c.report.status == ReportStatus.complete ||
-            //     c.report.status == ReportStatus.check)
-            //   CButton(
-            //     text: '점검지 다운로드',
-            //     margin: const EdgeInsets.only(top: 10),
-            //     onPressed: () => clickDown(),
-            //   ),
+            if (c.report.status == ReportStatus.complete ||
+                c.report.status == ReportStatus.check)
+              CButton(
+                text: '점검지 다운로드',
+                margin: const EdgeInsets.only(top: 10),
+                onPressed: () => clickDown(),
+              ),
           ])),
         ]),
       ),

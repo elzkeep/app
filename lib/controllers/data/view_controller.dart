@@ -1,5 +1,11 @@
+import 'dart:io';
+
 import 'package:common_control/common_control.dart';
 import 'package:hand_signature/signature.dart';
+import 'package:intl/intl.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:zkeep/components/cselectbox.dart';
 import 'package:zkeep/controllers/data/list_controller.dart';
 import 'package:zkeep/controllers/main_controller.dart';
@@ -458,7 +464,21 @@ class ViewController extends GetxController {
   }
 
   getPdf() async {
-    final res = await ReportManager.getpdf(id);
+    final directory = await getApplicationDocumentsDirectory();
+    String today =
+        DateFormat('yyyy-MM-dd hh:mm', 'ko_KR').format(DateTime.now());
+    final filePath = '${directory.path}/${today}_report.pdf';
+
+    // 파일에 PDF 데이터 쓰기
+    final file = File(filePath);
+    print(file);
+
+    var res = await Http.downloadAndOpenPDF('/api/report/download/$id');
+
+    await file.writeAsBytes(res);
+
+    // OpenFile.open(filePath);
+    Share.shareXFiles([XFile(filePath)]);
   }
 
   // getPdf() async {

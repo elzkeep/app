@@ -148,8 +148,4 @@ class ReportManager {
   static delete(Report item) async {
     await Http.delete(baseUrl, item.toJson());
   }
-
-  static getpdf(int id) async {
-    var result = await Http.get('$baseUrl/download/$id');
-  }
 }
