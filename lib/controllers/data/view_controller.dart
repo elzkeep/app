@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:common_control/common_control.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hand_signature/signature.dart';
 import 'package:intl/intl.dart';
 import 'package:open_file/open_file.dart';
@@ -22,6 +24,10 @@ class ViewController extends GetxController {
   final int id;
   final Report report;
   final Building building;
+
+  final _webImage = Uint8List(8).obs;
+  get webImage => _webImage.value;
+  set webImage(value) => _webImage.value = value;
 
   final _item = Facility().obs;
   Facility get item => _item.value;
@@ -442,7 +448,13 @@ class ViewController extends GetxController {
     }
     report.content = content.text;
     if (image != '') {
-      var result = await Http.upload('/api/upload/index', "file", image);
+      var result;
+      if (kIsWeb) {
+        result =
+            await Http.uploadWeb('/api/upload/index', "file", webImage, image);
+      } else {
+        result = await Http.upload('/api/upload/index', "file", image);
+      }
       report.image = result;
     }
 
@@ -469,38 +481,13 @@ class ViewController extends GetxController {
         DateFormat('yyyy-MM-dd hh:mm', 'ko_KR').format(DateTime.now());
     final filePath = '${directory.path}/${today}_report.pdf';
 
-    // 파일에 PDF 데이터 쓰기
     final file = File(filePath);
-    print(file);
 
-    var res = await Http.downloadAndOpenPDF('/api/report/download/$id');
+    var res = await Http.download('/api/report/download/$id');
 
     await file.writeAsBytes(res);
 
     // OpenFile.open(filePath);
     Share.shareXFiles([XFile(filePath)]);
   }
-
-  // getPdf() async {
-  //   final res = ReportManager.getpdf(id);
-  //   String today = DateFormat('yyyy-MM-dd', 'ko_KR').format(DateTime.now());
-  //   String filename = '$today ${report.title}';
-  //   _getFilePath(filename);
-  //   // String dir = (await getApplicationDocumentsDirectory()).path;
-  // }
-
-  // Future<String> _getFilePath(String filename) async {
-  //   Directory? dir;
-  //   try {
-  //     if (Platform.isIOS) {
-  //       dir = await getApplicationDocumentsDirectory(); // for iOS
-  //     } else {
-  //       dir = Directory('/storage/emulated/0/Download/'); // for android
-  //       if (!await dir.exists()) dir = (await getExternalStorageDirectory())!;
-  //     }
-  //   } catch (err) {
-  //     print("Cannot get download folder path $err");
-  //   }
-  //   return "${dir?.path}";
-  // }
 }

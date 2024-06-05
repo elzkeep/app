@@ -1,4 +1,5 @@
 import 'package:common_control/common_control.dart';
+import 'package:flutter/foundation.dart';
 import 'package:zkeep/config/config.dart';
 import 'package:zkeep/controllers/data/list_controller.dart';
 import 'package:zkeep/controllers/data/view_controller.dart';
@@ -320,9 +321,21 @@ class WriteController extends GetxController {
         if (item.status == ItemStatus.danger ||
             item.status == ItemStatus.warning) {
           if (item.image != '') {
-            var result =
-                await Http.upload('/api/upload/index', "file", item.image);
-            item.image = result;
+            if (item.extra['image'] == false) {
+              var result;
+              if (kIsWeb) {
+                print(item.extra['webImage']);
+                result = await Http.uploadWeb('/api/upload/index', "file",
+                    item.extra['webImage'], item.image);
+              } else {
+                result =
+                    await Http.upload('/api/upload/index', "file", item.image);
+              }
+              item.image = result;
+            } else {
+              item.image = item.image.split('/').last;
+              print(item.image);
+            }
           }
         }
       }

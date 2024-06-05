@@ -1,5 +1,6 @@
 import 'package:common_control/common_control.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:zkeep/components/cselectbox.dart';
 import 'package:zkeep/components/cselectbutton.dart';
@@ -150,26 +151,28 @@ class Status extends CWidget {
                           final returnedImage = await ImagePicker()
                               .pickImage(source: ImageSource.gallery);
                           if (returnedImage == null) return;
-                          item.image = returnedImage.path;
+                          if (kIsWeb) {
+                            item.extra['webImage'] =
+                                await returnedImage.readAsBytes();
+                            item.image = returnedImage.name;
+                          } else {
+                            item.image = returnedImage.path;
+                          }
                           item.extra['image'] = false;
                           onSelected(item);
                         },
                       )
-                    // : CContainer(
-                    //     width: 100,
-                    //     height: 100,
-                    //     child: Image.asset(
-                    //       item.image,
-                    //       fit: BoxFit.cover,
-                    //     ))
                     : CContainer(
                         width: 100,
                         height: 100,
                         child: item.extra['image'] == false
-                            ? Image.asset(
-                                item.image,
-                                fit: BoxFit.cover,
-                              )
+                            ? kIsWeb
+                                ? Image.memory(item.extra['webImage'],
+                                    fit: BoxFit.cover)
+                                : Image.asset(
+                                    item.image,
+                                    fit: BoxFit.cover,
+                                  )
                             : Image.network(
                                 item.image,
                                 fit: BoxFit.cover,

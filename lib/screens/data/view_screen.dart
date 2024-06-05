@@ -1,6 +1,6 @@
-import 'package:common_control/ccolumn.dart';
 import 'package:common_control/common_control.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:hand_signature/signature.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -45,13 +45,18 @@ class ViewScreen extends CWidget {
                       fit: BoxFit.cover,
                     ))
                 : c.image != ''
-                    ? CContainer(
-                        width: 100,
-                        height: 100,
-                        child: Image.asset(
-                          c.image,
-                          fit: BoxFit.cover,
-                        ))
+                    ? kIsWeb
+                        ? CContainer(
+                            width: 100,
+                            height: 100,
+                            child: Image.memory(c.webImage, fit: BoxFit.cover))
+                        : CContainer(
+                            width: 100,
+                            height: 100,
+                            child: Image.asset(
+                              c.image,
+                              fit: BoxFit.cover,
+                            ))
                     : CContainer(
                         height: 100,
                         width: 100,
@@ -67,7 +72,13 @@ class ViewScreen extends CWidget {
                           final returnedImage = await ImagePicker()
                               .pickImage(source: ImageSource.gallery);
                           if (returnedImage == null) return;
-                          c.image = returnedImage.path;
+                          if (kIsWeb) {
+                            c.webImage = await returnedImage.readAsBytes();
+                            c.image = returnedImage.name;
+                            print(c.image);
+                          } else {
+                            c.image = returnedImage.path;
+                          }
                           c.redraw();
                         },
                       ),
