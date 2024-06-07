@@ -102,10 +102,12 @@ class MainController extends InfiniteController {
     final res = await CustomerManager.find(params: 'user=$userId');
 
     if (res.isNotEmpty) {
+      double totalnum = 0.0;
       for (int i = 0; i < res.length; i++) {
-        newcustomerTotal += res[i].extra['building']['score'].toInt();
+        totalnum += res[i].extra['building']['score'];
         print(newcustomerTotal);
       }
+      newcustomerTotal = totalnum.round();
     }
   }
 

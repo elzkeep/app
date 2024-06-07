@@ -4,8 +4,8 @@ import 'package:common_control/common_control.dart';
 import 'package:localstorage/localstorage.dart';
 
 class Config {
-  static const serverUrl = 'http://localhost:9303';
-  //static const serverUrl = 'https://netb.co.kr:7443';
+  // static const serverUrl = 'http://localhost:9303';
+  static const serverUrl = 'https://zkeep.space';
 
   static const primaryColor = Color.fromRGBO(237, 92, 66, 1.000);
   static const backgroundColor = Colors.black12;

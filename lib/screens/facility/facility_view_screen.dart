@@ -77,7 +77,8 @@ class FacilityViewScreen extends CWidget {
               lineColor: Colors.black12,
               gap: 10,
               children: [
-                entry2('수전용량:', '${c.item.value2} kW', '관리점수:', ''),
+                entry2('수전용량:', '${c.item.value2} kW', '관리점수:',
+                    c.building.score.toStringAsFixed(1)),
                 entry2(
                     '수전 위치:',
                     c.item.value4 == '7'

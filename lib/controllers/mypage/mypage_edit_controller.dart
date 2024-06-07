@@ -56,9 +56,9 @@ class MypageEditController extends GetxController {
   // String get addressStreet => _addressStreet.value;
   // set addressStreet(String value) => _addressStreet.value = value;
 
-  // final _addressEtc = ''.obs;
-  // String get addressEtc => _addressEtc.value;
-  // set addressEtc(String value) => _addressEtc.value = value;
+  // final _addressetc = ''.obs;
+  // String get addressetc => _addressetc.value;
+  // set addressetc(String value) => _addressetc.value = value;
 
   final _errorLoginid = ''.obs;
   String get errorLoginid => _errorLoginid.value;

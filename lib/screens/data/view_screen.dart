@@ -313,7 +313,7 @@ class ViewScreen extends CWidget {
             child: CColumn(gap: 10, children: [
           CRow(children: [
             Expanded(
-              child: CText('수전 용량: ${c.item.value2}kW'),
+              child: CText('수전 용량: ${c.building.totalweight}kW'),
             ),
             Expanded(
               child: CText('수전 형태: ${c.types[c.item.type].value}'),

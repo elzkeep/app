@@ -10,7 +10,9 @@ class CustomerWidget extends CWidget {
   @override
   Widget build(BuildContext context) {
     return CContainer(
-      onTap: () => Get.toNamed('/customer/${item.id}'),
+      onTap: () => Get.toNamed('/customer/${item.id}', arguments: {
+        'building': item.building,
+      }),
       decoration: BoxDecoration(
           color: const Color(0xffE0E0E0),
           border: Border.all(
@@ -33,7 +35,7 @@ class CustomerWidget extends CWidget {
         Expanded(
           child: CColumn(gap: 10, children: [
             CText(
-                '${item.building.weight.toInt()}KW / ${item.building.score.toInt()}점 1회',
+                '${item.building.totalweight}KW / ${item.building.score.toStringAsFixed(1)}점 1회',
                 textStyle:
                     const TextStyle(color: Colors.black54, fontSize: 12)),
             CText('다음점검일 : ${item.checkdate}일',

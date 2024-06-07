@@ -1,13 +1,15 @@
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/components/cselectbox.dart';
+import 'package:zkeep/models/building.dart';
 import 'package:zkeep/models/customer.dart';
 import 'package:zkeep/models/facility.dart';
 import 'package:zkeep/models/report.dart';
 
 class CustomerViewController extends GetxController {
-  CustomerViewController(this.id);
+  CustomerViewController(this.id, this.building);
 
   final int id;
+  final Building building;
 
   final _item = Customer().obs;
   Customer get item => _item.value;

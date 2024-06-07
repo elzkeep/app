@@ -67,6 +67,7 @@ class MypageEditScreen extends CWidget {
           CFormtitle(title: '주소'),
           CFormtext(c.user.address, onTap: () => searchAddress()),
           CFormfield(
+            controller: c.addressetc,
             onChanged: (value) => c.user.addressetc = value,
           ),
         ]));
