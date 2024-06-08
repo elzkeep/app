@@ -1,13 +1,8 @@
-import 'dart:io';
-import 'dart:html' as html;
 import 'package:common_control/common_control.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hand_signature/signature.dart';
-import 'package:intl/intl.dart';
-import 'package:open_file/open_file.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:zkeep/components/cselectbox.dart';
+import 'package:zkeep/components/pdfDownload/pdf_downloader.dart';
 import 'package:zkeep/controllers/data/list_controller.dart';
 import 'package:zkeep/controllers/main_controller.dart';
 import 'package:zkeep/models/building.dart';
@@ -475,49 +470,6 @@ class ViewController extends GetxController {
   }
 
   getPdf() async {
-    if (kIsWeb) {
-      String today =
-          DateFormat('yyyy-MM-dd hh:mm', 'ko_KR').format(DateTime.now());
-
-      var res = await Http.download('/api/report/download/$id');
-
-      Uint8List bytes = res;
-
-      // Blob 생성
-      final blob = html.Blob([bytes], 'application/pdf');
-
-      // 앵커 엘리먼트 생성 및 클릭하여 파일 다운로드
-      final url = html.Url.createObjectUrlFromBlob(blob);
-      final anchor = html.AnchorElement(href: url)
-        ..setAttribute('download', '${today}_report.pdf')
-        ..click();
-      html.Url.revokeObjectUrl(url);
-
-      // 웹 공유 API 사용하여 링크 공유
-      try {
-        await html.window.navigator.share({
-          'title': 'PDF Report',
-          'text': 'Here is the PDF report',
-          'url': url,
-        });
-      } catch (e) {
-        print('Web share API is not supported in this browser.');
-      }
-    } else {
-      final directory = await getApplicationDocumentsDirectory();
-      String today =
-          DateFormat('yyyy-MM-dd hh:mm', 'ko_KR').format(DateTime.now());
-      final filePath = '${directory.path}/${today}_report.pdf';
-      print(filePath);
-
-      final file = File(filePath);
-
-      var res = await Http.download('/api/report/download/$id');
-
-      await file.writeAsBytes(res);
-
-      // OpenFile.open(filePath);
-      Share.shareXFiles([XFile(filePath)]);
-    }
+    downloadAndSharePDF(id);
   }
 }
