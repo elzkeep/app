@@ -46,8 +46,10 @@ class FacilityViewScreen extends CWidget {
           gap: 20,
           children: [
             basic(),
-            building(),
-            receivingtype(),
+            if (c.item.value1 == 'true') ...[
+              building(),
+              receivingtype(),
+            ],
             loopgenerator(),
             sun(),
             ev(),
@@ -70,23 +72,24 @@ class FacilityViewScreen extends CWidget {
         more: '정보 수정',
         onMore: () => clickUpdate(),
       ),
-      CRound(
-          backgroundColor: Config.backgroundColor,
-          child: CColumn(
-              lineWidth: 1,
-              lineColor: Colors.black12,
-              gap: 10,
-              children: [
-                entry2('수전용량:', '${c.item.value2} kW', '관리점수:',
-                    c.building.score.toStringAsFixed(1)),
-                entry2(
-                    '수전 위치:',
-                    c.item.value4 == '7'
-                        ? c.item.value5
-                        : c.positions[int.tryParse(c.item.value4) ?? 0].value,
-                    '수전 형태:',
-                    c.types[c.item.type].value),
-              ]))
+      if (c.item.value1 == 'true')
+        CRound(
+            backgroundColor: Config.backgroundColor,
+            child: CColumn(
+                lineWidth: 1,
+                lineColor: Colors.black12,
+                gap: 10,
+                children: [
+                  entry2('수전용량:', '${c.item.value2} kW', '관리점수:',
+                      c.building.score.toStringAsFixed(1)),
+                  entry2(
+                      '수전 위치:',
+                      c.item.value4 == '7'
+                          ? c.item.value5
+                          : c.positions[int.tryParse(c.item.value4) ?? 0].value,
+                      '수전 형태:',
+                      c.types[c.item.type].value),
+                ]))
     ]);
   }
 

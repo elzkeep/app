@@ -419,32 +419,36 @@ class ViewScreen extends CWidget {
   wrapbtn() {
     List<Widget> widgets = [];
 
-    Widget widget = btn(1, '저압설비');
-    widgets.add(widget);
-    c.otherdata[0] = true;
+    Widget widget;
 
-    if (c.item.type == 2) {
-      widget = btn(2, '고압설비');
+    if (c.item.value1 == 'true') {
+      widget = btn(1, '저압설비');
       widgets.add(widget);
-      c.otherdata[1] = true;
-      widget = btn(3, '변전설비');
+      c.otherdata[0] = true;
+
+      if (c.item.type == 2) {
+        widget = btn(2, '고압설비');
+        widgets.add(widget);
+        c.otherdata[1] = true;
+        widget = btn(3, '변전설비');
+        widgets.add(widget);
+        c.otherdata[2] = true;
+      }
+
+      widget = btn(4, '부하설비');
       widgets.add(widget);
-      c.otherdata[2] = true;
+      c.otherdata[3] = true;
+
+      if (c.other[0] == true) {
+        widget = btn(5, c.othername[0]);
+        widgets.add(widget);
+        c.otherdata[4] = true;
+      }
+
+      widget = btn(6, '기타안전설비');
+      widgets.add(widget);
+      c.otherdata[5] = true;
     }
-
-    widget = btn(4, '부하설비');
-    widgets.add(widget);
-    c.otherdata[3] = true;
-
-    if (c.other[0] == true) {
-      widget = btn(5, c.othername[0]);
-      widgets.add(widget);
-      c.otherdata[4] = true;
-    }
-
-    widget = btn(6, '기타안전설비');
-    widgets.add(widget);
-    c.otherdata[5] = true;
 
     if (c.other[1] == true) {
       widget = btn(7, c.othername[1]);
@@ -488,10 +492,12 @@ class ViewScreen extends CWidget {
       c.otherdata[12] = true;
     }
 
-    if (c.other[8] == true) {
-      widget = btn(14, c.othername[8]);
-      widgets.add(widget);
-      c.otherdata[13] = true;
+    if (c.item.value1 == 'true') {
+      if (c.other[8] == true) {
+        widget = btn(14, c.othername[8]);
+        widgets.add(widget);
+        c.otherdata[13] = true;
+      }
     }
 
     return Wrap(spacing: 10, runSpacing: 10, children: widgets);

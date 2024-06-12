@@ -75,7 +75,7 @@ class FacilityInsertController extends GetxController {
   get wind => _wind;
   set wind(value) => _wind.value = value;
 
-  final _aswitch = false.obs;
+  final _aswitch = true.obs;
   get aswitch => _aswitch.value;
   set aswitch(value) => _aswitch.value = value;
 
@@ -217,6 +217,7 @@ class FacilityInsertController extends GetxController {
       aswitch = true;
       installation = true;
     } else {
+      aswitch = false;
       installation = false;
     }
 
@@ -603,6 +604,12 @@ class FacilityInsertController extends GetxController {
   }
 
   save() async {
+    int itemId = item.id;
+    if (aswitch == false) {
+      item = Facility();
+      item.id = itemId;
+    }
+
     item.building = building;
     item.category = 10;
     item.value1 = aswitch.toString();
@@ -615,27 +622,31 @@ class FacilityInsertController extends GetxController {
 
     await FacilityManager.deleteByBuildingCategory(building, 11);
 
-    for (int i = 0; i < items.length; i++) {
-      items[i].building = building;
-      items[i].category = 11;
-      await FacilityManager.insert(items[i]);
+    if (aswitch == true) {
+      for (int i = 0; i < items.length; i++) {
+        items[i].building = building;
+        items[i].category = 11;
+        await FacilityManager.insert(items[i]);
+      }
     }
 
     await FacilityManager.deleteByBuildingCategory(building, 12);
     await FacilityManager.deleteByBuildingCategory(building, 13);
 
-    if (item.value3 == '2') {
-      for (int i = 0; i < transs.length; i++) {
-        transs[i].building = building;
-        transs[i].category = 12;
-        await FacilityManager.insert(transs[i]);
-      }
+    if (aswitch == true) {
+      if (item.value3 == '2') {
+        for (int i = 0; i < transs.length; i++) {
+          transs[i].building = building;
+          transs[i].category = 12;
+          await FacilityManager.insert(transs[i]);
+        }
 
-      for (int i = 0; i < highs.length; i++) {
-        highs[i].building = building;
-        highs[i].category = 13;
-        highs[i].content = jsonEncode(highs[i].contents);
-        await FacilityManager.insert(highs[i]);
+        for (int i = 0; i < highs.length; i++) {
+          highs[i].building = building;
+          highs[i].category = 13;
+          highs[i].content = jsonEncode(highs[i].contents);
+          await FacilityManager.insert(highs[i]);
+        }
       }
     }
 

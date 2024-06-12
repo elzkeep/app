@@ -32,7 +32,6 @@ class FacilityInsertScreen extends CWidget {
       () => CColumn(
         children: [
           basic(),
-          receivingtype(),
           title('기타 전력 설비'),
           other(),
         ],
@@ -186,130 +185,133 @@ class FacilityInsertScreen extends CWidget {
       titleSwitch('수전설비', c.aswitch, (bool val) {
         c.aswitch = val;
       }),
-      round(<Widget>[
-        entry(
-          '수전용량',
-          CTextField(
-            text: c.item.value2,
-            onChanged: (value) => c.item.value2 = value,
-            controller: c.item.extra['value2'],
-            filledColor: Colors.white,
-            suffixText: 'kW',
-            textStyle: labelStyle,
-          ),
-        ),
-        entry(
-          '수전형태',
-          CSelectbox(
-            backgroundColor: Colors.white,
-            items: c.types,
-            selected: c.item.type,
-            onSelected: (pos) {
-              c.item.type = pos;
-              c.itemRedraw();
-            },
-          ),
-        ),
-        entry(
-          '수전위치',
-          CSelectbox(
-            backgroundColor: Colors.white,
-            items: c.positions,
-            selected: int.tryParse(c.item.value4) ?? 0,
-            onSelected: (pos) {
-              c.item.value5 = '';
-              c.item.extra['value5'].text = '';
-              c.item.value4 = pos.toString();
-              c.itemRedraw();
-            },
-          ),
-        ),
-        if (c.item.value4 == '7')
+      if (c.aswitch == true) ...[
+        round(<Widget>[
           entry(
-            '수전위치',
+            '수전용량',
             CTextField(
-              text: c.item.value5,
-              onChanged: (value) => c.item.value5 = value,
-              controller: c.item.extra['value5'],
+              text: c.item.value2,
+              onChanged: (value) => c.item.value2 = value,
+              controller: c.item.extra['value2'],
               filledColor: Colors.white,
+              suffixText: 'kW',
               textStyle: labelStyle,
             ),
           ),
-      ]),
-      const SizedBox(height: 10),
-      title('수배전설비'),
-      round(<Widget>[
-        entry(
-            '수전전압',
+          entry(
+            '수전형태',
             CSelectbox(
               backgroundColor: Colors.white,
-              items: c.volts,
-              selected: int.tryParse(c.item.value6) ?? 0,
+              items: c.types,
+              selected: c.item.type,
               onSelected: (pos) {
-                c.item.value7 = '';
-                c.item.extra['value7'].text = '';
-                c.item.value6 = pos.toString();
+                c.item.type = pos;
                 c.itemRedraw();
               },
-            )),
-        if (c.item.value6 == '3')
-          entry(
-            '수전전압',
-            CTextField(
-              text: c.item.value7,
-              onChanged: (value) => c.item.value7 = value,
-              controller: c.item.extra['value7'],
-              filledColor: Colors.white,
-              textStyle: labelStyle,
             ),
           ),
-        entry(
-          '형식',
-          CSelectbox(
-            backgroundColor: Colors.white,
-            items: c.arrangementtypes,
-            selected: int.tryParse(c.item.value8) ?? 0,
-            onSelected: (pos) {
-              c.item.value8 = pos.toString();
-              c.itemRedraw();
-            },
+          entry(
+            '수전위치',
+            CSelectbox(
+              backgroundColor: Colors.white,
+              items: c.positions,
+              selected: int.tryParse(c.item.value4) ?? 0,
+              onSelected: (pos) {
+                c.item.value5 = '';
+                c.item.extra['value5'].text = '';
+                c.item.value4 = pos.toString();
+                c.itemRedraw();
+              },
+            ),
           ),
-        ),
-        entry(
-          '면수',
-          CSelectbox(
-            backgroundColor: Colors.white,
-            items: c.faces,
-            selected: int.tryParse(c.item.value9) ?? 0,
-            onSelected: (pos) {
-              c.item.value10 = '';
-              c.item.extra['value10'].text = '';
-              c.item.value9 = pos.toString();
-              c.itemRedraw();
-            },
+          if (c.item.value4 == '7')
+            entry(
+              '수전위치',
+              CTextField(
+                text: c.item.value5,
+                onChanged: (value) => c.item.value5 = value,
+                controller: c.item.extra['value5'],
+                filledColor: Colors.white,
+                textStyle: labelStyle,
+              ),
+            ),
+        ]),
+        const SizedBox(height: 10),
+        title('수배전설비'),
+        round(<Widget>[
+          entry(
+              '수전전압',
+              CSelectbox(
+                backgroundColor: Colors.white,
+                items: c.volts,
+                selected: int.tryParse(c.item.value6) ?? 0,
+                onSelected: (pos) {
+                  c.item.value7 = '';
+                  c.item.extra['value7'].text = '';
+                  c.item.value6 = pos.toString();
+                  c.itemRedraw();
+                },
+              )),
+          if (c.item.value6 == '3')
+            entry(
+              '수전전압',
+              CTextField(
+                text: c.item.value7,
+                onChanged: (value) => c.item.value7 = value,
+                controller: c.item.extra['value7'],
+                filledColor: Colors.white,
+                textStyle: labelStyle,
+              ),
+            ),
+          entry(
+            '형식',
+            CSelectbox(
+              backgroundColor: Colors.white,
+              items: c.arrangementtypes,
+              selected: int.tryParse(c.item.value8) ?? 0,
+              onSelected: (pos) {
+                c.item.value8 = pos.toString();
+                c.itemRedraw();
+              },
+            ),
           ),
-        ),
-        if (c.item.value9 == '13')
           entry(
             '면수',
-            CTextField(
-              text: c.item.value10,
-              onChanged: (value) => c.item.value10 = value,
-              controller: c.item.extra['value10'],
-              filledColor: Colors.white,
-              textStyle: labelStyle,
+            CSelectbox(
+              backgroundColor: Colors.white,
+              items: c.faces,
+              selected: int.tryParse(c.item.value9) ?? 0,
+              onSelected: (pos) {
+                c.item.value10 = '';
+                c.item.extra['value10'].text = '';
+                c.item.value9 = pos.toString();
+                c.itemRedraw();
+              },
             ),
           ),
-      ]),
-      ListView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: c.items.length,
-        itemBuilder: (context, index) {
-          return distributation(c.items[index], index);
-        },
-      ),
-      manufacture(),
+          if (c.item.value9 == '13')
+            entry(
+              '면수',
+              CTextField(
+                text: c.item.value10,
+                onChanged: (value) => c.item.value10 = value,
+                controller: c.item.extra['value10'],
+                filledColor: Colors.white,
+                textStyle: labelStyle,
+              ),
+            ),
+        ]),
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: c.items.length,
+          itemBuilder: (context, index) {
+            return distributation(c.items[index], index);
+          },
+        ),
+        manufacture(),
+        receivingtype(),
+      ]
     ]);
   }
 
