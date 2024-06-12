@@ -738,6 +738,8 @@ class FacilityInsertController extends GetxController {
       }
     }
 
+    await BuildingManager.score(Building(id: building));
+
     c.other = other;
     c.item = item;
     c.items = items;

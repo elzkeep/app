@@ -1,8 +1,6 @@
 import 'package:common_control/common_control.dart';
 
-
-  
-class Building { 
+class Building {
   int id;
   String name;
   String companyno;
@@ -27,35 +25,34 @@ class Building {
   int company;
   String date;
   bool checked;
-  Map<String, dynamic> extra;  
+  Map<String, dynamic> extra;
 
-  Building({        
-          this.id = 0,       
-          this.name = '',       
-          this.companyno = '',       
-          this.ceo = '',       
-          this.address = '',       
-          this.addressetc = '',       
-          this.contractvolumn = 0.0,       
-          this.receivevolumn = 0.0,       
-          this.generatevolumn = 0.0,       
-          this.sunlightvolumn = 0.0,       
-          this.volttype = 0,       
-          this.weight = 0.0,       
-          this.totalweight = 0.0,       
-          this.checkcount = 0,       
-          this.receivevolt = 0,       
-          this.generatevolt = 0,       
-          this.periodic = 0,       
-          this.usage = '',       
-          this.district = '',       
-          this.score = 0.0,       
-          this.status = 0,       
-          this.company = 0,       
-          this.date = '',
-          this.extra = const{},
-          this.checked = false}) ;
-  
+  Building(
+      {this.id = 0,
+      this.name = '',
+      this.companyno = '',
+      this.ceo = '',
+      this.address = '',
+      this.addressetc = '',
+      this.contractvolumn = 0.0,
+      this.receivevolumn = 0.0,
+      this.generatevolumn = 0.0,
+      this.sunlightvolumn = 0.0,
+      this.volttype = 0,
+      this.weight = 0.0,
+      this.totalweight = 0.0,
+      this.checkcount = 0,
+      this.receivevolt = 0,
+      this.generatevolt = 0,
+      this.periodic = 0,
+      this.usage = '',
+      this.district = '',
+      this.score = 0.0,
+      this.status = 0,
+      this.company = 0,
+      this.date = '',
+      this.extra = const {},
+      this.checked = false});
 
   factory Building.fromJson(Map<String, dynamic> json) {
     return Building(
@@ -81,12 +78,37 @@ class Building {
         score: json['score'] as double,
         status: json['status'] as int,
         company: json['company'] as int,
-        date: json['date'] as String, extra: json['extra'] == null ? <String, dynamic>{} : json['extra'] as Map<String, dynamic>
-    );
+        date: json['date'] as String,
+        extra: json['extra'] == null
+            ? <String, dynamic>{}
+            : json['extra'] as Map<String, dynamic>);
   }
 
-  Map<String, dynamic> toJson() =>
-      { 'id': id,'name': name,'companyno': companyno,'ceo': ceo,'address': address,'addressetc': addressetc,'contractvolumn': contractvolumn,'receivevolumn': receivevolumn,'generatevolumn': generatevolumn,'sunlightvolumn': sunlightvolumn,'volttype': volttype,'weight': weight,'totalweight': totalweight,'checkcount': checkcount,'receivevolt': receivevolt,'generatevolt': generatevolt,'periodic': periodic,'usage': usage,'district': district,'score': score,'status': status,'company': company,'date': date };
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'companyno': companyno,
+        'ceo': ceo,
+        'address': address,
+        'addressetc': addressetc,
+        'contractvolumn': contractvolumn,
+        'receivevolumn': receivevolumn,
+        'generatevolumn': generatevolumn,
+        'sunlightvolumn': sunlightvolumn,
+        'volttype': volttype,
+        'weight': weight,
+        'totalweight': totalweight,
+        'checkcount': checkcount,
+        'receivevolt': receivevolt,
+        'generatevolt': generatevolt,
+        'periodic': periodic,
+        'usage': usage,
+        'district': district,
+        'score': score,
+        'status': status,
+        'company': company,
+        'date': date
+      };
 
   Building clone() {
     return Building.fromJson(toJson());
@@ -94,7 +116,7 @@ class Building {
 }
 
 class BuildingManager {
-  static const baseUrl = '/api/building';  
+  static const baseUrl = '/api/building';
 
   static Future<List<Building>> find(
       {int page = 0, int pagesize = 20, String? params}) async {
@@ -129,5 +151,9 @@ class BuildingManager {
 
   static delete(Building item) async {
     await Http.delete(baseUrl, item.toJson());
+  }
+
+  static score(Building item) async {
+    await Http.post("$baseUrl/score", item.toJson());
   }
 }
