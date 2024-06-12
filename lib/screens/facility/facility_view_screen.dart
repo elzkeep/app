@@ -164,7 +164,7 @@ class FacilityViewScreen extends CWidget {
   }
 
   receivingtype() {
-    if (c.item.value3 == '2') {
+    if (c.item.type == 2) {
       return CColumn(children: [
         SubTitle('변전 설비'),
         ListView.builder(

@@ -425,7 +425,7 @@ class FacilityInsertScreen extends CWidget {
   }
 
   receivingtype() {
-    if (c.item.value3 == '2') {
+    if (c.item.type == 2) {
       return Column(children: [
         const SizedBox(height: 10),
         title('변전설비'),

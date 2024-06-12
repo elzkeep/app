@@ -423,7 +423,7 @@ class ViewScreen extends CWidget {
     widgets.add(widget);
     c.otherdata[0] = true;
 
-    if (c.item.value3 == '2') {
+    if (c.item.type == 2) {
       widget = btn(2, '고압설비');
       widgets.add(widget);
       c.otherdata[1] = true;
