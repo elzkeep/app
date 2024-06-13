@@ -51,6 +51,10 @@ class FacilityInsertController extends GetxController {
   Facility get charger => _charger.value;
   set charger(Facility value) => _charger.value = value;
 
+  final _chargersame = false.obs;
+  bool get chargersame => _chargersame.value;
+  set chargersame(bool value) => _chargersame.value = value;
+
   final _chargeritems = [].obs;
   get chargeritems => _chargeritems;
   set chargeritems(value) => _chargeritems.value = value;
@@ -317,6 +321,9 @@ class FacilityInsertController extends GetxController {
     if (res.isNotEmpty) {
       charger = res[0];
       other[2] = true;
+      if (charger.value25 == '1') {
+        chargersame = true;
+      }
     } else {
       charger.name = "$buildingName EV충전기";
     }

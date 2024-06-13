@@ -2,6 +2,7 @@ import 'package:common_control/common_control.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:zkeep/components/cround.dart';
 import 'package:zkeep/components/cselectbox.dart';
+import 'package:zkeep/components/dbutton.dart';
 import 'package:zkeep/components/dselectbutton.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:zkeep/config/config.dart';
@@ -1234,13 +1235,18 @@ class FacilityInsertScreen extends CWidget {
           ),
           entry(
             '전력공급설비',
-            CButton(
+            DButton(
+              type: c.chargersame == true
+                  ? DButtonStyle.filled
+                  : DButtonStyle.disable,
               text: '수배전설비와 동일',
               onPressed: () {
                 if (c.charger.value25 == '1') {
                   c.charger.value25 = '0';
+                  c.chargersame = false;
                 } else {
                   c.charger.value25 = '1';
+                  c.chargersame = true;
                 }
               },
             ),
