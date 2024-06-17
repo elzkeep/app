@@ -1,5 +1,9 @@
+import 'package:intl/intl.dart';
+import 'package:table_calendar/table_calendar.dart';
+import 'package:zkeep/components/cformtext.dart';
 import 'package:zkeep/components/cformtitle.dart';
 import 'package:zkeep/components/cselectbox.dart';
+import 'package:zkeep/components/ctablecalendar.dart';
 import 'package:zkeep/components/layout.dart';
 import 'package:common_control/common_control.dart';
 import 'package:zkeep/controllers/mypage/mypage_edit_license_controller.dart';
@@ -40,8 +44,14 @@ class MypageEditRecodLicenseScreen extends CWidget {
                     selected: c.licenselevel,
                     onSelected: (pos) {
                       c.licenselevel = pos;
-                    }))
+                    })),
           ]),
+          CFormtext(
+            DateFormat('yyyy.MM.dd').format(c.date),
+            onTap: () => {
+              clickDate(),
+            },
+          ),
         ]));
   }
 
@@ -89,4 +99,36 @@ class MypageEditRecodLicenseScreen extends CWidget {
     }
     Get.back();
   }
+
+  clickDate() async {
+    final context = Get.context!;
+
+    await showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 400,
+          color: Colors.white,
+          child: Center(
+            child: CTableCalendar(
+              focusedDay: c.date,
+              events: const {},
+              calendarFormat: CalendarFormat.month,
+              getMonth: () {},
+              onDaySelected: onDaySelected,
+              onPageChanged: onPageChanged,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  onDaySelected(DateTime selectedDay, DateTime focusedDay) {
+    final context = Get.context!;
+    c.date = selectedDay;
+    Navigator.pop(context);
+  }
+
+  onPageChanged(DateTime focusedDay) async {}
 }

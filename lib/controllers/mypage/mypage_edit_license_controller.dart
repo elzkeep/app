@@ -1,4 +1,5 @@
 import 'package:common_control/common_control.dart';
+import 'package:intl/intl.dart';
 import 'package:localstorage/localstorage.dart';
 import 'package:zkeep/controllers/mypage/mypage_edit_controller.dart';
 import 'package:zkeep/models/license.dart';
@@ -20,6 +21,10 @@ class MypageEditLicenseController extends GetxController {
   int get licenselevel => _licenselevel.value;
   set licenselevel(int value) => _licenselevel.value = value;
 
+  final _date = DateTime.now().obs;
+  DateTime get date => _date.value;
+  set date(DateTime value) => _date.value = value;
+
   @override
   onInit() {
     super.onInit();
@@ -27,6 +32,7 @@ class MypageEditLicenseController extends GetxController {
     if (index != 0) {
       licensecategory = license.licensecategory.id;
       licenselevel = license.licenselevel.id;
+      date = DateTime.parse(license.takingdate);
     }
   }
 
@@ -42,6 +48,7 @@ class MypageEditLicenseController extends GetxController {
     if (index != 0) {
       license.licensecategory = Licensecategory(id: licensecategory);
       license.licenselevel = Licenselevel(id: licenselevel);
+      license.takingdate = DateFormat('yyyy-MM-dd').format(date);
 
       await LicenseManager.update(license);
       final c = Get.find<MypageEditController>();
@@ -52,7 +59,8 @@ class MypageEditLicenseController extends GetxController {
     final item = License()
       ..user = userid
       ..licensecategory = Licensecategory(id: licensecategory)
-      ..licenselevel = Licenselevel(id: licenselevel);
+      ..licenselevel = Licenselevel(id: licenselevel)
+      ..takingdate = DateFormat('yyyy-MM-dd').format(date);
 
     await LicenseManager.insert(item);
     final c = Get.find<MypageEditController>();

@@ -1,3 +1,4 @@
+import 'package:zkeep/components/cselectbox.dart';
 import 'package:zkeep/config/config.dart';
 import 'package:zkeep/models/company.dart';
 import 'package:zkeep/models/department.dart';
@@ -34,6 +35,16 @@ class JoinController extends GetxController {
   final _level = 0.obs;
   final _level1 = 0.obs;
   final _level2 = 0.obs;
+
+  final _year = 0.obs;
+  final _year1 = 0.obs;
+  final _year2 = 0.obs;
+  final _month = 0.obs;
+  final _month1 = 0.obs;
+  final _month2 = 0.obs;
+  final _day = 0.obs;
+  final _day1 = 0.obs;
+  final _day2 = 0.obs;
 
   final _loginidError = ''.obs;
   final _nameError = ''.obs;
@@ -84,6 +95,27 @@ class JoinController extends GetxController {
   int get level2 => _level2.value;
   set level2(int value) => _level2.value = value;
 
+  int get year => _year.value;
+  set year(int value) => _year.value = value;
+  int get year1 => _year1.value;
+  set year1(int value) => _year1.value = value;
+  int get year2 => _year2.value;
+  set year2(int value) => _year2.value = value;
+
+  int get month => _month.value;
+  set month(int value) => _month.value = value;
+  int get month1 => _month1.value;
+  set month1(int value) => _month1.value = value;
+  int get month2 => _month2.value;
+  set month2(int value) => _month2.value = value;
+
+  int get day => _day.value;
+  set day(int value) => _day.value = value;
+  int get day1 => _day1.value;
+  set day1(int value) => _day1.value = value;
+  int get day2 => _day2.value;
+  set day2(int value) => _day2.value = value;
+
   String get zip => _zip.value;
   set zip(String value) => _zip.value = value;
 
@@ -131,6 +163,9 @@ class JoinController extends GetxController {
   final _search = ''.obs;
   String get search => _search.value;
   set search(String value) => _search.value = value;
+  List<CItem> years = [CItem(id: 0, value: '')].obs;
+  List<CItem> months = [CItem(id: 0, value: '')].obs;
+  List<CItem> days = [CItem(id: 0, value: '')].obs;
 
   @override
   onInit() async {
@@ -138,6 +173,7 @@ class JoinController extends GetxController {
 
     items = await CompanyManager.find(params: "type=1");
     getUrl();
+    getYearMonth();
   }
 
   getUrl() async {
@@ -157,6 +193,20 @@ class JoinController extends GetxController {
         department = departments[i];
         break;
       }
+    }
+  }
+
+  getYearMonth() {
+    for (var i = 1970; i <= 2024; i++) {
+      years.add(CItem(id: i - 1969, value: '$i'));
+    }
+
+    for (var i = 1; i <= 12; i++) {
+      months.add(CItem(id: i, value: '$i월'));
+    }
+
+    for (var i = 1; i <= 31; i++) {
+      days.add(CItem(id: i, value: '$i일'));
     }
   }
 
@@ -199,6 +249,7 @@ class JoinController extends GetxController {
         user: res,
         licensecategory: Licensecategory(id: certificate),
         licenselevel: Licenselevel(id: level),
+        takingdate: "$year-$month-$day",
       );
       await LicenseManager.insert(license);
     }
@@ -208,6 +259,7 @@ class JoinController extends GetxController {
         user: res,
         licensecategory: Licensecategory(id: certificate1),
         licenselevel: Licenselevel(id: level1),
+        takingdate: "$year1-$month1-$day1",
       );
       await LicenseManager.insert(license1);
     }
@@ -217,6 +269,7 @@ class JoinController extends GetxController {
         user: res,
         licensecategory: Licensecategory(id: certificate2),
         licenselevel: Licenselevel(id: level2),
+        takingdate: "$year2-$month2-$day2",
       );
       await LicenseManager.insert(license2);
     }

@@ -59,6 +59,38 @@ class JoinUserDetailScreen extends CWidget {
                   selected: c.level,
                   onSelected: (pos) => c.level = pos,
                 ),
+                CRow(gap: 10, children: [
+                  Expanded(
+                    child: CSelectbox(
+                      backgroundColor: Colors.white,
+                      items: c.years,
+                      selected: c.year,
+                      onSelected: (pos) {
+                        c.year = pos;
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: CSelectbox(
+                      backgroundColor: Colors.white,
+                      items: c.months,
+                      selected: c.month,
+                      onSelected: (pos) {
+                        c.month = pos;
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: CSelectbox(
+                      backgroundColor: Colors.white,
+                      items: c.days,
+                      selected: c.day,
+                      onSelected: (pos) {
+                        c.day = pos;
+                      },
+                    ),
+                  ),
+                ]),
                 const SizedBox(
                   height: 10,
                 ),
@@ -73,6 +105,38 @@ class JoinUserDetailScreen extends CWidget {
                   selected: c.level1,
                   onSelected: (pos) => c.level1 = pos,
                 ),
+                CRow(gap: 10, children: [
+                  Expanded(
+                    child: CSelectbox(
+                      backgroundColor: Colors.white,
+                      items: c.years,
+                      selected: c.year1,
+                      onSelected: (pos) {
+                        c.year1 = pos;
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: CSelectbox(
+                      backgroundColor: Colors.white,
+                      items: c.months,
+                      selected: c.month1,
+                      onSelected: (pos) {
+                        c.month1 = pos;
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: CSelectbox(
+                      backgroundColor: Colors.white,
+                      items: c.days,
+                      selected: c.day1,
+                      onSelected: (pos) {
+                        c.day1 = pos;
+                      },
+                    ),
+                  ),
+                ]),
                 const SizedBox(
                   height: 10,
                 ),
@@ -87,6 +151,38 @@ class JoinUserDetailScreen extends CWidget {
                   selected: c.level2,
                   onSelected: (pos) => c.level2 = pos,
                 ),
+                CRow(gap: 10, children: [
+                  Expanded(
+                    child: CSelectbox(
+                      backgroundColor: Colors.white,
+                      items: c.years,
+                      selected: c.year2,
+                      onSelected: (pos) {
+                        c.year2 = pos;
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: CSelectbox(
+                      backgroundColor: Colors.white,
+                      items: c.months,
+                      selected: c.month2,
+                      onSelected: (pos) {
+                        c.month2 = pos;
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: CSelectbox(
+                      backgroundColor: Colors.white,
+                      items: c.days,
+                      selected: c.day2,
+                      onSelected: (pos) {
+                        c.day2 = pos;
+                      },
+                    ),
+                  ),
+                ]),
                 // CContainer(
                 //   decoration: BoxDecoration(
                 //       border: Border.all(
