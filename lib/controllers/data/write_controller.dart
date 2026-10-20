@@ -1,6 +1,5 @@
 import 'package:common_control/common_control.dart';
 import 'package:flutter/foundation.dart';
-import 'package:zkeep/config/config.dart';
 import 'package:zkeep/controllers/data/list_controller.dart';
 import 'package:zkeep/controllers/data/view_controller.dart';
 import 'package:zkeep/controllers/main_controller.dart';
@@ -239,7 +238,7 @@ class WriteController extends GetxController {
           print(item.id);
           if (item.image != '') {
             dataitem.items[pos].image =
-                '${Config.serverUrl}/webdata/${item.image}';
+                '${CConfig().serverUrl}/webdata/${item.image}';
             dataitem.items[pos].extra['image'] = true;
           }
         }

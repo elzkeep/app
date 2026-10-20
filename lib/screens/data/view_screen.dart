@@ -41,7 +41,7 @@ class ViewScreen extends CWidget {
                     width: 100,
                     height: 100,
                     child: Image.network(
-                      '${Config.serverUrl}/webdata/${c.report.image}',
+                      '${CConfig().serverUrl}/webdata/${c.report.image}',
                       fit: BoxFit.cover,
                     ))
                 : c.image != ''
