@@ -99,9 +99,9 @@ class MypageScreen extends CWidget {
     );
   }
 
-  logout() {
-    AuthController().logout();
-    Get.offAndToNamed('/login');
+  logout() async {
+    await Get.find<AuthController>().logout();
+    Get.offAllNamed('/login');
   }
 
   record() {
