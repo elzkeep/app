@@ -197,7 +197,7 @@ class JoinController extends GetxController {
   }
 
   getYearMonth() {
-    for (var i = 1970; i <= 2024; i++) {
+    for (var i = 1970; i <= DateTime.now().year; i++) {
       years.add(CItem(id: i - 1969, value: '$i'));
     }
 
