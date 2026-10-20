@@ -131,7 +131,9 @@ class MypageEditController extends GetxController {
     addressetc.text = user.addressetc;
     careeryear.text = user.careeryear.toString();
     careermonth.text = user.careermonth.toString();
-    date = DateTime.parse(user.date);
+    date = DateTime.tryParse(user.joindate) ??
+        DateTime.tryParse(user.date) ??
+        DateTime.now();
   }
 
   getLicense() async {
@@ -146,22 +148,24 @@ class MypageEditController extends GetxController {
 
   save() async {
     bool flag = true;
-    if (passwd == '') {
-      errorPasswd = '패스워드를 입력하세요';
-      flag = false;
-    }
+    errorPasswd = '';
+    errorName = '';
+    errorTel = '';
+    errorEmail = '';
 
-    if (name == '') {
+    // 서버 응답에 비밀번호가 포함되지 않으며, 비어 있으면 기존 비밀번호가 유지됨
+
+    if (name.text == '') {
       errorName = '이름을 입력하세요';
       flag = false;
     }
 
-    if (tel == '') {
+    if (tel.text == '') {
       errorTel = '전화번호를 입력하세요';
       flag = false;
     }
 
-    if (email == '') {
+    if (email.text == '') {
       errorEmail = '이메일을 입력하세요';
       flag = false;
     }
@@ -178,8 +182,8 @@ class MypageEditController extends GetxController {
     user.zip = zip;
     user.address = address;
     user.addressetc = addressetc.text;
-    user.careeryear = int.parse(careeryear.text);
-    user.careermonth = int.parse(careermonth.text);
+    user.careeryear = int.tryParse(careeryear.text) ?? 0;
+    user.careermonth = int.tryParse(careermonth.text) ?? 0;
     user.joindate = DateFormat('yyyy-MM-dd', 'ko_KR').format(date);
     user.company = company.id;
 
