@@ -61,7 +61,7 @@ class MypageEditRecodScreen extends CWidget {
         for (int i = 0; i < c.licenses.length; i++)
           Expanded(
             child: InkWell(
-              onTap: () => Get.toNamed('mypage/editrecod/license', arguments: {
+              onTap: () => Get.toNamed('/mypage/editrecod/license', arguments: {
                 'index': c.licenses[i].id,
                 'license': c.licenses[i]
               }),
@@ -102,7 +102,7 @@ class MypageEditRecodScreen extends CWidget {
         for (int i = 0; i < 3 - c.licenses.length; i++)
           Expanded(
             child: InkWell(
-              onTap: () => Get.toNamed('mypage/editrecod/license',
+              onTap: () => Get.toNamed('/mypage/editrecod/license',
                   arguments: {'index': 0}),
               child: CContainer(
                 alignment: Alignment.center,
