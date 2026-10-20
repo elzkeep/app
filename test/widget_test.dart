@@ -1,28 +1,20 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:zkeep/models/report.dart';
+import 'package:zkeep/models/reportstatusextension.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    //await tester.pumpWidget(const MyApp());
+  test('ReportStatus는 서버 status 값 순서와 일치한다', () {
+    expect(ReportStatus.values[0], ReportStatus.none);
+    expect(ReportStatus.values[1], ReportStatus.newer);
+    expect(ReportStatus.values[2], ReportStatus.ing);
+    expect(ReportStatus.values[3], ReportStatus.check);
+    expect(ReportStatus.values[4], ReportStatus.complete);
+  });
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
-
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  test('ReportStatus label은 한글 상태명을 반환한다', () {
+    expect(ReportStatus.newer.label, '신규');
+    expect(ReportStatus.ing.label, '점검중');
+    expect(ReportStatus.check.label, '작성완료');
+    expect(ReportStatus.complete.label, '점검완료');
   });
 }
