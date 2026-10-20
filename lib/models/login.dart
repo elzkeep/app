@@ -5,7 +5,8 @@ import 'package:flutter/foundation.dart';
 class LoginManager {
   static Future<User> login(String loginid, String passwd) async {
     try {
-      var url = '/api/jwt?loginid=$loginid&passwd=$passwd';
+      var url = '/api/jwt?loginid=${Uri.encodeQueryComponent(loginid)}'
+          '&passwd=${Uri.encodeQueryComponent(passwd)}';
       var result = await Http.get(url);
 
       if (result['code'] != 'ok') {
