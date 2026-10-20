@@ -15,11 +15,12 @@ facility() {
       binding: BindingsBuilder(() {
         Report item = Report();
         Building building = Building();
-        if (Get.arguments['item'] != null) {
-          item = Get.arguments['item'];
+        final args = Get.arguments ?? {};
+        if (args['item'] != null) {
+          item = args['item'];
         }
-        if (Get.arguments['building'] != null) {
-          building = Get.arguments['building'];
+        if (args['building'] != null) {
+          building = args['building'];
         }
         final id = int.parse(Get.parameters['id']!);
         Get.put(ViewController(id, building, item));
@@ -32,7 +33,7 @@ facility() {
       binding: BindingsBuilder(() {
         int building = 0;
         if (Get.arguments != null) {
-          building = Get.arguments['building'];
+          building = Get.arguments['building'] ?? 0;
         }
         Get.put(FacilityInsertController(0, building));
       }),

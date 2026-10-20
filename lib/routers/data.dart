@@ -26,11 +26,12 @@ data() {
       binding: BindingsBuilder(() {
         Report item = Report();
         Building building = Building();
-        if (Get.arguments['item'] != null) {
-          item = Get.arguments['item'];
+        final args = Get.arguments ?? {};
+        if (args['item'] != null) {
+          item = args['item'];
         }
-        if (Get.arguments['building'] != null) {
-          building = Get.arguments['building'];
+        if (args['building'] != null) {
+          building = args['building'];
         }
         final id = int.parse(Get.parameters['id']!);
         Get.put(ViewController(id, building, item));
@@ -46,8 +47,8 @@ data() {
         bool diable = false;
         Report item = Report();
         if (Get.arguments != null) {
-          item = Get.arguments['item'];
-          diable = Get.arguments['disable'];
+          item = Get.arguments['item'] ?? Report();
+          diable = Get.arguments['disable'] ?? false;
         }
         Get.put(WriteController(id, category, item, diable));
       }),
