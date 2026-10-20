@@ -204,7 +204,8 @@ class WriteController extends GetxController {
     }
 
     print('^^^^^^^^^^^^^^^^^');
-    final ret2 = await ItemManager.find(params: 'params=report=$id');
+    final ret2 = await ItemManager.find(
+        params: 'report=$id&topcategory=$topcategory');
 
     for (var i = 0; i < ret.length; i++) {
       final data = ret[i];
