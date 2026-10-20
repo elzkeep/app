@@ -129,8 +129,7 @@ class CustomerViewScreen extends CWidget {
 
   graph() {
     return CColumn(children: [
-      SubTitle('부적합 개소',
-          more: '더보기', onMore: () => Get.toNamed('/mypage/customer')),
+      SubTitle('부적합 개소'),
       const CLineChart(),
     ]);
   }
