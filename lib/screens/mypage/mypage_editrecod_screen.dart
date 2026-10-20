@@ -88,8 +88,10 @@ class MypageEditRecodScreen extends CWidget {
                   ),
                   const SizedBox(height: 10),
                   CText(
-                      DateFormat('yyyy.MM.dd')
-                          .format(DateTime.parse(c.licenses[i].takingdate)),
+                      DateTime.tryParse(c.licenses[i].takingdate) == null
+                          ? c.licenses[i].takingdate
+                          : DateFormat('yyyy.MM.dd').format(
+                              DateTime.parse(c.licenses[i].takingdate)),
                       textStyle: const TextStyle(fontSize: 12)),
                   CText('기술등급: ${c.licenses[i].extra['licenselevel']['name']}',
                       textStyle: const TextStyle(fontSize: 12)),
