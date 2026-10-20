@@ -47,7 +47,7 @@ class Dataitem {
 class DataitemManager {
   static const baseUrl = '/api/dataitem';
 
-  static insert(List<Dataitem> datas) async {
+  static Future<bool> insert(List<Dataitem> datas) async {
     List<Map<String, dynamic>> items = [];
 
     for (var i = 0; i < datas.length; i++) {
@@ -57,7 +57,16 @@ class DataitemManager {
       //print(data.toJson());
     }
 
-    await Http.post('$baseUrl/process', items);
+    try {
+      final result = await Http.post('$baseUrl/process', items);
+      if (result is Map && result['code'] != 'ok') {
+        return false;
+      }
+    } catch (e) {
+      print(e);
+      return false;
+    }
     print('gogo2');
+    return true;
   }
 }

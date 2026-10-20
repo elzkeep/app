@@ -344,7 +344,10 @@ class WriteController extends GetxController {
 
     print(items.runtimeType);
 
-    await DataitemManager.insert(items.value);
+    final ret = await DataitemManager.insert(items.value);
+    if (ret == false) {
+      return false;
+    }
     if (report.status == ReportStatus.newer) {
       report.status = ReportStatus.ing;
       await ReportManager.update(report);
@@ -359,5 +362,7 @@ class WriteController extends GetxController {
       final c = Get.find<MainController>();
       c.reset();
     }
+
+    return true;
   }
 }

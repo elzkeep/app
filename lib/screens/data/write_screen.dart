@@ -60,7 +60,11 @@ class WriteScreen extends CWidget {
   }
 
   clickSave() async {
-    await c.insert();
+    final ret = await c.insert();
+    if (ret == false) {
+      Get.snackbar('저장 실패', '저장에 실패했습니다. 다시 시도해 주세요.');
+      return;
+    }
     Get.back();
     Get.delete<WriteController>();
   }

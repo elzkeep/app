@@ -199,7 +199,7 @@ class ViewScreen extends CWidget {
         }
       }
       if (check) {
-        c.save();
+        await c.save();
         Get.back();
       }
     }
