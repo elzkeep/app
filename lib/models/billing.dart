@@ -4,7 +4,7 @@ import 'package:zkeep/models/company.dart';
 
 
 enum BillingStatus {
-    none, wait, complete
+    none, wait, part, complete
 }
 enum BillingGiro {
     none, wait, complete
