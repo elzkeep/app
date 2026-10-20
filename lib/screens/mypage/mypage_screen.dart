@@ -268,7 +268,7 @@ class MypageScreen extends CWidget {
                 DRound(
                     backgroundColor: item.status.color,
                     child: CText(
-                      item.status.name,
+                      item.status.label,
                       textStyle:
                           const TextStyle(fontSize: 11, color: Colors.white),
                     )),

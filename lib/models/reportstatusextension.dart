@@ -23,7 +23,7 @@ extension ReportStatusExtension on ReportStatus {
     }
   }
 
-  String get name {
+  String get label {
     switch (this) {
       case ReportStatus.none:
         return '없음';
