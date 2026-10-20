@@ -243,8 +243,8 @@ class MypageScreen extends CWidget {
           ],
         ),
         CContainer(
-          onTap: () =>
-              Get.toNamed('/data/${item.id}', arguments: {'item': item}),
+          onTap: () => Get.toNamed('/data/${item.id}',
+              arguments: {'item': item, 'building': item.building}),
           decoration: BoxDecoration(
               color: const Color(0xffE0E0E0),
               border: Border.all(
