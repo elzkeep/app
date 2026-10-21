@@ -32,3 +32,6 @@ Runner/GeneratedPluginRegistrant.*
 !default.mode2v3
 !default.pbxuser
 !default.perspectivev3
+
+# 빌드 산출물 (xcarchive 에 프로비저닝 프로필이 들어 있었다)
+/build/
