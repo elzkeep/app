@@ -2,10 +2,7 @@ import 'package:zkeep/components/cselectbox.dart';
 import 'package:zkeep/config/config.dart';
 import 'package:zkeep/models/company.dart';
 import 'package:zkeep/models/department.dart';
-import 'package:zkeep/models/license.dart';
-import 'package:zkeep/models/licensecategory.dart';
-import 'package:zkeep/models/licenselevel.dart';
-import 'package:zkeep/models/user.dart';
+import 'package:zkeep/models/signup.dart';
 import 'package:common_control/common_control.dart';
 
 class JoinController extends GetxController {
@@ -171,7 +168,7 @@ class JoinController extends GetxController {
   onInit() async {
     super.onInit();
 
-    items = await CompanyManager.find(params: "type=1");
+    items = await SignupManager.companies();
     getUrl();
     getYearMonth();
   }
@@ -227,138 +224,112 @@ class JoinController extends GetxController {
   }
 
   getDepartment(companyid) async {
-    departments = await DepartmentManager.find(params: 'company=$companyid');
+    departments = await SignupManager.departments(companyid);
   }
 
+  // 자격증 입력 3칸 → 가입 API 의 licenses
+  List<Map<String, dynamic>> makeLicenses(bool withDate) {
+    final list = <Map<String, dynamic>>[];
+    final rows = [
+      [certificate, level, year, month, day],
+      [certificate1, level1, year1, month1, day1],
+      [certificate2, level2, year2, month2, day2],
+    ];
+    for (final r in rows) {
+      if (r[0] == 0) {
+        continue;
+      }
+      list.add({
+        'licensecategory': r[0],
+        'licenselevel': r[1],
+        'takingdate': withDate ? makeTakingdate(r[2], r[3], r[4]) : '',
+      });
+    }
+    return list;
+  }
+
+  Future<bool> checkDuplicate() async {
+    final res = await SignupManager.check(loginid: loginid, email: email);
+    if (res['loginid'] == true) {
+      loginidError = '이미 등록된 아이디입니다';
+      return false;
+    }
+    if (res['email'] == true) {
+      emailError = '이미 등록된 이메일입니다';
+      return false;
+    }
+    return true;
+  }
+
+  // 기존 점검업체에 직원으로 가입 — 업체 관리자 승인 후 로그인할 수 있다
   Future<bool> join() async {
-    print(email);
-    if ((await UserManager.find(params: 'email=$email')).isNotEmpty) {
-      emailError = '이미 등록된 아이디입니다';
+    if (passwd != passwdtwo) {
+      passwdtwoError = '비밀번호가 맞지 않습니다.';
       return false;
     }
 
-    if (passwd != passwdtwo) {
-      passwdtwoError = '비밀번호가 맞지 않습니다.';
+    if (!await checkDuplicate()) {
       return false;
     }
 
     tel = Config.formatPhoneNumber(tel);
 
-    final user = User(
-        loginid: loginid,
-        email: email,
-        name: name,
-        status: UserStatus.use,
-        level: UserLevel.normal,
-        approval: UserApproval.wait,
-        passwd: passwd,
-        tel: tel,
-        zip: zip,
-        address: address,
-        addressetc: addressetc,
-        company: company.id,
-        department: department.id);
-    final res = await UserManager.insert(user);
+    final error = await SignupManager.user({
+      'loginid': loginid,
+      'email': email,
+      'name': name,
+      'passwd': passwd,
+      'tel': tel,
+      'zip': zip,
+      'address': address,
+      'addressetc': addressetc,
+      'company': company.id,
+      'department': department.id,
+    }, makeLicenses(true));
 
-    if (certificate != 0) {
-      final license = License(
-        user: res,
-        licensecategory: Licensecategory(id: certificate),
-        licenselevel: Licenselevel(id: level),
-        takingdate: makeTakingdate(year, month, day),
-      );
-      await LicenseManager.insert(license);
-    }
-
-    if (certificate1 != 0) {
-      final license1 = License(
-        user: res,
-        licensecategory: Licensecategory(id: certificate1),
-        licenselevel: Licenselevel(id: level1),
-        takingdate: makeTakingdate(year1, month1, day1),
-      );
-      await LicenseManager.insert(license1);
-    }
-
-    if (certificate2 != 0) {
-      final license2 = License(
-        user: res,
-        licensecategory: Licensecategory(id: certificate2),
-        licenselevel: Licenselevel(id: level2),
-        takingdate: makeTakingdate(year2, month2, day2),
-      );
-      await LicenseManager.insert(license2);
+    if (error != null) {
+      emailError = error;
+      return false;
     }
     return true;
   }
 
+  // 점검업체(개인대행 포함) 가입 — 업체와 그 업체 관리자 계정을 함께 만든다
   Future<bool> joincompany() async {
-    if ((await UserManager.find(params: 'email=$email')).isNotEmpty) {
-      emailError = '이미 등록된 아이디입니다';
+    if (passwd != passwdtwo) {
+      passwdtwoError = '비밀번호가 맞지 않습니다.';
       return false;
     }
 
-    if (passwd != passwdtwo) {
-      passwdtwoError = '비밀번호가 맞지 않습니다.';
+    if (!await checkDuplicate()) {
       return false;
     }
 
     tel = Config.formatPhoneNumber(tel);
     businessnum = Config.formatCompanyNumber(businessnum);
 
-    final company = Company(
-      name: name,
-      companyno: businessnum,
-      ceo: name,
-      tel: tel,
-      email: email,
-      address: address,
-      addressetc: addressetc,
-      type: CompanyType.work,
-    );
+    final error = await SignupManager.company({
+      'name': name,
+      'companyno': businessnum,
+      'ceo': name,
+      'tel': tel,
+      'email': email,
+      'address': address,
+      'addressetc': addressetc,
+    }, {
+      'loginid': loginid,
+      'email': email,
+      'name': name,
+      'passwd': passwd,
+      'tel': tel,
+      'zip': zip,
+      'address': address,
+      'addressetc': addressetc,
+    }, makeLicenses(false));
 
-    final res = await CompanyManager.insert(company);
-
-    final user = User(
-        loginid: loginid,
-        email: email,
-        name: name,
-        status: UserStatus.use,
-        level: UserLevel.normal,
-        approval: UserApproval.complete,
-        passwd: passwd,
-        tel: tel,
-        zip: zip,
-        address: address,
-        addressetc: addressetc,
-        company: res);
-    final res1 = await UserManager.insert(user);
-
-    if (certificate != 0) {
-      final license = License(
-        user: res1,
-        licensecategory: Licensecategory(id: certificate),
-        licenselevel: Licenselevel(id: level),
-      );
-      await LicenseManager.insert(license);
-    }
-
-    if (certificate1 != 0) {
-      final license1 = License(
-        user: res1,
-        licensecategory: Licensecategory(id: certificate1),
-        licenselevel: Licenselevel(id: level1),
-      );
-      await LicenseManager.insert(license1);
-    }
-
-    if (certificate2 != 0) {
-      final license2 = License(
-        user: res1,
-        licensecategory: Licensecategory(id: certificate2),
-        licenselevel: Licenselevel(id: level2),
-      );
-      await LicenseManager.insert(license2);
+    if (error != null) {
+      emailError = error;
+      return false;
     }
     return true;
   }
