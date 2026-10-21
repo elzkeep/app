@@ -24,7 +24,9 @@ class LoginController extends GetxController {
       return true;
     }
 
-    message = '로그인 정보가 정확하지 않습니다';
+    message = user.extra['message'] == 'approval error'
+        ? '가입 승인 대기 중이거나 승인되지 않은 계정입니다'
+        : '로그인 정보가 정확하지 않습니다';
 
     return false;
   }
