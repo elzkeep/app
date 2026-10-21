@@ -32,7 +32,7 @@ class MypageEditLicenseController extends GetxController {
     if (index != 0) {
       licensecategory = license.licensecategory.id;
       licenselevel = license.licenselevel.id;
-      date = DateTime.parse(license.takingdate);
+      date = DateTime.tryParse(license.takingdate) ?? DateTime.now();
     }
   }
 

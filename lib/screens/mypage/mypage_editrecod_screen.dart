@@ -61,7 +61,7 @@ class MypageEditRecodScreen extends CWidget {
         for (int i = 0; i < c.licenses.length; i++)
           Expanded(
             child: InkWell(
-              onTap: () => Get.toNamed('mypage/editrecod/license', arguments: {
+              onTap: () => Get.toNamed('/mypage/editrecod/license', arguments: {
                 'index': c.licenses[i].id,
                 'license': c.licenses[i]
               }),
@@ -88,8 +88,10 @@ class MypageEditRecodScreen extends CWidget {
                   ),
                   const SizedBox(height: 10),
                   CText(
-                      DateFormat('yyyy.MM.dd')
-                          .format(DateTime.parse(c.licenses[i].takingdate)),
+                      DateTime.tryParse(c.licenses[i].takingdate) == null
+                          ? c.licenses[i].takingdate
+                          : DateFormat('yyyy.MM.dd').format(
+                              DateTime.parse(c.licenses[i].takingdate)),
                       textStyle: const TextStyle(fontSize: 12)),
                   CText('기술등급: ${c.licenses[i].extra['licenselevel']['name']}',
                       textStyle: const TextStyle(fontSize: 12)),
@@ -100,7 +102,7 @@ class MypageEditRecodScreen extends CWidget {
         for (int i = 0; i < 3 - c.licenses.length; i++)
           Expanded(
             child: InkWell(
-              onTap: () => Get.toNamed('mypage/editrecod/license',
+              onTap: () => Get.toNamed('/mypage/editrecod/license',
                   arguments: {'index': 0}),
               child: CContainer(
                 alignment: Alignment.center,

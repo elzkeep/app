@@ -2,7 +2,7 @@ import 'package:common_control/common_control.dart';
 
 
 enum BillinglistStatus {
-    none, wait, complete
+    none, wait, part, complete
 }
 enum BillinglistGiro {
     none, wait, complete

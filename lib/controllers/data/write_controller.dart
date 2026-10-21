@@ -1,6 +1,5 @@
 import 'package:common_control/common_control.dart';
 import 'package:flutter/foundation.dart';
-import 'package:zkeep/config/config.dart';
 import 'package:zkeep/controllers/data/list_controller.dart';
 import 'package:zkeep/controllers/data/view_controller.dart';
 import 'package:zkeep/controllers/main_controller.dart';
@@ -204,7 +203,8 @@ class WriteController extends GetxController {
     }
 
     print('^^^^^^^^^^^^^^^^^');
-    final ret2 = await ItemManager.find(params: 'params=report=$id');
+    final ret2 = await ItemManager.find(
+        params: 'report=$id&topcategory=$topcategory');
 
     for (var i = 0; i < ret.length; i++) {
       final data = ret[i];
@@ -238,7 +238,7 @@ class WriteController extends GetxController {
           print(item.id);
           if (item.image != '') {
             dataitem.items[pos].image =
-                '${Config.serverUrl}/webdata/${item.image}';
+                '${CConfig().serverUrl}/webdata/${item.image}';
             dataitem.items[pos].extra['image'] = true;
           }
         }
@@ -343,7 +343,10 @@ class WriteController extends GetxController {
 
     print(items.runtimeType);
 
-    await DataitemManager.insert(items.value);
+    final ret = await DataitemManager.insert(items.value);
+    if (ret == false) {
+      return false;
+    }
     if (report.status == ReportStatus.newer) {
       report.status = ReportStatus.ing;
       await ReportManager.update(report);
@@ -358,5 +361,7 @@ class WriteController extends GetxController {
       final c = Get.find<MainController>();
       c.reset();
     }
+
+    return true;
   }
 }

@@ -194,7 +194,7 @@ class FacilityInsertController extends GetxController {
   }
 
   getYearMonth() {
-    for (var i = 1970; i <= 2024; i++) {
+    for (var i = 1970; i <= DateTime.now().year; i++) {
       years.add(CItem(id: i - 1969, value: '$i'));
     }
 
@@ -672,11 +672,7 @@ class FacilityInsertController extends GetxController {
     sunlight.building = building;
     sunlight.category = 30;
     if (other[1] == true) {
-      if (sunlight.id > 0) {
-        await FacilityManager.update(sunlight);
-      } else {
-        await FacilityManager.insert(sunlight);
-      }
+      await FacilityManager.insert(sunlight);
     }
 
     await FacilityManager.deleteByBuildingCategory(building, 40);
@@ -685,11 +681,7 @@ class FacilityInsertController extends GetxController {
 
     await FacilityManager.deleteByBuildingCategory(building, 41);
     if (other[2] == true) {
-      if (charger.id > 0) {
-        await FacilityManager.update(charger);
-      } else {
-        await FacilityManager.insert(charger);
-      }
+      await FacilityManager.insert(charger);
 
       for (int i = 0; i < chargeritems.length; i++) {
         chargeritems[i].building = building;
@@ -702,11 +694,7 @@ class FacilityInsertController extends GetxController {
     ess.building = building;
     ess.category = 50;
     if (other[3] == true) {
-      if (ess.id > 0) {
-        await FacilityManager.update(ess);
-      } else {
-        await FacilityManager.insert(ess);
-      }
+      await FacilityManager.insert(ess);
     }
 
     await FacilityManager.deleteByBuildingCategory(building, 60);
@@ -738,11 +726,7 @@ class FacilityInsertController extends GetxController {
     water.building = building;
     water.category = 90;
     if (other[7] == true) {
-      if (water.id > 0) {
-        await FacilityManager.update(water);
-      } else {
-        await FacilityManager.insert(water);
-      }
+      await FacilityManager.insert(water);
     }
 
     await BuildingManager.score(Building(id: building));

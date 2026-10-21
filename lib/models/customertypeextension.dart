@@ -1,7 +1,7 @@
 import 'package:zkeep/models/customer.dart';
 
 extension CustomerTypeExtension on CustomerType {
-  String get name {
+  String get label {
     switch (this) {
       case CustomerType.none:
         return '';

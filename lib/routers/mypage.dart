@@ -40,10 +40,11 @@ mypage() {
       page: () => MypageEditRecodLicenseScreen(),
       //middlewares: [AuthService()],
       binding: BindingsBuilder(() {
-        final index = Get.arguments['index'];
+        final args = Get.arguments ?? {};
+        final int index = args['index'] ?? 0;
         License license = License();
-        if (Get.arguments['license'] != null) {
-          license = Get.arguments['license'];
+        if (args['license'] != null) {
+          license = args['license'];
         }
         Get.put(MypageEditLicenseController(index, license));
       }),

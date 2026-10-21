@@ -36,8 +36,9 @@ customer() {
       //middlewares: [AuthService()],
       binding: BindingsBuilder(() {
         Building building = Building();
-        if (Get.arguments['building'] != null) {
-          building = Get.arguments['building'];
+        final args = Get.arguments ?? {};
+        if (args['building'] != null) {
+          building = args['building'];
         }
         final id = int.parse(Get.parameters['id']!);
         Get.put(CustomerViewController(id, building));
@@ -58,7 +59,7 @@ customer() {
       //middlewares: [AuthService()],
       binding: BindingsBuilder(() {
         final id = int.parse(Get.parameters['id']!);
-        final index = Get.arguments['index'];
+        final int index = (Get.arguments ?? {})['index'] ?? 1;
         Get.put(CustomerUpdateController(id, index));
       }),
     ),

@@ -85,8 +85,10 @@ class CustomerUpdateController extends GetxController {
     manageremail.text = item.manageremail;
 
     contractprice.text = item.contractprice.toString();
-    contractstartdate = DateTime.parse(item.contractstartdate);
-    contractenddate = DateTime.parse(item.contractenddate);
+    contractstartdate =
+        DateTime.tryParse(item.contractstartdate) ?? DateTime.now();
+    contractenddate =
+        DateTime.tryParse(item.contractenddate) ?? DateTime.now();
     billingdate.text = item.billingdate.toString();
     billingname.text = item.billingname;
     billingtel.text = item.billingtel;
@@ -134,8 +136,8 @@ class CustomerUpdateController extends GetxController {
   }
 
   facilitySave() async {
-    item.checkdate = int.parse(checkdate.text);
-    item.contractday = int.parse(contractday.text);
+    item.checkdate = int.tryParse(checkdate.text) ?? 0;
+    item.contractday = int.tryParse(contractday.text) ?? 0;
     item.managername = managername.text;
     item.managertel = managertel.text;
     item.manageremail = manageremail.text;
@@ -149,8 +151,8 @@ class CustomerUpdateController extends GetxController {
   }
 
   billingSave() async {
-    item.contractprice = int.parse(contractprice.text);
-    item.billingdate = int.parse(billingdate.text);
+    item.contractprice = int.tryParse(contractprice.text) ?? 0;
+    item.billingdate = int.tryParse(billingdate.text) ?? 0;
     item.billingname = billingname.text;
     item.billingtel = billingtel.text;
     item.billingemail = billingemail.text;

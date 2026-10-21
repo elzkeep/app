@@ -107,7 +107,7 @@ class CustomerDetailScreen extends CWidget {
               gap: 10,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                entry2('점검분야:', '전기', '관리형태:', c.item.type.name),
+                entry2('점검분야:', '전기', '관리형태:', c.item.type.label),
                 entry2('점검일:', '${c.item.checkdate}일', '점검예정일:',
                     '${c.item.contractday}일'),
                 entry2('수전 용량:', '${c.facility.value2}kW', '관리점수:',

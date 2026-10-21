@@ -72,6 +72,9 @@ class WriteScreen extends CWidget {
                     items: period,
                     selected: c.period,
                     onSelected: (pos) {
+                      if (c.period != pos) {
+                        c.ordinal = 0;
+                      }
                       c.period = pos;
                       c.name.text =
                           '${c.customer} ${c.date.month}월 ${period[c.period].value} ${ordinal[c.ordinal].value} 안전점검';

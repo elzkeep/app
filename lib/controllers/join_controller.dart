@@ -197,7 +197,7 @@ class JoinController extends GetxController {
   }
 
   getYearMonth() {
-    for (var i = 1970; i <= 2024; i++) {
+    for (var i = 1970; i <= DateTime.now().year; i++) {
       years.add(CItem(id: i - 1969, value: '$i'));
     }
 
@@ -208,6 +208,22 @@ class JoinController extends GetxController {
     for (var i = 1; i <= 31; i++) {
       days.add(CItem(id: i, value: '$i일'));
     }
+  }
+
+  // year는 years 목록의 위치(id = 연도 - 1969), month/day는 실제 값
+  String makeTakingdate(int year, int month, int day) {
+    if (year == 0 || month == 0 || day == 0) {
+      return '';
+    }
+
+    final y = year + 1969;
+    final lastDay = DateTime(y, month + 1, 0).day;
+    final d = day > lastDay ? lastDay : day;
+
+    final m = month.toString().padLeft(2, '0');
+    final dd = d.toString().padLeft(2, '0');
+
+    return '$y-$m-$dd';
   }
 
   getDepartment(companyid) async {
@@ -249,7 +265,7 @@ class JoinController extends GetxController {
         user: res,
         licensecategory: Licensecategory(id: certificate),
         licenselevel: Licenselevel(id: level),
-        takingdate: "$year-$month-$day",
+        takingdate: makeTakingdate(year, month, day),
       );
       await LicenseManager.insert(license);
     }
@@ -259,7 +275,7 @@ class JoinController extends GetxController {
         user: res,
         licensecategory: Licensecategory(id: certificate1),
         licenselevel: Licenselevel(id: level1),
-        takingdate: "$year1-$month1-$day1",
+        takingdate: makeTakingdate(year1, month1, day1),
       );
       await LicenseManager.insert(license1);
     }
@@ -269,7 +285,7 @@ class JoinController extends GetxController {
         user: res,
         licensecategory: Licensecategory(id: certificate2),
         licenselevel: Licenselevel(id: level2),
-        takingdate: "$year2-$month2-$day2",
+        takingdate: makeTakingdate(year2, month2, day2),
       );
       await LicenseManager.insert(license2);
     }

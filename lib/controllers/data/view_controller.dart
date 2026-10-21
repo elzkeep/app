@@ -79,6 +79,10 @@ class ViewController extends GetxController {
   Facility get water => _water.value;
   set water(Facility value) => _water.value = value;
 
+  final _thermography = Facility().obs;
+  Facility get thermography => _thermography.value;
+  set thermography(Facility value) => _thermography.value = value;
+
   final _data = [
     false,
     false,
@@ -242,7 +246,7 @@ class ViewController extends GetxController {
   }
 
   getYearMonth() {
-    for (var i = 1970; i <= 2024; i++) {
+    for (var i = 1970; i <= DateTime.now().year; i++) {
       years.add(CItem(id: i - 1969, value: '$i'));
     }
 
@@ -407,7 +411,7 @@ class ViewController extends GetxController {
         params: 'building=${building.id}&category=100');
 
     if (res.isNotEmpty) {
-      water = res[0];
+      thermography = res[0];
       other[8] = true;
     }
     if (report.period == 2) {

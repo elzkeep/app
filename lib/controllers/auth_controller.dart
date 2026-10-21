@@ -54,6 +54,7 @@ class AuthController extends GetxController {
   logout() async {
     authenticated = false;
     user = User();
+    CConfig().token = '';
 
     final LocalStorage storage = LocalStorage('login.json');
     await storage.ready;

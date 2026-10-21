@@ -99,9 +99,9 @@ class MypageScreen extends CWidget {
     );
   }
 
-  logout() {
-    AuthController().logout();
-    Get.offAndToNamed('/login');
+  logout() async {
+    await Get.find<AuthController>().logout();
+    Get.offAllNamed('/login');
   }
 
   record() {
@@ -243,8 +243,8 @@ class MypageScreen extends CWidget {
           ],
         ),
         CContainer(
-          onTap: () =>
-              Get.toNamed('/data/${item.id}', arguments: {'item': item}),
+          onTap: () => Get.toNamed('/data/${item.id}',
+              arguments: {'item': item, 'building': item.building}),
           decoration: BoxDecoration(
               color: const Color(0xffE0E0E0),
               border: Border.all(
@@ -268,7 +268,7 @@ class MypageScreen extends CWidget {
                 DRound(
                     backgroundColor: item.status.color,
                     child: CText(
-                      item.status.name,
+                      item.status.label,
                       textStyle:
                           const TextStyle(fontSize: 11, color: Colors.white),
                     )),

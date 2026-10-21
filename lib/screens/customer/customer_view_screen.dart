@@ -129,8 +129,7 @@ class CustomerViewScreen extends CWidget {
 
   graph() {
     return CColumn(children: [
-      SubTitle('부적합 개소',
-          more: '더보기', onMore: () => Get.toNamed('/mypage/customer')),
+      SubTitle('부적합 개소'),
       const CLineChart(),
     ]);
   }
@@ -195,7 +194,7 @@ class CustomerViewScreen extends CWidget {
             DRound(
                 backgroundColor: item.status.color,
                 child: CText(
-                  item.status.name,
+                  item.status.label,
                   textStyle: const TextStyle(fontSize: 11, color: Colors.white),
                 )),
           ]),
