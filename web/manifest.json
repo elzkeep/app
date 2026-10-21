@@ -1,11 +1,11 @@
 {
-    "name": "zkeep",
-    "short_name": "zkeep",
+    "name": "지킴E",
+    "short_name": "지킴E",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "전기안전관리 점검 현장 앱",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

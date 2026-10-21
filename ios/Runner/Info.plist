@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Zkeep</string>
+	<string>지킴E</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -25,11 +25,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app required NSPhotoLibraryUsageDescription permission</string>
+	<string>앨범에 저장된 설비 사진을 점검표에 첨부하기 위해 사진 보관함에 접근합니다.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>This app required NSCameraUsageDescription permission</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>This app required NSMicrophoneUsageDescription permission</string>
+	<string>점검 현장의 설비 사진을 찍어 점검표에 첨부하기 위해 카메라를 사용합니다.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

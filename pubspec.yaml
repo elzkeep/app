@@ -1,5 +1,5 @@
 name: zkeep
-description: A new Flutter project.
+description: 지킴E — 전기안전관리 점검 현장 앱 (점검표·사진·서명·보고서)
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
