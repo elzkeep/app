@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:remedi_kopo/remedi_kopo.dart';
+import 'package:zkeep/components/kopo/kopo.dart';
 import 'package:zkeep/components/Cformtitle.dart';
 import 'package:zkeep/components/cformtext.dart';
 import 'package:zkeep/components/cselectbox.dart';
@@ -80,7 +80,7 @@ class MypageEditScreen extends CWidget {
       c.zip = result?.zonecode ?? '';
       c.address = result?.address ?? '';
     } else {
-      KopoModel? model = await Get.to(() => RemediKopo());
+      KopoModel? model = await Get.to(() => const KopoView());
 
       c.zip = model?.zonecode ?? '';
       c.address = model?.address ?? '';
