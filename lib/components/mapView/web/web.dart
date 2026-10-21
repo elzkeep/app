@@ -3,7 +3,7 @@ import 'dart:js' as js;
 import 'package:common_control/common_control.dart';
 import 'package:flutter/material.dart';
 
-import 'package:remedi_kopo/remedi_kopo.dart';
+import 'package:zkeep/components/kopo/kopo.dart';
 
 class MapView extends StatefulWidget {
   const MapView({super.key});

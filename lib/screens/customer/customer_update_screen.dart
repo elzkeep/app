@@ -1,7 +1,7 @@
 import 'package:common_control/common_control.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
-import 'package:remedi_kopo/remedi_kopo.dart';
+import 'package:zkeep/components/kopo/kopo.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:zkeep/components/cformtext.dart';
 import 'package:zkeep/components/cformtitle.dart';
@@ -240,7 +240,7 @@ class CustomerUpdateScreen extends CWidget {
       c.companyaddress = result?.address ?? '';
       c.buildingaddress = result?.address ?? '';
     } else {
-      KopoModel? model = await Get.to(() => RemediKopo());
+      KopoModel? model = await Get.to(() => const KopoView());
 
       c.companyaddress = model?.address ?? '';
       c.buildingaddress = model?.address ?? '';
