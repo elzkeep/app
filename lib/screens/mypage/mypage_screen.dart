@@ -94,6 +94,12 @@ class MypageScreen extends CWidget {
             onTap: () => logout(),
             margin: const EdgeInsets.symmetric(vertical: 10),
           ),
+          CText(
+            '회원 탈퇴',
+            style: Config.moreStyle,
+            onTap: () => withdraw(),
+            margin: const EdgeInsets.symmetric(vertical: 10),
+          ),
         ]),
       ],
     );
@@ -102,6 +108,54 @@ class MypageScreen extends CWidget {
   logout() async {
     await Get.find<AuthController>().logout();
     Get.offAllNamed('/login');
+  }
+
+  // 회원 탈퇴 (스토어 정책) — 비밀번호 확인 후 서버가 개인정보를 지우고 계정을 사용 중지한다
+  withdraw() async {
+    final passwd = TextEditingController();
+    final message = ''.obs;
+
+    final ok = await Get.dialog<bool>(AlertDialog(
+      title: const Text('회원 탈퇴'),
+      content: Obx(() => Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('탈퇴하면 계정 정보가 삭제되고 다시 로그인할 수 없습니다. 작성한 점검 기록은 업체에 남습니다.'),
+              const SizedBox(height: 12),
+              TextField(
+                controller: passwd,
+                obscureText: true,
+                decoration: const InputDecoration(hintText: '비밀번호 확인'),
+              ),
+              if (message.value != '')
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Text(message.value,
+                      style: const TextStyle(color: Colors.red, fontSize: 13)),
+                ),
+            ],
+          )),
+      actions: [
+        TextButton(
+            onPressed: () => Get.back(result: false), child: const Text('취소')),
+        TextButton(
+            onPressed: () async {
+              final result = await Http.post(
+                  '/api/account/withdraw', {'passwd': passwd.text});
+              if (result != null && result['code'] == 'ok') {
+                Get.back(result: true);
+                return;
+              }
+              message.value = result?['message'] ?? '탈퇴하지 못했습니다';
+            },
+            child: const Text('탈퇴', style: TextStyle(color: Colors.red))),
+      ],
+    ));
+
+    if (ok == true) {
+      await logout();
+    }
   }
 
   record() {
